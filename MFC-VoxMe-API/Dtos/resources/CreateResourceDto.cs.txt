@@ -1,0 +1,14 @@
+// Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
+    public class Resource
+    {
+        public string code { get; set; }
+        public string homeDivisionId { get; set; }
+        public string resourceName { get; set; }
+        public string resourceType { get; set; }
+    }
+
+    public class Root
+    {
+        public Resource resource { get; set; }
+    }
+
