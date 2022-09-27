@@ -1,3 +1,7 @@
+using MFC_VoxMe_API.Services.Jobs;
+using MFC_VoxMe_API.Services.Resources;
+using MFC_VoxMe_API.Services.Transactions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,6 +11,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddAutoMapper(typeof(Program).Assembly); //Added for Automapper config
+builder.Services.AddScoped<IJobService, JobService>(); //added for DI 
+builder.Services.AddScoped<IResourceService, ResourceService>(); //added for DI 
+builder.Services.AddScoped<ITransactionService, TransactionService>(); //added for DI 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
