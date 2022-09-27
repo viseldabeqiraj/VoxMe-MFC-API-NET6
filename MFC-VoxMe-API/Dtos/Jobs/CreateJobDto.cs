@@ -1,6 +1,6 @@
 ﻿namespace MFC_VoxMe_API.Dtos.Jobs
 {
-    public class JobCreationDto
+    public class CreateJobDto
     {
         // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
 
