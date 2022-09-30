@@ -22,7 +22,14 @@ namespace MFC_VoxMe_API.Services.Jobs
 
         public Task<CreateJobDto> CreateJob(CreateJobDto createJobRequest)
         {
-            throw new NotImplementedException();
+           try
+            {
+                return null;
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
         }
 
         public List<MovingData> CallApi(string url) //Apiurl + endpoint
