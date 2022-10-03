@@ -84,24 +84,6 @@ namespace MFC_VoxMe_API.Services.Jobs
             }
         }
 
-        public List<MovingData> CallApi(string url) //Apiurl + endpoint
-        {
-            //Setting TLS 1.2 protocol
-            ServicePointManager.Expect100Continue = true;
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-            //Fetch the JSON string from URL.
-            List<MovingData> customers = new List<MovingData>();
-
-            HttpClient client = new HttpClient();
-            HttpResponseMessage response = client.GetAsync(url).Result;
-            if (response.IsSuccessStatusCode)
-            {
-                customers = JsonConvert.DeserializeObject<List<MovingData>>(response.Content.ReadAsStringAsync().Result);
-            }
-
-            //Return the Deserialized JSON object.
-            return customers;
-        }
+      
     }
 }
