@@ -4,7 +4,10 @@ namespace MFC_VoxMe_API.Services.Jobs
 {
     public interface IJobService
     {
-        Task<GetJobDetailsDto> GetDetails(string externalRef);
+        Task<JobDetailsDto> GetDetails(string externalRef);
         Task<CreateJobDto> CreateJob(CreateJobDto createJobRequest);
-    }
+        Task<JobSummaryDto> GetSummary(string externalRef);
+        Task<CreateJobDto> UpdateJob(UpdateJobDto updateJobRequest);
+
+     }
 }

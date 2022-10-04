@@ -4,6 +4,8 @@ using MFC_VoxMe_API.Dtos.Jobs;
 using MFC_VoxMe_API.Models;
 using Newtonsoft.Json;
 using System.Net;
+using MFC_VoxMe_API.HttpMethods;
+using System.Text;
 
 namespace MFC_VoxMe_API.Services.Jobs
 {
@@ -11,14 +13,16 @@ namespace MFC_VoxMe_API.Services.Jobs
     {
         
         private readonly IConfiguration _config;
+        private readonly ILogger _logger;
         private readonly DataContext _context;
         private readonly IMapper _mapper;
 
-        public JobService(DataContext context, IMapper mapper, IConfiguration config)
+        public JobService(DataContext context, IMapper mapper, IConfiguration config, ILogger logger)
         {
             _context = context;
             _mapper = mapper;
             _config = config;
+            _logger = logger;
         }
         public string GetUrl(string query_string)
         {
@@ -26,57 +30,69 @@ namespace MFC_VoxMe_API.Services.Jobs
             url += query_string;
             return url;
         }
+   
 
-        //method to call the httpclient to get response from the url specified as a parameter
-        public HttpResponseMessage MakeHttpCall(string url)
-        {
-            try
-            {
-                ServicePointManager.Expect100Continue = true;
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-                //Fetch the JSON string from URL.
-                HttpClient client = new HttpClient();
-                HttpResponseMessage response = client.GetAsync(url).Result;
-                return response;
-            }
-            catch(Exception ex)
-            {
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
-            }
-
-        }
-
-        public async Task<GetJobDetailsDto> GetDetails(string externalRef)
+        public async Task<JobDetailsDto> GetDetails(string externalRef)
         {
             try
             {
                 externalRef = "RS249955";
 
                 var url = GetUrl($"/api/jobs/{externalRef}/details");
-                GetJobDetailsDto jobDetails = new GetJobDetailsDto();
+                JobDetailsDto jobDetails = new JobDetailsDto();
 
-                var response = MakeHttpCall(url);
+                var response = await HttpRequests.MakeGetHttpCall(url);
                 if (response.IsSuccessStatusCode)
                 {
-                    jobDetails = JsonConvert.DeserializeObject<GetJobDetailsDto>(response.Content.ReadAsStringAsync().Result);
+                    jobDetails = JsonConvert.DeserializeObject<JobDetailsDto>(response.Content.ReadAsStringAsync().Result);
+                }
+                _logger.LogError($"Method GetDetails in {this.GetType().Name} failed. Exception thrown");
+
+                //Return the Deserialized JSON object.
+                return jobDetails;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Method GetDetails in {this.GetType().Name} failed. Exception thrown: {ex.Message}");
+            }
+            return null;
+        }
+
+        public async Task<JobSummaryDto> GetSummary(string externalRef)
+        {
+            try
+            {
+                externalRef = "RS249955";
+
+                var url = GetUrl($"/api/jobs/{externalRef}/summary");
+                JobSummaryDto jobSummary = new JobSummaryDto();
+
+                var response = await HttpRequests.MakeGetHttpCall(url);
+                if (response.IsSuccessStatusCode)
+                {
+                    jobSummary = JsonConvert.DeserializeObject<JobSummaryDto>(response.Content.ReadAsStringAsync().Result);
                 }
 
                 //Return the Deserialized JSON object.
-                return jobDetails; 
+                return jobSummary;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
             return null;
         }
 
-        public Task<CreateJobDto> CreateJob(CreateJobDto createJobRequest)
+        public async Task<HttpResponseMessage> CreateJob(CreateJobDto createJobRequest)
         {
            try
             {
-                return null;
+                var url = GetUrl($"/api/jobs");
+                var json = JsonConvert.SerializeObject(createJobRequest);
+                var data = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await HttpRequests.MakePostHttpCall(url, data);
+                return response;
             }
             catch(Exception ex)
             {
@@ -84,6 +100,22 @@ namespace MFC_VoxMe_API.Services.Jobs
             }
         }
 
-      
+        public async Task<HttpResponseMessage> UpdateJob(UpdateJobDto updateJobRequest)
+        {
+            try
+            {
+                var url = GetUrl($"/api/jobs");
+                var json = JsonConvert.SerializeObject(updateJobRequest);
+                var data = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await HttpRequests.MakePutHttpCall(url, data);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+
     }
 }

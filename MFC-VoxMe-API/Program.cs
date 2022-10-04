@@ -20,6 +20,8 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly); //Added for Automapper
 builder.Services.AddScoped<IJobService, JobService>(); //added for DI 
 builder.Services.AddScoped<IResourceService, ResourceService>(); //added for DI 
 builder.Services.AddScoped<ITransactionService, TransactionService>(); //added for DI 
+builder.Services.AddScoped<ILogger, Logger<string>>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

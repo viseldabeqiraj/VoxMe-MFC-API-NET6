@@ -112,7 +112,7 @@
             public int grossWeight { get; set; }
             public int lastLabelNr { get; set; }
             public int piecesNr { get; set; }
-            public int value { get; set; }
+            public double value { get; set; }
             public int volume { get; set; }
             public int weight { get; set; }
             public string labelColor { get; set; }
@@ -197,7 +197,7 @@
             public string packerName { get; set; }
             public string roomName { get; set; }
             public string tag { get; set; }
-            public double @void { get; set; }
+            //public double @void { get; set; }
             public double volume { get; set; }
             public double weight { get; set; }
             public double width { get; set; }
