@@ -15,12 +15,17 @@ namespace MFC_VoxMe_API.Controllers
         {
             _jobService = jobService;
         }
+
         [HttpGet("JobDetails")]
         public async Task<ActionResult> GetDetails(string externalRef)
         {
             try
             {
-                return Ok(await _jobService.GetDetails(externalRef));
+                var result = await _jobService.GetDetails(externalRef);
+
+                if (result != null)
+                    return Ok(result);
+                else return BadRequest();
             }
             catch(Exception ex)
             {
@@ -33,7 +38,12 @@ namespace MFC_VoxMe_API.Controllers
         {
             try
             {
-                return Ok(await _jobService.GetSummary(externalRef));
+                var result = await _jobService.GetSummary(externalRef);
+
+                if (result != null)
+                    return Ok(result);
+                else return BadRequest();
+
             }
             catch (Exception ex)
             {
@@ -46,7 +56,28 @@ namespace MFC_VoxMe_API.Controllers
         {
             try
             {
-                return Ok(await _jobService.CreateJob(request));
+                var result = await _jobService.CreateJob(request);
+
+                if (result != null)
+                    return Ok(result);
+                else return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("UpdateJob")]
+        public async Task<ActionResult> UpdateJob(UpdateJobDto request)
+        {
+            try
+            {
+                var result = await _jobService.UpdateJob(request);
+
+                if (result != null)
+                    return Ok(result);
+                else return BadRequest();
             }
             catch (Exception ex)
             {

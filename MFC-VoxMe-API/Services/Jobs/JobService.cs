@@ -6,6 +6,8 @@ using Newtonsoft.Json;
 using System.Net;
 using MFC_VoxMe_API.HttpMethods;
 using System.Text;
+using Serilog;
+using MFC_VoxMe_API.Logging;
 
 namespace MFC_VoxMe_API.Services.Jobs
 {
@@ -13,16 +15,15 @@ namespace MFC_VoxMe_API.Services.Jobs
     {
         
         private readonly IConfiguration _config;
-        private readonly ILogger _logger;
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-
-        public JobService(DataContext context, IMapper mapper, IConfiguration config, ILogger logger)
+        public string className;
+        public JobService(DataContext context, IMapper mapper, IConfiguration config)
         {
             _context = context;
             _mapper = mapper;
             _config = config;
-            _logger = logger;
+            this.className = this.GetType().Name;
         }
         public string GetUrl(string query_string)
         {
@@ -31,7 +32,6 @@ namespace MFC_VoxMe_API.Services.Jobs
             return url;
         }
    
-
         public async Task<JobDetailsDto> GetDetails(string externalRef)
         {
             try
@@ -42,22 +42,26 @@ namespace MFC_VoxMe_API.Services.Jobs
                 JobDetailsDto jobDetails = new JobDetailsDto();
 
                 var response = await HttpRequests.MakeGetHttpCall(url);
+
                 if (response.IsSuccessStatusCode)
                 {
                     jobDetails = JsonConvert.DeserializeObject<JobDetailsDto>(response.Content.ReadAsStringAsync().Result);
+                    return jobDetails;
                 }
-                _logger.LogError($"Method GetDetails in {this.GetType().Name} failed. Exception thrown");
-
-                //Return the Deserialized JSON object.
-                return jobDetails;
+                else
+                {
+                    LoggingHelper.InsertLogs("GetDetails", className, response);
+                    return null;
+                }
 
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Method GetDetails in {this.GetType().Name} failed. Exception thrown: {ex.Message}");
+                Log.Error($"Method GetDetails in {className} failed. Exception thrown :{ex.Message}");
             }
             return null;
         }
+
 
         public async Task<JobSummaryDto> GetSummary(string externalRef)
         {
@@ -72,19 +76,25 @@ namespace MFC_VoxMe_API.Services.Jobs
                 if (response.IsSuccessStatusCode)
                 {
                     jobSummary = JsonConvert.DeserializeObject<JobSummaryDto>(response.Content.ReadAsStringAsync().Result);
+                    return jobSummary;
                 }
-
-                //Return the Deserialized JSON object.
-                return jobSummary;
+                else
+                {
+                    LoggingHelper.InsertLogs("GetSummary", className, response);
+                    return null;
+                }
+  
             }
             catch (Exception ex)
             {
-
+                Log.Error($"Method GetSummary in {className} failed. Exception thrown :{ex.Message}");
             }
             return null;
         }
 
-        public async Task<HttpResponseMessage> CreateJob(CreateJobDto createJobRequest)
+ 
+
+        public async Task<CreateJobDto> CreateJob(CreateJobDto createJobRequest)
         {
            try
             {
@@ -92,30 +102,52 @@ namespace MFC_VoxMe_API.Services.Jobs
                 var json = JsonConvert.SerializeObject(createJobRequest);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await HttpRequests.MakePostHttpCall(url, data);
-                return response;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return createJobRequest;
+                }
+                else
+                {
+                    LoggingHelper.InsertLogs("CreateJob", className, response);
+                    return null;
+                }
             }
             catch(Exception ex)
             {
-                return null;
+                Log.Error($"Method CreateJob in {className} failed. Exception thrown :{ex.Message}");
             }
+            return null;
         }
 
-        public async Task<HttpResponseMessage> UpdateJob(UpdateJobDto updateJobRequest)
+
+        public async Task<UpdateJobDto> UpdateJob(UpdateJobDto updateJobRequest)
         {
             try
             {
-                var url = GetUrl($"/api/jobs");
+                string externalRef = "RS249955";
+                var url = GetUrl($"/api/jobs/{externalRef}");
                 var json = JsonConvert.SerializeObject(updateJobRequest);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await HttpRequests.MakePutHttpCall(url, data);
-                return response;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return updateJobRequest;
+                }
+                else
+                {
+                    LoggingHelper.InsertLogs("UpdateJob", className, response);
+                    return null;
+                }
             }
             catch (Exception ex)
             {
+                Log.Error($"Method UpdateJob in {className} failed. Exception thrown :{ex.Message}");
                 return null;
             }
         }
 
-
+       
     }
 }

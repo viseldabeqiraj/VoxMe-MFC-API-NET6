@@ -1,6 +1,6 @@
 ﻿namespace MFC_VoxMe_API.Models
 {
-		public class MovingData
+		public class MovingData1
 		{
 			public int ID { get; set; }
 			public string? ClientName { get; set; }

@@ -3,6 +3,7 @@ using MFC_VoxMe_API.Services.Jobs;
 using MFC_VoxMe_API.Services.Resources;
 using MFC_VoxMe_API.Services.Transactions;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,14 +14,23 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectio
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+options.CustomSchemaIds(type => type.ToString()));
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapper(typeof(Program).Assembly); //Added for Automapper config
 builder.Services.AddScoped<IJobService, JobService>(); //added for DI 
 builder.Services.AddScoped<IResourceService, ResourceService>(); //added for DI 
 builder.Services.AddScoped<ITransactionService, TransactionService>(); //added for DI 
-builder.Services.AddScoped<ILogger, Logger<string>>();
+//builder.Services.AddScoped<ILogger, Logger<string>>();
+
+//Added for Logging with Serilog library, to write logs in a file
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Warning()
+    .WriteTo.File("Logging/LogFile.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog();
 
 var app = builder.Build();
 

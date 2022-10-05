@@ -1,6 +1,6 @@
 ﻿namespace MFC_VoxMe_API.Dtos.Transactions
 {
-    public class GetTransactionDetailsDto
+    public class TransactionDetailsDto
     {
         // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
 
