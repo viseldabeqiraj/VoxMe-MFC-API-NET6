@@ -1,4 +1,4 @@
-﻿namespace MFC_VoxMe_API.Dtos.Materials
+﻿namespace MFC_VoxMe_API.Dtos.Transactions
 {
     public class AssignMaterialsToTransactionDto
     {

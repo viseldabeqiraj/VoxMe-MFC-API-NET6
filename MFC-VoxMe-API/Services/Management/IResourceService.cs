@@ -2,6 +2,5 @@
 {
     public interface IResourceService
     {
-        Task<bool> RemoveResourceFromTransaction(List<string> resourceCodes, string externalRef);
     }
 }

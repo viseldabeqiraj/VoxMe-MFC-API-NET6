@@ -31,7 +31,6 @@
   <ItemGroup>
     <Folder Include="Dtos\Jobs\Common\" />
     <Folder Include="Services\Documents\" />
-    <Folder Include="Services\Images\" />
   </ItemGroup>
 
 </Project>

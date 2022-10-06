@@ -101,7 +101,7 @@ namespace MFC_VoxMe_API.Services.Jobs
                 var url = GetUrl($"/api/jobs");
                 var json = JsonConvert.SerializeObject(createJobRequest);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await HttpRequests.MakePostHttpCall(url, data);
+                var response = await HttpRequests.MakePostHttpCall(url, data, null);
 
                 if (response.IsSuccessStatusCode)
                 {

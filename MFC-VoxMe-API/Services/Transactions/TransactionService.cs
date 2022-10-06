@@ -3,6 +3,7 @@ using MFC_VoxMe_API.Data;
 using MFC_VoxMe_API.Dtos.Transactions;
 using MFC_VoxMe_API.HttpMethods;
 using MFC_VoxMe_API.Logging;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Serilog;
 using System.Net;
@@ -38,7 +39,7 @@ namespace MFC_VoxMe_API.Services.Transactions
                 var url = GetUrl($"/api/transactions");
                 var json = JsonConvert.SerializeObject(createTransactionRequest);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await HttpRequests.MakePostHttpCall(url, data);
+                var response = await HttpRequests.MakePostHttpCall(url, data, null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -117,7 +118,7 @@ namespace MFC_VoxMe_API.Services.Transactions
             return null;
         }
 
-        public async Task<UpdateTransactionDto> UpdateJob(UpdateTransactionDto updateTransactionRequest)
+        public async Task<UpdateTransactionDto> UpdateTransaction(UpdateTransactionDto updateTransactionRequest)
         {
             try
             {
@@ -133,13 +134,13 @@ namespace MFC_VoxMe_API.Services.Transactions
                 }
                 else
                 {
-                    LoggingHelper.InsertLogs("UpdateJob", className, response);
+                    LoggingHelper.InsertLogs("UpdateTransaction", className, response);
                     return null;
                 }
             }
             catch (Exception ex)
             {
-                Log.Error($"Method UpdateJob in {className} failed. Exception thrown :{ex.Message}");
+                Log.Error($"Method UpdateTransaction in {className} failed. Exception thrown :{ex.Message}");
                 return null;
             }
         }
@@ -172,6 +173,253 @@ namespace MFC_VoxMe_API.Services.Transactions
                 Log.Error($"Method GetDownloadDetails in {className} failed. Exception thrown :{ex.Message}");
             }
             return null;
+        }
+
+        public async Task<bool> DeleteTransaction(string externalRef)
+        {
+            try
+            {
+                externalRef = "RS249955";
+
+                var url = GetUrl($"/api/transactions/{externalRef}");
+
+                var response = await HttpRequests.MakeDeleteHttpCall(url, null, false);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    LoggingHelper.InsertLogs("DeleteTransaction", className, response);
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Method DeleteTransaction in {className} failed. Exception thrown :{ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<bool> AddDocumentToTransaction(IFormFile File, string DocTitle, string externalRef)
+        {
+            try
+            {
+                externalRef = "RS249955";
+
+                var url = GetUrl($"/api/transactions/{externalRef}/set-document");
+
+                var response = await HttpRequests.MakePostHttpCall(url, null, File);
+              
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    LoggingHelper.InsertLogs("CreateTransaction", className, response);
+                    return false;
+                }
+            }
+            catch(Exception ex)
+            {
+                Log.Error($"Method AddDocumentToTransaction in {className} failed. Exception thrown :{ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<AssignStaffDesignateForemanDto> AssignStaffDesignateForeman(AssignStaffDesignateForemanDto request, string externalRef)
+        {
+            try
+            {
+                var url = GetUrl($"/api/transactions/{externalRef}/crew");
+                var json = JsonConvert.SerializeObject(request);
+                var data = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await HttpRequests.MakePostHttpCall(url, data, null);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return request;
+                }
+                else
+                {
+                    LoggingHelper.InsertLogs("CreateTransaction", className, response);
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Method CreateTransaction in {className} failed. Exception thrown :{ex.Message}");
+            }
+            return null;
+        }
+
+        //TODO:
+        public async Task<TransactionSummary> GetDocumentAsBinary(string EntityRef, string EntityType,string Name)
+        {
+            try
+            {
+                EntityRef = "RS249955";
+
+                var url = GetUrl($"/api/documents?EntityRef={EntityRef}&EntityType={EntityType}&Name={Name}");
+
+                var response = await HttpRequests.MakeGetHttpCall(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    //transactionDetails = JsonConvert.DeserializeObject<TransactionSummary>(response.Content.ReadAsStringAsync().Result);
+                    //return transactionDetails;
+                }
+                else
+                {
+                    LoggingHelper.InsertLogs("GetDocumentAsBinary", className, response);
+                    return null;
+                }
+            }
+
+            catch (Exception ex)
+            {
+                Log.Error($"Method GetDocumentAsBinary in {className} failed. Exception thrown :{ex.Message}");
+            }
+            return null;
+        }
+        //TODO:
+        public async Task<TransactionSummary> GetImageAsBinary(string EntityRef, string EntityType, string Name)
+        {
+            try
+            {
+                EntityRef = "RS249955";
+
+                var url = GetUrl($"/api/images?EntityRef={EntityRef}&EntityType={EntityType}&Name={Name}");
+
+                var response = await HttpRequests.MakeGetHttpCall(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                }
+                else
+                {
+                    LoggingHelper.InsertLogs("GetImageAsBinary", className, response);
+                    return null;
+                }
+            }
+
+            catch (Exception ex)
+            {
+                Log.Error($"Method GetImageAsBinary in {className} failed. Exception thrown :{ex.Message}");
+            }
+            return null;
+        }
+
+        public async Task<bool> RemoveResourceFromTransaction(List<string> resourceCodes, string externalRef)
+        {
+            try
+            {
+                externalRef = "RS249955";
+
+                var url = GetUrl($"/api/transactions/{externalRef}/resources");
+                var json = JsonConvert.SerializeObject(resourceCodes);
+                var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await HttpRequests.MakeDeleteHttpCall(url, data,false);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    LoggingHelper.InsertLogs("RemoveResourceFromTransaction", className, response);
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Method RemoveResourceFromTransaction in {className} failed. Exception thrown :{ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<AssignResourcesToTransactionDto> AssignResourcesToTransaction(AssignResourcesToTransactionDto request, string externalRef)
+        {
+            try
+            {
+                var url = GetUrl($"/api/transactions/{externalRef}/resources");
+                var json = JsonConvert.SerializeObject(request);
+                var data = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await HttpRequests.MakePostHttpCall(url, data, null);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return request;
+                }
+                else
+                {
+                    LoggingHelper.InsertLogs("AssignResourcesToTransaction", className, response);
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Method AssignResourcesToTransaction in {className} failed. Exception thrown :{ex.Message}");
+            }
+            return null;
+        }
+
+        public async Task<AssignMaterialsToTransactionDto> AssignMaterialsToTransaction(AssignMaterialsToTransactionDto request, string externalRef)
+        {
+            try
+            {
+                var url = GetUrl($"/api/transactions/{externalRef}/materials");
+                var json = JsonConvert.SerializeObject(request);
+                var data = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await HttpRequests.MakePostHttpCall(url, data, null);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return request;
+                }
+                else
+                {
+                    LoggingHelper.InsertLogs("AssignMaterialsToTransaction", className, response);
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Method AssignMaterialsToTransaction in {className} failed. Exception thrown :{ex.Message}");
+            }
+            return null;
+        }
+
+        public async Task<bool> RemoveMaterialsFromTransaction(List<string> resourceCodes, string externalRef)
+        {
+            try
+            {
+                externalRef = "RS249955";
+
+                var url = GetUrl($"/api/transactions/{externalRef}/materials");
+                var json = JsonConvert.SerializeObject(resourceCodes);
+                var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await HttpRequests.MakeDeleteHttpCall(url, data, false);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    LoggingHelper.InsertLogs("RemoveMaterialsFromTransaction", className, response);
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Method RemoveMaterialsFromTransaction in {className} failed. Exception thrown :{ex.Message}");
+                return false;
+            }
         }
     }
 }
