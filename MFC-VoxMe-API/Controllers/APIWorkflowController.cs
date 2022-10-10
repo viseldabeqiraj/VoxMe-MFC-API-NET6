@@ -68,6 +68,7 @@ namespace MFC_VoxMe_API.Controllers
 					//Create job
 					//RM details from JIM create Job in MFC
 					//CreateTrasnaction
+					//Transaction/AssignResources ->add crew, trucks, materials
                 }
 
 				return Ok();

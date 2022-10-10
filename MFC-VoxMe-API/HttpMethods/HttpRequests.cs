@@ -22,7 +22,7 @@ namespace MFC_VoxMe_API.HttpMethods
 
                 var request = new HttpRequestMessage
                 {
-                    Method = HttpMethod.Delete,
+                    Method = HttpMethod.Get,
                     RequestUri = new Uri(url),
                     Content = data
                 };

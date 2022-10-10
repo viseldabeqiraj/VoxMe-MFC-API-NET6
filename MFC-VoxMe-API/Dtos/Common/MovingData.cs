@@ -6,7 +6,7 @@ namespace MFC_VoxMe_API.Dtos.Common
 		[XmlRoot(ElementName = "MovingData")]
 
 		public class MovingData
-		{
+		{ 
 			[XmlElement(ElementName = "GeneralInfo")]
 			public GeneralInfo GeneralInfo { get; set; }
 			[XmlElement(ElementName = "InventoryData")]

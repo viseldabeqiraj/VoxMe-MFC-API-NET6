@@ -24,7 +24,7 @@ builder.Services.AddScoped<IResourceService, ResourceService>(); //added for DI
 builder.Services.AddScoped<ITransactionService, TransactionService>(); //added for DI 
 //builder.Services.AddScoped<ILogger, Logger<string>>();
 
-//Added for Logging with Serilog library, to write logs in a file
+//Added for Logging with Serilog library, to write logs in a file inside server
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Warning()
     .WriteTo.File("Logging/LogFile.txt", rollingInterval: RollingInterval.Day)

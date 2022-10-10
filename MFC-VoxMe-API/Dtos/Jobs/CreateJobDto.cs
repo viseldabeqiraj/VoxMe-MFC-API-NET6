@@ -2,7 +2,6 @@
 {
     public class CreateJobDto
     {
-        // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
 
         public Client client { get; set; }
         public string externalRef { get; set; }
