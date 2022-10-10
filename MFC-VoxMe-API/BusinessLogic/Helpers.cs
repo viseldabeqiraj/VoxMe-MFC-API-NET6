@@ -1,4 +1,6 @@
 ﻿using MFC_VoxMe_API.Dtos.Common;
+using MFC_VoxMe_API.Dtos.Jobs;
+using Serilog;
 using System.Text;
 using System.Xml.Serialization;
 
@@ -6,6 +8,11 @@ namespace MFC_VoxMe_API.BusinessLogic
 {
     public class Helpers
     {
+		public static MovingData MovingData;
+        public Helpers()
+        {
+
+        }
 		public static MovingData XMLParse(string xml)
 		{
 			try
@@ -862,12 +869,30 @@ Adjustment (Charge)</Description>
 				MemoryStream memStream = new MemoryStream(Encoding.UTF8.GetBytes(xml));
 				MovingData movingDataFromXml = (MovingData)serializer.Deserialize(memStream);
 
+				MovingData = movingDataFromXml; //public static field
 				return movingDataFromXml;
 			}
 			catch (Exception ex)
 			{
+				Log.Error($"Method XMLParse in Helpers failed. Exception thrown :{ex.Message}");
 				return null;
 			}
 		}
+
+		public void CreateJobObjectFromXml()
+        {
+			try
+            {
+				CreateJobDto createJobDto = new CreateJobDto
+				{
+					externalRef = MovingData.GeneralInfo.EMFID,
+
+				};
+            }
+			catch(Exception ex)
+            {
+
+            }
+        }
 	}
 }

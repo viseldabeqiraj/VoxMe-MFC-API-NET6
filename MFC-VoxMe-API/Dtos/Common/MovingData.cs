@@ -27,7 +27,7 @@ namespace MFC_VoxMe_API.Dtos.Common
 			[XmlElement(ElementName = "Floor")]
 			public string Floor { get; set; }
 			[XmlElement(ElementName = "HasElevator")]
-			public string HasElevator { get; set; }
+        public string HasElevator { get; set; }
 			[XmlElement(ElementName = "CarryRequired")]
 			public string CarryRequired { get; set; }
 			[XmlElement(ElementName = "ShuttleRequired")]

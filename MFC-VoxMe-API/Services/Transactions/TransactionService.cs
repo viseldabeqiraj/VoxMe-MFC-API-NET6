@@ -67,7 +67,7 @@ namespace MFC_VoxMe_API.Services.Transactions
                 var url = GetUrl($"/api/transactions/{externalRef}/details");
                 TransactionDetailsDto transactionDetails = new TransactionDetailsDto();
 
-                var response = await HttpRequests.MakeGetHttpCall(url);
+                var response = await HttpRequests.MakeGetHttpCall(url, null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -97,7 +97,7 @@ namespace MFC_VoxMe_API.Services.Transactions
                 var url = GetUrl($"/api/transactions/{externalRef}/summary");
                 TransactionSummary transactionDetails = new TransactionSummary();
 
-                var response = await HttpRequests.MakeGetHttpCall(url);
+                var response = await HttpRequests.MakeGetHttpCall(url,null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -154,7 +154,7 @@ namespace MFC_VoxMe_API.Services.Transactions
                 var url = GetUrl($"/api/transactions/{externalRef}/download-details");
                 TransactionDownloadDetails transactionDetails = new TransactionDownloadDetails();
 
-                var response = await HttpRequests.MakeGetHttpCall(url);
+                var response = await HttpRequests.MakeGetHttpCall(url, null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -264,12 +264,11 @@ namespace MFC_VoxMe_API.Services.Transactions
 
                 var url = GetUrl($"/api/documents?EntityRef={EntityRef}&EntityType={EntityType}&Name={Name}");
 
-                var response = await HttpRequests.MakeGetHttpCall(url);
+                var response = await HttpRequests.MakeGetHttpCall(url, null);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    //transactionDetails = JsonConvert.DeserializeObject<TransactionSummary>(response.Content.ReadAsStringAsync().Result);
-                    //return transactionDetails;
+                   //TODO:
                 }
                 else
                 {
@@ -293,10 +292,11 @@ namespace MFC_VoxMe_API.Services.Transactions
 
                 var url = GetUrl($"/api/images?EntityRef={EntityRef}&EntityType={EntityType}&Name={Name}");
 
-                var response = await HttpRequests.MakeGetHttpCall(url);
+                var response = await HttpRequests.MakeGetHttpCall(url, null);
 
                 if (response.IsSuccessStatusCode)
                 {
+                    //TODO:
                 }
                 else
                 {
@@ -312,7 +312,7 @@ namespace MFC_VoxMe_API.Services.Transactions
             return null;
         }
 
-        public async Task<bool> RemoveResourceFromTransaction(List<string> resourceCodes, string externalRef)
+        public async Task<bool> RemoveResourceFromTransaction(ResourceCodesForTransactionDto resourceCodes, string externalRef)
         {
             try
             {
@@ -341,7 +341,7 @@ namespace MFC_VoxMe_API.Services.Transactions
             }
         }
 
-        public async Task<AssignResourcesToTransactionDto> AssignResourcesToTransaction(AssignResourcesToTransactionDto request, string externalRef)
+        public async Task<ResourceCodesForTransactionDto> AssignResourcesToTransaction(ResourceCodesForTransactionDto request, string externalRef)
         {
             try
             {
@@ -393,7 +393,7 @@ namespace MFC_VoxMe_API.Services.Transactions
             return null;
         }
 
-        public async Task<bool> RemoveMaterialsFromTransaction(List<string> resourceCodes, string externalRef)
+        public async Task<bool> RemoveMaterialsFromTransaction(ResourceCodesForTransactionDto resourceCodes, string externalRef)
         {
             try
             {

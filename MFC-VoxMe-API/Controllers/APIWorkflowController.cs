@@ -51,8 +51,10 @@ namespace MFC_VoxMe_API.Controllers
 						else
                         {
 							//remove resources from transaction
-							//await _resourceService.RemoveResourceFromTransaction(List, externalRef);
-
+							//await _transactionService.RemoveResourceFromTransaction(oldResourceCodes, externalRef);
+							//assign resource to transaction
+							//await _transactionService.AssignResourcesToTransaction(newResourceCodes, externalRef)
+							
 						}
 					}
 					else
@@ -64,7 +66,8 @@ namespace MFC_VoxMe_API.Controllers
 				else
                 {
 					//Create job
-
+					//RM details from JIM create Job in MFC
+					//CreateTrasnaction
                 }
 
 				return Ok();

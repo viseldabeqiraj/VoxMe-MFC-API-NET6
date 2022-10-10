@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MFC_VoxMe_API.Data;
-using MFC_VoxMe_API.Dtos.resources;
+using MFC_VoxMe_API.Dtos.Management;
 using MFC_VoxMe_API.HttpMethods;
 using MFC_VoxMe_API.Logging;
 using Newtonsoft.Json;
@@ -60,7 +60,7 @@ namespace MFC_VoxMe_API.Services.Resources
             try
             {
                 string externalRef = "RS249955";
-                var url = GetUrl($"/management/resources/{code}");
+                var url = GetUrl($"/api/management/resources/{code}");
                 var json = JsonConvert.SerializeObject(updateResourceRequest);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await HttpRequests.MakePutHttpCall(url, data);
@@ -128,6 +128,86 @@ namespace MFC_VoxMe_API.Services.Resources
             catch (Exception ex)
             {
                 Log.Error($"Method DisableResource in {className} failed. Exception thrown :{ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<GetResourceDetailsDto> GetDetails(string code)
+        {
+            try
+            {
+                var url = GetUrl($"/api/management/resources/{code}");
+
+                var response = await HttpRequests.MakeGetHttpCall(url,null);
+                GetResourceDetailsDto resourceDetails = new GetResourceDetailsDto();
+                if (response.IsSuccessStatusCode)
+                {
+                    resourceDetails = JsonConvert.DeserializeObject<GetResourceDetailsDto>(response.Content.ReadAsStringAsync().Result);
+                    return resourceDetails;
+                }
+                else
+                {
+                    LoggingHelper.InsertLogs("GetDetails", className, response);
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Method GetDetails in {className} failed. Exception thrown :{ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<ConfiguredMaterialsDto> GetConfiguredMaterials(MaterialCodesDto codes)
+        {
+            try
+            {
+                var url = GetUrl($"/api/management/resources/materials");
+                var json = JsonConvert.SerializeObject(codes);
+                var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await HttpRequests.MakeGetHttpCall(url, data);
+                ConfiguredMaterialsDto resourceDetails = new ConfiguredMaterialsDto();
+                if (response.IsSuccessStatusCode)
+                {
+                    resourceDetails = JsonConvert.DeserializeObject<ConfiguredMaterialsDto>(response.Content.ReadAsStringAsync().Result);
+                    return resourceDetails;
+                }
+                else
+                {
+                    LoggingHelper.InsertLogs("GetConfiguredMaterials", className, response);
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Method GetConfiguredMaterials in {className} failed. Exception thrown :{ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<bool> ForceConfigurationChanges(MaterialCodesDto codes, string appType)
+        {
+            try
+            {
+                var url = GetUrl($"/api/management/configuration/download-to-devices?appType={appType}");
+                var json = JsonConvert.SerializeObject(codes);
+                var data = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await HttpRequests.MakePutHttpCall(url, data);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    LoggingHelper.InsertLogs("ForceConfigurationChanges", className, response);
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Method ForceConfigurationChanges in {className} failed. Exception thrown :{ex.Message}");
                 return false;
             }
         }

@@ -11,16 +11,22 @@ namespace MFC_VoxMe_API.HttpMethods
         //TODO: Authorization header needed for some requests
 
         //GET method to call the httpclient to get response from the url specified as a parameter
-        public static async Task<HttpResponseMessage> MakeGetHttpCall(string url)
+        public static async Task<HttpResponseMessage> MakeGetHttpCall(string url, HttpContent data)
         {
             try
             {
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-                //Fetch the JSON string from URL.
                 HttpClient client = new HttpClient();
-               
+
+                var request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Delete,
+                    RequestUri = new Uri(url),
+                    Content = data
+                };
+
                 HttpResponseMessage response = await client.GetAsync(url);
                 return response;
             }
@@ -110,9 +116,9 @@ namespace MFC_VoxMe_API.HttpMethods
                 };
 
                 HttpResponseMessage response;
-                if (needsAuth)
+                if (needsAuth) //TODO : option 2: replace with token value as string and check if token is not null
                 {
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "token val");
+                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "token val"); //TODO: be replaced
                     response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
                 }
                 else

@@ -41,7 +41,7 @@ namespace MFC_VoxMe_API.Services.Jobs
                 var url = GetUrl($"/api/jobs/{externalRef}/details");
                 JobDetailsDto jobDetails = new JobDetailsDto();
 
-                var response = await HttpRequests.MakeGetHttpCall(url);
+                var response = await HttpRequests.MakeGetHttpCall(url, null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -72,7 +72,7 @@ namespace MFC_VoxMe_API.Services.Jobs
                 var url = GetUrl($"/api/jobs/{externalRef}/summary");
                 JobSummaryDto jobSummary = new JobSummaryDto();
 
-                var response = await HttpRequests.MakeGetHttpCall(url);
+                var response = await HttpRequests.MakeGetHttpCall(url, null);
                 if (response.IsSuccessStatusCode)
                 {
                     jobSummary = JsonConvert.DeserializeObject<JobSummaryDto>(response.Content.ReadAsStringAsync().Result);

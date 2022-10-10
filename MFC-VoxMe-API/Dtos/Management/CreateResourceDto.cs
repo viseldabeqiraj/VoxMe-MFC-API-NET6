@@ -1,4 +1,4 @@
-﻿namespace MFC_VoxMe_API.Dtos.resources
+﻿namespace MFC_VoxMe_API.Dtos.Management
 {
     public class CreateResourceDto
     {
