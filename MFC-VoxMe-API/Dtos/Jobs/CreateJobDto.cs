@@ -1,45 +1,53 @@
-﻿namespace MFC_VoxMe_API.Dtos.Jobs
+﻿using MFC_VoxMe_API.Profiles;
+
+namespace MFC_VoxMe_API.Dtos.Jobs
 {
     public class CreateJobDto
     {
-
-        public Client client { get; set; }
+        
+        public Client client { get; set; } = new Client();
+        [MatchParent("EMFID")]
         public string externalRef { get; set; }
-        public string handlingDivision { get; set; }
-        public string jobStatus { get; set; }
+        public string handlingDivision { get; set; } = "JKMOVING";
+        public string jobStatus { get; set; } = "Enum.Status.PackingSet";
+        [MatchParent("Type")]
         public string jobType { get; set; }
-        public ManagedBy managedBy { get; set; }
+        public ManagedBy managedBy { get; set; } = new ManagedBy();
+        [MatchParent("Description")]
         public string serviceLevel { get; set; }
+        [MatchParent("Comment")]
         public string serviceType { get; set; }
-        public string sourceOfInquiry { get; set; }
-        public string bookingType { get; set; }
-        public string loadType { get; set; }
-        public string transportMode { get; set; }
-        public Booker booker { get; set; }
-        public BookerPerson bookerPerson { get; set; }
-        public Account account { get; set; }
-        public AccountPerson accountPerson { get; set; }
-        public OriginAddress originAddress { get; set; }
-        public OriginPartyContact originPartyContact { get; set; }
-        public DestinationAddress destinationAddress { get; set; }
-        public DestinationPartyContact destinationPartyContact { get; set; }
+        public string sourceOfInquiry { get; set; } = "Enum.SourceOfInquiry.Email";
+        public string bookingType { get; set; } = "Enum.BookingType.Agent";
+        public string loadType { get; set; } = "Enum.LoadType.FTL";
+        public string transportMode { get; set; } = "Enum.TransportMode.Truck";
+        public Booker booker { get; set; } = new Booker();
+        public BookerPerson bookerPerson { get; set; } = new BookerPerson();
+        public Account account { get; set; } = new Account();
+        public AccountPerson accountPerson { get; set; } = new AccountPerson();
+        public OriginAddress originAddress { get; set; } = new OriginAddress();
+        public OriginPartyContact originPartyContact { get; set; } = new OriginPartyContact();
+        public DestinationAddress destinationAddress { get; set; } = new DestinationAddress();
+        public DestinationPartyContact destinationPartyContact { get; set; } = new DestinationPartyContact();
         public string instructionsCrewOrigin { get; set; }
         public string instructionsCrewDestination { get; set; }
-        public InventoryData inventoryData { get; set; }
+        public InventoryData inventoryData { get; set; } = new InventoryData();
         public string jobCreationWebhookUrl { get; set; }
         public string jobStatusUpdateWebhookUrl { get; set; }
         public class Account
         {
-            public string code { get; set; }
-            public string legalName { get; set; }
-            public string partyType { get; set; }
+            public string code { get; set; } = "U.S. Military";
+            public string legalName { get; set; } = "U.S. Military";
+            public string partyType { get; set; } = "Enum.PartyType.ACCOUNT";
         }
 
         public class AccountPerson
         {
+           // [MatchParent("RCnr")]
             public string code { get; set; }
-            public string partyCode { get; set; }
-            public PersonDetails personDetails { get; set; }
+            //[MatchParent("RCnr")]
+            public string partyCode { get; set; } = "U.S. Military";
+            public PersonDetails personDetails { get; set; } = new PersonDetails();
         }
 
         public class AddressDetails
@@ -57,23 +65,26 @@
 
         public class Booker
         {
-            public string code { get; set; }
-            public string legalName { get; set; }
-            public string partyType { get; set; }
+            public string code { get; set; } = "JKMOVING";
+            public string legalName { get; set; } = "Jk Moving Services";
+            public string partyType { get; set; } = "Enum.PartyType.Division";
         }
 
         public class BookerPerson
         {
-            public string code { get; set; }
-            public string partyCode { get; set; }
-            public PersonDetails personDetails { get; set; }
+            public string code { get; set; } //Move cordinator ID related to service activity
+            public string partyCode { get; set; } = "JKMOVING";
+            public PersonDetails personDetails { get; set; } = new PersonDetails();
         }
+
 
         public class Client
         {
+            //[MatchParent("RCnr")]
             public string code { get; set; }
+            [MatchParent("ClientFirstName")] //TODO: legalName: GeneralInfo/ClientFirstName + GeneralInfo/Name
             public string legalName { get; set; }
-            public string partyType { get; set; }
+            public string partyType { get; set; } = "Enum.PartyType.CLIENT";
         }
 
         public class ConditionAfterService
@@ -94,14 +105,14 @@
         public class DestinationAddress
         {
             public string partyCode { get; set; }
-            public AddressDetails addressDetails { get; set; }
+            public AddressDetails addressDetails { get; set; } = new AddressDetails();
         }
 
         public class DestinationPartyContact
         {
             public string code { get; set; }
             public string partyCode { get; set; }
-            public PersonDetails personDetails { get; set; }
+            public PersonDetails personDetails { get; set; } = new PersonDetails();
         }
 
         public class InventoryData
@@ -153,21 +164,21 @@
         public class ManagedBy
         {
             public string code { get; set; }
-            public string partyCode { get; set; }
-            public PersonDetails personDetails { get; set; }
+            public string partyCode { get; set; } = "JKMOVING";
+            public PersonDetails personDetails { get; set; } = new PersonDetails();
         }
 
         public class OriginAddress
         {
             public string partyCode { get; set; }
-            public AddressDetails addressDetails { get; set; }
+            public AddressDetails addressDetails { get; set; } = new AddressDetails();
         }
 
         public class OriginPartyContact
         {
             public string code { get; set; }
             public string partyCode { get; set; }
-            public PersonDetails personDetails { get; set; }
+            public PersonDetails personDetails { get; set; } = new PersonDetails();
         }
 
         public class Packer
@@ -178,11 +189,21 @@
 
         public class PersonDetails
         {
-            public ContactDetails contactDetails { get; set; }
+            public ContactDetails contactDetails { get; set; } = new ContactDetails();
             public string firstName { get; set; }
             public string lastName { get; set; }
-            public string preferredLanguage { get; set; }
+            public string preferredLanguage { get; set; } = "en-us";
             public string salutation { get; set; }
+            public PersonDetails(string _firstname, string _lastname, string _salutation)
+            {
+                firstName = _firstname;
+                lastName = _lastname;
+                salutation = _salutation;
+            }
+            public PersonDetails()
+            {
+                    
+            }
         }
 
         public class Piece
@@ -196,7 +217,7 @@
             public string packerName { get; set; }
             public string roomName { get; set; }
             public string tag { get; set; }
-            //public double @void { get; set; }
+            public bool @void { get; set; }
             public double volume { get; set; }
             public double weight { get; set; }
             public double width { get; set; }
@@ -209,8 +230,8 @@
             public string name { get; set; }
             public string notes { get; set; }
             public string roomType { get; set; }
-            public ConditionBeforeService conditionBeforeService { get; set; }
-            public ConditionAfterService conditionAfterService { get; set; }
+            public ConditionBeforeService conditionBeforeService { get; set; } = new ConditionBeforeService();
+            public ConditionAfterService conditionAfterService { get; set; } = new ConditionAfterService();
             public List<RoomElement> roomElements { get; set; }
         }
 

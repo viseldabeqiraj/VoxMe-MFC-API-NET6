@@ -8,7 +8,7 @@ namespace MFC_VoxMe_API.Profiles
     {
         public MappingProfiles()
         {
-            CreateMap<MovingData, CreateJobDto>();
+            CreateMap<MovingData, CreateJobDto.AccountPerson>();
         }       
 
     }

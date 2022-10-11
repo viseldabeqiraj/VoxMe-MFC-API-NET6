@@ -14,7 +14,7 @@
         public string managedBy { get; set; }
         public string instructionsCrewOrigin { get; set; }
         public string instructionsCrewDestination { get; set; }
-        public List<string> services { get; set; }
+        public List<string> services { get; set; } //set just one value which will be enum.transactionsrevice.storageout -->check if is array not list
         public List<QuestionnaireQuestion> questionnaireQuestions { get; set; }
         public List<AuxService> auxServices { get; set; }
         public List<LoadingUnit> loadingUnits { get; set; }

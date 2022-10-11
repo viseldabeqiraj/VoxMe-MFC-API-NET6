@@ -1,14 +1,16 @@
 ﻿using MFC_VoxMe_API.Dtos.Common;
 using MFC_VoxMe_API.Dtos.Jobs;
+using MFC_VoxMe_API.Profiles;
 using Serilog;
 using System.Text;
 using System.Xml.Serialization;
+using static MFC_VoxMe_API.Dtos.Jobs.CreateJobDto;
 
 namespace MFC_VoxMe_API.BusinessLogic
 {
-    public class Helpers
+    public class Helpers //<T> where T: class
     {
-		public static MovingData MovingData;
+		public static MovingData _MovingData;
         public Helpers()
         {
 
@@ -869,7 +871,9 @@ Adjustment (Charge)</Description>
 				MemoryStream memStream = new MemoryStream(Encoding.UTF8.GetBytes(xml));
 				MovingData movingDataFromXml = (MovingData)serializer.Deserialize(memStream);
 
-				MovingData = movingDataFromXml; //public static field
+				_MovingData = movingDataFromXml; //public static field
+				var x = movingDataFromXml.GeneralInfo;
+				CreateJobObjectFromXml();
 				return movingDataFromXml;
 			}
 			catch (Exception ex)
@@ -879,20 +883,95 @@ Adjustment (Charge)</Description>
 			}
 		}
 
-		public void CreateJobObjectFromXml()
+		public static void CreateJobObjectFromXml()
         {
 			try
             {
-				CreateJobDto createJobDto = new CreateJobDto
-				{
-					externalRef = MovingData.GeneralInfo.EMFID,
+				//TODO: Check PersonDetails bcs it's used as a referance in multiple classes
+				CreateJobDto createJobDto = new CreateJobDto();
+				PropertyMatcher<GeneralInfo, CreateJobDto>.GenerateMatchedObject(_MovingData.GeneralInfo, createJobDto);
+				PropertyMatcher<GeneralInfo, CreateJobDto.Client>.GenerateMatchedObject(_MovingData.GeneralInfo, createJobDto.client);
+				PropertyMatcher<List<Property>, CreateJobDto>.GenerateMatchedObject(_MovingData.InventoryData.Properties.Property, createJobDto);
+				PropertyMatcher<Preferences, CreateJobDto>.GenerateMatchedObject(_MovingData.GeneralInfo.Preferences, createJobDto);
+				PropertyMatcher<GeneralInfo, CreateJobDto.AccountPerson>.GenerateMatchedObject(_MovingData.GeneralInfo, createJobDto.accountPerson);
 
+
+				createJobDto.client.legalName = _MovingData.GeneralInfo.ClientFirstName + " " + _MovingData.GeneralInfo.Name;
+				createJobDto.instructionsCrewOrigin = _MovingData.GeneralInfo.Address.Comment;
+				createJobDto.instructionsCrewOrigin = _MovingData.GeneralInfo.Destination.Comment;
+
+				createJobDto.accountPerson = new CreateJobDto.AccountPerson()
+				{
+					personDetails = new CreateJobDto.PersonDetails
+					(_MovingData.GeneralInfo.ClientFirstName, 
+					_MovingData.GeneralInfo.Name, 
+					_MovingData.GeneralInfo.ClientSalutation)
 				};
-            }
-			catch(Exception ex)
+
+				//Check
+				createJobDto.managedBy = new CreateJobDto.ManagedBy()
+				{
+					personDetails = new CreateJobDto.PersonDetails
+					(_MovingData.GeneralInfo.EstimatorName,
+					_MovingData.GeneralInfo.Name, //Check ?
+					_MovingData.GeneralInfo.ClientSalutation)
+				};
+				//SetDefaultValue(createJobDto);
+				createJobDto.destinationAddress = new CreateJobDto.DestinationAddress()
+				{
+					partyCode = _MovingData.GeneralInfo.EMFID,
+					addressDetails = new AddressDetails()
+					{
+						street1 = _MovingData.GeneralInfo.Destination.Street,
+						city = _MovingData.GeneralInfo.Destination.City,
+						area = _MovingData.GeneralInfo.Destination.State,
+						country = _MovingData.GeneralInfo.Destination.Country,
+						floor = _MovingData.GeneralInfo.Destination.AccessInfo.Floor,
+						notes = _MovingData.GeneralInfo.Comment,
+						zip = _MovingData.GeneralInfo.Destination.Zip,
+					}
+				};
+			}
+			catch (Exception ex)
             {
 
             }
         }
-	}
+
+		public static void CreateTransactionObjectFromXml()
+		{
+			try
+			{
+				
+
+			}
+			catch (Exception ex)
+			{
+
+			}
+		}
+
+		//public PersonDetails createPersonDetails()
+		//      {
+
+		//      }
+
+		public static void SetDefaultValue(CreateJobDto createJobDto)
+        {
+            try
+            {
+				createJobDto.sourceOfInquiry = "Enum.SourceOfInquiry.Email";
+				createJobDto.bookingType = "Enum.BookingType.Agent";
+				createJobDto.loadType = "Enum.LoadType.FTL";
+				createJobDto.transportMode = "Enum.TransportMode.Truck";
+				createJobDto.client.partyType = "Enum.PartyType.CLIENT";
+
+
+			}
+            catch (Exception ex)
+            {
+
+            }
+        }
+    }
 }
