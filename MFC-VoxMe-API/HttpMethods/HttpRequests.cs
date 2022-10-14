@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using MFC_VoxMe_API.BusinessLogic.AccessToken;
+using MFC_VoxMe_API.Dtos.Common;
+using Newtonsoft.Json;
 using Serilog;
 using System.Net;
 using System.Net.Http.Headers;
@@ -8,7 +10,54 @@ namespace MFC_VoxMe_API.HttpMethods
 {
     public class HttpRequests
     {
+        private readonly IAccessTokenConfig _accessTokenConfig;
+        private readonly AccessTokenConfigDto _accessTokenConfigDto;
+
         //TODO: Authorization header needed for some requests
+        public HttpRequests(IAccessTokenConfig accessTokenConfig)
+        {
+            _accessTokenConfig = accessTokenConfig;
+            _accessTokenConfigDto = accessTokenConfig.GetAccessTokenConfig();
+        }
+
+
+        public static async Task<Token> GetAccessToken()
+        {
+            try
+            {
+                var accessTokenUrl = "https://mfcdev.voxme.com/auth/connect/token";
+
+                ServicePointManager.Expect100Continue = true;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+                HttpClient client = new HttpClient();
+
+                var request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Post,
+                    RequestUri = new Uri(accessTokenUrl),
+                };
+
+                var keyValues = new List<KeyValuePair<string, string>>();
+                keyValues.Add(new KeyValuePair<string, string>("grant_type", _accessTokenConfigDto.grant_type));
+                keyValues.Add(new KeyValuePair<string, string>("client_id", _accessTokenConfigDto.client_id));
+                keyValues.Add(new KeyValuePair<string, string>("client_secret", _accessTokenConfigDto.client_secret));
+                keyValues.Add(new KeyValuePair<string, string>("scope", _accessTokenConfigDto.scope));
+
+                request.Content = new FormUrlEncodedContent(keyValues);
+                HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+                var jsonContent = await response.Content.ReadAsStringAsync();
+                Token token = JsonConvert.DeserializeObject<Token>(jsonContent);
+
+                return token;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"Method GetAccessToken in HttpRequests failed. Exception thrown :{ex.Message}");
+                return null;
+            }
+
+        }
 
         //GET method to call the httpclient to get response from the url specified as a parameter
         public static async Task<HttpResponseMessage> MakeGetHttpCall(string url, HttpContent data)
@@ -26,8 +75,13 @@ namespace MFC_VoxMe_API.HttpMethods
                     RequestUri = new Uri(url),
                     Content = data
                 };
+                HttpResponseMessage response;              
+                    
+                    request.Headers.Authorization = new AuthenticationHeaderValue(
+                        "Bearer", GetAccessToken().Result.AccessToken.ToString()); 
+                
+                    response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
 
-                HttpResponseMessage response = await client.GetAsync(url);
                 return response;
             }
             catch (Exception ex)
@@ -63,7 +117,19 @@ namespace MFC_VoxMe_API.HttpMethods
                     HttpResponseMessage fileResponse  = client.PostAsync(url, multiContent).Result;
                     return fileResponse;
                 }
-                HttpResponseMessage response = await client.PostAsync(url, data);
+                var request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Post,
+                    RequestUri = new Uri(url),
+                    Content = data
+                };
+                HttpResponseMessage response;
+
+                request.Headers.Authorization = new AuthenticationHeaderValue(
+                    "Bearer", GetAccessToken().Result.AccessToken.ToString());
+
+                response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+
                 return response;
                
                 }
@@ -83,11 +149,23 @@ namespace MFC_VoxMe_API.HttpMethods
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-                //Fetch the JSON string from URL.
+
                 HttpClient client = new HttpClient();
-                HttpResponseMessage response = await client.PutAsync(url, data);
-                //var result = await response.Content.ReadAsStringAsync();
-                return response;//result;
+                var request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Put,
+                    RequestUri = new Uri(url),
+                    Content = data
+                };
+                HttpResponseMessage response;
+
+                request.Headers.Authorization = new AuthenticationHeaderValue(
+                    "Bearer", GetAccessToken().Result.AccessToken.ToString());
+
+                response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+
+                return response;
+
             }
             catch (Exception ex)
             {
@@ -98,7 +176,7 @@ namespace MFC_VoxMe_API.HttpMethods
         }
 
         //DELETE method by calling httpclient to delete data on api side
-        public static async Task<HttpResponseMessage> MakeDeleteHttpCall(string url, StringContent? data, bool needsAuth)
+        public static async Task<HttpResponseMessage> MakeDeleteHttpCall(string url, StringContent? data)
         {
             try
             {
@@ -114,17 +192,14 @@ namespace MFC_VoxMe_API.HttpMethods
                     RequestUri = new Uri(url),
                     Content = data
                 };
-
+             
                 HttpResponseMessage response;
-                if (needsAuth) //TODO : option 2: replace with token value as string and check if token is not null
-                {
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "token val"); //TODO: be replaced
-                    response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
-                }
-                else
-                 response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
 
-               // HttpResponseMessage response = await client.DeleteAsync(url);
+                request.Headers.Authorization = new AuthenticationHeaderValue(
+                    "Bearer", GetAccessToken().Result.AccessToken.ToString());
+
+                response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+
                 return response;
             }
             catch (Exception ex)
@@ -144,8 +219,21 @@ namespace MFC_VoxMe_API.HttpMethods
 
                 //Fetch the JSON string from URL.
                 HttpClient client = new HttpClient();
-                HttpResponseMessage response = await client.PatchAsync(url, data);
+                var request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Patch,
+                    RequestUri = new Uri(url),
+                    Content = data
+                };
+                HttpResponseMessage response;
+
+                request.Headers.Authorization = new AuthenticationHeaderValue(
+                    "Bearer", GetAccessToken().Result.AccessToken.ToString());
+
+                response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+
                 return response;
+                //HttpResponseMessage response = await client.PatchAsync(url, data);
             }
             catch (Exception ex)
             {
@@ -153,6 +241,21 @@ namespace MFC_VoxMe_API.HttpMethods
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
 
+        }
+
+        public class Token
+        {
+            [JsonProperty("access_token")]
+            public string AccessToken { get; set; }
+
+            [JsonProperty("token_type")]
+            public string TokenType { get; set; }
+
+            [JsonProperty("expires_in")]
+            public int ExpiresIn { get; set; }
+
+            [JsonProperty("refresh_token")]
+            public string RefreshToken { get; set; }
         }
 
     }

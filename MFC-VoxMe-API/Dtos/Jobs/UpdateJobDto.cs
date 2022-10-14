@@ -2,17 +2,16 @@
 {
     public class UpdateJobDto
     {
-        // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
 
         public string jobStatus { get; set; }
-        public OriginAddress originAddress { get; set; }
-        public OriginPartyContact originPartyContact { get; set; }
-        public DestinationAddress destinationAddress { get; set; }
-        public DestinationPartyContact destinationPartyContact { get; set; }
+        public OriginAddress originAddress { get; set; } = new OriginAddress();
+        public OriginPartyContact originPartyContact { get; set; } = new OriginPartyContact();
+        public DestinationAddress destinationAddress { get; set; } = new DestinationAddress();
+        public DestinationPartyContact destinationPartyContact { get; set; } = new DestinationPartyContact();
         public string handlingDivision { get; set; }
-        public string managedBy { get; set; }
-        public string instructionsCrewOrigin { get; set; }
-        public string instructionsCrewDestination { get; set; }
+        //public string managedBy { get; set; }
+        //public string instructionsCrewOrigin { get; set; }
+        //public string instructionsCrewDestination { get; set; }
         public class AddressDetails
         {
             public string city { get; set; }
@@ -34,35 +33,35 @@
         public class DestinationAddress
         {
             public string partyCode { get; set; }
-            public AddressDetails addressDetails { get; set; }
+            public AddressDetails addressDetails { get; set; } = new AddressDetails();
         }
 
         public class DestinationPartyContact
         {
             public string code { get; set; }
             public string partyCode { get; set; }
-            public PersonDetails personDetails { get; set; }
+            public PersonDetails personDetails { get; set; } = new PersonDetails();
         }
 
         public class OriginAddress
         {
             public string partyCode { get; set; }
-            public AddressDetails addressDetails { get; set; }
+            public AddressDetails addressDetails { get; set; } = new AddressDetails();
         }
 
         public class OriginPartyContact
         {
             public string code { get; set; }
             public string partyCode { get; set; }
-            public PersonDetails personDetails { get; set; }
+            public PersonDetails personDetails { get; set; } = new PersonDetails();
         }
 
         public class PersonDetails
         {
-            public ContactDetails contactDetails { get; set; }
+            public ContactDetails contactDetails { get; set; } = new ContactDetails();
             public string firstName { get; set; }
             public string lastName { get; set; }
-            public string preferredLanguage { get; set; }
+            public string preferredLanguage { get; set; } = "en-us";
             public string salutation { get; set; }
         }
 

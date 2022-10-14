@@ -88,7 +88,7 @@ namespace MFC_VoxMe_API.Services.Resources
             {
                 var url = GetUrl($"/api/management/resources/{code}");
 
-                var response = await HttpRequests.MakeDeleteHttpCall(url, null,false);
+                var response = await HttpRequests.MakeDeleteHttpCall(url, null);
 
                 if (response.IsSuccessStatusCode)
                 {

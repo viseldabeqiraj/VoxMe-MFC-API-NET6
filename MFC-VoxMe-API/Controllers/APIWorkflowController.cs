@@ -1,5 +1,7 @@
-﻿using MFC_VoxMe_API.BusinessLogic;
+﻿using AutoMapper;
+using MFC_VoxMe_API.BusinessLogic;
 using MFC_VoxMe_API.Dtos.Common;
+using MFC_VoxMe_API.Dtos.Jobs;
 using MFC_VoxMe_API.Models;
 using MFC_VoxMe_API.Services.Jobs;
 using MFC_VoxMe_API.Services.Resources;
@@ -18,12 +20,14 @@ namespace MFC_VoxMe_API.Controllers
         private readonly IJobService _jobService;
         private readonly ITransactionService _transactionService;
         private readonly IResourceService _resourceService;
+        private readonly IMapper _mapper;
 
-        public APIWorkflowController(IJobService jobService, ITransactionService transactionService, IResourceService resourceService)
+        public APIWorkflowController(IJobService jobService, ITransactionService transactionService, IResourceService resourceService, IMapper mapper)
         {
             _jobService = jobService;
             _transactionService = transactionService;
             _resourceService = resourceService;
+            _mapper = mapper;
         }
 	
 		//[HttpPost]
@@ -34,6 +38,11 @@ namespace MFC_VoxMe_API.Controllers
             {
 				var movingData =  Helpers.XMLParse(xml);
 				var externalRef = movingData.GeneralInfo.EMFID;
+
+				var jobToCreate = Helpers.CreateJobObjectFromXml();
+				var transactionToCreate = Helpers.CreateTransactionObjectFromXml();
+			
+				var jobToUpdate = _mapper.Map<UpdateJobDto>(jobToCreate);
 
 				var jobDetails = await _jobService.GetDetails(externalRef);
 
@@ -60,16 +69,25 @@ namespace MFC_VoxMe_API.Controllers
 					else
                     {
 						//build CreateTransactionDto from movingData obj to make creation
-						//await _transactionService.CreateTransaction(externalRef);
+
+						if (transactionToCreate != null)
+							await _transactionService.CreateTransaction(transactionToCreate);
 					}
 				}
 				else
                 {
 					//Create job
+					
+
+					if (jobToCreate != null)
+					await _jobService.CreateJob(jobToCreate);
 					//RM details from JIM create Job in MFC
 					//CreateTrasnaction
+
+					if (transactionToCreate != null)
+						await _transactionService.CreateTransaction(transactionToCreate);
 					//Transaction/AssignResources ->add crew, trucks, materials
-                }
+				}
 
 				return Ok();
 			}

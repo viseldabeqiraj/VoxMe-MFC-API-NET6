@@ -90,7 +90,7 @@
             public string packerName { get; set; }
             public string roomName { get; set; }
             public string tag { get; set; }
-            public double @void { get; set; }
+            public bool @void { get; set; }
             public double volume { get; set; }
             public double weight { get; set; }
             public double width { get; set; }

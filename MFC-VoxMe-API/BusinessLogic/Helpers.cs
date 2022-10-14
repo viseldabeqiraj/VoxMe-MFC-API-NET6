@@ -1,5 +1,6 @@
 ﻿using MFC_VoxMe_API.Dtos.Common;
 using MFC_VoxMe_API.Dtos.Jobs;
+using MFC_VoxMe_API.Dtos.Transactions;
 using MFC_VoxMe_API.Profiles;
 using Serilog;
 using System.Text;
@@ -871,9 +872,7 @@ Adjustment (Charge)</Description>
 				MemoryStream memStream = new MemoryStream(Encoding.UTF8.GetBytes(xml));
 				MovingData movingDataFromXml = (MovingData)serializer.Deserialize(memStream);
 
-				_MovingData = movingDataFromXml; //public static field
-				var x = movingDataFromXml.GeneralInfo;
-				CreateJobObjectFromXml();
+				_MovingData = movingDataFromXml; 
 				return movingDataFromXml;
 			}
 			catch (Exception ex)
@@ -883,71 +882,128 @@ Adjustment (Charge)</Description>
 			}
 		}
 
-		public static void CreateJobObjectFromXml()
+		public static CreateJobDto CreateJobObjectFromXml()
         {
 			try
             {
-				//TODO: Check PersonDetails bcs it's used as a referance in multiple classes
 				CreateJobDto createJobDto = new CreateJobDto();
-				PropertyMatcher<GeneralInfo, CreateJobDto>.GenerateMatchedObject(_MovingData.GeneralInfo, createJobDto);
-				PropertyMatcher<GeneralInfo, CreateJobDto.Client>.GenerateMatchedObject(_MovingData.GeneralInfo, createJobDto.client);
-				PropertyMatcher<List<Property>, CreateJobDto>.GenerateMatchedObject(_MovingData.InventoryData.Properties.Property, createJobDto);
-				PropertyMatcher<Preferences, CreateJobDto>.GenerateMatchedObject(_MovingData.GeneralInfo.Preferences, createJobDto);
-				PropertyMatcher<GeneralInfo, CreateJobDto.AccountPerson>.GenerateMatchedObject(_MovingData.GeneralInfo, createJobDto.accountPerson);
+				//PropertyMatcher<Preferences, CreateJobDto>.GenerateMatchedObject(generalInfo.Preferences, createJobDto);
+				//PropertyMatcher<GeneralInfo, CreateJobDto>.GenerateMatchedObject(generalInfo, createJobDto);
+				//PropertyMatcher<GeneralInfo, Client>.GenerateMatchedObject(generalInfo, createJobDto.client);
+				//PropertyMatcher<List<Property>, CreateJobDto>.GenerateMatchedObject(_MovingData.InventoryData.Properties.Property, createJobDto);
+
+				var generalInfo = _MovingData.GeneralInfo;
+				createJobDto.externalRef = generalInfo.EMFID;
+				createJobDto.serviceType = generalInfo.Preferences.Comment;
+				createJobDto.serviceLevel = _MovingData.InventoryData.Properties.Property.FirstOrDefault().Type; //?????
+				createJobDto.client.legalName = generalInfo.ClientFirstName + " " + generalInfo.Name;
+				createJobDto.instructionsCrewOrigin = generalInfo.Address.Comment;
+				createJobDto.instructionsCrewDestination = generalInfo.Destination.Comment;
 
 
-				createJobDto.client.legalName = _MovingData.GeneralInfo.ClientFirstName + " " + _MovingData.GeneralInfo.Name;
-				createJobDto.instructionsCrewOrigin = _MovingData.GeneralInfo.Address.Comment;
-				createJobDto.instructionsCrewOrigin = _MovingData.GeneralInfo.Destination.Comment;
-
-				createJobDto.accountPerson = new CreateJobDto.AccountPerson()
+				createJobDto.clientPerson = new ClientPerson()
 				{
-					personDetails = new CreateJobDto.PersonDetails
-					(_MovingData.GeneralInfo.ClientFirstName, 
-					_MovingData.GeneralInfo.Name, 
-					_MovingData.GeneralInfo.ClientSalutation)
+					personDetails = new PersonDetails()
+                    {
+						firstName = generalInfo.ClientFirstName,
+						lastName= generalInfo.Name,
+						salutation = generalInfo.ClientSalutation,
+						contactDetails = new ContactDetails()
+                        {
+							//value = generalInfo.Address.PrimaryPhone
+                        }
+					},
+					
 				};
 
 				//Check
+				//RC to be added
 				createJobDto.managedBy = new CreateJobDto.ManagedBy()
 				{
-					personDetails = new CreateJobDto.PersonDetails
-					(_MovingData.GeneralInfo.EstimatorName,
-					_MovingData.GeneralInfo.Name, //Check ?
-					_MovingData.GeneralInfo.ClientSalutation)
+					personDetails = new CreateJobDto.PersonDetails()
+                    {
+						firstName = generalInfo.EstimatorName,
+						contactDetails = new ContactDetails()
+                        {
+							//value = generalInfo.Coordinatoremail
+                        },
+						
+						
+					}
+					
 				};
+				createJobDto.accountPerson.personDetails = createJobDto.managedBy.personDetails;
+				createJobDto.bookerPerson.personDetails = createJobDto.managedBy.personDetails;
+
+
 				//SetDefaultValue(createJobDto);
-				createJobDto.destinationAddress = new CreateJobDto.DestinationAddress()
+				createJobDto.originAddress = new CreateJobDto.OriginAddress()
 				{
-					partyCode = _MovingData.GeneralInfo.EMFID,
+					partyCode = generalInfo.EMFID,
 					addressDetails = new AddressDetails()
 					{
-						street1 = _MovingData.GeneralInfo.Destination.Street,
-						city = _MovingData.GeneralInfo.Destination.City,
-						area = _MovingData.GeneralInfo.Destination.State,
-						country = _MovingData.GeneralInfo.Destination.Country,
-						floor = _MovingData.GeneralInfo.Destination.AccessInfo.Floor,
-						notes = _MovingData.GeneralInfo.Comment,
-						zip = _MovingData.GeneralInfo.Destination.Zip,
+						street1 = generalInfo.Address.Street,
+						city = generalInfo.Address.City,
+						area = generalInfo.Address.State,
+						country = generalInfo.Address.Country,
+						floor = generalInfo.Address.AccessInfo.Floor,
+						notes = generalInfo.Address.Comment,
+						zip = generalInfo.Address.Zip,
 					}
 				};
+
+				createJobDto.destinationAddress = new CreateJobDto.DestinationAddress()
+				{
+					partyCode = generalInfo.EMFID,
+					addressDetails = new AddressDetails()
+					{
+						street1 = generalInfo.Destination.Street,
+						city = generalInfo.Destination.City,
+						area = generalInfo.Destination.State,
+						country = generalInfo.Destination.Country,
+						floor = generalInfo.Destination.AccessInfo.Floor,
+						notes = generalInfo.Comment,
+						zip = generalInfo.Destination.Zip,
+					}
+				};
+
+				createJobDto.originPartyContact = new OriginPartyContact()
+				{
+					code = generalInfo.EMFID,
+					partyCode = generalInfo.EMFID, //RCNr
+					personDetails = createJobDto.clientPerson.personDetails
+				};
+
+				createJobDto.destinationPartyContact = new DestinationPartyContact()
+				{
+
+					code = generalInfo.EMFID,
+					partyCode = generalInfo.EMFID, //RCNr
+					personDetails = createJobDto.clientPerson.personDetails
+				};
+
+
+				return createJobDto;
 			}
 			catch (Exception ex)
             {
-
+				return null;
             }
         }
 
-		public static void CreateTransactionObjectFromXml()
+		
+
+		public static CreateTransactionDto CreateTransactionObjectFromXml()
 		{
 			try
 			{
-				
+				CreateTransactionDto createTransaction = new CreateTransactionDto();
 
+				return createTransaction;
 			}
 			catch (Exception ex)
 			{
-
+				return null;
 			}
 		}
 

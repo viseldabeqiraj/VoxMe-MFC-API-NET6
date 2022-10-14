@@ -38,7 +38,7 @@ namespace MFC_VoxMe_API.Services.Jobs
             {
                 externalRef = "RS249955";
 
-                var url = GetUrl($"/api/jobs/{externalRef}/details");
+                var url = GetUrl($"/mfc/v2/jobs/{externalRef}/details");
                 JobDetailsDto jobDetails = new JobDetailsDto();
 
                 var response = await HttpRequests.MakeGetHttpCall(url, null);
@@ -69,7 +69,7 @@ namespace MFC_VoxMe_API.Services.Jobs
             {
                 externalRef = "RS249955";
 
-                var url = GetUrl($"/api/jobs/{externalRef}/summary");
+                var url = GetUrl($"/mfc/v2/jobs/{externalRef}/summary");
                 JobSummaryDto jobSummary = new JobSummaryDto();
 
                 var response = await HttpRequests.MakeGetHttpCall(url, null);
@@ -98,7 +98,7 @@ namespace MFC_VoxMe_API.Services.Jobs
         {
            try
             {
-                var url = GetUrl($"/api/jobs");
+                var url = GetUrl($"/mfc/v2/jobs");
                 var json = JsonConvert.SerializeObject(createJobRequest);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await HttpRequests.MakePostHttpCall(url, data, null);
@@ -126,7 +126,7 @@ namespace MFC_VoxMe_API.Services.Jobs
             try
             {
                 string externalRef = "RS249955";
-                var url = GetUrl($"/api/jobs/{externalRef}");
+                var url = GetUrl($"/mfc/v2/jobs/{externalRef}");
                 var json = JsonConvert.SerializeObject(updateJobRequest);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await HttpRequests.MakePutHttpCall(url, data);

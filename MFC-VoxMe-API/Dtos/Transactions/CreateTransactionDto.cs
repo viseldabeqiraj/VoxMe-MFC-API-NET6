@@ -2,8 +2,8 @@
 {
     public class CreateTransactionDto
     {
-        // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
         public string externalRef { get; set; }
+        public string jobExternalRef { get; set; }
         public DateTime scheduledDate { get; set; }
         public string transactionType { get; set; }
         public string originParty { get; set; }
@@ -24,6 +24,7 @@
         public List<LoadingUnit> loadingUnits { get; set; }
         public string transactionCreationWebhookUrl { get; set; }
         public string transactionStatusUpdateWebhookUrl { get; set; }
+
         public class AddressDetails
         {
             public string city { get; set; }
@@ -40,10 +41,10 @@
         public class AuxService
         {
             public string name { get; set; }
-            public double numericValue { get; set; }
+            public int numericValue { get; set; }
             public string stringValue { get; set; }
             public string listValues { get; set; }
-            public string booleanValue { get; set; }
+            public bool booleanValue { get; set; }
             public DateTime dateValue { get; set; }
             public string photoValue { get; set; }
             public string signatureValue { get; set; }
@@ -87,6 +88,7 @@
             public double netWidth { get; set; }
             public string photos { get; set; }
             public string serialNumber { get; set; }
+            public string uniqueId { get; set; }
             public string unitType { get; set; }
             public int labelNr { get; set; }
             public string sealNumber { get; set; }
@@ -121,10 +123,10 @@
         public class QuestionnaireQuestion
         {
             public string name { get; set; }
-            public double numericValue { get; set; }
+            public int numericValue { get; set; }
             public string stringValue { get; set; }
             public string listValues { get; set; }
-            public string booleanValue { get; set; }
+            public bool booleanValue { get; set; }
             public DateTime dateValue { get; set; }
             public string photoValue { get; set; }
             public string signatureValue { get; set; }

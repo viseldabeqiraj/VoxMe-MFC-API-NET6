@@ -183,7 +183,7 @@ namespace MFC_VoxMe_API.Services.Transactions
 
                 var url = GetUrl($"/api/transactions/{externalRef}");
 
-                var response = await HttpRequests.MakeDeleteHttpCall(url, null, false);
+                var response = await HttpRequests.MakeDeleteHttpCall(url, null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -322,7 +322,7 @@ namespace MFC_VoxMe_API.Services.Transactions
                 var json = JsonConvert.SerializeObject(resourceCodes);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await HttpRequests.MakeDeleteHttpCall(url, data,false);
+                var response = await HttpRequests.MakeDeleteHttpCall(url, data);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -403,7 +403,7 @@ namespace MFC_VoxMe_API.Services.Transactions
                 var json = JsonConvert.SerializeObject(resourceCodes);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await HttpRequests.MakeDeleteHttpCall(url, data, false);
+                var response = await HttpRequests.MakeDeleteHttpCall(url, data);
 
                 if (response.IsSuccessStatusCode)
                 {
