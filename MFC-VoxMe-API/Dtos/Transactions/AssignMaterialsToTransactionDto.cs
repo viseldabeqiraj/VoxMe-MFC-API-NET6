@@ -1,4 +1,6 @@
-﻿namespace MFC_VoxMe_API.Dtos.Transactions
+﻿using MFC_VoxMe_API.Profiles;
+
+namespace MFC_VoxMe_API.Dtos.Transactions
 {
     public class AssignMaterialsToTransactionDto
     {
@@ -8,7 +10,7 @@
         public class HandedMaterial
         {
             public string code { get; set; }
-            public int qty { get; set; }
+            public double qty { get; set; }
         }
 
 

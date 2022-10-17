@@ -9,14 +9,11 @@ using static MFC_VoxMe_API.Dtos.Jobs.CreateJobDto;
 
 namespace MFC_VoxMe_API.BusinessLogic
 {
-    public class Helpers //<T> where T: class
+    public class Helpers : IHelpers
     {
 		public static MovingData _MovingData;
-        public Helpers()
-        {
 
-        }
-		public static MovingData XMLParse(string xml)
+		public MovingData XMLParse(string xml)
 		{
 			try
 			{
@@ -872,7 +869,7 @@ Adjustment (Charge)</Description>
 				MemoryStream memStream = new MemoryStream(Encoding.UTF8.GetBytes(xml));
 				MovingData movingDataFromXml = (MovingData)serializer.Deserialize(memStream);
 
-				_MovingData = movingDataFromXml; 
+				_MovingData = movingDataFromXml;
 				return movingDataFromXml;
 			}
 			catch (Exception ex)
@@ -882,7 +879,7 @@ Adjustment (Charge)</Description>
 			}
 		}
 
-		public static CreateJobDto CreateJobObjectFromXml()
+		public CreateJobDto CreateJobObjectFromXml()
         {
 			try
             {
@@ -993,7 +990,7 @@ Adjustment (Charge)</Description>
 
 		
 
-		public static CreateTransactionDto CreateTransactionObjectFromXml()
+		public CreateTransactionDto CreateTransactionObjectFromXml()
 		{
 			try
 			{
@@ -1007,27 +1004,56 @@ Adjustment (Charge)</Description>
 			}
 		}
 
-		//public PersonDetails createPersonDetails()
-		//      {
 
-		//      }
-
-		public static void SetDefaultValue(CreateJobDto createJobDto)
+		public AssignMaterialsToTransactionDto GetTransactionMaterials()
         {
             try
             {
-				createJobDto.sourceOfInquiry = "Enum.SourceOfInquiry.Email";
-				createJobDto.bookingType = "Enum.BookingType.Agent";
-				createJobDto.loadType = "Enum.LoadType.FTL";
-				createJobDto.transportMode = "Enum.TransportMode.Truck";
-				createJobDto.client.partyType = "Enum.PartyType.CLIENT";
+				
+				var materials = _MovingData.InventoryData.Materials.Material.ToList();
+                AssignMaterialsToTransactionDto assignMaterialsToTransaction =
+                    new AssignMaterialsToTransactionDto();
+                //PropertyMatcher<List<Material>, AssignMaterialsToTransactionDto>.GenerateMatchedObject(materials, assignMaterialsToTransaction);
 
+                List<AssignMaterialsToTransactionDto.HandedMaterial> materialList = materials.Select(a => new AssignMaterialsToTransactionDto.HandedMaterial()
+				{
+					code = a.Type,
+					qty = Convert.ToDouble(a.QtyTaken)
+				}).ToList();
+				assignMaterialsToTransaction.handedMaterials = materialList;
+
+				return assignMaterialsToTransaction;
 
 			}
             catch (Exception ex)
             {
-
+				return null;
             }
         }
-    }
+
+		public ResourceCodesForTransactionDto GetTransactionMaterials()
+		{
+			try
+			{
+
+				var packers = _MovingData.InventoryData.Packers.Packer.ToList();
+				ResourceCodesForTransactionDto assignMaterialsToTransaction =
+					new ResourceCodesForTransactionDto();
+				//PropertyMatcher<List<Material>, AssignMaterialsToTransactionDto>.GenerateMatchedObject(materials, assignMaterialsToTransaction);
+
+				//List<string> materialList = packers.Select(a => new Dtos.Common.Packer()
+				//{
+				//	Name = a.Name,
+				//}).ToList();
+				//assignMaterialsToTransaction.handedMaterials = materialList;
+
+				return assignMaterialsToTransaction;
+
+			}
+			catch (Exception ex)
+			{
+				return null;
+			}
+		}
+	}
 }

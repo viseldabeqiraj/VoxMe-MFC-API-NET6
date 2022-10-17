@@ -14,7 +14,6 @@ namespace MFC_VoxMe_API.HttpMethods
         private readonly AccessTokenConfigDto _accessTokenConfigDto;
         private readonly string className;
 
-        //TODO: Authorization header needed for some requests
         public HttpRequests(IAccessTokenConfig accessTokenConfig)
         {
             _accessTokenConfig = accessTokenConfig;

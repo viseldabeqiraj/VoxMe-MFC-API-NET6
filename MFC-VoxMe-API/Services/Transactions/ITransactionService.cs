@@ -12,9 +12,9 @@ namespace MFC_VoxMe_API.Services.Transactions
         Task<TransactionDownloadDetails> GetDownloadDetails(string externalRef);
         Task<bool> AddDocumentToTransaction(IFormFile File, string DocTitle, string externalRef);
         Task<AssignStaffDesignateForemanDto> AssignStaffDesignateForeman(AssignStaffDesignateForemanDto request, string externalRef);
-        Task<bool> RemoveResourceFromTransaction(ResourceCodesForTransactionDto resourceCodes, string externalRef);
+        Task<bool> RemoveResourceFromTransaction(string externalRef);
         Task<ResourceCodesForTransactionDto> AssignResourcesToTransaction(ResourceCodesForTransactionDto request, string externalRef);
         Task<AssignMaterialsToTransactionDto> AssignMaterialsToTransaction(AssignMaterialsToTransactionDto request, string externalRef);
-        Task<bool> RemoveMaterialsFromTransaction(ResourceCodesForTransactionDto resourceCodes, string externalRef);
+        Task<bool> RemoveMaterialsFromTransaction(string externalRef);
     }
 }

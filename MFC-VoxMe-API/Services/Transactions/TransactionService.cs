@@ -38,7 +38,7 @@ namespace MFC_VoxMe_API.Services.Transactions
         {
             try
             {
-                var url = GetUrl($"/api/transactions");
+                var url = GetUrl($"/mfc/v2/transactions");
                 var json = JsonConvert.SerializeObject(createTransactionRequest);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpRequests.MakePostHttpCall(url, data, null);
@@ -66,7 +66,7 @@ namespace MFC_VoxMe_API.Services.Transactions
             {
                 externalRef = "RS249955";
 
-                var url = GetUrl($"/api/transactions/{externalRef}/details");
+                var url = GetUrl($"/mfc/v2/transactions/{externalRef}/details");
                 TransactionDetailsDto transactionDetails = new TransactionDetailsDto();
 
                 var response = await _httpRequests.MakeGetHttpCall(url, null);
@@ -96,7 +96,7 @@ namespace MFC_VoxMe_API.Services.Transactions
             {
                 externalRef = "RS249955";
 
-                var url = GetUrl($"/api/transactions/{externalRef}/summary");
+                var url = GetUrl($"/mfc/v2/transactions/{externalRef}/summary");
                 TransactionSummary transactionDetails = new TransactionSummary();
 
                 var response = await _httpRequests.MakeGetHttpCall(url,null);
@@ -125,7 +125,7 @@ namespace MFC_VoxMe_API.Services.Transactions
             try
             {
                 string externalRef = "RS249955";
-                var url = GetUrl($"/api/transactions/{externalRef}");
+                var url = GetUrl($"/mfc/v2/transactions/{externalRef}");
                 var json = JsonConvert.SerializeObject(updateTransactionRequest);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpRequests.MakePutHttpCall(url, data);
@@ -153,7 +153,7 @@ namespace MFC_VoxMe_API.Services.Transactions
             {
                 externalRef = "RS249955";
 
-                var url = GetUrl($"/api/transactions/{externalRef}/download-details");
+                var url = GetUrl($"/mfc/v2/transactions/{externalRef}/download-details");
                 TransactionDownloadDetails transactionDetails = new TransactionDownloadDetails();
 
                 var response = await _httpRequests.MakeGetHttpCall(url, null);
@@ -183,7 +183,7 @@ namespace MFC_VoxMe_API.Services.Transactions
             {
                 externalRef = "RS249955";
 
-                var url = GetUrl($"/api/transactions/{externalRef}");
+                var url = GetUrl($"/mfc/v2/transactions/{externalRef}");
 
                 var response = await _httpRequests.MakeDeleteHttpCall(url, null);
 
@@ -210,7 +210,7 @@ namespace MFC_VoxMe_API.Services.Transactions
             {
                 externalRef = "RS249955";
 
-                var url = GetUrl($"/api/transactions/{externalRef}/set-document");
+                var url = GetUrl($"/mfc/v2/transactions/{externalRef}/set-document");
 
                 var response = await _httpRequests.MakePostHttpCall(url, null, File);
               
@@ -235,7 +235,7 @@ namespace MFC_VoxMe_API.Services.Transactions
         {
             try
             {
-                var url = GetUrl($"/api/transactions/{externalRef}/crew");
+                var url = GetUrl($"/mfc/v2/transactions/{externalRef}/crew");
                 var json = JsonConvert.SerializeObject(request);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpRequests.MakePostHttpCall(url, data, null);
@@ -264,7 +264,7 @@ namespace MFC_VoxMe_API.Services.Transactions
             {
                 EntityRef = "RS249955";
 
-                var url = GetUrl($"/api/documents?EntityRef={EntityRef}&EntityType={EntityType}&Name={Name}");
+                var url = GetUrl($"/mfc/v2/documents?EntityRef={EntityRef}&EntityType={EntityType}&Name={Name}");
 
                 var response = await _httpRequests.MakeGetHttpCall(url, null);
 
@@ -292,7 +292,7 @@ namespace MFC_VoxMe_API.Services.Transactions
             {
                 EntityRef = "RS249955";
 
-                var url = GetUrl($"/api/images?EntityRef={EntityRef}&EntityType={EntityType}&Name={Name}");
+                var url = GetUrl($"/mfc/v2/images?EntityRef={EntityRef}&EntityType={EntityType}&Name={Name}");
 
                 var response = await _httpRequests.MakeGetHttpCall(url, null);
 
@@ -314,17 +314,17 @@ namespace MFC_VoxMe_API.Services.Transactions
             return null;
         }
 
-        public async Task<bool> RemoveResourceFromTransaction(ResourceCodesForTransactionDto resourceCodes, string externalRef)
+        public async Task<bool> RemoveResourceFromTransaction(string externalRef)
         {
             try
             {
                 externalRef = "RS249955";
 
-                var url = GetUrl($"/api/transactions/{externalRef}/resources");
-                var json = JsonConvert.SerializeObject(resourceCodes);
-                var data = new StringContent(json, Encoding.UTF8, "application/json");
+                var url = GetUrl($"/mfc/v2/transactions/{externalRef}/resources");
+                //var json = JsonConvert.SerializeObject(resourceCodes);
+                //var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpRequests.MakeDeleteHttpCall(url, data);
+                var response = await _httpRequests.MakeDeleteHttpCall(url, null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -347,7 +347,7 @@ namespace MFC_VoxMe_API.Services.Transactions
         {
             try
             {
-                var url = GetUrl($"/api/transactions/{externalRef}/resources");
+                var url = GetUrl($"/mfc/v2/transactions/{externalRef}/resources");
                 var json = JsonConvert.SerializeObject(request);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpRequests.MakePostHttpCall(url, data, null);
@@ -373,7 +373,8 @@ namespace MFC_VoxMe_API.Services.Transactions
         {
             try
             {
-                var url = GetUrl($"/api/transactions/{externalRef}/materials");
+                externalRef = "RS9192314";
+                var url = GetUrl($"/mfc/v2/transactions/{externalRef}/materials");
                 var json = JsonConvert.SerializeObject(request);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpRequests.MakePostHttpCall(url, data, null);
@@ -395,17 +396,17 @@ namespace MFC_VoxMe_API.Services.Transactions
             return null;
         }
 
-        public async Task<bool> RemoveMaterialsFromTransaction(ResourceCodesForTransactionDto resourceCodes, string externalRef)
+        public async Task<bool> RemoveMaterialsFromTransaction(string externalRef)
         {
             try
             {
                 externalRef = "RS249955";
 
-                var url = GetUrl($"/api/transactions/{externalRef}/materials");
-                var json = JsonConvert.SerializeObject(resourceCodes);
-                var data = new StringContent(json, Encoding.UTF8, "application/json");
+                var url = GetUrl($"/mfc/v2/transactions/{externalRef}/materials");
+               // var json = JsonConvert.SerializeObject(resourceCodes);
+                //var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await _httpRequests.MakeDeleteHttpCall(url, data);
+                var response = await _httpRequests.MakeDeleteHttpCall(url, null);
 
                 if (response.IsSuccessStatusCode)
                 {

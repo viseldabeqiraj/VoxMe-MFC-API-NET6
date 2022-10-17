@@ -2,6 +2,7 @@
 using MFC_VoxMe_API.BusinessLogic;
 using MFC_VoxMe_API.Dtos.Common;
 using MFC_VoxMe_API.Dtos.Jobs;
+using MFC_VoxMe_API.Dtos.Transactions;
 using MFC_VoxMe_API.Models;
 using MFC_VoxMe_API.Services.Jobs;
 using MFC_VoxMe_API.Services.Resources;
@@ -20,13 +21,15 @@ namespace MFC_VoxMe_API.Controllers
         private readonly IJobService _jobService;
         private readonly ITransactionService _transactionService;
         private readonly IResourceService _resourceService;
+        private readonly IHelpers _helpers;
         private readonly IMapper _mapper;
 
-        public APIWorkflowController(IJobService jobService, ITransactionService transactionService, IResourceService resourceService, IMapper mapper)
+		public APIWorkflowController(IJobService jobService, ITransactionService transactionService, IResourceService resourceService, IHelpers helpers,IMapper mapper)
         {
             _jobService = jobService;
             _transactionService = transactionService;
             _resourceService = resourceService;
+            _helpers = helpers;
             _mapper = mapper;
         }
 	
@@ -36,12 +39,15 @@ namespace MFC_VoxMe_API.Controllers
         {
 			try
             {
-				var movingData =  Helpers.XMLParse(xml);
+				var movingData = _helpers.XMLParse(xml);
 				var externalRef = movingData.GeneralInfo.EMFID;
+				await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
 
-				var jobToCreate = Helpers.CreateJobObjectFromXml();
-				var transactionToCreate = Helpers.CreateTransactionObjectFromXml();
-			
+				var jobToCreate = _helpers.CreateJobObjectFromXml();
+				//var transactionToCreate = Helpers.CreateTransactionObjectFromXml();
+				//TODO: Other fields to add
+				var transactionToCreate = _mapper.Map<CreateTransactionDto>(jobToCreate);
+
 				var jobToUpdate = _mapper.Map<UpdateJobDto>(jobToCreate);
 
 				var jobDetails = await _jobService.GetDetails(externalRef);
@@ -53,17 +59,20 @@ namespace MFC_VoxMe_API.Controllers
 
 					if (transactionSummary != null)
                     {
+						//Update transaction
+						//await _transactionService.UpdateTransaction();
 						if (await _transactionService.GetDownloadDetails(externalRef) != null)
                         {
 							//escalate to ops manager
                         }
 						else
                         {
-							//remove resources from transaction
-							//await _transactionService.RemoveResourceFromTransaction(oldResourceCodes, externalRef);
-							//assign resource to transaction
-							//await _transactionService.AssignResourcesToTransaction(newResourceCodes, externalRef)
-							
+							//remove and assign materials to a transaction
+							if (await _transactionService.RemoveMaterialsFromTransaction(externalRef))
+								await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
+
+							if (await _transactionService.RemoveResourceFromTransaction(externalRef))
+								await _transactionService.AssignResourcesToTransaction(null, externalRef);							
 						}
 					}
 					else

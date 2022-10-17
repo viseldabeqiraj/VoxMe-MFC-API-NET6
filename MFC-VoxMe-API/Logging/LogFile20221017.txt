@@ -34,3 +34,23 @@ System.ArgumentNullException: Value cannot be null. (Parameter 'value')
    at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
    at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2022-10-17 14:45:58.598 +02:00 [WRN] Method GetDetails in TransactionService returned NotFound. Json Response: {"error":{"name":"mockRequestNotFoundError","message":"Double check your method and the request path and try again.","header":"No matching requests"}}
+2022-10-17 14:46:01.080 +02:00 [WRN] Method GetSummary in TransactionService returned NotFound. Json Response: {"error":{"name":"mockRequestNotFoundError","message":"Double check your method and the request path and try again.","header":"No matching requests"}}
+2022-10-17 14:46:08.358 +02:00 [WRN] Method CreateTransaction in TransactionService returned NotFound. Json Response: {"error":{"name":"mockRequestNotFoundError","message":"Double check your method and the request path and try again.","header":"No matching requests"}}
+2022-10-17 18:14:15.661 +02:00 [ERR] Method XMLParse in Helpers failed. Exception thrown :There is an error in XML document (97, 6).
+2022-10-17 18:33:42.706 +02:00 [WRN] Method GetDetails in TransactionService returned NotFound. Json Response: {"error":{"name":"mockRequestNotFoundError","message":"Double check your method and the request path and try again.","header":"No matching requests"}}
+2022-10-17 18:33:46.275 +02:00 [WRN] Method GetSummary in TransactionService returned NotFound. Json Response: {"error":{"name":"mockRequestNotFoundError","message":"Double check your method and the request path and try again.","header":"No matching requests"}}
+2022-10-17 18:33:51.808 +02:00 [WRN] Method CreateTransaction in TransactionService returned NotFound. Json Response: {"error":{"name":"mockRequestNotFoundError","message":"Double check your method and the request path and try again.","header":"No matching requests"}}
+2022-10-17 18:38:06.278 +02:00 [WRN] Method AssignMaterialsToTransaction in TransactionService returned NotFound. Json Response: {"error":{"name":"mockRequestNotFoundError","message":"Double check your method and the request path and try again.","header":"No matching requests"}}
+2022-10-17 18:40:01.754 +02:00 [WRN] Method AssignMaterialsToTransaction in TransactionService returned Unauthorized. Json Response: {
+  "type": "ad",
+  "title": "sed id dolor",
+  "status": 73773736,
+  "traceId": "Lorem",
+  "variables": {
+    "cillum_760": "veniam et",
+    "minim42": "laboris sit",
+    "elitd": "aliqua dolore Ut sint",
+    "esse_bed": "in minim"
+  }
+}
