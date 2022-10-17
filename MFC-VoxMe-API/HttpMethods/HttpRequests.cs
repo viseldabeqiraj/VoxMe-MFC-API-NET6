@@ -8,24 +8,26 @@ using System.Text;
 
 namespace MFC_VoxMe_API.HttpMethods
 {
-    public class HttpRequests
+    public class HttpRequests : IHttpRequests
     {
         private readonly IAccessTokenConfig _accessTokenConfig;
         private readonly AccessTokenConfigDto _accessTokenConfigDto;
+        private readonly string className;
 
         //TODO: Authorization header needed for some requests
         public HttpRequests(IAccessTokenConfig accessTokenConfig)
         {
             _accessTokenConfig = accessTokenConfig;
             _accessTokenConfigDto = accessTokenConfig.GetAccessTokenConfig();
+            this.className = this.GetType().Name;
         }
 
 
-        public static async Task<Token> GetAccessToken()
+        public async Task<Token> GetAccessToken()
         {
             try
             {
-                var accessTokenUrl = "https://mfcdev.voxme.com/auth/connect/token";
+                var accessTokenUrl = _accessTokenConfigDto.accessTokenUrl;
 
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
@@ -53,14 +55,14 @@ namespace MFC_VoxMe_API.HttpMethods
             }
             catch (Exception ex)
             {
-                Log.Error($"Method GetAccessToken in HttpRequests failed. Exception thrown :{ex.Message}");
+                Log.Error($"Method GetAccessToken in {className} failed. Exception thrown :{ex.Message}");
                 return null;
             }
 
         }
 
         //GET method to call the httpclient to get response from the url specified as a parameter
-        public static async Task<HttpResponseMessage> MakeGetHttpCall(string url, HttpContent data)
+        public async Task<HttpResponseMessage> MakeGetHttpCall(string url, HttpContent data)
         {
             try
             {
@@ -86,14 +88,14 @@ namespace MFC_VoxMe_API.HttpMethods
             }
             catch (Exception ex)
             {
-                Log.Error($"Method MakeGetHttpCall in HttpRequests failed. Exception thrown :{ex.Message}");
+                Log.Error($"Method MakeGetHttpCall in {className} failed. Exception thrown :{ex.Message}");
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
 
         }
 
         //POST method by calling httpclient to post data on api side
-        public static async Task<HttpResponseMessage> MakePostHttpCall(string url, HttpContent? data, IFormFile? file)
+        public async Task<HttpResponseMessage> MakePostHttpCall(string url, HttpContent? data, IFormFile? file)
         {
             try
             {
@@ -135,14 +137,14 @@ namespace MFC_VoxMe_API.HttpMethods
                 }
                 catch (Exception ex)
                 {
-                Log.Error($"Method MakePostHttpCall in HttpRequests failed. Exception thrown :{ex.Message}");
+                Log.Error($"Method MakePostHttpCall in {className} failed. Exception thrown :{ex.Message}");
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
                 }
 
         }
 
         //PUT method by calling httpclient to update data on api side
-        public static async Task<HttpResponseMessage> MakePutHttpCall(string url, HttpContent data)
+        public async Task<HttpResponseMessage> MakePutHttpCall(string url, HttpContent data)
         {
             try
             {
@@ -169,14 +171,14 @@ namespace MFC_VoxMe_API.HttpMethods
             }
             catch (Exception ex)
             {
-                Log.Error($"Method MakePutHttpCall in HttpRequests failed. Exception thrown :{ex.Message}");
+                Log.Error($"Method MakePutHttpCall in {className} failed. Exception thrown :{ex.Message}");
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
 
         }
 
         //DELETE method by calling httpclient to delete data on api side
-        public static async Task<HttpResponseMessage> MakeDeleteHttpCall(string url, StringContent? data)
+        public async Task<HttpResponseMessage> MakeDeleteHttpCall(string url, StringContent? data)
         {
             try
             {
@@ -204,13 +206,13 @@ namespace MFC_VoxMe_API.HttpMethods
             }
             catch (Exception ex)
             {
-                Log.Error($"Method MakeDeleteHttpCall in HttpRequests failed. Exception thrown :{ex.Message}");
+                Log.Error($"Method MakeDeleteHttpCall in {className} failed. Exception thrown :{ex.Message}");
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
 
         }
         //PATCH method by calling httpclient
-        public static async Task<HttpResponseMessage> MakePatchHttpCall(string url, HttpContent data)
+        public async Task<HttpResponseMessage> MakePatchHttpCall(string url, HttpContent data)
         {
             try
             {
@@ -237,7 +239,7 @@ namespace MFC_VoxMe_API.HttpMethods
             }
             catch (Exception ex)
             {
-                Log.Error($"Method MakePatchHttpCall in HttpRequests failed. Exception thrown :{ex.Message}");
+                Log.Error($"Method MakePatchHttpCall in {className} failed. Exception thrown :{ex.Message}");
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
 

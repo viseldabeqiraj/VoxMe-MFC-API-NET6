@@ -14,15 +14,17 @@ namespace MFC_VoxMe_API.Services.Transactions
     public class TransactionService : ITransactionService
     {
         private readonly IConfiguration _config;
+        private readonly IHttpRequests _httpRequests;
         private readonly DataContext _context;
         private readonly IMapper _mapper;
         public string className;
 
-        public TransactionService(DataContext context, IMapper mapper, IConfiguration config)
+        public TransactionService(DataContext context, IMapper mapper, IConfiguration config, IHttpRequests httpRequests)
         {
             _context = context;
             _mapper = mapper;
             _config = config;
+            _httpRequests = httpRequests;
             this.className=this.GetType().Name;
         }
         public string GetUrl(string query_string)
@@ -39,7 +41,7 @@ namespace MFC_VoxMe_API.Services.Transactions
                 var url = GetUrl($"/api/transactions");
                 var json = JsonConvert.SerializeObject(createTransactionRequest);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await HttpRequests.MakePostHttpCall(url, data, null);
+                var response = await _httpRequests.MakePostHttpCall(url, data, null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -67,7 +69,7 @@ namespace MFC_VoxMe_API.Services.Transactions
                 var url = GetUrl($"/api/transactions/{externalRef}/details");
                 TransactionDetailsDto transactionDetails = new TransactionDetailsDto();
 
-                var response = await HttpRequests.MakeGetHttpCall(url, null);
+                var response = await _httpRequests.MakeGetHttpCall(url, null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -97,7 +99,7 @@ namespace MFC_VoxMe_API.Services.Transactions
                 var url = GetUrl($"/api/transactions/{externalRef}/summary");
                 TransactionSummary transactionDetails = new TransactionSummary();
 
-                var response = await HttpRequests.MakeGetHttpCall(url,null);
+                var response = await _httpRequests.MakeGetHttpCall(url,null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -126,7 +128,7 @@ namespace MFC_VoxMe_API.Services.Transactions
                 var url = GetUrl($"/api/transactions/{externalRef}");
                 var json = JsonConvert.SerializeObject(updateTransactionRequest);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await HttpRequests.MakePutHttpCall(url, data);
+                var response = await _httpRequests.MakePutHttpCall(url, data);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -154,7 +156,7 @@ namespace MFC_VoxMe_API.Services.Transactions
                 var url = GetUrl($"/api/transactions/{externalRef}/download-details");
                 TransactionDownloadDetails transactionDetails = new TransactionDownloadDetails();
 
-                var response = await HttpRequests.MakeGetHttpCall(url, null);
+                var response = await _httpRequests.MakeGetHttpCall(url, null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -183,7 +185,7 @@ namespace MFC_VoxMe_API.Services.Transactions
 
                 var url = GetUrl($"/api/transactions/{externalRef}");
 
-                var response = await HttpRequests.MakeDeleteHttpCall(url, null);
+                var response = await _httpRequests.MakeDeleteHttpCall(url, null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -210,7 +212,7 @@ namespace MFC_VoxMe_API.Services.Transactions
 
                 var url = GetUrl($"/api/transactions/{externalRef}/set-document");
 
-                var response = await HttpRequests.MakePostHttpCall(url, null, File);
+                var response = await _httpRequests.MakePostHttpCall(url, null, File);
               
                 if (response.IsSuccessStatusCode)
                 {
@@ -236,7 +238,7 @@ namespace MFC_VoxMe_API.Services.Transactions
                 var url = GetUrl($"/api/transactions/{externalRef}/crew");
                 var json = JsonConvert.SerializeObject(request);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await HttpRequests.MakePostHttpCall(url, data, null);
+                var response = await _httpRequests.MakePostHttpCall(url, data, null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -264,7 +266,7 @@ namespace MFC_VoxMe_API.Services.Transactions
 
                 var url = GetUrl($"/api/documents?EntityRef={EntityRef}&EntityType={EntityType}&Name={Name}");
 
-                var response = await HttpRequests.MakeGetHttpCall(url, null);
+                var response = await _httpRequests.MakeGetHttpCall(url, null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -292,7 +294,7 @@ namespace MFC_VoxMe_API.Services.Transactions
 
                 var url = GetUrl($"/api/images?EntityRef={EntityRef}&EntityType={EntityType}&Name={Name}");
 
-                var response = await HttpRequests.MakeGetHttpCall(url, null);
+                var response = await _httpRequests.MakeGetHttpCall(url, null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -322,7 +324,7 @@ namespace MFC_VoxMe_API.Services.Transactions
                 var json = JsonConvert.SerializeObject(resourceCodes);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await HttpRequests.MakeDeleteHttpCall(url, data);
+                var response = await _httpRequests.MakeDeleteHttpCall(url, data);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -348,7 +350,7 @@ namespace MFC_VoxMe_API.Services.Transactions
                 var url = GetUrl($"/api/transactions/{externalRef}/resources");
                 var json = JsonConvert.SerializeObject(request);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await HttpRequests.MakePostHttpCall(url, data, null);
+                var response = await _httpRequests.MakePostHttpCall(url, data, null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -374,7 +376,7 @@ namespace MFC_VoxMe_API.Services.Transactions
                 var url = GetUrl($"/api/transactions/{externalRef}/materials");
                 var json = JsonConvert.SerializeObject(request);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await HttpRequests.MakePostHttpCall(url, data, null);
+                var response = await _httpRequests.MakePostHttpCall(url, data, null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -403,7 +405,7 @@ namespace MFC_VoxMe_API.Services.Transactions
                 var json = JsonConvert.SerializeObject(resourceCodes);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await HttpRequests.MakeDeleteHttpCall(url, data);
+                var response = await _httpRequests.MakeDeleteHttpCall(url, data);
 
                 if (response.IsSuccessStatusCode)
                 {

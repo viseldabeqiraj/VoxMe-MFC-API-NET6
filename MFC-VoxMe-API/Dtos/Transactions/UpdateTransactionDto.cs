@@ -2,7 +2,6 @@
 {
     public class UpdateTransactionDto
     {
-        // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
         public string originParty { get; set; }
         public OriginAddress originAddress { get; set; }
         public OriginPartyContact originPartyContact { get; set; }
@@ -14,11 +13,10 @@
         public string managedBy { get; set; }
         public string instructionsCrewOrigin { get; set; }
         public string instructionsCrewDestination { get; set; }
-        public List<string> services { get; set; } //set just one value which will be enum.transactionsrevice.storageout -->check if is array not list
+        public List<string> services { get; set; }
         public List<QuestionnaireQuestion> questionnaireQuestions { get; set; }
         public List<AuxService> auxServices { get; set; }
         public List<LoadingUnit> loadingUnits { get; set; }
-
         public class AddressDetails
         {
             public string city { get; set; }
@@ -35,10 +33,10 @@
         public class AuxService
         {
             public string name { get; set; }
-            public double numericValue { get; set; }
+            public int numericValue { get; set; }
             public string stringValue { get; set; }
             public string listValues { get; set; }
-            public string booleanValue { get; set; }
+            public bool booleanValue { get; set; }
             public DateTime dateValue { get; set; }
             public string photoValue { get; set; }
             public string signatureValue { get; set; }
@@ -82,6 +80,7 @@
             public double netWidth { get; set; }
             public string photos { get; set; }
             public string serialNumber { get; set; }
+            public string uniqueId { get; set; }
             public string unitType { get; set; }
             public int labelNr { get; set; }
             public string sealNumber { get; set; }
@@ -116,15 +115,13 @@
         public class QuestionnaireQuestion
         {
             public string name { get; set; }
-            public double numericValue { get; set; }
+            public int numericValue { get; set; }
             public string stringValue { get; set; }
             public string listValues { get; set; }
-            public string booleanValue { get; set; }
+            public bool booleanValue { get; set; }
             public DateTime dateValue { get; set; }
             public string photoValue { get; set; }
             public string signatureValue { get; set; }
         }
-
-
     }
 }

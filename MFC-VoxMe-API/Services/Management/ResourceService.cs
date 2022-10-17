@@ -12,14 +12,16 @@ namespace MFC_VoxMe_API.Services.Resources
     public class ResourceService : IResourceService
     {
         private readonly IConfiguration _config;
+        private readonly IHttpRequests _httpRequests;
         private readonly DataContext _context;
         private readonly IMapper _mapper;
         public string className;
-        public ResourceService(DataContext context, IMapper mapper, IConfiguration config)
+        public ResourceService(DataContext context, IMapper mapper, IConfiguration config, IHttpRequests httpRequests)
         {
             _context = context;
             _mapper = mapper;
             _config = config;
+            _httpRequests = httpRequests;
             this.className = this.GetType().Name;
         }
         public string GetUrl(string query_string)
@@ -36,7 +38,7 @@ namespace MFC_VoxMe_API.Services.Resources
                 var url = GetUrl($"/api/management/resources");
                 var json = JsonConvert.SerializeObject(createResourceRequest);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await HttpRequests.MakePostHttpCall(url, data, null);
+                var response = await _httpRequests.MakePostHttpCall(url, data, null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -63,7 +65,7 @@ namespace MFC_VoxMe_API.Services.Resources
                 var url = GetUrl($"/api/management/resources/{code}");
                 var json = JsonConvert.SerializeObject(updateResourceRequest);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await HttpRequests.MakePutHttpCall(url, data);
+                var response = await _httpRequests.MakePutHttpCall(url, data);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -88,7 +90,7 @@ namespace MFC_VoxMe_API.Services.Resources
             {
                 var url = GetUrl($"/api/management/resources/{code}");
 
-                var response = await HttpRequests.MakeDeleteHttpCall(url, null);
+                var response = await _httpRequests.MakeDeleteHttpCall(url, null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -113,7 +115,7 @@ namespace MFC_VoxMe_API.Services.Resources
             {
                 var url = GetUrl($"/api/management/resources/{code}/disable");
 
-                var response = await HttpRequests.MakePatchHttpCall(url, null);
+                var response = await _httpRequests.MakePatchHttpCall(url, null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -138,7 +140,7 @@ namespace MFC_VoxMe_API.Services.Resources
             {
                 var url = GetUrl($"/api/management/resources/{code}");
 
-                var response = await HttpRequests.MakeGetHttpCall(url,null);
+                var response = await _httpRequests.MakeGetHttpCall(url,null);
                 GetResourceDetailsDto resourceDetails = new GetResourceDetailsDto();
                 if (response.IsSuccessStatusCode)
                 {
@@ -166,7 +168,7 @@ namespace MFC_VoxMe_API.Services.Resources
                 var json = JsonConvert.SerializeObject(codes);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await HttpRequests.MakeGetHttpCall(url, data);
+                var response = await _httpRequests.MakeGetHttpCall(url, data);
                 ConfiguredMaterialsDto resourceDetails = new ConfiguredMaterialsDto();
                 if (response.IsSuccessStatusCode)
                 {
@@ -193,7 +195,7 @@ namespace MFC_VoxMe_API.Services.Resources
                 var url = GetUrl($"/api/management/configuration/download-to-devices?appType={appType}");
                 var json = JsonConvert.SerializeObject(codes);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await HttpRequests.MakePutHttpCall(url, data);
+                var response = await _httpRequests.MakePutHttpCall(url, data);
 
                 if (response.IsSuccessStatusCode)
                 {

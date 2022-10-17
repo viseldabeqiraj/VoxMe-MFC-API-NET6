@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace MFC_VoxMe_API.BusinessLogic.AccessToken
 {
-    public class AccessTokenConfig
+    public class AccessTokenConfig: IAccessTokenConfig
     {
         private readonly IConfiguration _config;
 
@@ -13,9 +13,7 @@ namespace MFC_VoxMe_API.BusinessLogic.AccessToken
         }
         public AccessTokenConfigDto GetAccessTokenConfig()
         {
-            var AccessTokenConfig = _config.GetValue<string>("API_Url:AccessToken");
-
-            return JsonConvert.DeserializeObject<AccessTokenConfigDto>(AccessTokenConfig);
+            return _config.GetSection("API_Url:AccessToken").Get<AccessTokenConfigDto>(); ;
         }
     }
 }

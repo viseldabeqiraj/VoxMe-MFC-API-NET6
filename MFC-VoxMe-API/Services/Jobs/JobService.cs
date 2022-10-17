@@ -15,14 +15,16 @@ namespace MFC_VoxMe_API.Services.Jobs
     {
         
         private readonly IConfiguration _config;
+        private readonly IHttpRequests _httpRequests;
         private readonly DataContext _context;
         private readonly IMapper _mapper;
         public string className;
-        public JobService(DataContext context, IMapper mapper, IConfiguration config)
+        public JobService(DataContext context, IMapper mapper, IConfiguration config, IHttpRequests httpRequests)
         {
             _context = context;
             _mapper = mapper;
             _config = config;
+            _httpRequests = httpRequests;
             this.className = this.GetType().Name;
         }
         public string GetUrl(string query_string)
@@ -41,7 +43,7 @@ namespace MFC_VoxMe_API.Services.Jobs
                 var url = GetUrl($"/mfc/v2/jobs/{externalRef}/details");
                 JobDetailsDto jobDetails = new JobDetailsDto();
 
-                var response = await HttpRequests.MakeGetHttpCall(url, null);
+                var response = await _httpRequests.MakeGetHttpCall(url, null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -72,7 +74,7 @@ namespace MFC_VoxMe_API.Services.Jobs
                 var url = GetUrl($"/mfc/v2/jobs/{externalRef}/summary");
                 JobSummaryDto jobSummary = new JobSummaryDto();
 
-                var response = await HttpRequests.MakeGetHttpCall(url, null);
+                var response = await _httpRequests.MakeGetHttpCall(url, null);
                 if (response.IsSuccessStatusCode)
                 {
                     jobSummary = JsonConvert.DeserializeObject<JobSummaryDto>(response.Content.ReadAsStringAsync().Result);
@@ -101,7 +103,7 @@ namespace MFC_VoxMe_API.Services.Jobs
                 var url = GetUrl($"/mfc/v2/jobs");
                 var json = JsonConvert.SerializeObject(createJobRequest);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await HttpRequests.MakePostHttpCall(url, data, null);
+                var response = await _httpRequests.MakePostHttpCall(url, data, null);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -129,7 +131,7 @@ namespace MFC_VoxMe_API.Services.Jobs
                 var url = GetUrl($"/mfc/v2/jobs/{externalRef}");
                 var json = JsonConvert.SerializeObject(updateJobRequest);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await HttpRequests.MakePutHttpCall(url, data);
+                var response = await _httpRequests.MakePutHttpCall(url, data);
 
                 if (response.IsSuccessStatusCode)
                 {

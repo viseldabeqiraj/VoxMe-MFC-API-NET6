@@ -24,7 +24,6 @@
         public List<LoadingUnit> loadingUnits { get; set; }
         public string transactionCreationWebhookUrl { get; set; }
         public string transactionStatusUpdateWebhookUrl { get; set; }
-
         public class AddressDetails
         {
             public string city { get; set; }

@@ -1,4 +1,6 @@
+using MFC_VoxMe_API.BusinessLogic.AccessToken;
 using MFC_VoxMe_API.Data;
+using MFC_VoxMe_API.HttpMethods;
 using MFC_VoxMe_API.Services.Jobs;
 using MFC_VoxMe_API.Services.Resources;
 using MFC_VoxMe_API.Services.Transactions;
@@ -22,6 +24,8 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly); //Added for Automapper
 builder.Services.AddScoped<IJobService, JobService>(); //added for DI 
 builder.Services.AddScoped<IResourceService, ResourceService>(); //added for DI 
 builder.Services.AddScoped<ITransactionService, TransactionService>(); //added for DI 
+builder.Services.AddSingleton<IAccessTokenConfig, AccessTokenConfig>(); //added for DI 
+builder.Services.AddSingleton<IHttpRequests, HttpRequests>(); //added for DI 
 //builder.Services.AddScoped<ILogger, Logger<string>>();
 
 //Added for Logging with Serilog library, to write logs in a file inside server
