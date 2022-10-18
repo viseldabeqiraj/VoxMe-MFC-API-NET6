@@ -870,11 +870,12 @@ Adjustment (Charge)</Description>
 				MovingData movingDataFromXml = (MovingData)serializer.Deserialize(memStream);
 
 				_MovingData = movingDataFromXml;
+				GetTransactionMaterials();
 				return movingDataFromXml;
 			}
 			catch (Exception ex)
 			{
-				Log.Error($"Method XMLParse in Helpers failed. Exception thrown :{ex.Message}");
+				Log.Error($"Method XMLParse in {this.GetType().Name} failed. Exception thrown :{ex.Message}");
 				return null;
 			}
 		}
@@ -884,15 +885,12 @@ Adjustment (Charge)</Description>
 			try
             {
 				CreateJobDto createJobDto = new CreateJobDto();
-				//PropertyMatcher<Preferences, CreateJobDto>.GenerateMatchedObject(generalInfo.Preferences, createJobDto);
-				//PropertyMatcher<GeneralInfo, CreateJobDto>.GenerateMatchedObject(generalInfo, createJobDto);
-				//PropertyMatcher<GeneralInfo, Client>.GenerateMatchedObject(generalInfo, createJobDto.client);
-				//PropertyMatcher<List<Property>, CreateJobDto>.GenerateMatchedObject(_MovingData.InventoryData.Properties.Property, createJobDto);
-
+	
 				var generalInfo = _MovingData.GeneralInfo;
 				createJobDto.externalRef = generalInfo.EMFID;
-				createJobDto.serviceType = generalInfo.Preferences.Comment;
-				createJobDto.serviceLevel = _MovingData.InventoryData.Properties.Property.FirstOrDefault().Type; //?????
+				createJobDto.serviceType = generalInfo.Preferences.ServiceType;
+				createJobDto.jobType = "Enum... + movingdata.jobtypecode";
+				createJobDto.serviceLevel = "Enum... + movingdata.servicelevelcode"; //?????
 				createJobDto.client.legalName = generalInfo.ClientFirstName + " " + generalInfo.Name;
 				createJobDto.instructionsCrewOrigin = generalInfo.Address.Comment;
 				createJobDto.instructionsCrewDestination = generalInfo.Destination.Comment;
@@ -907,7 +905,7 @@ Adjustment (Charge)</Description>
 						salutation = generalInfo.ClientSalutation,
 						contactDetails = new ContactDetails()
                         {
-							//value = generalInfo.Address.PrimaryPhone
+							MobilePhone = generalInfo.Address.PrimaryPhone
                         }
 					},
 					
@@ -919,10 +917,11 @@ Adjustment (Charge)</Description>
 				{
 					personDetails = new CreateJobDto.PersonDetails()
                     {
-						firstName = generalInfo.EstimatorName,
+						firstName = generalInfo.EstimatorName.Substring(generalInfo.EstimatorName.LastIndexOf(',') + 1),
+						lastName = generalInfo.EstimatorName.Split(',')[0],
 						contactDetails = new ContactDetails()
                         {
-							//value = generalInfo.Coordinatoremail
+							Email = generalInfo.Coordinatoremail
                         },
 						
 						
@@ -984,6 +983,7 @@ Adjustment (Charge)</Description>
 			}
 			catch (Exception ex)
             {
+				Log.Error($"Method CreateJobObjectFromXml in {this.GetType().Name} failed. Exception thrown :{ex.Message}");
 				return null;
             }
         }
@@ -995,11 +995,67 @@ Adjustment (Charge)</Description>
 			try
 			{
 				CreateTransactionDto createTransaction = new CreateTransactionDto();
+				var generalInfo = _MovingData.GeneralInfo;
+				createTransaction.externalRef = generalInfo.EMFID;
+				createTransaction.instructionsCrewOrigin = generalInfo.Address.Comment;
+				createTransaction.instructionsCrewDestination = generalInfo.Destination.Comment;
+
+				//Check
+				//RC to be added
+				createTransaction.managedBy = "";
+
+
+				//SetDefaultValue(createJobDto);
+				createTransaction.originAddress = new CreateTransactionDto.OriginAddress()
+				{
+					partyCode = generalInfo.EMFID,
+					addressDetails = new CreateTransactionDto.AddressDetails()
+					{
+						street1 = generalInfo.Address.Street,
+						city = generalInfo.Address.City,
+						area = generalInfo.Address.State,
+						country = generalInfo.Address.Country,
+						floor = generalInfo.Address.AccessInfo.Floor,
+						notes = generalInfo.Address.Comment,
+						zip = generalInfo.Address.Zip,
+					}
+				};
+
+				createTransaction.destinationAddress = new CreateTransactionDto.DestinationAddress()
+				{
+					partyCode = generalInfo.EMFID,
+					addressDetails = new CreateTransactionDto.AddressDetails()
+					{
+						street1 = generalInfo.Destination.Street,
+						city = generalInfo.Destination.City,
+						area = generalInfo.Destination.State,
+						country = generalInfo.Destination.Country,
+						floor = generalInfo.Destination.AccessInfo.Floor,
+						notes = generalInfo.Comment,
+						zip = generalInfo.Destination.Zip,
+					}
+				};
+
+				createTransaction.originPartyContact = new CreateTransactionDto.OriginPartyContact()
+				{
+					code = generalInfo.EMFID,
+					partyCode = generalInfo.EMFID //RCNr
+					//personDetails = createTransaction.clientPerson.personDetails
+				};
+
+				createTransaction.destinationPartyContact = new CreateTransactionDto.DestinationPartyContact()
+				{
+
+					code = generalInfo.EMFID,
+					partyCode = generalInfo.EMFID, //RCNr
+					//personDetails = createJobDto.clientPerson.personDetails
+				};
 
 				return createTransaction;
 			}
 			catch (Exception ex)
 			{
+				Log.Error($"Method CreateTransactionObjectFromXml in {this.GetType().Name} failed. Exception thrown :{ex.Message}");
 				return null;
 			}
 		}
@@ -1013,45 +1069,52 @@ Adjustment (Charge)</Description>
 				var materials = _MovingData.InventoryData.Materials.Material.ToList();
                 AssignMaterialsToTransactionDto assignMaterialsToTransaction =
                     new AssignMaterialsToTransactionDto();
-                //PropertyMatcher<List<Material>, AssignMaterialsToTransactionDto>.GenerateMatchedObject(materials, assignMaterialsToTransaction);
 
-                List<AssignMaterialsToTransactionDto.HandedMaterial> materialList = materials.Select(a => new AssignMaterialsToTransactionDto.HandedMaterial()
+				if (materials != null)
 				{
-					code = a.Type,
-					qty = Convert.ToDouble(a.QtyTaken)
-				}).ToList();
-				assignMaterialsToTransaction.handedMaterials = materialList;
-
+					List<AssignMaterialsToTransactionDto.HandedMaterial> materialList = materials.Select
+						(a => new AssignMaterialsToTransactionDto.HandedMaterial()
+						{
+							code = getEnums(a.Type),
+							qty = Convert.ToDouble(a.QtyTaken)
+						}).ToList();
+					assignMaterialsToTransaction.handedMaterials = materialList;
+				}
 				return assignMaterialsToTransaction;
 
 			}
             catch (Exception ex)
             {
+				Log.Error($"Method GetTransactionMaterials in {this.GetType().Name} failed. Exception thrown :{ex.Message}");
 				return null;
             }
         }
 
-		public ResourceCodesForTransactionDto GetTransactionMaterials()
+		public string getEnums(string material)
+        {
+			var str = "Enum.MaterialType." + material;
+			return str.Replace(" ", "");
+		}
+
+		public ResourceCodesForTransactionDto GetTransactionResources()
 		{
 			try
 			{
 
 				var packers = _MovingData.InventoryData.Packers.Packer.ToList();
-				ResourceCodesForTransactionDto assignMaterialsToTransaction =
+				ResourceCodesForTransactionDto resourceCodesDto =
 					new ResourceCodesForTransactionDto();
-				//PropertyMatcher<List<Material>, AssignMaterialsToTransactionDto>.GenerateMatchedObject(materials, assignMaterialsToTransaction);
 
-				//List<string> materialList = packers.Select(a => new Dtos.Common.Packer()
-				//{
-				//	Name = a.Name,
-				//}).ToList();
-				//assignMaterialsToTransaction.handedMaterials = materialList;
-
-				return assignMaterialsToTransaction;
-
+				if (packers.Any())
+				{
+					List<string> codeList = packers.Select(p => (string)p.Name).ToList();
+					resourceCodesDto.resourceCodes = codeList;					
+				}
+				return resourceCodesDto;
 			}
 			catch (Exception ex)
 			{
+				Log.Error($"Method GetTransactionResources in {this.GetType().Name} failed. Exception thrown :{ex.Message}");
 				return null;
 			}
 		}

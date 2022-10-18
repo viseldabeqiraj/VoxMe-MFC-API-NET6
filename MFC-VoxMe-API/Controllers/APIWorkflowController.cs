@@ -41,7 +41,8 @@ namespace MFC_VoxMe_API.Controllers
             {
 				var movingData = _helpers.XMLParse(xml);
 				var externalRef = movingData.GeneralInfo.EMFID;
-				await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
+				var jobExternalRef = movingData.GeneralInfo.Groupageid;
+				//await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
 
 				var jobToCreate = _helpers.CreateJobObjectFromXml();
 				//var transactionToCreate = Helpers.CreateTransactionObjectFromXml();
@@ -50,9 +51,9 @@ namespace MFC_VoxMe_API.Controllers
 
 				var jobToUpdate = _mapper.Map<UpdateJobDto>(jobToCreate);
 
-				var jobDetails = await _jobService.GetDetails(externalRef);
+				var jobDetails = await _jobService.GetDetails(jobExternalRef);
 
-				if (await _jobService.GetSummary(externalRef) != null)
+				if (await _jobService.GetSummary(jobExternalRef) != null)
 				{
 					var transactionDetails = await _transactionService.GetDetails(externalRef);
 					var transactionSummary = await _transactionService.GetSummary(externalRef);
@@ -72,7 +73,7 @@ namespace MFC_VoxMe_API.Controllers
 								await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
 
 							if (await _transactionService.RemoveResourceFromTransaction(externalRef))
-								await _transactionService.AssignResourcesToTransaction(null, externalRef);							
+								await _transactionService.AssignResourcesToTransaction(_helpers.GetTransactionResources(), externalRef);							
 						}
 					}
 					else
@@ -94,8 +95,11 @@ namespace MFC_VoxMe_API.Controllers
 					//CreateTrasnaction
 
 					if (transactionToCreate != null)
+					{
 						await _transactionService.CreateTransaction(transactionToCreate);
-					//Transaction/AssignResources ->add crew, trucks, materials
+						await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
+						await _transactionService.AssignResourcesToTransaction(_helpers.GetTransactionResources(), externalRef);
+					}
 				}
 
 				return Ok();

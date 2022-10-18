@@ -10,5 +10,6 @@ namespace MFC_VoxMe_API.BusinessLogic
         CreateTransactionDto CreateTransactionObjectFromXml();
         CreateJobDto CreateJobObjectFromXml();
         MovingData XMLParse(string xml);
+        ResourceCodesForTransactionDto GetTransactionResources();
     }
 }
