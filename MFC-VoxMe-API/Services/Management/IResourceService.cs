@@ -9,7 +9,7 @@ namespace MFC_VoxMe_API.Services.Resources
         Task<bool> DeleteResource(string code);
         Task<bool> DisableResource(string code);
         Task<GetResourceDetailsDto> GetDetails(string code);
-        Task<ConfiguredMaterialsDto> GetConfiguredMaterials(MaterialCodesDto codes);
-        Task<bool> ForceConfigurationChanges(MaterialCodesDto codes, string appType);
+        Task<ConfiguredMaterialsDto> GetConfiguredMaterials(ResourceCodesForTransactionDto codes);
+        Task<bool> ForceConfigurationChanges(ResourceCodesForTransactionDto codes, string appType);
     }
 }

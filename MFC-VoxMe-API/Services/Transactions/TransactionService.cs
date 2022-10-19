@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MFC_VoxMe_API.Data;
+using MFC_VoxMe_API.Dtos.Management;
 using MFC_VoxMe_API.Dtos.Transactions;
 using MFC_VoxMe_API.HttpMethods;
 using MFC_VoxMe_API.Logging;

@@ -1,4 +1,5 @@
-﻿using MFC_VoxMe_API.Dtos.Transactions;
+﻿using MFC_VoxMe_API.Dtos.Management;
+using MFC_VoxMe_API.Dtos.Transactions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MFC_VoxMe_API.Services.Transactions

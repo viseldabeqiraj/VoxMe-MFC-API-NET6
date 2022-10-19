@@ -2,6 +2,7 @@
 using MFC_VoxMe_API.BusinessLogic;
 using MFC_VoxMe_API.Dtos.Common;
 using MFC_VoxMe_API.Dtos.Jobs;
+using MFC_VoxMe_API.Dtos.Management;
 using MFC_VoxMe_API.Dtos.Transactions;
 using MFC_VoxMe_API.Models;
 using MFC_VoxMe_API.Services.Jobs;
@@ -9,6 +10,7 @@ using MFC_VoxMe_API.Services.Resources;
 using MFC_VoxMe_API.Services.Transactions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using System.Text;
 using System.Xml.Serialization;
 
@@ -73,7 +75,14 @@ namespace MFC_VoxMe_API.Controllers
 								await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
 
 							if (await _transactionService.RemoveResourceFromTransaction(externalRef))
-								await _transactionService.AssignResourcesToTransaction(_helpers.GetTransactionResources(), externalRef);							
+							{
+								var resourceCodes = _helpers.GetTransactionResources().resourceCodes;
+								foreach (var resourceCode in resourceCodes)
+                                {
+									ResourcesAddUpdateLogic(resourceCode);
+								}
+								await _transactionService.AssignResourcesToTransaction(_helpers.GetTransactionResources(), externalRef);
+							}
 						}
 					}
 					else
@@ -86,8 +95,7 @@ namespace MFC_VoxMe_API.Controllers
 				}
 				else
                 {
-					//Create job
-					
+					//Create job					
 
 					if (jobToCreate != null)
 					await _jobService.CreateJob(jobToCreate);
@@ -106,9 +114,49 @@ namespace MFC_VoxMe_API.Controllers
 			}
 			catch(Exception ex)
             {
+				Log.Error($"Method WorkflowLogic in {this.GetType().Name} failed. Exception thrown :{ex.Message}");
 				return BadRequest(ex.Message);	
             }
         }
+
+		public async void ResourcesAddUpdateLogic(string resourceCode)
+        {
+			try
+            {
+				var resourceDetails = await _resourceService.GetDetails(resourceCode);
+				if (resourceDetails != null)
+                {
+					UpdateResourceDto updateResourceDto = new UpdateResourceDto()
+					{
+						resourceName = resourceCode
+					};
+					await _resourceService.UpdateResource(updateResourceDto, resourceCode); //?? gets updated with the same name because code already exists
+                }
+				else
+                {
+					CreateResourceDto createResourceDto = new CreateResourceDto()
+					{
+						resource = new CreateResourceDto.Resource()
+                        {
+							code = resourceCode,
+							resourceName = resourceCode,
+							resourceType = "packer",
+                        }
+					};
+					await _resourceService.CreateResource(createResourceDto);
+				}
+				var resourceCodesList = _helpers.GetTransactionResources().resourceCodes;
+				ResourceCodesForTransactionDto resourceCodes = new ResourceCodesForTransactionDto()
+				{
+					resourceCodes = resourceCodesList
+				};
+				await _resourceService.ForceConfigurationChanges(resourceCodes, "");
+            }
+            catch(Exception ex)
+            {
+				Log.Error($"Method ResourcesAddUpdateLogic in {this.GetType().Name} failed. Exception thrown :{ex.Message}");
+			}
+		}
 
 		
 	}

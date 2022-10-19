@@ -8,7 +8,7 @@
         public class Resource
         {
             public string code { get; set; }
-            public string homeDivisionId { get; set; }
+            public string homeDivisionId { get; set; } = "JK Moving";
             public string resourceName { get; set; }
             public string resourceType { get; set; }
         }

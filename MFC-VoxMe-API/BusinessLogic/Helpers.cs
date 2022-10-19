@@ -1,5 +1,6 @@
 ﻿using MFC_VoxMe_API.Dtos.Common;
 using MFC_VoxMe_API.Dtos.Jobs;
+using MFC_VoxMe_API.Dtos.Management;
 using MFC_VoxMe_API.Dtos.Transactions;
 using MFC_VoxMe_API.Profiles;
 using Serilog;
@@ -997,6 +998,7 @@ Adjustment (Charge)</Description>
 				CreateTransactionDto createTransaction = new CreateTransactionDto();
 				var generalInfo = _MovingData.GeneralInfo;
 				createTransaction.externalRef = generalInfo.EMFID;
+				createTransaction.jobExternalRef = generalInfo.Groupageid;
 				createTransaction.instructionsCrewOrigin = generalInfo.Address.Comment;
 				createTransaction.instructionsCrewDestination = generalInfo.Destination.Comment;
 
