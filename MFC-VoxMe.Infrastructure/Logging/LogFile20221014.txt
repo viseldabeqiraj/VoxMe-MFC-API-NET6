@@ -1,0 +1,2 @@
+2022-10-14 16:26:00.510 +02:00 [WRN] Method GetSummary in JobService returned NotFound. Json Response: {"error":{"name":"mockNotFoundError","header":"Unable to find mock","message":"Please refresh and try again."}}
+2022-10-14 16:26:39.881 +02:00 [WRN] Method GetDetails in JobService returned NotFound. Json Response: {"error":{"name":"mockNotFoundError","header":"Unable to find mock","message":"Please refresh and try again."}}

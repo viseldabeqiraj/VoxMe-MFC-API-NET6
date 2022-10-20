@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using MFC_VoxMe_API.Dtos.Common;
 using MFC_VoxMe_API.Dtos.Jobs;
 using MFC_VoxMe_API.Dtos.Transactions;
 

@@ -1,0 +1,485 @@
+2022-10-05 11:39:58.932 +02:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2022-10-05 11:39:59.044 +02:00 [DBG] Hosting starting
+2022-10-05 11:39:59.318 +02:00 [DBG] Using development certificate: CN=localhost (Thumbprint: BE00789011D9B7D0DD8F56280EED3EC5938B5EB4)
+2022-10-05 11:39:59.739 +02:00 [INF] Now listening on: https://localhost:7074
+2022-10-05 11:39:59.739 +02:00 [INF] Now listening on: http://localhost:5074
+2022-10-05 11:39:59.739 +02:00 [DBG] Loaded hosting startup assembly MFC-VoxMe-API
+2022-10-05 11:39:59.739 +02:00 [DBG] Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2022-10-05 11:39:59.739 +02:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.BrowserLink.Net
+2022-10-05 11:39:59.739 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-05 11:39:59.739 +02:00 [INF] Hosting environment: Development
+2022-10-05 11:39:59.740 +02:00 [INF] Content root path: C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe-API\
+2022-10-05 11:39:59.740 +02:00 [DBG] Hosting started
+2022-10-05 11:39:59.834 +02:00 [DBG] Connection id "0HML6MM930U3J" accepted.
+2022-10-05 11:39:59.834 +02:00 [DBG] Connection id "0HML6MM930U3I" accepted.
+2022-10-05 11:39:59.836 +02:00 [DBG] Connection id "0HML6MM930U3J" started.
+2022-10-05 11:39:59.836 +02:00 [DBG] Connection id "0HML6MM930U3I" started.
+2022-10-05 11:39:59.847 +02:00 [DBG] Connection id "0HML6MM930U3I" received FIN.
+2022-10-05 11:39:59.847 +02:00 [DBG] Connection id "0HML6MM930U3J" received FIN.
+2022-10-05 11:40:00.018 +02:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException:  Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveBlobAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](TIOAdapter adapter, Boolean receiveFirst, Byte[] reAuthenticationData, Boolean isApm)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2022-10-05 11:40:00.018 +02:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException:  Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveBlobAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](TIOAdapter adapter, Boolean receiveFirst, Byte[] reAuthenticationData, Boolean isApm)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2022-10-05 11:40:00.197 +02:00 [DBG] Connection id "0HML6MM930U3J" stopped.
+2022-10-05 11:40:00.197 +02:00 [DBG] Connection id "0HML6MM930U3I" stopped.
+2022-10-05 11:40:00.200 +02:00 [DBG] Connection id "0HML6MM930U3J" sending FIN because: "The Socket transport's send loop completed gracefully."
+2022-10-05 11:40:00.200 +02:00 [DBG] Connection id "0HML6MM930U3I" sending FIN because: "The Socket transport's send loop completed gracefully."
+2022-10-05 11:40:00.455 +02:00 [DBG] Connection id "0HML6MM930U3K" accepted.
+2022-10-05 11:40:00.456 +02:00 [DBG] Connection id "0HML6MM930U3K" started.
+2022-10-05 11:40:00.533 +02:00 [DBG] Connection 0HML6MM930U3K established using the following protocol: "Tls13"
+2022-10-05 11:40:00.598 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7074/swagger/index.html - -
+2022-10-05 11:40:00.651 +02:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2022-10-05 11:40:00.686 +02:00 [DBG] No candidates found for the request path '/swagger/index.html'
+2022-10-05 11:40:00.687 +02:00 [DBG] Request did not match any endpoints
+2022-10-05 11:40:00.822 +02:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2022-10-05 11:40:00.950 +02:00 [DBG] Response markup was updated to include browser refresh script injection.
+2022-10-05 11:40:00.953 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7074/swagger/index.html - - - 200 - text/html;charset=utf-8 360.8366ms
+2022-10-05 11:40:00.972 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7074/_vs/browserLink - -
+2022-10-05 11:40:00.972 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7074/_framework/aspnetcore-browser-refresh.js - -
+2022-10-05 11:40:00.981 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7074/_framework/aspnetcore-browser-refresh.js - - - 200 11996 application/javascript;+charset=utf-8 8.5129ms
+2022-10-05 11:40:01.002 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7074/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 30.1169ms
+2022-10-05 11:40:01.259 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7074/swagger/v1/swagger.json - -
+2022-10-05 11:40:01.259 +02:00 [DBG] No candidates found for the request path '/swagger/v1/swagger.json'
+2022-10-05 11:40:01.259 +02:00 [DBG] Request did not match any endpoints
+2022-10-05 11:40:01.408 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7074/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 149.1681ms
+2022-10-05 11:40:05.956 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7074/api/Job/JobDetails?externalRef=x - -
+2022-10-05 11:40:05.965 +02:00 [DBG] 1 candidate(s) found for the request path '/api/Job/JobDetails'
+2022-10-05 11:40:05.970 +02:00 [DBG] Endpoint 'MFC_VoxMe_API.Controllers.JobController.GetDetails (MFC-VoxMe-API)' with route pattern 'api/Job/JobDetails' is valid for the request path '/api/Job/JobDetails'
+2022-10-05 11:40:05.970 +02:00 [DBG] Request matched endpoint 'MFC_VoxMe_API.Controllers.JobController.GetDetails (MFC-VoxMe-API)'
+2022-10-05 11:40:05.972 +02:00 [DBG] Static files was skipped as the request already matched an endpoint.
+2022-10-05 11:40:05.974 +02:00 [INF] Executing endpoint 'MFC_VoxMe_API.Controllers.JobController.GetDetails (MFC-VoxMe-API)'
+2022-10-05 11:40:06.001 +02:00 [INF] Route matched with {action = "GetDetails", controller = "Job"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] GetDetails(System.String) on controller MFC_VoxMe_API.Controllers.JobController (MFC-VoxMe-API).
+2022-10-05 11:40:06.001 +02:00 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2022-10-05 11:40:06.002 +02:00 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2022-10-05 11:40:06.002 +02:00 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)"]
+2022-10-05 11:40:06.002 +02:00 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2022-10-05 11:40:06.002 +02:00 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)"]
+2022-10-05 11:40:06.003 +02:00 [DBG] Executing controller factory for controller MFC_VoxMe_API.Controllers.JobController (MFC-VoxMe-API)
+2022-10-05 11:40:06.187 +02:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2022-10-05 11:40:06.261 +02:00 [DBG] Executed controller factory for controller MFC_VoxMe_API.Controllers.JobController (MFC-VoxMe-API)
+2022-10-05 11:40:06.280 +02:00 [DBG] Attempting to bind parameter 'externalRef' of type 'System.String' ...
+2022-10-05 11:40:06.282 +02:00 [DBG] Attempting to bind parameter 'externalRef' of type 'System.String' using the name 'externalRef' in request data ...
+2022-10-05 11:40:06.283 +02:00 [DBG] Done attempting to bind parameter 'externalRef' of type 'System.String'.
+2022-10-05 11:40:06.283 +02:00 [DBG] Done attempting to bind parameter 'externalRef' of type 'System.String'.
+2022-10-05 11:40:06.283 +02:00 [DBG] Attempting to validate the bound parameter 'externalRef' of type 'System.String' ...
+2022-10-05 11:40:06.291 +02:00 [DBG] Done attempting to validate the bound parameter 'externalRef' of type 'System.String'.
+2022-10-05 11:40:12.433 +02:00 [INF] tesstttttttt
+2022-10-05 11:40:12.440 +02:00 [DBG] List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter"]
+2022-10-05 11:40:12.442 +02:00 [DBG] No information found on request to perform content negotiation.
+2022-10-05 11:40:12.442 +02:00 [DBG] Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2022-10-05 11:40:12.443 +02:00 [DBG] Attempting to select the first formatter in the output formatters list which can write the result.
+2022-10-05 11:40:12.443 +02:00 [DBG] Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter' and content type 'application/json' to write the response.
+2022-10-05 11:40:12.443 +02:00 [INF] Executing OkObjectResult, writing value of type 'MFC_VoxMe_API.Dtos.Jobs.JobDetailsDto'.
+2022-10-05 11:40:12.473 +02:00 [INF] Executed action MFC_VoxMe_API.Controllers.JobController.GetDetails (MFC-VoxMe-API) in 6465.6521ms
+2022-10-05 11:40:12.475 +02:00 [INF] Executed endpoint 'MFC_VoxMe_API.Controllers.JobController.GetDetails (MFC-VoxMe-API)'
+2022-10-05 11:40:12.479 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7074/api/Job/JobDetails?externalRef=x - - - 200 - application/json;+charset=utf-8 6523.5196ms
+2022-10-05 11:41:52.497 +02:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2022-10-05 11:41:52.586 +02:00 [DBG] Hosting starting
+2022-10-05 11:41:52.842 +02:00 [DBG] Using development certificate: CN=localhost (Thumbprint: BE00789011D9B7D0DD8F56280EED3EC5938B5EB4)
+2022-10-05 11:41:52.948 +02:00 [INF] Now listening on: https://localhost:7074
+2022-10-05 11:41:52.948 +02:00 [INF] Now listening on: http://localhost:5074
+2022-10-05 11:41:52.948 +02:00 [DBG] Loaded hosting startup assembly MFC-VoxMe-API
+2022-10-05 11:41:52.948 +02:00 [DBG] Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2022-10-05 11:41:52.948 +02:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.BrowserLink.Net
+2022-10-05 11:41:52.948 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-05 11:41:52.949 +02:00 [INF] Hosting environment: Development
+2022-10-05 11:41:52.949 +02:00 [INF] Content root path: C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe-API\
+2022-10-05 11:41:52.949 +02:00 [DBG] Hosting started
+2022-10-05 11:41:53.068 +02:00 [DBG] Connection id "0HML6MNAQUUCE" received FIN.
+2022-10-05 11:41:53.068 +02:00 [DBG] Connection id "0HML6MNAQUUCD" received FIN.
+2022-10-05 11:41:53.077 +02:00 [DBG] Connection id "0HML6MNAQUUCD" accepted.
+2022-10-05 11:41:53.077 +02:00 [DBG] Connection id "0HML6MNAQUUCE" accepted.
+2022-10-05 11:41:53.079 +02:00 [DBG] Connection id "0HML6MNAQUUCE" started.
+2022-10-05 11:41:53.079 +02:00 [DBG] Connection id "0HML6MNAQUUCD" started.
+2022-10-05 11:41:53.238 +02:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException:  Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveBlobAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](TIOAdapter adapter, Boolean receiveFirst, Byte[] reAuthenticationData, Boolean isApm)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2022-10-05 11:41:53.238 +02:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException:  Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveBlobAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](TIOAdapter adapter, Boolean receiveFirst, Byte[] reAuthenticationData, Boolean isApm)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2022-10-05 11:41:53.310 +02:00 [DBG] Connection id "0HML6MNAQUUCE" stopped.
+2022-10-05 11:41:53.310 +02:00 [DBG] Connection id "0HML6MNAQUUCD" stopped.
+2022-10-05 11:41:53.317 +02:00 [DBG] Connection id "0HML6MNAQUUCE" sending FIN because: "The Socket transport's send loop completed gracefully."
+2022-10-05 11:41:53.317 +02:00 [DBG] Connection id "0HML6MNAQUUCD" sending FIN because: "The Socket transport's send loop completed gracefully."
+2022-10-05 11:41:53.586 +02:00 [DBG] Connection id "0HML6MNAQUUCF" accepted.
+2022-10-05 11:41:53.587 +02:00 [DBG] Connection id "0HML6MNAQUUCF" started.
+2022-10-05 11:41:53.694 +02:00 [DBG] Connection 0HML6MNAQUUCF established using the following protocol: "Tls13"
+2022-10-05 11:41:53.773 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7074/swagger/index.html - -
+2022-10-05 11:41:53.809 +02:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2022-10-05 11:41:53.829 +02:00 [DBG] No candidates found for the request path '/swagger/index.html'
+2022-10-05 11:41:53.830 +02:00 [DBG] Request did not match any endpoints
+2022-10-05 11:41:53.940 +02:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2022-10-05 11:41:54.075 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7074/_framework/aspnetcore-browser-refresh.js - -
+2022-10-05 11:41:54.075 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7074/_vs/browserLink - -
+2022-10-05 11:41:54.078 +02:00 [DBG] Response markup was updated to include browser refresh script injection.
+2022-10-05 11:41:54.082 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7074/swagger/index.html - - - 200 - text/html;charset=utf-8 312.9394ms
+2022-10-05 11:41:54.082 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7074/_framework/aspnetcore-browser-refresh.js - - - 200 11996 application/javascript;+charset=utf-8 6.0790ms
+2022-10-05 11:41:54.105 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7074/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 29.8071ms
+2022-10-05 11:41:54.329 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7074/swagger/v1/swagger.json - -
+2022-10-05 11:41:54.329 +02:00 [DBG] No candidates found for the request path '/swagger/v1/swagger.json'
+2022-10-05 11:41:54.329 +02:00 [DBG] Request did not match any endpoints
+2022-10-05 11:41:54.439 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7074/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 109.5844ms
+2022-10-05 11:41:58.245 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7074/api/Job/JobDetails?externalRef=x - -
+2022-10-05 11:41:58.257 +02:00 [DBG] 1 candidate(s) found for the request path '/api/Job/JobDetails'
+2022-10-05 11:41:58.262 +02:00 [DBG] Endpoint 'MFC_VoxMe_API.Controllers.JobController.GetDetails (MFC-VoxMe-API)' with route pattern 'api/Job/JobDetails' is valid for the request path '/api/Job/JobDetails'
+2022-10-05 11:41:58.263 +02:00 [DBG] Request matched endpoint 'MFC_VoxMe_API.Controllers.JobController.GetDetails (MFC-VoxMe-API)'
+2022-10-05 11:41:58.264 +02:00 [DBG] Static files was skipped as the request already matched an endpoint.
+2022-10-05 11:41:58.267 +02:00 [INF] Executing endpoint 'MFC_VoxMe_API.Controllers.JobController.GetDetails (MFC-VoxMe-API)'
+2022-10-05 11:41:58.302 +02:00 [INF] Route matched with {action = "GetDetails", controller = "Job"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] GetDetails(System.String) on controller MFC_VoxMe_API.Controllers.JobController (MFC-VoxMe-API).
+2022-10-05 11:41:58.303 +02:00 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2022-10-05 11:41:58.303 +02:00 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2022-10-05 11:41:58.304 +02:00 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)"]
+2022-10-05 11:41:58.304 +02:00 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2022-10-05 11:41:58.304 +02:00 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)"]
+2022-10-05 11:41:58.305 +02:00 [DBG] Executing controller factory for controller MFC_VoxMe_API.Controllers.JobController (MFC-VoxMe-API)
+2022-10-05 11:41:58.467 +02:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2022-10-05 11:41:58.535 +02:00 [DBG] Executed controller factory for controller MFC_VoxMe_API.Controllers.JobController (MFC-VoxMe-API)
+2022-10-05 11:41:58.552 +02:00 [DBG] Attempting to bind parameter 'externalRef' of type 'System.String' ...
+2022-10-05 11:41:58.554 +02:00 [DBG] Attempting to bind parameter 'externalRef' of type 'System.String' using the name 'externalRef' in request data ...
+2022-10-05 11:41:58.555 +02:00 [DBG] Done attempting to bind parameter 'externalRef' of type 'System.String'.
+2022-10-05 11:41:58.555 +02:00 [DBG] Done attempting to bind parameter 'externalRef' of type 'System.String'.
+2022-10-05 11:41:58.555 +02:00 [DBG] Attempting to validate the bound parameter 'externalRef' of type 'System.String' ...
+2022-10-05 11:41:58.560 +02:00 [DBG] Done attempting to validate the bound parameter 'externalRef' of type 'System.String'.
+2022-10-05 11:42:13.191 +02:00 [INF] Method GetDetails in JobService failed. Exception thrown
+2022-10-05 11:42:19.711 +02:00 [DBG] List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter"]
+2022-10-05 11:42:19.713 +02:00 [DBG] No information found on request to perform content negotiation.
+2022-10-05 11:42:19.713 +02:00 [DBG] Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2022-10-05 11:42:19.713 +02:00 [DBG] Attempting to select the first formatter in the output formatters list which can write the result.
+2022-10-05 11:42:19.713 +02:00 [DBG] Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter' and content type 'application/json' to write the response.
+2022-10-05 11:42:19.714 +02:00 [INF] Executing OkObjectResult, writing value of type 'MFC_VoxMe_API.Dtos.Jobs.JobDetailsDto'.
+2022-10-05 11:42:19.739 +02:00 [INF] Executed action MFC_VoxMe_API.Controllers.JobController.GetDetails (MFC-VoxMe-API) in 21429.8017ms
+2022-10-05 11:42:19.740 +02:00 [INF] Executed endpoint 'MFC_VoxMe_API.Controllers.JobController.GetDetails (MFC-VoxMe-API)'
+2022-10-05 11:42:19.745 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7074/api/Job/JobDetails?externalRef=x - - - 200 - application/json;+charset=utf-8 21499.8291ms
+2022-10-05 11:56:04.835 +02:00 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2022-10-05 11:56:04.917 +02:00 [DBG] Hosting starting
+2022-10-05 11:56:05.181 +02:00 [DBG] Using development certificate: CN=localhost (Thumbprint: BE00789011D9B7D0DD8F56280EED3EC5938B5EB4)
+2022-10-05 11:56:05.241 +02:00 [INF] Now listening on: https://localhost:7074
+2022-10-05 11:56:05.241 +02:00 [INF] Now listening on: http://localhost:5074
+2022-10-05 11:56:05.241 +02:00 [DBG] Loaded hosting startup assembly MFC-VoxMe-API
+2022-10-05 11:56:05.241 +02:00 [DBG] Loaded hosting startup assembly Microsoft.AspNetCore.Watch.BrowserRefresh
+2022-10-05 11:56:05.241 +02:00 [DBG] Loaded hosting startup assembly Microsoft.WebTools.BrowserLink.Net
+2022-10-05 11:56:05.242 +02:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-10-05 11:56:05.242 +02:00 [INF] Hosting environment: Development
+2022-10-05 11:56:05.242 +02:00 [INF] Content root path: C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe-API\
+2022-10-05 11:56:05.242 +02:00 [DBG] Hosting started
+2022-10-05 11:56:05.723 +02:00 [DBG] Connection id "0HML6MV8UGB9V" received FIN.
+2022-10-05 11:56:05.723 +02:00 [DBG] Connection id "0HML6MV8UGBA0" received FIN.
+2022-10-05 11:56:05.742 +02:00 [DBG] Connection id "0HML6MV8UGBA0" accepted.
+2022-10-05 11:56:05.742 +02:00 [DBG] Connection id "0HML6MV8UGB9V" accepted.
+2022-10-05 11:56:05.743 +02:00 [DBG] Connection id "0HML6MV8UGBA0" started.
+2022-10-05 11:56:05.743 +02:00 [DBG] Connection id "0HML6MV8UGB9V" started.
+2022-10-05 11:56:05.911 +02:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException:  Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveBlobAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](TIOAdapter adapter, Boolean receiveFirst, Byte[] reAuthenticationData, Boolean isApm)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2022-10-05 11:56:05.911 +02:00 [DBG] Failed to authenticate HTTPS connection.
+System.IO.IOException:  Received an unexpected EOF or 0 bytes from the transport stream.
+   at System.Net.Security.SslStream.ReceiveBlobAsync[TIOAdapter](TIOAdapter adapter)
+   at System.Net.Security.SslStream.ForceAuthenticationAsync[TIOAdapter](TIOAdapter adapter, Boolean receiveFirst, Byte[] reAuthenticationData, Boolean isApm)
+   at Microsoft.AspNetCore.Server.Kestrel.Https.Internal.HttpsConnectionMiddleware.OnConnectionAsync(ConnectionContext context)
+2022-10-05 11:56:05.959 +02:00 [DBG] Connection id "0HML6MV8UGB9V" stopped.
+2022-10-05 11:56:05.959 +02:00 [DBG] Connection id "0HML6MV8UGBA0" stopped.
+2022-10-05 11:56:05.967 +02:00 [DBG] Connection id "0HML6MV8UGBA0" sending FIN because: "The Socket transport's send loop completed gracefully."
+2022-10-05 11:56:05.967 +02:00 [DBG] Connection id "0HML6MV8UGB9V" sending FIN because: "The Socket transport's send loop completed gracefully."
+2022-10-05 11:56:06.114 +02:00 [DBG] Connection id "0HML6MV8UGBA1" accepted.
+2022-10-05 11:56:06.115 +02:00 [DBG] Connection id "0HML6MV8UGBA1" started.
+2022-10-05 11:56:06.189 +02:00 [DBG] Connection 0HML6MV8UGBA1 established using the following protocol: "Tls13"
+2022-10-05 11:56:06.216 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "SETTINGS" frame for stream ID 0 with length 18 and flags "NONE".
+2022-10-05 11:56:06.218 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "WINDOW_UPDATE" frame for stream ID 0 with length 4 and flags 0x0.
+2022-10-05 11:56:06.219 +02:00 [VRB] Connection id "0HML6MV8UGBA1" received "SETTINGS" frame for stream ID 0 with length 30 and flags "NONE".
+2022-10-05 11:56:06.219 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "SETTINGS" frame for stream ID 0 with length 0 and flags "ACK".
+2022-10-05 11:56:06.220 +02:00 [VRB] Connection id "0HML6MV8UGBA1" received "WINDOW_UPDATE" frame for stream ID 0 with length 4 and flags 0x0.
+2022-10-05 11:56:06.220 +02:00 [VRB] Connection id "0HML6MV8UGBA1" received "HEADERS" frame for stream ID 1 with length 460 and flags "END_STREAM, END_HEADERS, PRIORITY".
+2022-10-05 11:56:06.244 +02:00 [VRB] Connection id "0HML6MV8UGBA1" received "SETTINGS" frame for stream ID 0 with length 0 and flags "ACK".
+2022-10-05 11:56:06.257 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7074/swagger/index.html - -
+2022-10-05 11:56:06.303 +02:00 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2022-10-05 11:56:06.304 +02:00 [VRB] All hosts are allowed.
+2022-10-05 11:56:06.327 +02:00 [DBG] No candidates found for the request path '/swagger/index.html'
+2022-10-05 11:56:06.328 +02:00 [DBG] Request did not match any endpoints
+2022-10-05 11:56:06.433 +02:00 [DBG] Response markup is scheduled to include browser refresh script injection.
+2022-10-05 11:56:06.436 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "HEADERS" frame for stream ID 1 with length 66 and flags "END_HEADERS".
+2022-10-05 11:56:06.547 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 1 with length 1024 and flags "NONE".
+2022-10-05 11:56:06.548 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 1 with length 1024 and flags "NONE".
+2022-10-05 11:56:06.548 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 1 with length 1024 and flags "NONE".
+2022-10-05 11:56:06.548 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 1 with length 1024 and flags "NONE".
+2022-10-05 11:56:06.548 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 1 with length 994 and flags "NONE".
+2022-10-05 11:56:06.548 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 1 with length 65 and flags "NONE".
+2022-10-05 11:56:06.548 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 1 with length 16 and flags "NONE".
+2022-10-05 11:56:06.566 +02:00 [VRB] Connection id "0HML6MV8UGBA1" received "HEADERS" frame for stream ID 3 with length 109 and flags "END_STREAM, END_HEADERS, PRIORITY".
+2022-10-05 11:56:06.568 +02:00 [VRB] Connection id "0HML6MV8UGBA1" received "HEADERS" frame for stream ID 5 with length 57 and flags "END_STREAM, END_HEADERS, PRIORITY".
+2022-10-05 11:56:06.569 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7074/_vs/browserLink - -
+2022-10-05 11:56:06.571 +02:00 [DBG] Response markup was updated to include browser refresh script injection.
+2022-10-05 11:56:06.572 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7074/_framework/aspnetcore-browser-refresh.js - -
+2022-10-05 11:56:06.573 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 1 with length 0 and flags "END_STREAM".
+2022-10-05 11:56:06.584 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7074/swagger/index.html - - - 200 - text/html;charset=utf-8 325.9285ms
+2022-10-05 11:56:06.584 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "HEADERS" frame for stream ID 3 with length 60 and flags "END_HEADERS".
+2022-10-05 11:56:06.585 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 3 with length 11996 and flags "NONE".
+2022-10-05 11:56:06.586 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 3 with length 0 and flags "END_STREAM".
+2022-10-05 11:56:06.594 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7074/_framework/aspnetcore-browser-refresh.js - - - 200 11996 application/javascript;+charset=utf-8 17.9091ms
+2022-10-05 11:56:06.602 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "HEADERS" frame for stream ID 5 with length 119 and flags "END_HEADERS".
+2022-10-05 11:56:06.602 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 9986 and flags "NONE".
+2022-10-05 11:56:06.602 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.602 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.602 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.602 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.603 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.603 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.604 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.604 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.605 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.605 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.605 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.605 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.605 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.605 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.606 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.606 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.606 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.606 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.606 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.606 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.606 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.606 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.606 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.606 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.607 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.607 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.607 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.607 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.607 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.607 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.607 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.607 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.607 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.608 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.608 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.608 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.608 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.608 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.608 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.609 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.609 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.609 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.609 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.609 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.609 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.610 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.610 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.610 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.610 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.610 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.610 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.611 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.611 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.611 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.611 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.611 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.611 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.611 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.612 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.612 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.612 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.612 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.612 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.612 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.612 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.612 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.612 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.612 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 10240 and flags "NONE".
+2022-10-05 11:56:06.612 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 744 and flags "NONE".
+2022-10-05 11:56:06.613 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 5 with length 0 and flags "END_STREAM".
+2022-10-05 11:56:06.613 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7074/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 43.8860ms
+2022-10-05 11:56:06.967 +02:00 [VRB] Connection id "0HML6MV8UGBA1" received "HEADERS" frame for stream ID 7 with length 66 and flags "END_STREAM, END_HEADERS, PRIORITY".
+2022-10-05 11:56:06.970 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7074/swagger/v1/swagger.json - -
+2022-10-05 11:56:06.970 +02:00 [VRB] All hosts are allowed.
+2022-10-05 11:56:06.970 +02:00 [DBG] No candidates found for the request path '/swagger/v1/swagger.json'
+2022-10-05 11:56:06.970 +02:00 [DBG] Request did not match any endpoints
+2022-10-05 11:56:07.085 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "HEADERS" frame for stream ID 7 with length 65 and flags "END_HEADERS".
+2022-10-05 11:56:07.085 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 7 with length 16384 and flags "NONE".
+2022-10-05 11:56:07.085 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 7 with length 1221 and flags "NONE".
+2022-10-05 11:56:07.085 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "DATA" frame for stream ID 7 with length 0 and flags "END_STREAM".
+2022-10-05 11:56:07.086 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7074/swagger/v1/swagger.json - - - 200 - application/json;charset=utf-8 115.5685ms
+2022-10-05 11:56:11.588 +02:00 [VRB] Connection id "0HML6MV8UGBA1" received "HEADERS" frame for stream ID 9 with length 46 and flags "END_STREAM, END_HEADERS, PRIORITY".
+2022-10-05 11:56:11.589 +02:00 [INF] Request starting HTTP/2 GET https://localhost:7074/api/Job/JobDetails?externalRef=x - -
+2022-10-05 11:56:11.589 +02:00 [VRB] All hosts are allowed.
+2022-10-05 11:56:11.598 +02:00 [DBG] 1 candidate(s) found for the request path '/api/Job/JobDetails'
+2022-10-05 11:56:11.603 +02:00 [DBG] Endpoint 'MFC_VoxMe_API.Controllers.JobController.GetDetails (MFC-VoxMe-API)' with route pattern 'api/Job/JobDetails' is valid for the request path '/api/Job/JobDetails'
+2022-10-05 11:56:11.603 +02:00 [DBG] Request matched endpoint 'MFC_VoxMe_API.Controllers.JobController.GetDetails (MFC-VoxMe-API)'
+2022-10-05 11:56:11.605 +02:00 [DBG] Static files was skipped as the request already matched an endpoint.
+2022-10-05 11:56:11.607 +02:00 [INF] Executing endpoint 'MFC_VoxMe_API.Controllers.JobController.GetDetails (MFC-VoxMe-API)'
+2022-10-05 11:56:11.636 +02:00 [INF] Route matched with {action = "GetDetails", controller = "Job"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] GetDetails(System.String) on controller MFC_VoxMe_API.Controllers.JobController (MFC-VoxMe-API).
+2022-10-05 11:56:11.637 +02:00 [DBG] Execution plan of authorization filters (in the following order): ["None"]
+2022-10-05 11:56:11.637 +02:00 [DBG] Execution plan of resource filters (in the following order): ["None"]
+2022-10-05 11:56:11.637 +02:00 [DBG] Execution plan of action filters (in the following order): ["Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter (Order: -3000)","Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter (Order: -2000)"]
+2022-10-05 11:56:11.638 +02:00 [DBG] Execution plan of exception filters (in the following order): ["None"]
+2022-10-05 11:56:11.638 +02:00 [DBG] Execution plan of result filters (in the following order): ["Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter (Order: -2000)"]
+2022-10-05 11:56:11.638 +02:00 [DBG] Executing controller factory for controller MFC_VoxMe_API.Controllers.JobController (MFC-VoxMe-API)
+2022-10-05 11:56:11.832 +02:00 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2022-10-05 11:56:11.918 +02:00 [DBG] Executed controller factory for controller MFC_VoxMe_API.Controllers.JobController (MFC-VoxMe-API)
+2022-10-05 11:56:11.939 +02:00 [DBG] Attempting to bind parameter 'externalRef' of type 'System.String' ...
+2022-10-05 11:56:11.942 +02:00 [DBG] Attempting to bind parameter 'externalRef' of type 'System.String' using the name 'externalRef' in request data ...
+2022-10-05 11:56:11.943 +02:00 [DBG] Done attempting to bind parameter 'externalRef' of type 'System.String'.
+2022-10-05 11:56:11.943 +02:00 [DBG] Done attempting to bind parameter 'externalRef' of type 'System.String'.
+2022-10-05 11:56:11.943 +02:00 [DBG] Attempting to validate the bound parameter 'externalRef' of type 'System.String' ...
+2022-10-05 11:56:11.951 +02:00 [DBG] Done attempting to validate the bound parameter 'externalRef' of type 'System.String'.
+2022-10-05 11:56:11.954 +02:00 [VRB] Action Filter: Before executing OnActionExecuting on filter Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter.
+2022-10-05 11:56:11.954 +02:00 [VRB] Action Filter: After executing OnActionExecuting on filter Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter.
+2022-10-05 11:56:11.955 +02:00 [VRB] Action Filter: Before executing OnActionExecuting on filter Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter.
+2022-10-05 11:56:11.955 +02:00 [VRB] Action Filter: After executing OnActionExecuting on filter Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter.
+2022-10-05 11:56:11.962 +02:00 [INF] Executing action method MFC_VoxMe_API.Controllers.JobController.GetDetails (MFC-VoxMe-API) - Validation state: "Valid"
+2022-10-05 11:56:11.962 +02:00 [VRB] Executing action method MFC_VoxMe_API.Controllers.JobController.GetDetails (MFC-VoxMe-API) with arguments (["x"])
+2022-10-05 11:56:21.982 +02:00 [INF] Method GetDetails in JobService failed. Exception thrown :Unexpected character encountered while parsing value: t. Path 'jobInventory.pieces[0].void', line 136, position 17.
+2022-10-05 11:56:24.711 +02:00 [INF] Executed action method MFC_VoxMe_API.Controllers.JobController.GetDetails (MFC-VoxMe-API), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 12743.6737ms.
+2022-10-05 11:56:24.713 +02:00 [VRB] Action Filter: Before executing OnActionExecuted on filter Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter.
+2022-10-05 11:56:24.713 +02:00 [VRB] Action Filter: After executing OnActionExecuted on filter Microsoft.AspNetCore.Mvc.Infrastructure.ModelStateInvalidFilter.
+2022-10-05 11:56:24.713 +02:00 [VRB] Action Filter: Before executing OnActionExecuted on filter Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter.
+2022-10-05 11:56:24.713 +02:00 [VRB] Action Filter: After executing OnActionExecuted on filter Microsoft.AspNetCore.Mvc.ModelBinding.UnsupportedContentTypeFilter.
+2022-10-05 11:56:24.715 +02:00 [VRB] Result Filter: Before executing OnResultExecuting on filter Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter.
+2022-10-05 11:56:24.715 +02:00 [VRB] Result Filter: After executing OnResultExecuting on filter Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter.
+2022-10-05 11:56:24.716 +02:00 [VRB] Before executing action result Microsoft.AspNetCore.Mvc.OkObjectResult.
+2022-10-05 11:56:24.717 +02:00 [DBG] List of registered output formatters, in the following order: ["Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StringOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.StreamOutputFormatter","Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter"]
+2022-10-05 11:56:24.719 +02:00 [DBG] No information found on request to perform content negotiation.
+2022-10-05 11:56:24.719 +02:00 [DBG] Attempting to select an output formatter without using a content type as no explicit content types were specified for the response.
+2022-10-05 11:56:24.719 +02:00 [DBG] Attempting to select the first formatter in the output formatters list which can write the result.
+2022-10-05 11:56:24.720 +02:00 [DBG] Selected output formatter 'Microsoft.AspNetCore.Mvc.Formatters.HttpNoContentOutputFormatter' and content type '' to write the response.
+2022-10-05 11:56:24.720 +02:00 [INF] Executing OkObjectResult, writing value of type 'null'.
+2022-10-05 11:56:24.720 +02:00 [VRB] After executing action result Microsoft.AspNetCore.Mvc.OkObjectResult.
+2022-10-05 11:56:24.720 +02:00 [VRB] Result Filter: Before executing OnResultExecuted on filter Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter.
+2022-10-05 11:56:24.720 +02:00 [VRB] Result Filter: After executing OnResultExecuted on filter Microsoft.AspNetCore.Mvc.Infrastructure.ClientErrorResultFilter.
+2022-10-05 11:56:24.727 +02:00 [INF] Executed action MFC_VoxMe_API.Controllers.JobController.GetDetails (MFC-VoxMe-API) in 13083.2591ms
+2022-10-05 11:56:24.728 +02:00 [INF] Executed endpoint 'MFC_VoxMe_API.Controllers.JobController.GetDetails (MFC-VoxMe-API)'
+2022-10-05 11:56:24.729 +02:00 [VRB] Connection id "0HML6MV8UGBA1" sending "HEADERS" frame for stream ID 9 with length 37 and flags "END_STREAM, END_HEADERS".
+2022-10-05 11:56:24.732 +02:00 [INF] Request finished HTTP/2 GET https://localhost:7074/api/Job/JobDetails?externalRef=x - - - 204 0 - 13143.6497ms
+2022-10-05 12:04:49.523 +02:00 [ERR] Method GetDetails in JobService failed. Exception thrown :Unexpected character encountered while parsing value: t. Path 'jobInventory.pieces[0].void', line 136, position 17.
+2022-10-05 13:39:36.385 +02:00 [WRN] Method MoveNext in JobService returned InternalServerError. Json Response: {
+  "type": "nostrud",
+  "title": "elit eu consectetur deserunt dolore",
+  "status": 24693203,
+  "traceId": "nostrud officia commodo eiusmod ea",
+  "variables": {
+    "magna00": "anim elit dolore",
+    "aliquip_3": "pariatur ullamco in",
+    "ut_51": "in cupidatat non ut"
+  }
+}
+2022-10-05 13:48:52.625 +02:00 [WRN] Method CreateJob in JobService returned InternalServerError. Json Response: {
+  "type": "nostrud",
+  "title": "elit eu consectetur deserunt dolore",
+  "status": 24693203,
+  "traceId": "nostrud officia commodo eiusmod ea",
+  "variables": {
+    "magna00": "anim elit dolore",
+    "aliquip_3": "pariatur ullamco in",
+    "ut_51": "in cupidatat non ut"
+  }
+}
+2022-10-05 13:53:49.385 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+Swashbuckle.AspNetCore.SwaggerGen.SwaggerGeneratorException: Failed to generate Operation for action - MFC_VoxMe_API.Controllers.JobController.UpdateJob (MFC-VoxMe-API). See inner exception
+ ---> Swashbuckle.AspNetCore.SwaggerGen.SwaggerGeneratorException: Failed to generate schema for type - MFC_VoxMe_API.Dtos.Jobs.UpdateJobDto. See inner exception
+ ---> System.InvalidOperationException: Can't use schemaId "$OriginAddress" for type "$MFC_VoxMe_API.Dtos.Jobs.UpdateJobDto+OriginAddress". The same schemaId is already used for type "$MFC_VoxMe_API.Dtos.Jobs.CreateJobDto+OriginAddress"
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaRepository.RegisterType(Type type, String schemaId)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaGenerator.GenerateReferencedSchema(DataContract dataContract, SchemaRepository schemaRepository, Func`1 definitionFactory)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaGenerator.GenerateConcreteSchema(DataContract dataContract, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaGenerator.GenerateSchemaForMember(Type modelType, SchemaRepository schemaRepository, MemberInfo memberInfo, DataProperty dataProperty)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaGenerator.CreateObjectSchema(DataContract dataContract, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaGenerator.GenerateReferencedSchema(DataContract dataContract, SchemaRepository schemaRepository, Func`1 definitionFactory)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaGenerator.GenerateConcreteSchema(DataContract dataContract, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaGenerator.GenerateSchemaForParameter(Type modelType, SchemaRepository schemaRepository, ParameterInfo parameterInfo)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateSchema(Type type, SchemaRepository schemaRepository, PropertyInfo propertyInfo, ParameterInfo parameterInfo)
+   --- End of inner exception stack trace ---
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateSchema(Type type, SchemaRepository schemaRepository, PropertyInfo propertyInfo, ParameterInfo parameterInfo)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateRequestBodyFromBodyParameter(ApiDescription apiDescription, SchemaRepository schemaRepository, ApiParameterDescription bodyParameter)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateRequestBody(ApiDescription apiDescription, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateOperation(ApiDescription apiDescription, SchemaRepository schemaRepository)
+   --- End of inner exception stack trace ---
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateOperation(ApiDescription apiDescription, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateOperations(IEnumerable`1 apiDescriptions, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GeneratePaths(IEnumerable`1 apiDescriptions, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwagger(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2022-10-05 13:55:04.229 +02:00 [WRN] Method CreateJob in JobService returned InternalServerError. Json Response: {
+  "type": "nostrud",
+  "title": "elit eu consectetur deserunt dolore",
+  "status": 24693203,
+  "traceId": "nostrud officia commodo eiusmod ea",
+  "variables": {
+    "magna00": "anim elit dolore",
+    "aliquip_3": "pariatur ullamco in",
+    "ut_51": "in cupidatat non ut"
+  }
+}
+2022-10-05 13:57:20.249 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+Swashbuckle.AspNetCore.SwaggerGen.SwaggerGeneratorException: Failed to generate Operation for action - MFC_VoxMe_API.Controllers.JobController.UpdateJob (MFC-VoxMe-API). See inner exception
+ ---> Swashbuckle.AspNetCore.SwaggerGen.SwaggerGeneratorException: Failed to generate schema for type - MFC_VoxMe_API.Dtos.Jobs.UpdateJobDto. See inner exception
+ ---> System.InvalidOperationException: Can't use schemaId "$OriginAddress" for type "$MFC_VoxMe_API.Dtos.Jobs.UpdateJobDto+OriginAddress". The same schemaId is already used for type "$MFC_VoxMe_API.Dtos.Jobs.CreateJobDto+OriginAddress"
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaRepository.RegisterType(Type type, String schemaId)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaGenerator.GenerateReferencedSchema(DataContract dataContract, SchemaRepository schemaRepository, Func`1 definitionFactory)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaGenerator.GenerateConcreteSchema(DataContract dataContract, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaGenerator.GenerateSchemaForMember(Type modelType, SchemaRepository schemaRepository, MemberInfo memberInfo, DataProperty dataProperty)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaGenerator.CreateObjectSchema(DataContract dataContract, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaGenerator.GenerateReferencedSchema(DataContract dataContract, SchemaRepository schemaRepository, Func`1 definitionFactory)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaGenerator.GenerateConcreteSchema(DataContract dataContract, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaGenerator.GenerateSchemaForParameter(Type modelType, SchemaRepository schemaRepository, ParameterInfo parameterInfo)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateSchema(Type type, SchemaRepository schemaRepository, PropertyInfo propertyInfo, ParameterInfo parameterInfo)
+   --- End of inner exception stack trace ---
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateSchema(Type type, SchemaRepository schemaRepository, PropertyInfo propertyInfo, ParameterInfo parameterInfo)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateRequestBodyFromBodyParameter(ApiDescription apiDescription, SchemaRepository schemaRepository, ApiParameterDescription bodyParameter)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateRequestBody(ApiDescription apiDescription, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateOperation(ApiDescription apiDescription, SchemaRepository schemaRepository)
+   --- End of inner exception stack trace ---
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateOperation(ApiDescription apiDescription, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateOperations(IEnumerable`1 apiDescriptions, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GeneratePaths(IEnumerable`1 apiDescriptions, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwagger(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2022-10-05 13:57:29.055 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+Swashbuckle.AspNetCore.SwaggerGen.SwaggerGeneratorException: Failed to generate Operation for action - MFC_VoxMe_API.Controllers.JobController.UpdateJob (MFC-VoxMe-API). See inner exception
+ ---> Swashbuckle.AspNetCore.SwaggerGen.SwaggerGeneratorException: Failed to generate schema for type - MFC_VoxMe_API.Dtos.Jobs.UpdateJobDto. See inner exception
+ ---> System.InvalidOperationException: Can't use schemaId "$OriginAddress" for type "$MFC_VoxMe_API.Dtos.Jobs.UpdateJobDto+OriginAddress". The same schemaId is already used for type "$MFC_VoxMe_API.Dtos.Jobs.CreateJobDto+OriginAddress"
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaRepository.RegisterType(Type type, String schemaId)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaGenerator.GenerateReferencedSchema(DataContract dataContract, SchemaRepository schemaRepository, Func`1 definitionFactory)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaGenerator.GenerateConcreteSchema(DataContract dataContract, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaGenerator.GenerateSchemaForMember(Type modelType, SchemaRepository schemaRepository, MemberInfo memberInfo, DataProperty dataProperty)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaGenerator.CreateObjectSchema(DataContract dataContract, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaGenerator.GenerateReferencedSchema(DataContract dataContract, SchemaRepository schemaRepository, Func`1 definitionFactory)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaGenerator.GenerateConcreteSchema(DataContract dataContract, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SchemaGenerator.GenerateSchemaForParameter(Type modelType, SchemaRepository schemaRepository, ParameterInfo parameterInfo)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateSchema(Type type, SchemaRepository schemaRepository, PropertyInfo propertyInfo, ParameterInfo parameterInfo)
+   --- End of inner exception stack trace ---
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateSchema(Type type, SchemaRepository schemaRepository, PropertyInfo propertyInfo, ParameterInfo parameterInfo)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateRequestBodyFromBodyParameter(ApiDescription apiDescription, SchemaRepository schemaRepository, ApiParameterDescription bodyParameter)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateRequestBody(ApiDescription apiDescription, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateOperation(ApiDescription apiDescription, SchemaRepository schemaRepository)
+   --- End of inner exception stack trace ---
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateOperation(ApiDescription apiDescription, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateOperations(IEnumerable`1 apiDescriptions, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GeneratePaths(IEnumerable`1 apiDescriptions, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwagger(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2022-10-05 16:34:52.649 +02:00 [WRN] Method CreateJob in JobService returned InternalServerError. Json Response: {
+  "type": "nostrud",
+  "title": "elit eu consectetur deserunt dolore",
+  "status": 24693203,
+  "traceId": "nostrud officia commodo eiusmod ea",
+  "variables": {
+    "magna00": "anim elit dolore",
+    "aliquip_3": "pariatur ullamco in",
+    "ut_51": "in cupidatat non ut"
+  }
+}
+2022-10-05 16:35:30.919 +02:00 [WRN] Method UpdateJob in JobService returned NotFound. Json Response: {"error":{"name":"mockRequestNotFoundError","message":"Double check your method and the request path and try again.","header":"No matching requests"}}
+2022-10-05 16:36:10.249 +02:00 [WRN] Method UpdateJob in JobService returned NotFound. Json Response: {"error":{"name":"mockRequestNotFoundError","message":"Double check your method and the request path and try again.","header":"No matching requests"}}

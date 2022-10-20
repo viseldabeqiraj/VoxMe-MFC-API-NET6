@@ -1,18 +1,13 @@
 ﻿using AutoMapper;
 using MFC_VoxMe_API.BusinessLogic;
-using MFC_VoxMe_API.Dtos.Common;
 using MFC_VoxMe_API.Dtos.Jobs;
 using MFC_VoxMe_API.Dtos.Management;
-using MFC_VoxMe_API.Dtos.Transactions;
-using MFC_VoxMe_API.Models;
 using MFC_VoxMe_API.Services.Jobs;
 using MFC_VoxMe_API.Services.Resources;
 using MFC_VoxMe_API.Services.Transactions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
-using System.Text;
-using System.Xml.Serialization;
+
 
 namespace MFC_VoxMe_API.Controllers
 {
@@ -44,12 +39,8 @@ namespace MFC_VoxMe_API.Controllers
 				var movingData = _helpers.XMLParse(xml);
 				var externalRef = movingData.GeneralInfo.EMFID;
 				var jobExternalRef = movingData.GeneralInfo.Groupageid;
-				//await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
-
 				var jobToCreate = _helpers.CreateJobObjectFromXml();
-				//var transactionToCreate = Helpers.CreateTransactionObjectFromXml();
-				//TODO: Other fields to add
-				var transactionToCreate = _mapper.Map<CreateTransactionDto>(jobToCreate);
+				var transactionToCreate = _helpers.CreateTransactionObjectFromXml();
 
 				var jobToUpdate = _mapper.Map<UpdateJobDto>(jobToCreate);
 
@@ -79,7 +70,7 @@ namespace MFC_VoxMe_API.Controllers
 								var resourceCodes = _helpers.GetTransactionResources().resourceCodes;
 								foreach (var resourceCode in resourceCodes)
                                 {
-									ResourcesAddUpdateLogic(resourceCode);
+									AddUpdateResourcesLogic(resourceCode);
 								}
 								await _transactionService.AssignResourcesToTransaction(_helpers.GetTransactionResources(), externalRef);
 							}
@@ -119,7 +110,8 @@ namespace MFC_VoxMe_API.Controllers
             }
         }
 
-		public async void ResourcesAddUpdateLogic(string resourceCode)
+        [HttpPost("AddUpdateResourcesLogic")]
+		public async void AddUpdateResourcesLogic(string resourceCode)
         {
 			try
             {
@@ -158,6 +150,31 @@ namespace MFC_VoxMe_API.Controllers
 			}
 		}
 
-		
+        [HttpPost("DeactivateResourcesLogic")]		
+		public async void DeactivateResourcesLogic(string resourceCode)
+		{
+			try
+			{
+				var resourceDetails = await _resourceService.GetDetails(resourceCode);
+				if (resourceDetails != null)
+				{
+					if (await _resourceService.DisableResource(resourceCode))
+                    {
+						var resourceCodesList = _helpers.GetTransactionResources().resourceCodes;
+						ResourceCodesForTransactionDto resourceCodes = new ResourceCodesForTransactionDto()
+						{
+							resourceCodes = resourceCodesList
+						};
+						await _resourceService.ForceConfigurationChanges(resourceCodes, "");
+					}
+				}				
+			}
+			catch (Exception ex)
+			{
+				Log.Error($"Method DeactivateResourcesLogic in {this.GetType().Name} failed. Exception thrown :{ex.Message}");
+			}
+		}
+
+
 	}
 }

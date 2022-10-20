@@ -871,7 +871,6 @@ Adjustment (Charge)</Description>
 				MovingData movingDataFromXml = (MovingData)serializer.Deserialize(memStream);
 
 				_MovingData = movingDataFromXml;
-				GetTransactionMaterials();
 				return movingDataFromXml;
 			}
 			catch (Exception ex)
@@ -890,6 +889,8 @@ Adjustment (Charge)</Description>
 				var generalInfo = _MovingData.GeneralInfo;
 				createJobDto.externalRef = generalInfo.EMFID;
 				createJobDto.serviceType = generalInfo.Preferences.ServiceType;
+
+				if (_MovingData.InventoryData.Properties.Property.Any(s =>s.Type == ""))
 				createJobDto.jobType = "Enum... + movingdata.jobtypecode";
 				createJobDto.serviceLevel = "Enum... + movingdata.servicelevelcode"; //?????
 				createJobDto.client.legalName = generalInfo.ClientFirstName + " " + generalInfo.Name;
@@ -1001,16 +1002,9 @@ Adjustment (Charge)</Description>
 				createTransaction.jobExternalRef = generalInfo.Groupageid;
 				createTransaction.instructionsCrewOrigin = generalInfo.Address.Comment;
 				createTransaction.instructionsCrewDestination = generalInfo.Destination.Comment;
-
-				//Check
-				//RC to be added
-				createTransaction.managedBy = "";
-
-
-				//SetDefaultValue(createJobDto);
 				createTransaction.originAddress = new CreateTransactionDto.OriginAddress()
 				{
-					partyCode = generalInfo.EMFID,
+					partyCode = generalInfo.EMFID, //RC
 					addressDetails = new CreateTransactionDto.AddressDetails()
 					{
 						street1 = generalInfo.Address.Street,
@@ -1040,9 +1034,16 @@ Adjustment (Charge)</Description>
 
 				createTransaction.originPartyContact = new CreateTransactionDto.OriginPartyContact()
 				{
-					code = generalInfo.EMFID,
-					partyCode = generalInfo.EMFID //RCNr
-					//personDetails = createTransaction.clientPerson.personDetails
+					personDetails = new CreateTransactionDto.PersonDetails()
+					{
+						firstName = generalInfo.ClientFirstName,
+						lastName = generalInfo.Name,
+						salutation = generalInfo.ClientSalutation,
+						contactDetails = new CreateTransactionDto.ContactDetails()
+						{
+							//MobilePhone = generalInfo.Address.PrimaryPhone
+						}
+					}
 				};
 
 				createTransaction.destinationPartyContact = new CreateTransactionDto.DestinationPartyContact()
