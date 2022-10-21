@@ -67,7 +67,7 @@ namespace MFC_VoxMe_API.Dtos.Jobs
         public class BookerPerson
         {
             public string code { get; set; }
-            public string partyCode { get; set; }
+            public string partyCode { get; set; } = "JKMOVING";
             public PersonDetails personDetails { get; set; } = new PersonDetails();
         }
 

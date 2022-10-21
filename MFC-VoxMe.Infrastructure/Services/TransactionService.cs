@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MFC_VoxMe.Core.Dtos.Common;
 using MFC_VoxMe_API.Data;
 using MFC_VoxMe_API.Dtos.Management;
 using MFC_VoxMe_API.Dtos.Transactions;
@@ -62,7 +63,7 @@ namespace MFC_VoxMe.Infrastructure.Services
             return null;
         }
 
-        public async Task<TransactionDetailsDto> GetDetails(string externalRef)
+        public async Task<HttpResponse<TransactionDetailsDto>> GetDetails(string externalRef)
         {
             try
             {
@@ -72,17 +73,25 @@ namespace MFC_VoxMe.Infrastructure.Services
                 TransactionDetailsDto transactionDetails = new TransactionDetailsDto();
 
                 var response = await _httpRequests.MakeGetHttpCall(url, null);
+                var result = new HttpResponse<TransactionDetailsDto>();
+                result.responseStatus = response.StatusCode;
 
                 if (response.IsSuccessStatusCode)
                 {
                     transactionDetails = JsonConvert.DeserializeObject<TransactionDetailsDto>(response.Content.ReadAsStringAsync().Result);
-                    return transactionDetails;
+                    result.dto = transactionDetails;
+                    return result;
                 }
-                else
+                else if (response.StatusCode.Equals("400"))
                 {
                     LoggingHelper.InsertLogs("GetDetails", className, response);
                     return null;
                 }
+                else
+                {
+                    return result;
+                }
+
 
             }
             catch (Exception ex)

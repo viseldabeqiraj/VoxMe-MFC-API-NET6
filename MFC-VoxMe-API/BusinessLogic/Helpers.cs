@@ -20,6 +20,7 @@ namespace MFC_VoxMe_API.BusinessLogic
 			{
 				xml = @"<MovingData ID=""0227432"">
 	<GeneralInfo>
+		<ClientNumber>RC0184239</ClientNumber>
 		<ClientSalutation>Mr.</ClientSalutation>
 		<ClientFirstName>Lee</ClientFirstName>
 		<Name>Aaron</Name>
@@ -27,6 +28,7 @@ namespace MFC_VoxMe_API.BusinessLogic
 		<EMFID>RS0227432</EMFID>
 		<Groupageid>RM0157242</Groupageid>
 		<Coordinatoremail>Dianna.Stoltz@jkmoving.com</Coordinatoremail>
+		<CoordinatorID>DC6CA71E-6511-EC11-8150-00155D50DB1C</CoordinatorID>
 		<ShipmentType>Pack</ShipmentType>
 		<State>3</State>
 		<Address>
@@ -40,16 +42,16 @@ namespace MFC_VoxMe_API.BusinessLogic
 			<Comment>Customer will pack the rest    Leekaaron@gmail.com 3 TV Boxes </Comment>
 			<AccessInfo>
 				<PropertyType>House</PropertyType>
-				<PropertySize />
+				<PropertySize/>
 				<Floor>0</Floor>
 				<HasElevator>false</HasElevator>
 				<CarryRequired>false</CarryRequired>
 				<ShuttleRequired>false</ShuttleRequired>
 				<StairCarryRequired>false</StairCarryRequired>
 				<AdditionalStopRequired>false</AdditionalStopRequired>
-				<AdditionalStop />
+				<AdditionalStop/>
 			</AccessInfo>
-			<Rooms />
+			<Rooms/>
 		</Address>
 		<Destination>
 			<Street>5 Shiplock Row</Street>
@@ -62,14 +64,14 @@ namespace MFC_VoxMe_API.BusinessLogic
 			<Comment>Customer will pack the rest    Leekaaron@gmail.com 3 TV Boxes </Comment>
 			<AccessInfo>
 				<PropertyType>Townhouse</PropertyType>
-				<PropertySize />
+				<PropertySize/>
 				<Floor>0</Floor>
 				<HasElevator>false</HasElevator>
 				<CarryRequired>false</CarryRequired>
 				<ShuttleRequired>false</ShuttleRequired>
 				<StairCarryRequired>false</StairCarryRequired>
 				<AdditionalStopRequired>false</AdditionalStopRequired>
-				<AdditionalStop />
+				<AdditionalStop/>
 			</AccessInfo>
 			<DestRooms>
 				<DestRoom density=""7"" volumeAllowance=""0"" weightAllowance=""0"">TRUCK</DestRoom>
@@ -79,7 +81,7 @@ namespace MFC_VoxMe_API.BusinessLogic
 			<PreferredLanguage>English</PreferredLanguage>
 			<VacationDate>10/04/22 09:00</VacationDate>
 			<PackingDate>10/04/22 16:00</PackingDate>
-			<ServiceType>HHG</ServiceType>
+			<ServiceLevel>HHG</ServiceLevel>
 			<Comment>Customer will pack the rest    Leekaaron@gmail.com 3 TV Boxes </Comment>
 			<PackingFinishDate>10/06/22 09:00</PackingFinishDate>
 			<DeliveryDate>10/06/22 09:00</DeliveryDate>
@@ -95,758 +97,757 @@ namespace MFC_VoxMe_API.BusinessLogic
 				<Width>0.0000</Width>
 				<Length>0.0000</Length>
 				<Weight>0.00</Weight>
-				<SealNo />
+				<SealNo/>
 				<SerialNo>UNPACKED</SerialNo>
 				<Barcode>S-1000139001</Barcode>
-				<Location />
-				<PictureFileName />
+				<Location/>
+				<PictureFileName/>
 				<ReadOnly>0</ReadOnly>
-				<LocationScanTime />
-				<Handler />
+				<LocationScanTime/>
+				<Handler/>
 			</Skid>
 		</Skids>
 		<Packers>
-			<Packer name=""ALVINO-JENNIFER"" isForeman=""false"" />
-			<Packer name=""CARROLL-THOMAS"" isForeman=""true"" />
+			<Packer name=""ALVINO-JENNIFER"" id=""2635FC19-3F0D-EB11-8133-369E029457BB"" isForeman=""false""/>
+			<Packer name=""CARROLL-THOMAS"" id=""5FAACFD2-BFA6-E611-80D5-CE1A72BF755F"" isForeman=""true""/>
 		</Packers>
 		<Materials>
 			<Material>
 				<Category>Material</Category>
 				<Type>1.5  Carton</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>3.1  Carton</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>4.5  Carton</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Bike Box</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Bubble Wrap</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Carpet Shield</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Clock  Carton</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Crate Count</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Crib Mattress Carton</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>D Air Freight Container</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Dish  Carton</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Double Mattress Carton</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Flat Wardrobe</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Gator Box</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>King Mattress Carton</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Kraft Bubble</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Lamp Carton</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Ldn Air Freight Container</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Lift Vans</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Memoryfoam</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Mirror 4 Piece</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Office Totes</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Paper</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Paper Pad</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Parts Box</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Peanuts</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Pillowtop Carton</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Queen Mattress Carton</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Single Mattress Carton</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Stretch Wrap</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Tape</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Triwall 10</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Triwall 15</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Triwall 5</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>TV Box</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Used Liftvans</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Wardrobe Rent</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Wardrobe Sold</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Washer Kit Fl</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Washer Kit Tl</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 			<Material>
 				<Category>Material</Category>
 				<Type>Wine Box</Type>
 				<QtyTaken>0.00</QtyTaken>
-				<Description />
-				<Value />
+				<Description/>
+				<Value/>
 				<QtyReturned>0</QtyReturned>
 			</Material>
 		</Materials>
 		<Services>
 			<Service>
-				<Category />
+				<Category/>
 				<Type>Form.LocalStorage.NumberofPallets</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>0</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Service>
 			<Service>
-				<Category />
+				<Category/>
 				<Type>Form.LocalStorage.RatePerPallet</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>0.0000</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Service>
 			<Service>
-				<Category />
+				<Category/>
 				<Type>Form.LocalStorage.NumberofOverflows</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>0</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Service>
 			<Service>
-				<Category />
+				<Category/>
 				<Type>Form.LocalStorage.RatePerOverflow</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>0.0000</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Service>
 			<Service>
-				<Category />
+				<Category/>
 				<Type>Form.LocalStorage.NumberOfValets</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>0</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Service>
 			<Service>
-				<Category />
+				<Category/>
 				<Type>Form.LocalStorage.RatePerValets</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>0.0000</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Service>
 			<Service>
-				<Category />
+				<Category/>
 				<Type>Form.LocalStorage.MonthlyPerPalletRate</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>0.0000</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Service>
 			<Service>
-				<Category />
+				<Category/>
 				<Type>Form.LocalStorage.MonthlyPerOverflowRate</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>0.0000</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Service>
 			<Service>
-				<Category />
+				<Category/>
 				<Type>Form.LocalStorage.MonthlyValetRate</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>0.0000</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Service>
 			<Service>
-				<Category />
+				<Category/>
 				<Type>Form.LocalStorage.RemainingBalance</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>0.0000</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Service>
 			<Service>
-				<Category />
+				<Category/>
 				<Type>Forms.SCF.Packing</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Service>
 			<Service>
-				<Category />
+				<Category/>
 				<Type>Forms.SCF.PackingDescription</Type>
 				<Description>I acknowledge all items have been packed to my instructions and satisfaction. I acknowledge that all rooms have been checked with crew foreman, including closets, storage spaces, attics, pantries etc. I acknowledge no damage has occured to my residence</Description>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Service>
 			<Service>
-				<Category />
+				<Category/>
 				<Type>Forms.SCF.Loading</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Service>
 			<Service>
-				<Category />
+				<Category/>
 				<Type>Forms.SCF.LoadingDescription</Type>
 				<Description>I, Lee Aaron, acknowledge that I am responsible for the final walk-through at the origin. It is the customer's responsibility to make sure that nothing is left behind. Please check all closets, cabinets, drawers, attics, basements, and outside areas before signing this notice. JK Moving Services drivers, helpers and crew members cannot be held responsible after loading is complete. I acknowledge all items I want moved have been removed from origin to my satisfaction. During the final walk-through of the origin residence, there was no evidence of property damage including home, driveway, landscape, etc. except as noted in the Description section.</Description>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Service>
 			<Service>
-				<Category />
+				<Category/>
 				<Type>Forms.SCF.DeliveryDescription</Type>
 				<Description>I, Lee Aaron, acknowledge that I am responsible for the final walk-through at the destination. I am satisfied that all of my items have been delivered and that none of my items are missing or remain on the truck. Additionally, any floor protection which includes manosite, carpet runners ans/or carpet shield has been removed. If floor protection is not removed immediately upon completion of the move, the shipper assumes all liability. During the final walk-through of the destination residence, there was no evidence of property damage including home, driveway, landscape, etc. except as noted below.</Description>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Service>
 			<Service>
-				<Category />
+				<Category/>
 				<Type>Forms.SCF.UnpackDescription</Type>
 				<Description>If unpacking is to be performed, please verify all requested unpacking has been completed to your satisfaction.</Description>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Service>
 			<Service>
-				<Category />
+				<Category/>
 				<Type>Forms.NOR.ServiceNatureOfRisk</Type>
 				<Description>The driver has advised me that the handling of the items noted above may result in damage to the item itself, or the residence, e.g., carpeting, flooring, or walls. Therefore, for good and adequate consideration received, I, Lee Aaron, hereby release JK Moving Services and its employees from any and all claims for damage to the items noted or to our residence. In addition, this may include soiling of the interior carpeting or flooring, damage related to or caused by the mud and soil from the surrounding exterior, and any damage caused by requested protective materials.</Description>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Service>
 			<Service>
-				<Category />
+				<Category/>
 				<Type>Form.Bingo.Signature</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Service>
 			<Service>
-				<Category />
+				<Category/>
 				<Type>Form.Bingo.CustomerBingo</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
 				<Value>Bingo not required.</Value>
 			</Service>
 			<Service>
-				<Category />
+				<Category/>
 				<Type>Forms.HVI.CustomerAgreement</Type>
 				<Description>I acknowledge that I have prepared and retained a copy of the ""Inventory of Items Valued in Excess of $100 Per Pound per Article"" that are included in my shipment and that I have given a copy of this Inventory to the mover's representative. I also acknowledge that the mover's liability for loss of or damage to any article valued in excess of $100 per pound will be limited to $100 per pound for each pound of such lost or damaged article(s) (based on actual article weight), not to exceed the declared value of the entire shipment, unless I have specifically identified such articles for which a claim for loss or damage may be made in the attached inventory.</Description>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Service>
 			<Service>
-				<Category />
+				<Category/>
 				<Type>Forms.HVI.HighValueItemsIncluded</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>0.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Service>
 			<Service>
-				<Category />
+				<Category/>
 				<Type>Form.WeightTicket.WeightTicketRequired</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>0.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Service>
 			<Service>
-				<Category />
+				<Category/>
 				<Type>Form.ASP.ServicesPerformed</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Service>
 		</Services>
 		<Properties>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.General.Account</Type>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.General.Organization</Type>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.General.Contract</Type>
 				<Description>Common Carriage</Description>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.General.Authority</Type>
 				<Description>Interstate</Description>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.General.StartTime</Type>
 				<Description>8-10 AM</Description>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.General.Weight</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>12462</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.General.HourlyRate</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>0.0000</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.General.HoursOfLabor</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>0.0000000000</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.General.MinimumLaborHours</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>0.0000000000</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.General.TravelRate</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>0.0000</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.General.TravelTime</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>0.0000000000</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.General.MinimumTravelTime</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>0</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.General.AdditionalServices</Type>
-				<Description>
-Adjustment (Charge)</Description>
+				<Description>&#x0D; Adjustment (Charge)</Description>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.General.AdditionalServicesTotalCharge</Type>
-				<Description />
-				<QtyTaken>210.0000</QtyTaken>
+				<Description/>
+				<QtyTaken>276.0000</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.General.NumberofCrates</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>0</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.General.CratesTotalCost</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>0.0000</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.General.CratesBuiltBy</Type>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.General.Equipment</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.General.Materials</Type>
 				<Description>1.5 Carton:[1], Dish Carton:[7], King Mattress Carton:[1], Mirror (4pc):[24], Queen Mattress Carton:[1], TV Crate:[3]</Description>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.General.Trucks</Type>
 				<Description>PV: 1, ;  2106 - Cube Van</Description>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.General.PackType</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
 				<Value>Partial</Value>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.General.UnpackType</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
 				<Value>Partial</Value>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.General.Paytype</Type>
 				<Description>COD</Description>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.General.PayStatus</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value>Not Paid</Value>
+				<Value>Paid in Full</Value>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.ValuationConfirmation.ValuationType</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
 				<Value>B - Full Replacement</Value>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.ValuationConfirmation.ValuationDeductible</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>1.00</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
 				<Value>$500</Value>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.ValuationConfirmation.DeclaredValue</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>74772.0000</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Property>
 			<Property>
-				<Category />
+				<Category/>
 				<Type>Form.ValuationConfirmation.Cost</Type>
-				<Description />
+				<Description/>
 				<QtyTaken>373.8600</QtyTaken>
 				<QtyReturned>0.00</QtyReturned>
-				<Value />
+				<Value/>
 			</Property>
 		</Properties>
 	</InventoryData>
@@ -888,18 +889,23 @@ Adjustment (Charge)</Description>
 	
 				var generalInfo = _MovingData.GeneralInfo;
 				createJobDto.externalRef = generalInfo.EMFID;
-				createJobDto.serviceType = generalInfo.Preferences.ServiceType;
+				var properties = _MovingData.InventoryData.Properties.Property;
 
-				if (_MovingData.InventoryData.Properties.Property.Any(s =>s.Type == ""))
-				createJobDto.jobType = "Enum... + movingdata.jobtypecode";
-				createJobDto.serviceLevel = "Enum... + movingdata.servicelevelcode"; //?????
+				createJobDto.serviceType = "Enum.ServiceType." + properties.Where
+					(s => s.Type == "Form.General.Contract").FirstOrDefault().Description.Replace(" ", "");
+				createJobDto.jobType = "Enum.JobType." + properties.Where
+					(s => s.Type == "Form.General.Authority").FirstOrDefault().Description.Replace(" ", "");
+				createJobDto.serviceLevel = generalInfo.Preferences.ServiceLevel;
 				createJobDto.client.legalName = generalInfo.ClientFirstName + " " + generalInfo.Name;
+				createJobDto.client.code = generalInfo.ClientNumber;
 				createJobDto.instructionsCrewOrigin = generalInfo.Address.Comment;
 				createJobDto.instructionsCrewDestination = generalInfo.Destination.Comment;
 
 
 				createJobDto.clientPerson = new ClientPerson()
 				{
+					code = generalInfo.ClientNumber,
+					partyCode = generalInfo.ClientNumber,
 					personDetails = new PersonDetails()
                     {
 						firstName = generalInfo.ClientFirstName,
@@ -907,7 +913,8 @@ Adjustment (Charge)</Description>
 						salutation = generalInfo.ClientSalutation,
 						contactDetails = new ContactDetails()
                         {
-							MobilePhone = generalInfo.Address.PrimaryPhone
+							MobilePhone = generalInfo.Address.PrimaryPhone,
+							Email = generalInfo.Address.Email
                         }
 					},
 					
@@ -917,6 +924,7 @@ Adjustment (Charge)</Description>
 				//RC to be added
 				createJobDto.managedBy = new CreateJobDto.ManagedBy()
 				{
+					code = generalInfo.CoordinatorID,
 					personDetails = new CreateJobDto.PersonDetails()
                     {
 						firstName = generalInfo.EstimatorName.Substring(generalInfo.EstimatorName.LastIndexOf(',') + 1),
@@ -924,20 +932,25 @@ Adjustment (Charge)</Description>
 						contactDetails = new ContactDetails()
                         {
 							Email = generalInfo.Coordinatoremail
-                        },
-						
+                        },						
 						
 					}
 					
 				};
-				createJobDto.accountPerson.personDetails = createJobDto.managedBy.personDetails;
 				createJobDto.bookerPerson.personDetails = createJobDto.managedBy.personDetails;
+				createJobDto.bookerPerson.code = generalInfo.CoordinatorID;
 
+				if (properties.Any(s => s.Type == "Form.General.Account" && s.Description != null))
+				{
+					createJobDto.account.code = "Enum.PartyType." + properties.Where
+						(s => s.Type == "Form.General.Account").FirstOrDefault().Description.Replace(" ", "");
+					createJobDto.account.legalName = createJobDto.account.code;
+					createJobDto.accountPerson.personDetails = createJobDto.managedBy.personDetails;
+				}
 
-				//SetDefaultValue(createJobDto);
 				createJobDto.originAddress = new CreateJobDto.OriginAddress()
 				{
-					partyCode = generalInfo.EMFID,
+					partyCode = generalInfo.ClientNumber,
 					addressDetails = new AddressDetails()
 					{
 						street1 = generalInfo.Address.Street,
@@ -967,16 +980,16 @@ Adjustment (Charge)</Description>
 
 				createJobDto.originPartyContact = new OriginPartyContact()
 				{
-					code = generalInfo.EMFID,
-					partyCode = generalInfo.EMFID, //RCNr
+					code = generalInfo.ClientNumber,
+					partyCode = generalInfo.ClientNumber, 
 					personDetails = createJobDto.clientPerson.personDetails
 				};
 
 				createJobDto.destinationPartyContact = new DestinationPartyContact()
 				{
 
-					code = generalInfo.EMFID,
-					partyCode = generalInfo.EMFID, //RCNr
+					code = generalInfo.ClientNumber,
+					partyCode = generalInfo.ClientNumber, 
 					personDetails = createJobDto.clientPerson.personDetails
 				};
 

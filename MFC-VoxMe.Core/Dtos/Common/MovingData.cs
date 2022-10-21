@@ -2,22 +2,20 @@
 
 namespace MFC_VoxMe_API.Dtos.Common
 {
+	[XmlRoot(ElementName = "MovingData")]
+	public class MovingData
+	{
+		[XmlElement(ElementName = "GeneralInfo")]
+		public GeneralInfo GeneralInfo { get; set; }
+		[XmlElement(ElementName = "InventoryData")]
+		public InventoryData InventoryData { get; set; }
+		[XmlElement(ElementName = "Documents")]
+		public Documents Documents { get; set; }
+		[XmlAttribute(AttributeName = "ID")]
+		public string ID { get; set; }
+	}
 
-		[XmlRoot(ElementName = "MovingData")]
-
-		public class MovingData
-		{ 
-			[XmlElement(ElementName = "GeneralInfo")]
-			public GeneralInfo GeneralInfo { get; set; }
-			[XmlElement(ElementName = "InventoryData")]
-			public InventoryData InventoryData { get; set; }
-			[XmlElement(ElementName = "Documents")]
-			public Documents Documents { get; set; }
-			[XmlAttribute(AttributeName = "ID")]
-			public string ID { get; set; }
-		}
-
-		[XmlRoot(ElementName = "AccessInfo")]
+	[XmlRoot(ElementName = "AccessInfo")]
 		public class AccessInfo
 		{
 			[XmlElement(ElementName = "PropertyType")]
@@ -27,7 +25,7 @@ namespace MFC_VoxMe_API.Dtos.Common
 			[XmlElement(ElementName = "Floor")]
 			public string Floor { get; set; }
 			[XmlElement(ElementName = "HasElevator")]
-        public string HasElevator { get; set; }
+			public string HasElevator { get; set; }
 			[XmlElement(ElementName = "CarryRequired")]
 			public string CarryRequired { get; set; }
 			[XmlElement(ElementName = "ShuttleRequired")]
@@ -119,8 +117,8 @@ namespace MFC_VoxMe_API.Dtos.Common
 			public string VacationDate { get; set; }
 			[XmlElement(ElementName = "PackingDate")]
 			public string PackingDate { get; set; }
-			[XmlElement(ElementName = "ServiceType")]
-			public string ServiceType { get; set; }
+			[XmlElement(ElementName = "ServiceLevel")]
+			public string ServiceLevel { get; set; }
 			[XmlElement(ElementName = "Comment")]
 			public string Comment { get; set; }
 			[XmlElement(ElementName = "PackingFinishDate")]
@@ -132,6 +130,8 @@ namespace MFC_VoxMe_API.Dtos.Common
 		[XmlRoot(ElementName = "GeneralInfo")]
 		public class GeneralInfo
 		{
+			[XmlElement(ElementName = "ClientNumber")]
+			public string ClientNumber { get; set; }
 			[XmlElement(ElementName = "ClientSalutation")]
 			public string ClientSalutation { get; set; }
 			[XmlElement(ElementName = "ClientFirstName")]
@@ -146,6 +146,8 @@ namespace MFC_VoxMe_API.Dtos.Common
 			public string Groupageid { get; set; }
 			[XmlElement(ElementName = "Coordinatoremail")]
 			public string Coordinatoremail { get; set; }
+			[XmlElement(ElementName = "CoordinatorID")]
+			public string CoordinatorID { get; set; }
 			[XmlElement(ElementName = "ShipmentType")]
 			public string ShipmentType { get; set; }
 			[XmlElement(ElementName = "State")]
@@ -207,6 +209,8 @@ namespace MFC_VoxMe_API.Dtos.Common
 		{
 			[XmlAttribute(AttributeName = "name")]
 			public string Name { get; set; }
+			[XmlAttribute(AttributeName = "id")]
+			public string Id { get; set; }
 			[XmlAttribute(AttributeName = "isForeman")]
 			public string IsForeman { get; set; }
 		}
@@ -322,5 +326,8 @@ namespace MFC_VoxMe_API.Dtos.Common
 			[XmlElement(ElementName = "Document")]
 			public List<Document> Document { get; set; }
 		}
+
 	}
+
+
 
