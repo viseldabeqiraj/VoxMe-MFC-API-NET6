@@ -76,7 +76,7 @@ namespace MFC_VoxMe_API.Dtos.Jobs
             public string code { get; set; }
             //[MatchParent("ClientFirstName")] //TODO: legalName: GeneralInfo/ClientFirstName + GeneralInfo/Name
             public string legalName { get; set; }
-            public string partyType { get; set; } = "Enum.PartyType.CLIENT";
+            public string partyType { get; set; } = "Enum.PartyType.Transferee";
         }
 
         public class ClientPerson

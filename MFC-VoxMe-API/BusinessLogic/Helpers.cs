@@ -891,15 +891,16 @@ namespace MFC_VoxMe_API.BusinessLogic
 				createJobDto.externalRef = generalInfo.EMFID;
 				var properties = _MovingData.InventoryData.Properties.Property;
 
-				createJobDto.serviceType = "Enum.ServiceType." + properties.Where
-					(s => s.Type == "Form.General.Contract").FirstOrDefault().Description.Replace(" ", "");
-				createJobDto.jobType = "Enum.JobType." + properties.Where
-					(s => s.Type == "Form.General.Authority").FirstOrDefault().Description.Replace(" ", "");
+				createJobDto.serviceType = "Enum.ServiceType." + properties.FirstOrDefault
+					(s => s.Type == "Form.General.Contract").Description.Replace(" ", "");
+				createJobDto.jobType = "Enum.JobType." + properties.FirstOrDefault
+					(s => s.Type == "Form.General.Authority").Description.Replace(" ", "");
+
 				createJobDto.serviceLevel = generalInfo.Preferences.ServiceLevel;
 				createJobDto.client.legalName = generalInfo.ClientFirstName + " " + generalInfo.Name;
 				createJobDto.client.code = generalInfo.ClientNumber;
-				createJobDto.instructionsCrewOrigin = generalInfo.Address.Comment;
-				createJobDto.instructionsCrewDestination = generalInfo.Destination.Comment;
+				createJobDto.instructionsCrewOrigin = generalInfo.Preferences.Comment + "\n" + generalInfo.Comment;
+				createJobDto.instructionsCrewDestination = generalInfo.Preferences.Comment + "\n" + generalInfo.Comment;
 
 
 				createJobDto.clientPerson = new ClientPerson()
@@ -942,8 +943,8 @@ namespace MFC_VoxMe_API.BusinessLogic
 
 				if (properties.Any(s => s.Type == "Form.General.Account" && s.Description != null))
 				{
-					createJobDto.account.code = "Enum.PartyType." + properties.Where
-						(s => s.Type == "Form.General.Account").FirstOrDefault().Description.Replace(" ", "");
+					createJobDto.account.code = "Enum.PartyType." + properties.FirstOrDefault
+						(s => s.Type == "Form.General.Account").Description.Replace(" ", "");
 					createJobDto.account.legalName = createJobDto.account.code;
 					createJobDto.accountPerson.personDetails = createJobDto.managedBy.personDetails;
 				}
@@ -1003,7 +1004,72 @@ namespace MFC_VoxMe_API.BusinessLogic
             }
         }
 
-		
+		public string GetTransactionEnum(string str)
+        {
+			var transType ="Enum.TransactionType.";
+			switch (str)
+			{
+				case "APU Floor":
+				case "APU Trailer":
+				case "Crate & Freight":
+				case "Export":
+				case "Final Pickup":
+				case "Load":
+				case "Load & Deliver":
+				case "Pack":
+				case "Pickup":
+				case "SIT at Origin":
+				case "Storage In":
+					return transType + "Pickup";
+				case "Claims":
+				case "Debris Pickup":
+				case "Deliver":
+				case "Import":
+				case "SIT at Destination":
+				case "Storage Out":
+				case "Unpack":
+					return transType + "Delivery";
+				case "Receive":
+				case "Release Floor":
+				case "SIT Inbound":
+						return transType + "WarehouseReceiveIn";
+				case "Release":
+				case "Release Overflow":
+				case "Release Trailer":
+					return transType + "WarehouseOutload";
+				case "Storage Access":
+					return transType + "OnSite";
+				default:
+					return transType + str.Replace(" ", "");
+			}
+		}
+
+		//public List<string> TransactionDictionary(string code, string str)
+  //      {
+		//	var transType = "Enum.TransactionType.";
+		//	var transService = "Enum.TransactionService.";
+
+		//	var mappingA = new Dictionary<string, List<string>>()
+		//	{
+		//		{ "APU Floor", new List<string>() 
+		//		{ transType + "Pickup", transService + str.Replace(" ", "")} },
+		//		{ "APU Trailer",new List<string>()
+		//		{ transType + "Pickup", transService + str.Replace(" ", "")} },
+		//		{ "Crate & Freight",new List<string>()
+		//		{ transType + "Pickup", transService + str.Replace(" ", "")} },
+		//		{ "Export", new List<string>() { "ff" } },
+		//		{ "Final Pickup", new List<string>() { "ff" }},
+		//		{ "Load", new List<string>() { "ff" } },
+		//		{ "Load & Deliver", new List<string>() { "ff" } },
+		//		{ "Pack", new List<string>() { "ff" } },
+		//		{ "Pickup", new List<string>() { "ff" } },
+		//		{ "SIT at Origin",new List<string>() { "ff" } },
+		//		{ "Storage In",new List<string>() { "ff" } }
+		//	};
+		//		return mappingA[str];
+			
+		//}
+
 
 		public CreateTransactionDto CreateTransactionObjectFromXml()
 		{
@@ -1012,60 +1078,59 @@ namespace MFC_VoxMe_API.BusinessLogic
 				CreateTransactionDto createTransaction = new CreateTransactionDto();
 				var generalInfo = _MovingData.GeneralInfo;
 				createTransaction.externalRef = generalInfo.EMFID;
+				createTransaction.transactionType = GetTransactionEnum(generalInfo.ShipmentType);
+				createTransaction.services = new List<string>(1)
+				{ $"Enum.TransactionService.{generalInfo.ShipmentType.Replace(" ", "")}" };
+				createTransaction.originParty = generalInfo.ClientNumber;
+				createTransaction.destinationParty = generalInfo.ClientNumber;
 				createTransaction.jobExternalRef = generalInfo.Groupageid;
-				createTransaction.instructionsCrewOrigin = generalInfo.Address.Comment;
-				createTransaction.instructionsCrewDestination = generalInfo.Destination.Comment;
-				createTransaction.originAddress = new CreateTransactionDto.OriginAddress()
-				{
-					partyCode = generalInfo.EMFID, //RC
-					addressDetails = new CreateTransactionDto.AddressDetails()
-					{
-						street1 = generalInfo.Address.Street,
-						city = generalInfo.Address.City,
-						area = generalInfo.Address.State,
-						country = generalInfo.Address.Country,
-						floor = generalInfo.Address.AccessInfo.Floor,
-						notes = generalInfo.Address.Comment,
-						zip = generalInfo.Address.Zip,
-					}
-				};
+				createTransaction.instructionsCrewOrigin = generalInfo.Preferences.Comment + "\n" + generalInfo.Comment;
+				createTransaction.instructionsCrewDestination = generalInfo.Preferences.Comment + "\n" + generalInfo.Comment;
+				createTransaction.scheduledDate = Convert.ToDateTime(generalInfo.Preferences.PackingDate);
 
-				createTransaction.destinationAddress = new CreateTransactionDto.DestinationAddress()
-				{
-					partyCode = generalInfo.EMFID,
-					addressDetails = new CreateTransactionDto.AddressDetails()
-					{
-						street1 = generalInfo.Destination.Street,
-						city = generalInfo.Destination.City,
-						area = generalInfo.Destination.State,
-						country = generalInfo.Destination.Country,
-						floor = generalInfo.Destination.AccessInfo.Floor,
-						notes = generalInfo.Comment,
-						zip = generalInfo.Destination.Zip,
-					}
-				};
+				var properties = _MovingData.InventoryData.Properties.Property;
 
-				createTransaction.originPartyContact = new CreateTransactionDto.OriginPartyContact()
+				if (properties.Any())
 				{
-					personDetails = new CreateTransactionDto.PersonDetails()
-					{
-						firstName = generalInfo.ClientFirstName,
-						lastName = generalInfo.Name,
-						salutation = generalInfo.ClientSalutation,
-						contactDetails = new CreateTransactionDto.ContactDetails()
+					List<CreateTransactionDto.QuestionnaireQuestion> questionnaireQuestions = properties.Select
+						(a => new CreateTransactionDto.QuestionnaireQuestion()
 						{
-							//MobilePhone = generalInfo.Address.PrimaryPhone
-						}
+							name = a.Type,
+							numericValue = a.QtyTaken,
+							stringValue = a.Description,
+							listValues = a.Value,
+							booleanValue = a.QtyTaken > 0 ? true : false
+
+						}).ToList();
+					createTransaction.questionnaireQuestions = questionnaireQuestions;
+				}
+				var services = _MovingData.InventoryData.Services.Service;
+				if (services.Any())
+				{
+					List<CreateTransactionDto.AuxService> auxServices = services.Select
+						(a => new CreateTransactionDto.AuxService()
+						{
+							name = a.Type,
+							numericValue = a.QtyTaken,
+							stringValue = a.Description,
+							listValues = a.Value,
+							booleanValue = a.QtyTaken > 0 ? true : false
+
+						}).ToList();
+					createTransaction.auxServices = auxServices;
+				}
+				List<CreateTransactionDto.LoadingUnit> loadingUnits = new List<CreateTransactionDto.LoadingUnit>(1);
+				CreateTransactionDto.LoadingUnit loadingUnit = new CreateTransactionDto.LoadingUnit()
+				{
+					uniqueId = generalInfo.EMFID + ".Delivery",
+					loadingUnitDetails = new CreateTransactionDto.LoadingUnitDetails()
+					{
+						labelNr = 1 //TODO
 					}
 				};
+				loadingUnits.Add(loadingUnit);
+				createTransaction.loadingUnits = loadingUnits;
 
-				createTransaction.destinationPartyContact = new CreateTransactionDto.DestinationPartyContact()
-				{
-
-					code = generalInfo.EMFID,
-					partyCode = generalInfo.EMFID, //RCNr
-					//personDetails = createJobDto.clientPerson.personDetails
-				};
 
 				return createTransaction;
 			}
@@ -1091,7 +1156,7 @@ namespace MFC_VoxMe_API.BusinessLogic
 					List<AssignMaterialsToTransactionDto.HandedMaterial> materialList = materials.Select
 						(a => new AssignMaterialsToTransactionDto.HandedMaterial()
 						{
-							code = getEnums(a.Type),
+							code = getMaterialEnums(a.Type),
 							qty = Convert.ToDouble(a.QtyTaken)
 						}).ToList();
 					assignMaterialsToTransaction.handedMaterials = materialList;
@@ -1106,7 +1171,7 @@ namespace MFC_VoxMe_API.BusinessLogic
             }
         }
 
-		public string getEnums(string material)
+		public string getMaterialEnums(string material)
         {
 			var str = "Enum.MaterialType." + material;
 			return str.Replace(" ", "");

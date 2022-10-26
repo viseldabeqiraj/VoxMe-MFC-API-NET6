@@ -12,9 +12,9 @@
         public string destinationParty { get; set; }
         public DestinationAddress destinationAddress { get; set; }
         public DestinationPartyContact destinationPartyContact { get; set; }
-        public string transactionStatus { get; set; }
-        public string onsiteStatus { get; set; }
-        public string handlingDivision { get; set; }
+        public string transactionStatus { get; set; } = "Enum.TransactionStatus.Scheduled";
+        public string onsiteStatus { get; set; } = "Enum.TransactionOnSiteStatus.ActivityScheduled";
+        public string handlingDivision { get; set; } = "JKMOVING";
         public string managedBy { get; set; }
         public string instructionsCrewOrigin { get; set; }
         public string instructionsCrewDestination { get; set; }
@@ -40,7 +40,7 @@
         public class AuxService
         {
             public string name { get; set; }
-            public int numericValue { get; set; }
+            public double numericValue { get; set; }
             public string stringValue { get; set; }
             public string listValues { get; set; }
             public bool booleanValue { get; set; }
@@ -86,9 +86,9 @@
             public double netWeight { get; set; }
             public double netWidth { get; set; }
             public string photos { get; set; }
-            public string serialNumber { get; set; }
+            public string serialNumber { get; set; } = "UNPACKED";
             public string uniqueId { get; set; }
-            public string unitType { get; set; }
+            public string unitType { get; set; } = "Enum.ShipmentUnitType.Delivery";
             public int labelNr { get; set; }
             public string sealNumber { get; set; }
             public string warehouseLocation { get; set; }
@@ -122,7 +122,7 @@
         public class QuestionnaireQuestion
         {
             public string name { get; set; }
-            public int numericValue { get; set; }
+            public double numericValue { get; set; }
             public string stringValue { get; set; }
             public string listValues { get; set; }
             public bool booleanValue { get; set; }

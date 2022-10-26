@@ -1,6 +1,6 @@
 ﻿namespace MFC_VoxMe_API.Dtos.Transactions
 {
-    public class TransactionSummary
+    public class TransactionSummaryDto
     {
         public string externalRef { get; set; }
         public string onsiteStatus { get; set; }

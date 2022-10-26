@@ -21,14 +21,18 @@ namespace MFC_VoxMe_API.Profiles
 
             //Transaction mapping profiles
             CreateMap<CreateTransactionDto, UpdateTransactionDto>();
-            CreateMap<CreateJobDto, CreateTransactionDto>();
-            CreateMap<CreateJobDto.OriginAddress, CreateTransactionDto.OriginAddress>();
-            CreateMap<CreateJobDto.AddressDetails, CreateTransactionDto.AddressDetails>();
-            CreateMap<CreateJobDto.OriginPartyContact, CreateTransactionDto.OriginPartyContact>();
-            CreateMap<CreateJobDto.PersonDetails, CreateTransactionDto.PersonDetails>();
-            CreateMap<CreateJobDto.DestinationPartyContact, CreateTransactionDto.DestinationPartyContact>();
-            CreateMap<CreateJobDto.ContactDetails, CreateTransactionDto.ContactDetails>();
-            CreateMap<CreateJobDto.DestinationAddress, CreateTransactionDto.DestinationAddress>();
+            CreateMap<CreateTransactionDto, UpdateTransactionDto>();
+            CreateMap<CreateTransactionDto.OriginAddress, UpdateTransactionDto.OriginAddress>();
+            CreateMap<CreateTransactionDto.AddressDetails, UpdateTransactionDto.AddressDetails>();
+            CreateMap<CreateTransactionDto.OriginPartyContact, UpdateTransactionDto.OriginPartyContact>();
+            CreateMap<CreateTransactionDto.PersonDetails, UpdateTransactionDto.PersonDetails>();
+            CreateMap<CreateTransactionDto.DestinationPartyContact, UpdateTransactionDto.DestinationPartyContact>();
+            CreateMap<CreateTransactionDto.ContactDetails, UpdateTransactionDto.ContactDetails>();
+            CreateMap<CreateTransactionDto.DestinationAddress, UpdateTransactionDto.DestinationAddress>();
+            CreateMap<CreateTransactionDto.QuestionnaireQuestion, UpdateTransactionDto.QuestionnaireQuestion>();
+            CreateMap<CreateTransactionDto.AuxService, UpdateTransactionDto.AuxService>();
+            CreateMap<CreateTransactionDto.LoadingUnit, UpdateTransactionDto.LoadingUnit>();
+            CreateMap<CreateTransactionDto.LoadingUnitDetails, UpdateTransactionDto.LoadingUnitDetails>();
         }       
 
     }

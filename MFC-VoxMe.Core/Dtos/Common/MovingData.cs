@@ -2,6 +2,7 @@
 
 namespace MFC_VoxMe_API.Dtos.Common
 {
+
 	[XmlRoot(ElementName = "MovingData")]
 	public class MovingData
 	{
@@ -230,13 +231,13 @@ namespace MFC_VoxMe_API.Dtos.Common
 			[XmlElement(ElementName = "Type")]
 			public string Type { get; set; }
 			[XmlElement(ElementName = "QtyTaken")]
-			public string QtyTaken { get; set; }
+			public double QtyTaken { get; set; }
 			[XmlElement(ElementName = "Description")]
 			public string Description { get; set; }
 			[XmlElement(ElementName = "Value")]
 			public string Value { get; set; }
 			[XmlElement(ElementName = "QtyReturned")]
-			public string QtyReturned { get; set; }
+			public double QtyReturned { get; set; }
 		}
 
 		[XmlRoot(ElementName = "Materials")]
@@ -256,9 +257,9 @@ namespace MFC_VoxMe_API.Dtos.Common
 			[XmlElement(ElementName = "Description")]
 			public string Description { get; set; }
 			[XmlElement(ElementName = "QtyTaken")]
-			public string QtyTaken { get; set; }
+			public double QtyTaken { get; set; }
 			[XmlElement(ElementName = "QtyReturned")]
-			public string QtyReturned { get; set; }
+			public double QtyReturned { get; set; }
 			[XmlElement(ElementName = "Value")]
 			public string Value { get; set; }
 		}
@@ -278,9 +279,9 @@ namespace MFC_VoxMe_API.Dtos.Common
 			[XmlElement(ElementName = "Type")]
 			public string Type { get; set; }
 			[XmlElement(ElementName = "QtyTaken")]
-			public string QtyTaken { get; set; }
+			public double QtyTaken { get; set; }
 			[XmlElement(ElementName = "QtyReturned")]
-			public string QtyReturned { get; set; }
+			public double QtyReturned { get; set; }
 			[XmlElement(ElementName = "Value")]
 			public string Value { get; set; }
 			[XmlElement(ElementName = "Description")]
@@ -327,7 +328,11 @@ namespace MFC_VoxMe_API.Dtos.Common
 			public List<Document> Document { get; set; }
 		}
 
+		
+
 	}
+
+
 
 
 

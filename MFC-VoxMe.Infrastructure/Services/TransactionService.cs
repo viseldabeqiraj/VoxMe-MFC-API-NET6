@@ -37,7 +37,7 @@ namespace MFC_VoxMe.Infrastructure.Services
             return url;
         }
 
-        public async Task<CreateTransactionDto> CreateTransaction(CreateTransactionDto createTransactionRequest)
+        public async Task<HttpResponse<CreateTransactionDto>> CreateTransaction(CreateTransactionDto createTransactionRequest)
         {
             try
             {
@@ -45,10 +45,16 @@ namespace MFC_VoxMe.Infrastructure.Services
                 var json = JsonConvert.SerializeObject(createTransactionRequest);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpRequests.MakePostHttpCall(url, data, null);
+                var result = new HttpResponse<CreateTransactionDto>();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return createTransactionRequest;
+                    result.dto = createTransactionRequest;
+                    return result;
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    return null;
                 }
                 else
                 {
@@ -82,13 +88,13 @@ namespace MFC_VoxMe.Infrastructure.Services
                     result.dto = transactionDetails;
                     return result;
                 }
-                else if (response.StatusCode.Equals("400"))
+                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
-                    LoggingHelper.InsertLogs("GetDetails", className, response);
                     return null;
                 }
                 else
                 {
+                    LoggingHelper.InsertLogs("GetDetails", className, response);
                     return result;
                 }
 
@@ -101,26 +107,32 @@ namespace MFC_VoxMe.Infrastructure.Services
             return null;
         }
 
-        public async Task<TransactionSummary> GetSummary(string externalRef)
+        public async Task<HttpResponse<TransactionSummaryDto>> GetSummary(string externalRef)
         {
             try
             {
                 externalRef = "RS249955";
 
                 var url = GetUrl($"/mfc/v2/transactions/{externalRef}/summary");
-                TransactionSummary transactionDetails = new TransactionSummary();
+                TransactionSummaryDto transactionSummary = new TransactionSummaryDto();
 
                 var response = await _httpRequests.MakeGetHttpCall(url, null);
+                var result = new HttpResponse<TransactionSummaryDto>();
 
                 if (response.IsSuccessStatusCode)
                 {
-                    transactionDetails = JsonConvert.DeserializeObject<TransactionSummary>(response.Content.ReadAsStringAsync().Result);
-                    return transactionDetails;
+                    transactionSummary = JsonConvert.DeserializeObject<TransactionSummaryDto>(response.Content.ReadAsStringAsync().Result);
+                    result.dto = transactionSummary;
+                    return result;
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    return null;
                 }
                 else
                 {
                     LoggingHelper.InsertLogs("GetSummary", className, response);
-                    return null;
+                    return result;
                 }
             }
 
@@ -269,7 +281,7 @@ namespace MFC_VoxMe.Infrastructure.Services
         }
 
         //TODO:
-        public async Task<TransactionSummary> GetDocumentAsBinary(string EntityRef, string EntityType, string Name)
+        public async Task<TransactionSummaryDto> GetDocumentAsBinary(string EntityRef, string EntityType, string Name)
         {
             try
             {
@@ -297,7 +309,7 @@ namespace MFC_VoxMe.Infrastructure.Services
             return null;
         }
         //TODO:
-        public async Task<TransactionSummary> GetImageAsBinary(string EntityRef, string EntityType, string Name)
+        public async Task<TransactionSummaryDto> GetImageAsBinary(string EntityRef, string EntityType, string Name)
         {
             try
             {

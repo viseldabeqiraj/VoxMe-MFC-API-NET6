@@ -2,6 +2,7 @@
 using MFC_VoxMe_API.BusinessLogic;
 using MFC_VoxMe_API.Dtos.Jobs;
 using MFC_VoxMe_API.Dtos.Management;
+using MFC_VoxMe_API.Dtos.Transactions;
 using MFC_VoxMe_API.Services.Jobs;
 using MFC_VoxMe_API.Services.Resources;
 using MFC_VoxMe_API.Services.Transactions;
@@ -30,7 +31,7 @@ namespace MFC_VoxMe_API.Controllers
             _mapper = mapper;
         }
 	
-		//[HttpPost]
+		//[HttpPost("WorkflowLogic")]
 		[HttpGet]
 		public async Task<ActionResult> WorkflowLogic(string xml)
         {
@@ -41,6 +42,7 @@ namespace MFC_VoxMe_API.Controllers
 				var jobExternalRef = movingData.GeneralInfo.Groupageid;
 				var jobToCreate = _helpers.CreateJobObjectFromXml();
 				var transactionToCreate = _helpers.CreateTransactionObjectFromXml();
+				var transactionToUpdate = _mapper.Map<UpdateTransactionDto>(transactionToCreate);
 
 				var jobToUpdate = _mapper.Map<UpdateJobDto>(jobToCreate);
 
@@ -54,7 +56,7 @@ namespace MFC_VoxMe_API.Controllers
 					if (transactionSummary != null)
                     {
 						//Update transaction
-						//await _transactionService.UpdateTransaction();
+						await _transactionService.UpdateTransaction(transactionToUpdate);
 						if (await _transactionService.GetDownloadDetails(externalRef) != null)
                         {
 							//escalate to ops manager
