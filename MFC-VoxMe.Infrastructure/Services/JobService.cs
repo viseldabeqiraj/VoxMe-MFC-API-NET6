@@ -7,9 +7,10 @@ using System.Net;
 using MFC_VoxMe_API.HttpMethods;
 using System.Text;
 using Serilog;
-using MFC_VoxMe_API.Logging;
 using Microsoft.Extensions.Configuration;
 using MFC_VoxMe_API.Services.Jobs;
+using MFC_VoxMe.Core.Dtos.Common;
+using MFC_VoxMe_API.Logging;
 
 namespace MFC_VoxMe.Infrastructure.Services
 {
@@ -36,7 +37,7 @@ namespace MFC_VoxMe.Infrastructure.Services
             return url;
         }
 
-        public async Task<JobDetailsDto> GetDetails(string externalRef)
+        public async Task<HttpResponseDto<JobDetailsDto>> GetDetails(string externalRef)
         {
             try
             {
@@ -46,18 +47,23 @@ namespace MFC_VoxMe.Infrastructure.Services
                 JobDetailsDto jobDetails = new JobDetailsDto();
 
                 var response = await _httpRequests.MakeGetHttpCall(url, null);
+                var result = new HttpResponseDto<JobDetailsDto>();
+                result.responseStatus = response.StatusCode;
 
                 if (response.IsSuccessStatusCode)
                 {
                     jobDetails = JsonConvert.DeserializeObject<JobDetailsDto>(response.Content.ReadAsStringAsync().Result);
-                    return jobDetails;
+                    result.dto = jobDetails;
+                }
+                else if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return null;
                 }
                 else
                 {
                     LoggingHelper.InsertLogs("GetDetails", className, response);
-                    return null;
                 }
-
+                return result;
             }
             catch (Exception ex)
             {
@@ -67,7 +73,7 @@ namespace MFC_VoxMe.Infrastructure.Services
         }
 
 
-        public async Task<JobSummaryDto> GetSummary(string externalRef)
+        public async Task<HttpResponseDto<JobSummaryDto>> GetSummary(string externalRef)
         {
             try
             {
@@ -77,17 +83,23 @@ namespace MFC_VoxMe.Infrastructure.Services
                 JobSummaryDto jobSummary = new JobSummaryDto();
 
                 var response = await _httpRequests.MakeGetHttpCall(url, null);
+                var result = new HttpResponseDto<JobSummaryDto>();
+                result.responseStatus = response.StatusCode;
+
                 if (response.IsSuccessStatusCode)
                 {
                     jobSummary = JsonConvert.DeserializeObject<JobSummaryDto>(response.Content.ReadAsStringAsync().Result);
-                    return jobSummary;
+                    result.dto = jobSummary;
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    return null;
                 }
                 else
                 {
                     LoggingHelper.InsertLogs("GetSummary", className, response);
-                    return null;
                 }
-
+                return result;
             }
             catch (Exception ex)
             {
@@ -98,7 +110,7 @@ namespace MFC_VoxMe.Infrastructure.Services
 
 
 
-        public async Task<CreateJobDto> CreateJob(CreateJobDto createJobRequest)
+        public async Task<HttpResponseDto<CreateJobDto>> CreateJob(CreateJobDto createJobRequest)
         {
             try
             {
@@ -106,16 +118,22 @@ namespace MFC_VoxMe.Infrastructure.Services
                 var json = JsonConvert.SerializeObject(createJobRequest);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpRequests.MakePostHttpCall(url, data, null);
+                var result = new HttpResponseDto<CreateJobDto>();
+                result.responseStatus = response.StatusCode;
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return createJobRequest;
+                    result.dto = createJobRequest;
+                }
+                else if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return null;
                 }
                 else
                 {
                     LoggingHelper.InsertLogs("CreateJob", className, response);
-                    return null;
                 }
+                return result;
             }
             catch (Exception ex)
             {
@@ -125,7 +143,7 @@ namespace MFC_VoxMe.Infrastructure.Services
         }
 
 
-        public async Task<UpdateJobDto> UpdateJob(UpdateJobDto updateJobRequest)
+        public async Task<HttpResponseDto<UpdateJobDto>> UpdateJob(UpdateJobDto updateJobRequest)
         {
             try
             {
@@ -134,16 +152,22 @@ namespace MFC_VoxMe.Infrastructure.Services
                 var json = JsonConvert.SerializeObject(updateJobRequest);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpRequests.MakePutHttpCall(url, data);
+                var result = new HttpResponseDto<UpdateJobDto>();
+                result.responseStatus = response.StatusCode;
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return updateJobRequest;
+                    result.dto = updateJobRequest;
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    return null;
                 }
                 else
                 {
                     LoggingHelper.InsertLogs("UpdateJob", className, response);
-                    return null;
                 }
+                return result;
             }
             catch (Exception ex)
             {

@@ -9,9 +9,9 @@
         public DestinationAddress destinationAddress { get; set; } = new DestinationAddress();
         public DestinationPartyContact destinationPartyContact { get; set; } = new DestinationPartyContact();
         public string handlingDivision { get; set; }
-        //public string managedBy { get; set; }
-        //public string instructionsCrewOrigin { get; set; }
-        //public string instructionsCrewDestination { get; set; }
+        public string managedBy { get; set; }
+        public string instructionsCrewOrigin { get; set; }
+        public string instructionsCrewDestination { get; set; }
         public class AddressDetails
         {
             public string city { get; set; }

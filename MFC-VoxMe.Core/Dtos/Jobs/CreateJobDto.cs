@@ -13,7 +13,7 @@ namespace MFC_VoxMe_API.Dtos.Jobs
         public string? serviceLevel { get; set; }
         public string? serviceType { get; set; }
         public string sourceOfInquiry { get; set; } = "Enum.SourceOfInquiry.Email";
-        public string bookingType { get; set; } = "Enum.BookingType.Agent";
+        public string bookingType { get; set; } = "Enum.BookingType.Private";
         public string loadType { get; set; } = "Enum.LoadType.FTL";
         public string transportMode { get; set; } = "Enum.TransportMode.Truck";
         public Booker booker { get; set; } = new Booker();

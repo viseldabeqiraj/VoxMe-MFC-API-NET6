@@ -1,4 +1,5 @@
 ﻿using MFC_VoxMe_API.Dtos.Management;
+using MFC_VoxMe_API.Dtos.Transactions;
 
 namespace MFC_VoxMe_API.Services.Resources
 {
@@ -10,6 +11,6 @@ namespace MFC_VoxMe_API.Services.Resources
         Task<bool> DisableResource(string code);
         Task<GetResourceDetailsDto> GetDetails(string code);
         Task<ConfiguredMaterialsDto> GetConfiguredMaterials(ResourceCodesForTransactionDto codes);
-        Task<bool> ForceConfigurationChanges(ResourceCodesForTransactionDto codes, string appType);
+        Task<bool> ForceConfigurationChanges(string appType);
     }
 }

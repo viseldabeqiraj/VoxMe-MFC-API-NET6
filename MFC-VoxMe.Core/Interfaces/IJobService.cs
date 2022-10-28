@@ -1,13 +1,14 @@
-﻿using MFC_VoxMe_API.Dtos.Jobs;
+﻿using MFC_VoxMe.Core.Dtos.Common;
+using MFC_VoxMe_API.Dtos.Jobs;
 
 namespace MFC_VoxMe_API.Services.Jobs
 {
     public interface IJobService
     {
-        Task<JobDetailsDto> GetDetails(string externalRef);
-        Task<CreateJobDto> CreateJob(CreateJobDto createJobRequest);
-        Task<JobSummaryDto> GetSummary(string externalRef);
-        Task<UpdateJobDto> UpdateJob(UpdateJobDto updateJobRequest);
+        Task<HttpResponseDto<JobDetailsDto>> GetDetails(string externalRef);
+        Task<HttpResponseDto<CreateJobDto>> CreateJob(CreateJobDto createJobRequest);
+        Task<HttpResponseDto<JobSummaryDto>> GetSummary(string externalRef);
+        Task<HttpResponseDto<UpdateJobDto>> UpdateJob(UpdateJobDto updateJobRequest);
 
      }
 }

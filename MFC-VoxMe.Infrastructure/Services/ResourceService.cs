@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Serilog;
 using System.Text;
+using MFC_VoxMe_API.Logging;
+using MFC_VoxMe_API.Dtos.Transactions;
 
 namespace MFC_VoxMe.Infrastructure.Services
 {
@@ -190,14 +192,13 @@ namespace MFC_VoxMe.Infrastructure.Services
             }
         }
 
-        public async Task<bool> ForceConfigurationChanges(ResourceCodesForTransactionDto codes, string appType)
+        public async Task<bool> ForceConfigurationChanges(string appType)
         {
             try
             {
                 var url = GetUrl($"/api/management/configuration/download-to-devices?appType={appType}");
-                var json = JsonConvert.SerializeObject(codes);
-                var data = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await _httpRequests.MakePutHttpCall(url, data);
+               
+                var response = await _httpRequests.MakePutHttpCall(url, null);
 
                 if (response.IsSuccessStatusCode)
                 {

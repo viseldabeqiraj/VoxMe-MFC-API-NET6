@@ -1,0 +1,13 @@
+2022-10-27 19:01:52.968 +02:00 [WRN] Method AssignMaterialsToTransaction in TransactionService returned Unauthorized. Json Response: {
+  "type": "ad",
+  "title": "sed id dolor",
+  "status": 73773736,
+  "traceId": "Lorem",
+  "variables": {
+    "cillum_760": "veniam et",
+    "minim42": "laboris sit",
+    "elitd": "aliqua dolore Ut sint",
+    "esse_bed": "in minim"
+  }
+}
+2022-10-27 19:02:08.286 +02:00 [WRN] Method AssignResourcesToTransaction in TransactionService returned NotFound. Json Response: {"error":{"name":"mockRequestNotFoundError","message":"Double check your method and the request path and try again.","header":"No matching requests"}}

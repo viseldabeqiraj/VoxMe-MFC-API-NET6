@@ -20,7 +20,7 @@ namespace MFC_VoxMe.Infrastructure.Services
         private readonly IHttpRequests _httpRequests;
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-        public string className;
+        public readonly string className;
 
         public TransactionService(DataContext context, IMapper mapper, IConfiguration config, IHttpRequests httpRequests)
         {
@@ -37,7 +37,7 @@ namespace MFC_VoxMe.Infrastructure.Services
             return url;
         }
 
-        public async Task<HttpResponse<CreateTransactionDto>> CreateTransaction(CreateTransactionDto createTransactionRequest)
+        public async Task<HttpResponseDto<CreateTransactionDto>> CreateTransaction(CreateTransactionDto createTransactionRequest)
         {
             try
             {
@@ -45,12 +45,13 @@ namespace MFC_VoxMe.Infrastructure.Services
                 var json = JsonConvert.SerializeObject(createTransactionRequest);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpRequests.MakePostHttpCall(url, data, null);
-                var result = new HttpResponse<CreateTransactionDto>();
+
+                var result = new HttpResponseDto<CreateTransactionDto>();
+                result.responseStatus = response.StatusCode;
 
                 if (response.IsSuccessStatusCode)
                 {
                     result.dto = createTransactionRequest;
-                    return result;
                 }
                 else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
@@ -59,8 +60,8 @@ namespace MFC_VoxMe.Infrastructure.Services
                 else
                 {
                     LoggingHelper.InsertLogs("CreateTransaction", className, response);
-                    return null;
                 }
+                return result;
             }
             catch (Exception ex)
             {
@@ -69,7 +70,7 @@ namespace MFC_VoxMe.Infrastructure.Services
             return null;
         }
 
-        public async Task<HttpResponse<TransactionDetailsDto>> GetDetails(string externalRef)
+        public async Task<HttpResponseDto<TransactionDetailsDto>> GetDetails(string externalRef)
         {
             try
             {
@@ -79,14 +80,13 @@ namespace MFC_VoxMe.Infrastructure.Services
                 TransactionDetailsDto transactionDetails = new TransactionDetailsDto();
 
                 var response = await _httpRequests.MakeGetHttpCall(url, null);
-                var result = new HttpResponse<TransactionDetailsDto>();
+                var result = new HttpResponseDto<TransactionDetailsDto>();
                 result.responseStatus = response.StatusCode;
 
                 if (response.IsSuccessStatusCode)
                 {
                     transactionDetails = JsonConvert.DeserializeObject<TransactionDetailsDto>(response.Content.ReadAsStringAsync().Result);
                     result.dto = transactionDetails;
-                    return result;
                 }
                 else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
@@ -95,10 +95,8 @@ namespace MFC_VoxMe.Infrastructure.Services
                 else
                 {
                     LoggingHelper.InsertLogs("GetDetails", className, response);
-                    return result;
                 }
-
-
+                return result;
             }
             catch (Exception ex)
             {
@@ -107,7 +105,7 @@ namespace MFC_VoxMe.Infrastructure.Services
             return null;
         }
 
-        public async Task<HttpResponse<TransactionSummaryDto>> GetSummary(string externalRef)
+        public async Task<HttpResponseDto<TransactionSummaryDto>> GetSummary(string externalRef)
         {
             try
             {
@@ -117,13 +115,12 @@ namespace MFC_VoxMe.Infrastructure.Services
                 TransactionSummaryDto transactionSummary = new TransactionSummaryDto();
 
                 var response = await _httpRequests.MakeGetHttpCall(url, null);
-                var result = new HttpResponse<TransactionSummaryDto>();
-
+                var result = new HttpResponseDto<TransactionSummaryDto>();
+                result.responseStatus=response.StatusCode;
                 if (response.IsSuccessStatusCode)
                 {
                     transactionSummary = JsonConvert.DeserializeObject<TransactionSummaryDto>(response.Content.ReadAsStringAsync().Result);
                     result.dto = transactionSummary;
-                    return result;
                 }
                 else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
@@ -132,8 +129,9 @@ namespace MFC_VoxMe.Infrastructure.Services
                 else
                 {
                     LoggingHelper.InsertLogs("GetSummary", className, response);
-                    return result;
                 }
+                return result;
+
             }
 
             catch (Exception ex)
@@ -143,7 +141,7 @@ namespace MFC_VoxMe.Infrastructure.Services
             return null;
         }
 
-        public async Task<UpdateTransactionDto> UpdateTransaction(UpdateTransactionDto updateTransactionRequest)
+        public async Task<HttpResponseDto<UpdateTransactionDto>> UpdateTransaction(UpdateTransactionDto updateTransactionRequest)
         {
             try
             {
@@ -153,15 +151,22 @@ namespace MFC_VoxMe.Infrastructure.Services
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpRequests.MakePutHttpCall(url, data);
 
+                var result = new HttpResponseDto<UpdateTransactionDto>();
+                result.responseStatus = response.StatusCode;
+
                 if (response.IsSuccessStatusCode)
                 {
-                    return updateTransactionRequest;
+                    result.dto = updateTransactionRequest;
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    return null;
                 }
                 else
                 {
                     LoggingHelper.InsertLogs("UpdateTransaction", className, response);
-                    return null;
                 }
+                return result;
             }
             catch (Exception ex)
             {
@@ -170,7 +175,7 @@ namespace MFC_VoxMe.Infrastructure.Services
             }
         }
 
-        public async Task<TransactionDownloadDetails> GetDownloadDetails(string externalRef)
+        public async Task<HttpResponseDto<TransactionDownloadDetails>> GetDownloadDetails(string externalRef)
         {
             try
             {
@@ -180,17 +185,24 @@ namespace MFC_VoxMe.Infrastructure.Services
                 TransactionDownloadDetails transactionDetails = new TransactionDownloadDetails();
 
                 var response = await _httpRequests.MakeGetHttpCall(url, null);
+                var result = new HttpResponseDto<TransactionDownloadDetails>();
+                result.responseStatus = response.StatusCode;
 
                 if (response.IsSuccessStatusCode)
                 {
                     transactionDetails = JsonConvert.DeserializeObject<TransactionDownloadDetails>(response.Content.ReadAsStringAsync().Result);
-                    return transactionDetails;
+                    result.dto = transactionDetails;
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    return null;
                 }
                 else
                 {
                     LoggingHelper.InsertLogs("GetDownloadDetails", className, response);
-                    return null;
                 }
+                return result;
+
             }
 
             catch (Exception ex)
@@ -254,7 +266,7 @@ namespace MFC_VoxMe.Infrastructure.Services
             }
         }
 
-        public async Task<AssignStaffDesignateForemanDto> AssignStaffDesignateForeman(AssignStaffDesignateForemanDto request, string externalRef)
+        public async Task<HttpResponseDto<AssignStaffDesignateForemanDto>> AssignStaffDesignateForeman(AssignStaffDesignateForemanDto request, string externalRef)
         {
             try
             {
@@ -263,15 +275,22 @@ namespace MFC_VoxMe.Infrastructure.Services
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpRequests.MakePostHttpCall(url, data, null);
 
+                var result = new HttpResponseDto<AssignStaffDesignateForemanDto>();
+                result.responseStatus = response.StatusCode;
+
                 if (response.IsSuccessStatusCode)
                 {
-                    return request;
+                    result.dto = request;
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    return null;
                 }
                 else
                 {
-                    LoggingHelper.InsertLogs("CreateTransaction", className, response);
-                    return null;
+                    LoggingHelper.InsertLogs("AssignStaffDesignateForeman", className, response);
                 }
+                return result;
             }
             catch (Exception ex)
             {
@@ -344,9 +363,6 @@ namespace MFC_VoxMe.Infrastructure.Services
                 externalRef = "RS249955";
 
                 var url = GetUrl($"/mfc/v2/transactions/{externalRef}/resources");
-                //var json = JsonConvert.SerializeObject(resourceCodes);
-                //var data = new StringContent(json, Encoding.UTF8, "application/json");
-
                 var response = await _httpRequests.MakeDeleteHttpCall(url, null);
 
                 if (response.IsSuccessStatusCode)

@@ -49,9 +49,13 @@ namespace MFC_VoxMe_API.HttpMethods
                 request.Content = new FormUrlEncodedContent(keyValues);
                 HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
                 var jsonContent = await response.Content.ReadAsStringAsync();
-                Token token = JsonConvert.DeserializeObject<Token>(jsonContent);
 
-                return token;
+                if (response.IsSuccessStatusCode)
+                {
+                    Token token = JsonConvert.DeserializeObject<Token>(jsonContent);
+                    return token;
+                }
+                return null;
             }
             catch (Exception ex)
             {

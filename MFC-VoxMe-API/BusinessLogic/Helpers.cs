@@ -1,4 +1,5 @@
-﻿using MFC_VoxMe_API.Dtos.Common;
+﻿using MFC_VoxMe.Core.Dtos.Common;
+using MFC_VoxMe_API.Dtos.Common;
 using MFC_VoxMe_API.Dtos.Jobs;
 using MFC_VoxMe_API.Dtos.Management;
 using MFC_VoxMe_API.Dtos.Transactions;
@@ -7,6 +8,7 @@ using Serilog;
 using System.Text;
 using System.Xml.Serialization;
 using static MFC_VoxMe_API.Dtos.Jobs.CreateJobDto;
+using static MFC_VoxMe_API.Dtos.Transactions.AssignStaffDesignateForemanDto;
 
 namespace MFC_VoxMe_API.BusinessLogic
 {
@@ -881,6 +883,10 @@ namespace MFC_VoxMe_API.BusinessLogic
 			}
 		}
 
+		//public bool checkStatus(HttpResponseDto<T> dto)
+  //      {
+		//	if (dto.
+  //      }
 		public CreateJobDto CreateJobObjectFromXml()
         {
 			try
@@ -1145,8 +1151,7 @@ namespace MFC_VoxMe_API.BusinessLogic
 		public AssignMaterialsToTransactionDto GetTransactionMaterials()
         {
             try
-            {
-				
+            {				
 				var materials = _MovingData.InventoryData.Materials.Material.ToList();
                 AssignMaterialsToTransactionDto assignMaterialsToTransaction =
                     new AssignMaterialsToTransactionDto();
@@ -1177,19 +1182,23 @@ namespace MFC_VoxMe_API.BusinessLogic
 			return str.Replace(" ", "");
 		}
 
-		public ResourceCodesForTransactionDto GetTransactionResources()
+		public AssignStaffDesignateForemanDto GetTransactionResources()
 		{
 			try
 			{
-
 				var packers = _MovingData.InventoryData.Packers.Packer.ToList();
-				ResourceCodesForTransactionDto resourceCodesDto =
-					new ResourceCodesForTransactionDto();
+				AssignStaffDesignateForemanDto resourceCodesDto =
+					new AssignStaffDesignateForemanDto();
 
 				if (packers.Any())
 				{
-					List<string> codeList = packers.Select(p => (string)p.Name).ToList();
-					resourceCodesDto.resourceCodes = codeList;					
+					List<StaffResourceCode> packerList = packers.Select
+						(a => new StaffResourceCode()
+						{
+							code = a.Name,
+							isForeman = bool.Parse(a.IsForeman)
+						}).ToList();
+					resourceCodesDto.staffResourceCodes = packerList;					
 				}
 				return resourceCodesDto;
 			}
