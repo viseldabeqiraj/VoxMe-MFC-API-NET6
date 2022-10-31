@@ -77,9 +77,9 @@ namespace MFC_VoxMe.Infrastructure.Services
         {
             try
             {
-                externalRef = "VT12345";
+                externalRef = "RS249955";
 
-                var url = GetUrl($"Job/{externalRef}/summary");
+                var url = GetUrl($"/mfc/v2/jobs/{externalRef}/summary");
                 JobSummaryDto jobSummary = new JobSummaryDto();
 
                 var response = await _httpRequests.MakeGetHttpCall(url, null);

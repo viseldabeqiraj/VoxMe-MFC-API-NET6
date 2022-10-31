@@ -80,6 +80,11 @@ namespace MFC_VoxMe_API.Controllers
 											return BadRequest("AssignStaff: " + AssignStaff.responseStatus);
 
 									}
+									else
+									{
+										//HTTP status other than 200
+										return BadRequest("RemoveResourceFromTransaction" + externalRef);
+									}
 								}
 							}
 						}
@@ -91,10 +96,8 @@ namespace MFC_VoxMe_API.Controllers
 								var createTransactionResponse = await _transactionService.CreateTransaction(transactionToCreate);
 								if (createTransactionResponse != null)
 								{
-
 										await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
-										await _transactionService.AssignStaffDesignateForeman(_helpers.GetTransactionResources(), externalRef);
-									
+										await _transactionService.AssignStaffDesignateForeman(_helpers.GetTransactionResources(), externalRef);								
 								}
 							}
 						}						
@@ -102,7 +105,7 @@ namespace MFC_VoxMe_API.Controllers
 					else
 					{
 						//HTTP status other than 200
-						return BadRequest("Job summary: "+jobSummary.responseStatus);
+						return BadRequest("Job summary: "+ jobSummary.responseStatus);
 					}						
 				}
 				else
