@@ -31,9 +31,10 @@ namespace MFC_VoxMe_API.Controllers
             _mapper = mapper;
         }
 		
-		//[HttpPost("WorkflowLogic")]
-		[HttpGet]
-		public async Task<ActionResult> WorkflowLogic(string xml)
+		[HttpPost("WorkflowLogic")]
+		//[Route("api/WorkflowLogic/WorkflowLogic")]
+		//[HttpGet]
+		public async Task<ActionResult> WorkflowLogic([FromBody] string xml)
         {
 			try
             {
@@ -74,7 +75,10 @@ namespace MFC_VoxMe_API.Controllers
 										{
 											AddUpdateResourcesLogic(resourceCode.code);
 										}
-										await _transactionService.AssignStaffDesignateForeman(_helpers.GetTransactionResources(), externalRef);
+										var AssignStaff = await _transactionService.AssignStaffDesignateForeman(_helpers.GetTransactionResources(), externalRef);
+										if (AssignStaff.responseStatus != HttpStatusCode.OK)
+											return BadRequest("AssignStaff: " + AssignStaff.responseStatus);
+
 									}
 								}
 							}
@@ -98,7 +102,7 @@ namespace MFC_VoxMe_API.Controllers
 					else
 					{
 						//HTTP status other than 200
-						return BadRequest(jobSummary.responseStatus);
+						return BadRequest("Job summary: "+jobSummary.responseStatus);
 					}						
 				}
 				else

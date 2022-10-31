@@ -20,7 +20,7 @@ namespace MFC_VoxMe_API.BusinessLogic
 		{
 			try
 			{
-				xml = @"<MovingData ID=""0227432"">
+				string xml2 = @"<MovingData ID=""0227432"">
 	<GeneralInfo>
 		<ClientNumber>RC0184239</ClientNumber>
 		<ClientSalutation>Mr.</ClientSalutation>

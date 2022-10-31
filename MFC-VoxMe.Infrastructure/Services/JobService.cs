@@ -77,13 +77,14 @@ namespace MFC_VoxMe.Infrastructure.Services
         {
             try
             {
-                externalRef = "RS249955";
+                externalRef = "VT12345";
 
-                var url = GetUrl($"/mfc/v2/jobs/{externalRef}/summary");
+                var url = GetUrl($"Job/{externalRef}/summary");
                 JobSummaryDto jobSummary = new JobSummaryDto();
 
                 var response = await _httpRequests.MakeGetHttpCall(url, null);
                 var result = new HttpResponseDto<JobSummaryDto>();
+                var x = response.Content.ReadAsStringAsync().Result;
                 result.responseStatus = response.StatusCode;
 
                 if (response.IsSuccessStatusCode)
@@ -91,7 +92,7 @@ namespace MFC_VoxMe.Infrastructure.Services
                     jobSummary = JsonConvert.DeserializeObject<JobSummaryDto>(response.Content.ReadAsStringAsync().Result);
                     result.dto = jobSummary;
                 }
-                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                else if (response.StatusCode == HttpStatusCode.NotFound)
                 {
                     return null;
                 }

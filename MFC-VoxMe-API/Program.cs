@@ -21,6 +21,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 options.CustomSchemaIds(type => type.ToString()));
 
+
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapper(typeof(Program).Assembly); //Added for Automapper config
 builder.Services.AddScoped<IJobService, JobService>(); //added for DI 
