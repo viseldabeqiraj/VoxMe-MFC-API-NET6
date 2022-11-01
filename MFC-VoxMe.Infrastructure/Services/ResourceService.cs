@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MFC_VoxMe.Core.Dtos.Common;
 using MFC_VoxMe_API.Data;
 using MFC_VoxMe_API.Dtos.Management;
 using MFC_VoxMe_API.HttpMethods;
@@ -7,9 +8,8 @@ using MFC_VoxMe_API.Services.Resources;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Serilog;
+using System.Net;
 using System.Text;
-using MFC_VoxMe_API.Logging;
-using MFC_VoxMe_API.Dtos.Transactions;
 
 namespace MFC_VoxMe.Infrastructure.Services
 {
@@ -35,7 +35,7 @@ namespace MFC_VoxMe.Infrastructure.Services
             return url;
         }
 
-        public async Task<CreateResourceDto> CreateResource(CreateResourceDto createResourceRequest)
+        public async Task<HttpResponseDto<CreateResourceDto>> CreateResource(CreateResourceDto createResourceRequest)
         {
             try
             {
@@ -44,15 +44,18 @@ namespace MFC_VoxMe.Infrastructure.Services
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpRequests.MakePostHttpCall(url, data, null);
 
+                var result = new HttpResponseDto<CreateResourceDto>();
+                result.responseStatus = response.StatusCode;
+
                 if (response.IsSuccessStatusCode)
                 {
-                    return createResourceRequest;
+                    result.dto = createResourceRequest;
                 }
                 else
                 {
                     LoggingHelper.InsertLogs("CreateResource", className, response);
-                    return null;
                 }
+                return result;
             }
             catch (Exception ex)
             {
@@ -61,7 +64,7 @@ namespace MFC_VoxMe.Infrastructure.Services
             return null;
         }
 
-        public async Task<UpdateResourceDto> UpdateResource(UpdateResourceDto updateResourceRequest, string code)
+        public async Task<HttpResponseDto<UpdateResourceDto>> UpdateResource(UpdateResourceDto updateResourceRequest, string code)
         {
             try
             {
@@ -71,15 +74,17 @@ namespace MFC_VoxMe.Infrastructure.Services
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpRequests.MakePutHttpCall(url, data);
 
+                var result = new HttpResponseDto<UpdateResourceDto>();
+                result.responseStatus = response.StatusCode;
                 if (response.IsSuccessStatusCode)
                 {
-                    return updateResourceRequest;
+                    result.dto = updateResourceRequest;
                 }
                 else
                 {
                     LoggingHelper.InsertLogs("UpdateResource", className, response);
-                    return null;
                 }
+                return result;
             }
             catch (Exception ex)
             {
@@ -138,7 +143,7 @@ namespace MFC_VoxMe.Infrastructure.Services
             }
         }
 
-        public async Task<GetResourceDetailsDto> GetDetails(string code)
+        public async Task<HttpResponseDto<GetResourceDetailsDto>> GetDetails(string code)
         {
             try
             {
@@ -146,16 +151,23 @@ namespace MFC_VoxMe.Infrastructure.Services
 
                 var response = await _httpRequests.MakeGetHttpCall(url, null);
                 GetResourceDetailsDto resourceDetails = new GetResourceDetailsDto();
+
+                var result = new HttpResponseDto<GetResourceDetailsDto>();
+                result.responseStatus = response.StatusCode;
                 if (response.IsSuccessStatusCode)
                 {
                     resourceDetails = JsonConvert.DeserializeObject<GetResourceDetailsDto>(response.Content.ReadAsStringAsync().Result);
-                    return resourceDetails;
+                    result.dto = resourceDetails;
+                }
+                else if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return null;
                 }
                 else
                 {
                     LoggingHelper.InsertLogs("GetDetails", className, response);
-                    return null;
                 }
+                return result;
             }
             catch (Exception ex)
             {
@@ -164,7 +176,7 @@ namespace MFC_VoxMe.Infrastructure.Services
             }
         }
 
-        public async Task<ConfiguredMaterialsDto> GetConfiguredMaterials(ResourceCodesForTransactionDto codes)
+        public async Task<HttpResponseDto<ConfiguredMaterialsDto>> GetConfiguredMaterials(ResourceCodesForTransactionDto codes)
         {
             try
             {
@@ -174,16 +186,23 @@ namespace MFC_VoxMe.Infrastructure.Services
 
                 var response = await _httpRequests.MakeGetHttpCall(url, data);
                 ConfiguredMaterialsDto resourceDetails = new ConfiguredMaterialsDto();
+
+                var result = new HttpResponseDto<ConfiguredMaterialsDto>();
+                result.responseStatus = response.StatusCode;
                 if (response.IsSuccessStatusCode)
                 {
                     resourceDetails = JsonConvert.DeserializeObject<ConfiguredMaterialsDto>(response.Content.ReadAsStringAsync().Result);
-                    return resourceDetails;
+                    result.dto = resourceDetails;
+                }
+                else if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return null;
                 }
                 else
                 {
                     LoggingHelper.InsertLogs("GetConfiguredMaterials", className, response);
-                    return null;
                 }
+                return result;
             }
             catch (Exception ex)
             {

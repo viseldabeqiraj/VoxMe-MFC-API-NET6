@@ -32,8 +32,7 @@ namespace MFC_VoxMe_API.Controllers
         }
 		
 		[HttpPost("WorkflowLogic")]
-		//[Route("api/WorkflowLogic/WorkflowLogic")]
-		//[HttpGet]
+
 		public async Task<ActionResult> WorkflowLogic([FromBody] string xml)
         {
 			try
@@ -45,19 +44,22 @@ namespace MFC_VoxMe_API.Controllers
 				var transactionToCreate = _helpers.CreateTransactionObjectFromXml();
 				var transactionToUpdate = _mapper.Map<UpdateTransactionDto>(transactionToCreate);
 
-				var jobSummary = await _jobService.GetSummary(jobExternalRef);
-				if (jobSummary != null)
+				var jobSummaryRequest = await _jobService.GetSummary(jobExternalRef);
+				if (jobSummaryRequest != null)
 				{
-					if (jobSummary.responseStatus == HttpStatusCode.OK)
+					if (jobSummaryRequest.responseStatus == HttpStatusCode.OK)
 					{ 
-						var transactionSummary = await _transactionService.GetSummary(externalRef);
+						var transactionSummaryRequest = await _transactionService.GetSummary(externalRef);
 
-						if (transactionSummary != null)
+						if (transactionSummaryRequest != null)
 						{
-							if (transactionSummary.responseStatus == HttpStatusCode.OK)
+							if (transactionSummaryRequest.responseStatus == HttpStatusCode.OK)
 							{
 								//Update transaction
-								await _transactionService.UpdateTransaction(transactionToUpdate);
+								var UpdateTransactionRequest = await _transactionService.UpdateTransaction(transactionToUpdate);
+								if (UpdateTransactionRequest.responseStatus != HttpStatusCode.OK)
+									return BadRequest("Update Transaction Request" + UpdateTransactionRequest.responseStatus);
+
 								if (await _transactionService.GetDownloadDetails(externalRef) != null)
 								{
 									//escalate to ops manager
@@ -87,6 +89,11 @@ namespace MFC_VoxMe_API.Controllers
 									}
 								}
 							}
+							else
+							{
+								//HTTP status other than 200
+								return BadRequest("TransactionSummary" + transactionSummaryRequest.responseStatus);
+							}
 						}
 						else
                         {
@@ -105,7 +112,7 @@ namespace MFC_VoxMe_API.Controllers
 					else
 					{
 						//HTTP status other than 200
-						return BadRequest("Job summary: "+ jobSummary.responseStatus);
+						return BadRequest("Job Summary: " + jobSummaryRequest.responseStatus);
 					}						
 				}
 				else
@@ -114,12 +121,21 @@ namespace MFC_VoxMe_API.Controllers
 					var jobToUpdate = _mapper.Map<UpdateJobDto>(jobToCreate);
 
 					if (jobToCreate != null)
-					await _jobService.CreateJob(jobToCreate);
+					{ //TODO
+						var CreateJobRequest = await _jobService.CreateJob(jobToCreate);
+						if (CreateJobRequest.responseStatus == HttpStatusCode.OK)
+						{
 
-					if (transactionToCreate != null)
-						await _transactionService.CreateTransaction(transactionToCreate);
+							if (transactionToCreate != null)
+							{
+								var createTransactionRequest = await _transactionService.CreateTransaction(transactionToCreate);
+								if (createTransactionRequest.responseStatus != HttpStatusCode.OK)
+									return BadRequest("createTransactionAPI: " + createTransactionRequest.responseStatus);
+							}
+						}
+						else return BadRequest("CreateJobRequest:" + CreateJobRequest.responseStatus);
+					}
 				}
-
 				return Ok();
 			}
 			catch(Exception ex)

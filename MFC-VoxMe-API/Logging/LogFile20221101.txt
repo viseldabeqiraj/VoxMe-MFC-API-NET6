@@ -1,0 +1,2 @@
+2022-11-01 15:34:51.794 +01:00 [WRN] Method CreateJob in JobService returned NotFound. Json Response: 
+2022-11-01 15:35:36.424 +01:00 [WRN] Method CreateTransaction in TransactionService returned NotFound. Json Response: 

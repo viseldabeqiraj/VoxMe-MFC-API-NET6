@@ -41,7 +41,7 @@ namespace MFC_VoxMe.Infrastructure.Services
         {
             try
             {
-                var url = GetUrl($"/mfc/v2/transactions");
+                var url = GetUrl($"api/transactions");
                 var json = JsonConvert.SerializeObject(createTransactionRequest);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpRequests.MakePostHttpCall(url, data, null);
@@ -52,11 +52,7 @@ namespace MFC_VoxMe.Infrastructure.Services
                 if (response.IsSuccessStatusCode)
                 {
                     result.dto = createTransactionRequest;
-                }
-                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-                {
-                    return null;
-                }
+                }           
                 else
                 {
                     LoggingHelper.InsertLogs("CreateTransaction", className, response);
@@ -157,10 +153,6 @@ namespace MFC_VoxMe.Infrastructure.Services
                 if (response.IsSuccessStatusCode)
                 {
                     result.dto = updateTransactionRequest;
-                }
-                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-                {
-                    return null;
                 }
                 else
                 {
@@ -282,10 +274,6 @@ namespace MFC_VoxMe.Infrastructure.Services
                 {
                     result.dto = request;
                 }
-                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-                {
-                    return null;
-                }
                 else
                 {
                     LoggingHelper.InsertLogs("AssignStaffDesignateForeman", className, response);
@@ -381,7 +369,7 @@ namespace MFC_VoxMe.Infrastructure.Services
                 return false;
             }
         }
-
+        //Will not be used
         public async Task<ResourceCodesForTransactionDto> AssignResourcesToTransaction(ResourceCodesForTransactionDto request, string externalRef)
         {
             try
@@ -442,9 +430,6 @@ namespace MFC_VoxMe.Infrastructure.Services
                 externalRef = "RS249955";
 
                 var url = GetUrl($"/mfc/v2/transactions/{externalRef}/materials");
-                // var json = JsonConvert.SerializeObject(resourceCodes);
-                //var data = new StringContent(json, Encoding.UTF8, "application/json");
-
                 var response = await _httpRequests.MakeDeleteHttpCall(url, null);
 
                 if (response.IsSuccessStatusCode)

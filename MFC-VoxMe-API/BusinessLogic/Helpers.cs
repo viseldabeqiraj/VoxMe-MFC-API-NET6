@@ -5,6 +5,7 @@ using MFC_VoxMe_API.Dtos.Management;
 using MFC_VoxMe_API.Dtos.Transactions;
 using MFC_VoxMe_API.Profiles;
 using Serilog;
+using System.Net;
 using System.Text;
 using System.Xml.Serialization;
 using static MFC_VoxMe_API.Dtos.Jobs.CreateJobDto;
@@ -20,7 +21,7 @@ namespace MFC_VoxMe_API.BusinessLogic
 		{
 			try
 			{
-				string xml2 = @"<MovingData ID=""0227432"">
+				string xmldummy = @"<MovingData ID=""0227432"">
 	<GeneralInfo>
 		<ClientNumber>RC0184239</ClientNumber>
 		<ClientSalutation>Mr.</ClientSalutation>
@@ -883,10 +884,11 @@ namespace MFC_VoxMe_API.BusinessLogic
 			}
 		}
 
-		//public bool checkStatus(HttpResponseDto<T> dto)
+		//public bool isSuccessCode(HttpResponseDto statusCode)
   //      {
-		//	if (dto.
+		//	return (statusCode == HttpStatusCode.OK) ? true : false;
   //      }
+
 		public CreateJobDto CreateJobObjectFromXml()
         {
 			try
@@ -929,10 +931,10 @@ namespace MFC_VoxMe_API.BusinessLogic
 
 				//Check
 				//RC to be added
-				createJobDto.managedBy = new CreateJobDto.ManagedBy()
+				createJobDto.managedBy = new ManagedBy()
 				{
 					code = generalInfo.CoordinatorID,
-					personDetails = new CreateJobDto.PersonDetails()
+					personDetails = new PersonDetails()
                     {
 						firstName = generalInfo.EstimatorName.Substring(generalInfo.EstimatorName.LastIndexOf(',') + 1),
 						lastName = generalInfo.EstimatorName.Split(',')[0],
@@ -999,7 +1001,6 @@ namespace MFC_VoxMe_API.BusinessLogic
 					partyCode = generalInfo.ClientNumber, 
 					personDetails = createJobDto.clientPerson.personDetails
 				};
-
 
 				return createJobDto;
 			}
@@ -1083,6 +1084,7 @@ namespace MFC_VoxMe_API.BusinessLogic
 			{
 				CreateTransactionDto createTransaction = new CreateTransactionDto();
 				var generalInfo = _MovingData.GeneralInfo;
+
 				createTransaction.externalRef = generalInfo.EMFID;
 				createTransaction.transactionType = GetTransactionEnum(generalInfo.ShipmentType);
 				createTransaction.services = new List<string>(1)
@@ -1161,7 +1163,7 @@ namespace MFC_VoxMe_API.BusinessLogic
 					List<AssignMaterialsToTransactionDto.HandedMaterial> materialList = materials.Select
 						(a => new AssignMaterialsToTransactionDto.HandedMaterial()
 						{
-							code = getMaterialEnums(a.Type),
+							code = "Enum.MaterialType." + (a.Type).Replace(" ", ""),
 							qty = Convert.ToDouble(a.QtyTaken)
 						}).ToList();
 					assignMaterialsToTransaction.handedMaterials = materialList;
@@ -1175,12 +1177,6 @@ namespace MFC_VoxMe_API.BusinessLogic
 				return null;
             }
         }
-
-		public string getMaterialEnums(string material)
-        {
-			var str = "Enum.MaterialType." + material;
-			return str.Replace(" ", "");
-		}
 
 		public AssignStaffDesignateForemanDto GetTransactionResources()
 		{

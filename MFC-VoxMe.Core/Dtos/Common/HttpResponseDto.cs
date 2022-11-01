@@ -11,6 +11,6 @@ namespace MFC_VoxMe.Core.Dtos.Common
     {
         public HttpStatusCode responseStatus { get; set; }
         public T? dto { get; set; }
-
+        public string Message { get; set; } = String.Empty;
     }
 }
