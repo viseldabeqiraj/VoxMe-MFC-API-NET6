@@ -141,8 +141,8 @@ namespace MFC_VoxMe_API.HttpMethods
                 }
                 catch (Exception ex)
                 {
-                Log.Error($"Method MakePostHttpCall in {className} failed. Exception thrown :{ex.Message}");
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+                    Log.Error($"Method MakePostHttpCall in {className} failed. Exception thrown :{ex.Message}");
+                    return new HttpResponseMessage(HttpStatusCode.BadRequest);
                 }
 
         }

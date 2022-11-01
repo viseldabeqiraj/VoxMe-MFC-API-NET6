@@ -39,7 +39,7 @@ namespace MFC_VoxMe.Infrastructure.Services
         {
             try
             {
-                var url = GetUrl($"/mfc/v2/management/resources");
+                var url = GetUrl($"management/resources");
                 var json = JsonConvert.SerializeObject(createResourceRequest);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpRequests.MakePostHttpCall(url, data, null);
@@ -69,7 +69,7 @@ namespace MFC_VoxMe.Infrastructure.Services
             try
             {
                 string externalRef = "RS249955";
-                var url = GetUrl($"/mfc/v2/management/resources/{code}");
+                var url = GetUrl($"management/resources/{code}");
                 var json = JsonConvert.SerializeObject(updateResourceRequest);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpRequests.MakePutHttpCall(url, data);
@@ -97,7 +97,7 @@ namespace MFC_VoxMe.Infrastructure.Services
         {
             try
             {
-                var url = GetUrl($"/mfc/v2/management/resources/{code}");
+                var url = GetUrl($"management/resources/{code}");
 
                 var response = await _httpRequests.MakeDeleteHttpCall(url, null);
 
@@ -122,7 +122,7 @@ namespace MFC_VoxMe.Infrastructure.Services
         {
             try
             {
-                var url = GetUrl($"/mfc/v2/management/resources/{code}/disable");
+                var url = GetUrl($"management/resources/{code}/disable");
 
                 var response = await _httpRequests.MakePatchHttpCall(url, null);
 
@@ -147,7 +147,7 @@ namespace MFC_VoxMe.Infrastructure.Services
         {
             try
             {
-                var url = GetUrl($"/mfc/v2/management/resources/{code}");
+                var url = GetUrl($"management/resources/{code}");
 
                 var response = await _httpRequests.MakeGetHttpCall(url, null);
                 GetResourceDetailsDto resourceDetails = new GetResourceDetailsDto();
@@ -180,7 +180,7 @@ namespace MFC_VoxMe.Infrastructure.Services
         {
             try
             {
-                var url = GetUrl($"/mfc/v2/management/resources/materials");
+                var url = GetUrl($"management/resources/materials");
                 var json = JsonConvert.SerializeObject(codes);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -215,7 +215,7 @@ namespace MFC_VoxMe.Infrastructure.Services
         {
             try
             {
-                var url = GetUrl($"/api/management/configuration/download-to-devices?appType={appType}");
+                var url = GetUrl($"management/configuration/download-to-devices?appType={appType}");
                
                 var response = await _httpRequests.MakePutHttpCall(url, null);
 

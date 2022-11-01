@@ -121,7 +121,7 @@ namespace MFC_VoxMe_API.Controllers
 					var jobToUpdate = _mapper.Map<UpdateJobDto>(jobToCreate);
 
 					if (jobToCreate != null)
-					{ //TODO
+					{ 
 						var CreateJobRequest = await _jobService.CreateJob(jobToCreate);
 						if (CreateJobRequest.responseStatus == HttpStatusCode.OK)
 						{
