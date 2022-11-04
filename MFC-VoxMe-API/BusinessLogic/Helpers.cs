@@ -3,10 +3,13 @@ using MFC_VoxMe_API.Dtos.Common;
 using MFC_VoxMe_API.Dtos.Jobs;
 using MFC_VoxMe_API.Dtos.Management;
 using MFC_VoxMe_API.Dtos.Transactions;
+using MFC_VoxMe_API.Models;
 using MFC_VoxMe_API.Profiles;
+using Newtonsoft.Json;
 using Serilog;
 using System.Net;
 using System.Text;
+using System.Text.Json;
 using System.Xml.Serialization;
 using static MFC_VoxMe_API.Dtos.Jobs.CreateJobDto;
 using static MFC_VoxMe_API.Dtos.Transactions.AssignStaffDesignateForemanDto;
@@ -15,9 +18,9 @@ namespace MFC_VoxMe_API.BusinessLogic
 {
     public class Helpers : IHelpers
     {
-		public static MovingData _MovingData;
+		public static MovingDataDto _MovingData;
 
-		public MovingData XMLParse(string xml)
+		public MovingDataDto XMLParse(string xml)
 		{
 			try
 			{
@@ -870,11 +873,12 @@ namespace MFC_VoxMe_API.BusinessLogic
 	</Documents>
 </MovingData>";
 
-				XmlSerializer serializer = new XmlSerializer(typeof(MovingData));
+				XmlSerializer serializer = new XmlSerializer(typeof(MovingDataDto));
 				MemoryStream memStream = new MemoryStream(Encoding.UTF8.GetBytes(xml));
-				MovingData movingDataFromXml = (MovingData)serializer.Deserialize(memStream);
+				MovingDataDto movingDataFromXml = (MovingDataDto)serializer.Deserialize(memStream);
 
 				_MovingData = movingDataFromXml;
+				setProperties();
 				return movingDataFromXml;
 			}
 			catch (Exception ex)
@@ -884,10 +888,11 @@ namespace MFC_VoxMe_API.BusinessLogic
 			}
 		}
 
-		//public bool isSuccessCode(HttpResponseDto statusCode)
-  //      {
-		//	return (statusCode == HttpStatusCode.OK) ? true : false;
-  //      }
+        public HttpResponseDto<T> isSuccessCode<T>(HttpStatusCode statusCode)
+        {
+			return null;
+            //return (statusCode == HttpStatusCode.OK) ? true : false;
+        }
 
 		public CreateJobDto CreateJobObjectFromXml()
         {
@@ -972,7 +977,7 @@ namespace MFC_VoxMe_API.BusinessLogic
 					}
 				};
 
-				createJobDto.destinationAddress = new CreateJobDto.DestinationAddress()
+				createJobDto.destinationAddress = new DestinationAddress()
 				{
 					partyCode = generalInfo.EMFID,
 					addressDetails = new AddressDetails()

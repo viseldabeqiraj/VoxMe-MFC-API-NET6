@@ -15,20 +15,7 @@ namespace MFC_VoxMe_API.Logging
         {
             var result = response.Content.ReadAsStringAsync().Result;
 
-            if (response.StatusCode == HttpStatusCode.NotFound)
-                Log.Warning(warningLog(methodName, className, HttpStatusCode.NotFound, result));
-
-            else if (response.StatusCode == HttpStatusCode.Unauthorized)
-                Log.Warning(warningLog(methodName, className, HttpStatusCode.Unauthorized, result));
-
-            else if (response.StatusCode == HttpStatusCode.InternalServerError)
-                Log.Warning(warningLog(methodName, className, HttpStatusCode.InternalServerError, result));
-
-            else if (response.StatusCode == HttpStatusCode.Forbidden)
-                Log.Warning(warningLog(methodName, className, HttpStatusCode.Forbidden, result));
-
-            else if (response.StatusCode == HttpStatusCode.Conflict)
-                Log.Warning(warningLog(methodName, className, HttpStatusCode.Conflict, result));
+            Log.Warning(warningLog(methodName, className, response.StatusCode, result));
         }
     }
 }

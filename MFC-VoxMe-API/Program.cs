@@ -1,3 +1,4 @@
+using MFC_VoxMe.Infrastructure.GlobalErrorHandling;
 using MFC_VoxMe.Infrastructure.Services;
 using MFC_VoxMe_API.BusinessLogic;
 using MFC_VoxMe_API.BusinessLogic.AccessToken;
@@ -30,7 +31,6 @@ builder.Services.AddScoped<ITransactionService, TransactionService>(); //added f
 builder.Services.AddSingleton<IAccessTokenConfig, AccessTokenConfig>(); //added for DI 
 builder.Services.AddSingleton<IHttpRequests, HttpRequests>(); //added for DI 
 builder.Services.AddSingleton<IHelpers, Helpers>(); //added for DI 
-
 //Added for Logging with Serilog library, to write logs in a file inside server
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Warning()
@@ -47,6 +47,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseMiddleware<ExceptionMiddlewareExtensions>(); //added for global handling
 
 app.UseHttpsRedirection();
 

@@ -159,10 +159,6 @@ namespace MFC_VoxMe.Infrastructure.Services
                     resourceDetails = JsonConvert.DeserializeObject<GetResourceDetailsDto>(response.Content.ReadAsStringAsync().Result);
                     result.dto = resourceDetails;
                 }
-                else if (response.StatusCode == HttpStatusCode.NotFound)
-                {
-                    return null;
-                }
                 else
                 {
                     LoggingHelper.InsertLogs("GetDetails", className, response);
@@ -193,10 +189,6 @@ namespace MFC_VoxMe.Infrastructure.Services
                 {
                     resourceDetails = JsonConvert.DeserializeObject<ConfiguredMaterialsDto>(response.Content.ReadAsStringAsync().Result);
                     result.dto = resourceDetails;
-                }
-                else if (response.StatusCode == HttpStatusCode.NotFound)
-                {
-                    return null;
                 }
                 else
                 {

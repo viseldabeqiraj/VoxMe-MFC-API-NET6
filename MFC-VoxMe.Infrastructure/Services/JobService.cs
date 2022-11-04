@@ -55,10 +55,6 @@ namespace MFC_VoxMe.Infrastructure.Services
                     jobDetails = JsonConvert.DeserializeObject<JobDetailsDto>(response.Content.ReadAsStringAsync().Result);
                     result.dto = jobDetails;
                 }
-                else if (response.StatusCode == HttpStatusCode.NotFound)
-                {
-                    return null;
-                }
                 else
                 {
                     LoggingHelper.InsertLogs("GetDetails", className, response);
@@ -77,24 +73,19 @@ namespace MFC_VoxMe.Infrastructure.Services
         {
             try
             {
-                externalRef = "VT12345";
+                externalRef = "RM002900";
 
                 var url = GetUrl($"jobs/{externalRef}/summary");
                 JobSummaryDto jobSummary = new JobSummaryDto();
 
                 var response = await _httpRequests.MakeGetHttpCall(url, null);
                 var result = new HttpResponseDto<JobSummaryDto>();
-                var x = response.Content.ReadAsStringAsync().Result;
                 result.responseStatus = response.StatusCode;
 
                 if (response.IsSuccessStatusCode)
                 {
                     jobSummary = JsonConvert.DeserializeObject<JobSummaryDto>(response.Content.ReadAsStringAsync().Result);
                     result.dto = jobSummary;
-                }
-                else if (response.StatusCode == HttpStatusCode.NotFound)
-                {
-                    return null;
                 }
                 else
                 {

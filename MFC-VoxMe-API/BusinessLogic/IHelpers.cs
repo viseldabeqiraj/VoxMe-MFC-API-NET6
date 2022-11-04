@@ -10,7 +10,7 @@ namespace MFC_VoxMe_API.BusinessLogic
         AssignMaterialsToTransactionDto GetTransactionMaterials();
         CreateTransactionDto CreateTransactionObjectFromXml();
         CreateJobDto CreateJobObjectFromXml();
-        MovingData XMLParse(string xml);
+        MovingDataDto XMLParse(string xml);
         AssignStaffDesignateForemanDto GetTransactionResources();
     }
 }

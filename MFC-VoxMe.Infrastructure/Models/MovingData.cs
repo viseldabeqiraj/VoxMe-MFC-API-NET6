@@ -1,8 +1,13 @@
-﻿namespace MFC_VoxMe_API.Models
+﻿using MFC_VoxMe_API.Profiles;
+using Newtonsoft.Json;
+
+namespace MFC_VoxMe_API.Models
 {
-		public class MovingData1
+		public class MovingData
 		{
 			public int ID { get; set; }
+			[JsonProperty("legalName")]
+			//[MatchParent("legalName")]
 			public string? ClientName { get; set; }
 			public DateTime? Date { get; set; }
 			public string? JobDescription { get; set; }
@@ -11,6 +16,7 @@
 			public string? FileName { get; set; }
 			public string? ConsigneeName { get; set; }
 			public string? BillOfLadingNo { get; set; }
+			[JsonProperty("externalRef")]
 			public string? ExternalMFID { get; set; }
 			public string? ClientLocalID { get; set; }
 			public string? ClientPassportID { get; set; }
@@ -38,36 +44,36 @@
 			public string? DestAgentContactEmail { get; set; }
 			public string? ShipmentType { get; set; }
 			public string? RelocationCompany { get; set; }
-			public string ProgressEmailList { get; set; }
-			public string CompletionEmailList { get; set; }
-			public string OriginContractor { get; set; }
-			public string OriginContractorContact { get; set; }
-			public string OriginContractorContactEmail { get; set; }
-			public string DestContractor { get; set; }
-			public string DestContractorContact { get; set; }
-			public string DestContractorContactEmail { get; set; }
-			public string BillTo { get; set; }
-			public string ClientSalutation { get; set; }
-			public string ClientFirstName { get; set; }
-			public string ConsigneeSalutation { get; set; }
-			public string ConsigneeFirstName { get; set; }
-			public int TripNumber { get; set; }
-			public string Manager { get; set; }
-			public string DriverSignature { get; set; }
-			public string DestInventorySignature { get; set; }
-			public string DestDriverSignature { get; set; }
-			public bool Hold { get; set; }
-			public string HoldBy { get; set; }
-			public string HoldReason { get; set; }
-			public string GoBy { get; set; }
-			public string GoReason { get; set; }
-			public DateTime GoDate { get; set; }
-			public string MoveInAgentSignature { get; set; }
-			public string MoveInClientSignature { get; set; }
-			public string MoveOutAgentSignature { get; set; }
-			public string MoveOutClientSignature { get; set; }
-			public string MoveInAgentName { get; set; }
-			public string MoveOutAgentName { get; set; }
+			public string? ProgressEmailList { get; set; }
+			public string? CompletionEmailList { get; set; }
+			public string? OriginContractor { get; set; }
+			public string? OriginContractorContact { get; set; }
+			public string? OriginContractorContactEmail { get; set; }
+			public string? DestContractor { get; set; }
+			public string? DestContractorContact { get; set; }
+			public string? DestContractorContactEmail { get; set; }
+			public string? BillTo { get; set; }
+			public string? ClientSalutation { get; set; }
+			public string? ClientFirstName { get; set; }
+			public string? ConsigneeSalutation { get; set; }
+			public string? ConsigneeFirstName { get; set; }
+			public int? TripNumber { get; set; }
+			public string? Manager { get; set; }
+			public string? DriverSignature { get; set; }
+			public string? DestInventorySignature { get; set; }
+			public string? DestDriverSignature { get; set; }
+			public bool? Hold { get; set; }
+			public string? HoldBy { get; set; }
+			public string? HoldReason { get; set; }
+			public string? GoBy { get; set; }
+			public string? GoReason { get; set; }
+			public DateTime? GoDate { get; set; }
+			public string? MoveInAgentSignature { get; set; }
+			public string? MoveInClientSignature { get; set; }
+			public string? MoveOutAgentSignature { get; set; }
+			public string? MoveOutClientSignature { get; set; }
+			public string? MoveInAgentName { get; set; }
+			public string? MoveOutAgentName { get; set; }
 		}
 	
 }

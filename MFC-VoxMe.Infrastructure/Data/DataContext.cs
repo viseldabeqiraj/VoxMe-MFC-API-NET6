@@ -16,8 +16,9 @@ namespace MFC_VoxMe_API.Data
         }
 
 
-        public DbSet<MovingData1> MovingDatas { get; set; }
+        public DbSet<MovingData> MovingDatas { get; set; }
         public DbSet<Resources> Resources { get; set; }
+        public DbSet<Materials> Materials { get; set; }
 
     }
 }

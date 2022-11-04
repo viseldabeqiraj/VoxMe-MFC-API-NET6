@@ -84,10 +84,6 @@ namespace MFC_VoxMe.Infrastructure.Services
                     transactionDetails = JsonConvert.DeserializeObject<TransactionDetailsDto>(response.Content.ReadAsStringAsync().Result);
                     result.dto = transactionDetails;
                 }
-                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-                {
-                    return null;
-                }
                 else
                 {
                     LoggingHelper.InsertLogs("GetDetails", className, response);
@@ -105,7 +101,7 @@ namespace MFC_VoxMe.Infrastructure.Services
         {
             try
             {
-                externalRef = "RS249955";
+                externalRef = "RS0150687";
 
                 var url = GetUrl($"transactions/{externalRef}/summary");
                 TransactionSummaryDto transactionSummary = new TransactionSummaryDto();
@@ -117,10 +113,6 @@ namespace MFC_VoxMe.Infrastructure.Services
                 {
                     transactionSummary = JsonConvert.DeserializeObject<TransactionSummaryDto>(response.Content.ReadAsStringAsync().Result);
                     result.dto = transactionSummary;
-                }
-                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-                {
-                    return null;
                 }
                 else
                 {
@@ -141,9 +133,9 @@ namespace MFC_VoxMe.Infrastructure.Services
         {
             try
             {
-                string externalRef = "RS249955";
+                string externalRef = "RS0150687";
                 var url = GetUrl($"transactions/{externalRef}");
-                var json = JsonConvert.SerializeObject(updateTransactionRequest);
+                var json = "{\n    \"externalRef\": \"RS0150687\",\n    \"uniqueId\": \"11-1-4\",\n    \"transactionType\": \"Enum.TransactionType.Pickup\",\n    \"transactionStatus\": \"Enum.TransactionStatus.Scheduled\",\n    \"onsiteStatus\": \"Enum.TransactionOnSiteStatus.Arrived\",\n    \"updateDate\": \"10/27/2022 10:27:56\"\n}"; //JsonConvert.SerializeObject(updateTransactionRequest);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await _httpRequests.MakePutHttpCall(url, data);
 
@@ -167,28 +159,25 @@ namespace MFC_VoxMe.Infrastructure.Services
             }
         }
 
-        public async Task<HttpResponseDto<TransactionDownloadDetails>> GetDownloadDetails(string externalRef)
+        public async Task<HttpResponseDto<List<TransactionDownloadDetails>>> GetDownloadDetails(string externalRef)
         {
             try
             {
-                externalRef = "RS249955";
+                externalRef = "RS0150687";
 
                 var url = GetUrl($"transactions/{externalRef}/download-details");
-                TransactionDownloadDetails transactionDetails = new TransactionDownloadDetails();
+                List<TransactionDownloadDetails> transactionDetails = new List<TransactionDownloadDetails>();
 
                 var response = await _httpRequests.MakeGetHttpCall(url, null);
-                var result = new HttpResponseDto<TransactionDownloadDetails>();
-                result.responseStatus = response.StatusCode;
+                var result = new HttpResponseDto<List<TransactionDownloadDetails>>();
+                result.responseStatus = System.Net.HttpStatusCode.Conflict;
 
                 if (response.IsSuccessStatusCode)
                 {
-                    transactionDetails = JsonConvert.DeserializeObject<TransactionDownloadDetails>(response.Content.ReadAsStringAsync().Result);
+                    transactionDetails = JsonConvert.DeserializeObject<List<TransactionDownloadDetails>>(response.Content.ReadAsStringAsync().Result);
                     result.dto = transactionDetails;
                 }
-                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-                {
-                    return null;
-                }
+
                 else
                 {
                     LoggingHelper.InsertLogs("GetDownloadDetails", className, response);

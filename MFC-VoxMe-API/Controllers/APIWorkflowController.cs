@@ -45,30 +45,30 @@ namespace MFC_VoxMe_API.Controllers
 				var transactionToUpdate = _mapper.Map<UpdateTransactionDto>(transactionToCreate);
 
 				var jobSummaryRequest = await _jobService.GetSummary(jobExternalRef);
-				if (jobSummaryRequest != null)
+				if (jobSummaryRequest.responseStatus != HttpStatusCode.NoContent)
 				{
 					if (jobSummaryRequest.responseStatus == HttpStatusCode.OK)
 					{ 
 						var transactionSummaryRequest = await _transactionService.GetSummary(externalRef);
 
-						if (transactionSummaryRequest != null)
+						if (transactionSummaryRequest.responseStatus != HttpStatusCode.NoContent)
 						{
 							if (transactionSummaryRequest.responseStatus == HttpStatusCode.OK)
 							{
-								//Update transaction
 								var UpdateTransactionRequest = await _transactionService.UpdateTransaction(transactionToUpdate);
 								if (UpdateTransactionRequest.responseStatus != HttpStatusCode.OK)
 									return BadRequest("Update Transaction Request" + UpdateTransactionRequest.responseStatus);
-
-								if (await _transactionService.GetDownloadDetails(externalRef) != null)
+								
+								var transactionDownloadDetails = await _transactionService.GetDownloadDetails(externalRef);
+								if (transactionDownloadDetails.responseStatus == HttpStatusCode.OK)
 								{
 									//escalate to ops manager
 								}
 								else
 								{
-									//remove and assign materials to a transaction
 									if (await _transactionService.RemoveMaterialsFromTransaction(externalRef))
 										await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
+									else return BadRequest("RemoveMaterialsFromTransaction" + externalRef);
 
 									if (await _transactionService.RemoveResourceFromTransaction(externalRef))
 									{
@@ -80,28 +80,22 @@ namespace MFC_VoxMe_API.Controllers
 										var AssignStaff = await _transactionService.AssignStaffDesignateForeman(_helpers.GetTransactionResources(), externalRef);
 										if (AssignStaff.responseStatus != HttpStatusCode.OK)
 											return BadRequest("AssignStaff: " + AssignStaff.responseStatus);
-
 									}
-									else
-									{
-										//HTTP status other than 200
+									else	//HTTP status other than 200
 										return BadRequest("RemoveResourceFromTransaction" + externalRef);
-									}
 								}
 							}
-							else
-							{
+							else							
 								//HTTP status other than 200
 								return BadRequest("TransactionSummary" + transactionSummaryRequest.responseStatus);
-							}
+							
 						}
 						else
                         {
-							//build CreateTransactionDto from movingData obj to make creation
 							if (transactionToCreate != null)
 							{
-								var createTransactionResponse = await _transactionService.CreateTransaction(transactionToCreate);
-								if (createTransactionResponse != null)
+								var createTransactionRequest = await _transactionService.CreateTransaction(transactionToCreate);
+								if (createTransactionRequest != null)
 								{
 										await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
 										await _transactionService.AssignStaffDesignateForeman(_helpers.GetTransactionResources(), externalRef);								
@@ -109,11 +103,9 @@ namespace MFC_VoxMe_API.Controllers
 							}
 						}						
 					}
-					else
-					{
+					else					
 						//HTTP status other than 200
-						return BadRequest("Job Summary: " + jobSummaryRequest.responseStatus);
-					}						
+						return BadRequest("Job Summary: " + jobSummaryRequest.responseStatus);										
 				}
 				else
                 {

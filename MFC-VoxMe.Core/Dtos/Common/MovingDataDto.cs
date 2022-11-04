@@ -4,14 +4,14 @@ namespace MFC_VoxMe_API.Dtos.Common
 {
 
 	[XmlRoot(ElementName = "MovingData")]
-	public class MovingData
+	public class MovingDataDto
 	{
 		[XmlElement(ElementName = "GeneralInfo")]
-		public GeneralInfo GeneralInfo { get; set; }
+		public GeneralInfo GeneralInfo { get; set; } = new GeneralInfo();
 		[XmlElement(ElementName = "InventoryData")]
-		public InventoryData InventoryData { get; set; }
+		public InventoryData InventoryData { get; set; } = new InventoryData();
 		[XmlElement(ElementName = "Documents")]
-		public Documents Documents { get; set; }
+		public Documents Documents { get; set; } = new Documents();
 		[XmlAttribute(AttributeName = "ID")]
 		public string ID { get; set; }
 	}
@@ -59,7 +59,7 @@ namespace MFC_VoxMe_API.Dtos.Common
 			[XmlElement(ElementName = "Comment")]
 			public string Comment { get; set; }
 			[XmlElement(ElementName = "AccessInfo")]
-			public AccessInfo AccessInfo { get; set; }
+			public AccessInfo AccessInfo { get; set; } = new AccessInfo();
 			[XmlElement(ElementName = "Rooms")]
 			public string Rooms { get; set; }
 		}
@@ -80,8 +80,8 @@ namespace MFC_VoxMe_API.Dtos.Common
 		[XmlRoot(ElementName = "DestRooms")]
 		public class DestRooms
 		{
-			[XmlElement(ElementName = "DestRoom")]
-			public DestRoom DestRoom { get; set; }
+		[XmlElement(ElementName = "DestRoom")]
+		public DestRoom DestRoom { get; set; } = new DestRoom();
 		}
 
 		[XmlRoot(ElementName = "Destination")]
@@ -104,9 +104,9 @@ namespace MFC_VoxMe_API.Dtos.Common
 			[XmlElement(ElementName = "Comment")]
 			public string Comment { get; set; }
 			[XmlElement(ElementName = "AccessInfo")]
-			public AccessInfo AccessInfo { get; set; }
+			public AccessInfo AccessInfo { get; set; } = new AccessInfo();
 			[XmlElement(ElementName = "DestRooms")]
-			public DestRooms DestRooms { get; set; }
+			public DestRooms DestRooms { get; set; } = new DestRooms();
 		}
 
 		[XmlRoot(ElementName = "Preferences")]
@@ -154,11 +154,11 @@ namespace MFC_VoxMe_API.Dtos.Common
 			[XmlElement(ElementName = "State")]
 			public string State { get; set; }
 			[XmlElement(ElementName = "Address")]
-			public Address Address { get; set; }
+			public Address Address { get; set; } = new Address();
 			[XmlElement(ElementName = "Destination")]
-			public Destination Destination { get; set; }
+			public Destination Destination { get; set; } = new Destination();
 			[XmlElement(ElementName = "Preferences")]
-			public Preferences Preferences { get; set; }
+			public Preferences Preferences { get; set; } = new Preferences();
 			[XmlElement(ElementName = "Comment")]
 			public string Comment { get; set; }
 		}
@@ -202,7 +202,7 @@ namespace MFC_VoxMe_API.Dtos.Common
 		public class Skids
 		{
 			[XmlElement(ElementName = "Skid")]
-			public Skid Skid { get; set; }
+			public Skid Skid { get; set; } = new Skid();
 		}
 
 		[XmlRoot(ElementName = "Packer")]
@@ -299,15 +299,15 @@ namespace MFC_VoxMe_API.Dtos.Common
 		public class InventoryData
 		{
 			[XmlElement(ElementName = "Skids")]
-			public Skids Skids { get; set; }
+			public Skids Skids { get; set; } = new Skids();
 			[XmlElement(ElementName = "Packers")]
-			public Packers Packers { get; set; }
+			public Packers Packers { get; set; } = new Packers();
 			[XmlElement(ElementName = "Materials")]
-			public Materials Materials { get; set; }
+			public Materials Materials { get; set; } = new Materials();
 			[XmlElement(ElementName = "Services")]
-			public Services Services { get; set; }
+			public Services Services { get; set; } = new Services();
 			[XmlElement(ElementName = "Properties")]
-			public Properties Properties { get; set; }
+			public Properties Properties { get; set; } = new Properties();
 			[XmlAttribute(AttributeName = "Uom")]
 			public string Uom { get; set; }
 			[XmlAttribute(AttributeName = "Offset")]

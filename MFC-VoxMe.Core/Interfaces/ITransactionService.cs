@@ -11,7 +11,7 @@ namespace MFC_VoxMe_API.Services.Transactions
         Task<HttpResponseDto<CreateTransactionDto>> CreateTransaction(CreateTransactionDto createTransactionRequest);
         Task<HttpResponseDto<TransactionSummaryDto>> GetSummary(string externalRef);
         Task<HttpResponseDto<UpdateTransactionDto>> UpdateTransaction(UpdateTransactionDto updateTransactionRequest);
-        Task<HttpResponseDto<TransactionDownloadDetails>> GetDownloadDetails(string externalRef);
+        Task<HttpResponseDto<List<TransactionDownloadDetails>>> GetDownloadDetails(string externalRef);
         Task<bool> AddDocumentToTransaction(IFormFile File, string DocTitle, string externalRef);
         Task<HttpResponseDto<AssignStaffDesignateForemanDto>> AssignStaffDesignateForeman(AssignStaffDesignateForemanDto request, string externalRef);
         Task<bool> RemoveResourceFromTransaction(string externalRef);

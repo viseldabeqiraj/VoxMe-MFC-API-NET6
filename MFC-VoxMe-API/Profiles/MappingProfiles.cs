@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MFC_VoxMe_API.Dtos.Jobs;
 using MFC_VoxMe_API.Dtos.Transactions;
+using MFC_VoxMe_API.Models;
 
 namespace MFC_VoxMe_API.Profiles
 {
@@ -10,7 +11,6 @@ namespace MFC_VoxMe_API.Profiles
         {
             //Job mapping profiles
             CreateMap<CreateJobDto, UpdateJobDto>();
-            CreateMap<UpdateJobDto, CreateJobDto>();
             CreateMap<CreateJobDto.OriginAddress, UpdateJobDto.OriginAddress>();
             CreateMap<CreateJobDto.AddressDetails, UpdateJobDto.AddressDetails>();
             CreateMap<CreateJobDto.OriginPartyContact, UpdateJobDto.OriginPartyContact>();
@@ -20,7 +20,6 @@ namespace MFC_VoxMe_API.Profiles
             CreateMap<CreateJobDto.DestinationAddress, UpdateJobDto.DestinationAddress>();
 
             //Transaction mapping profiles
-            CreateMap<CreateTransactionDto, UpdateTransactionDto>();
             CreateMap<CreateTransactionDto, UpdateTransactionDto>();
             CreateMap<CreateTransactionDto.OriginAddress, UpdateTransactionDto.OriginAddress>();
             CreateMap<CreateTransactionDto.AddressDetails, UpdateTransactionDto.AddressDetails>();
@@ -33,6 +32,10 @@ namespace MFC_VoxMe_API.Profiles
             CreateMap<CreateTransactionDto.AuxService, UpdateTransactionDto.AuxService>();
             CreateMap<CreateTransactionDto.LoadingUnit, UpdateTransactionDto.LoadingUnit>();
             CreateMap<CreateTransactionDto.LoadingUnitDetails, UpdateTransactionDto.LoadingUnitDetails>();
+
+            //movingdata
+            //CreateMap<CreateJobDto, MovingData>().ForMember(vm => vm.ExternalMFID, m => m.MapFrom(u => (u.externalRef != null)));
+
         }       
 
     }
