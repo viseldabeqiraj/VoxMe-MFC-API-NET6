@@ -878,7 +878,6 @@ namespace MFC_VoxMe_API.BusinessLogic
 				MovingDataDto movingDataFromXml = (MovingDataDto)serializer.Deserialize(memStream);
 
 				_MovingData = movingDataFromXml;
-				setProperties();
 				return movingDataFromXml;
 			}
 			catch (Exception ex)
@@ -888,11 +887,7 @@ namespace MFC_VoxMe_API.BusinessLogic
 			}
 		}
 
-        public HttpResponseDto<T> isSuccessCode<T>(HttpStatusCode statusCode)
-        {
-			return null;
-            //return (statusCode == HttpStatusCode.OK) ? true : false;
-        }
+  
 
 		public CreateJobDto CreateJobObjectFromXml()
         {
