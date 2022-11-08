@@ -18,8 +18,8 @@ namespace MFC_VoxMe_API.Dtos.Jobs
         public string transportMode { get; set; } = "Enum.TransportMode.Truck";
         public Booker booker { get; set; } = new Booker();
         public BookerPerson bookerPerson { get; set; } = new BookerPerson();
-        public Account account { get; set; } = new Account();
-        public AccountPerson accountPerson { get; set; } = new AccountPerson();
+        public Account account { get; set; } 
+        public AccountPerson accountPerson { get; set; } 
         public OriginAddress originAddress { get; set; } = new OriginAddress();
         public OriginPartyContact originPartyContact { get; set; } = new OriginPartyContact();
         public DestinationAddress destinationAddress { get; set; } = new DestinationAddress();
@@ -46,15 +46,15 @@ namespace MFC_VoxMe_API.Dtos.Jobs
 
         public class AddressDetails
         {
-            public string? city { get; set; }
-            public string? country { get; set; }
+            public string city { get; set; }
+            public string country { get; set; }
             public string? street1 { get; set; }
             public string? street2 { get; set; }
             public string? street3 { get; set; }
-            public string? area { get; set; }
-            public string? zip { get; set; }
-            public string? floor { get; set; }
-            public string? notes { get; set; }
+            public string area { get; set; }
+            public string zip { get; set; }
+            public string floor { get; set; }
+            public string notes { get; set; }
         }
 
         public class Booker
@@ -88,8 +88,10 @@ namespace MFC_VoxMe_API.Dtos.Jobs
 
         public class ContactDetails
         {
-            public string Email { get; set; }
-            public string MobilePhone { get; set; }
+            public string email { get; set; }
+            public string mobilePhone { get; set; }
+            public string homePhone { get; set; }
+            public string workPhone { get; set; }
         }
 
         public class DestinationAddress

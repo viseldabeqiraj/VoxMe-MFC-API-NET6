@@ -20,9 +20,9 @@ namespace MFC_VoxMe_API.Profiles
             CreateMap<CreateJobDto.DestinationAddress, UpdateJobDto.DestinationAddress>();
 
             //Transaction mapping profiles
-            CreateMap<CreateTransactionDto, UpdateTransactionDto>();
-            CreateMap<CreateTransactionDto.OriginAddress, UpdateTransactionDto.OriginAddress>();
-            CreateMap<CreateTransactionDto.AddressDetails, UpdateTransactionDto.AddressDetails>();
+            //CreateMap<CreateTransactionDto, UpdateTransactionDto>();
+            //CreateMap<CreateTransactionDto.OriginAddress, UpdateTransactionDto.OriginAddress>();
+            //CreateMap<CreateTransactionDto.AddressDetails, UpdateTransactionDto.AddressDetails>();
             CreateMap<CreateTransactionDto.OriginPartyContact, UpdateTransactionDto.OriginPartyContact>();
             CreateMap<CreateTransactionDto.PersonDetails, UpdateTransactionDto.PersonDetails>();
             CreateMap<CreateTransactionDto.DestinationPartyContact, UpdateTransactionDto.DestinationPartyContact>();

@@ -71,9 +71,9 @@ namespace MFC_VoxMe.Infrastructure.Services
 
         public async Task<HttpResponseDto<JobSummaryDto>> GetSummary(string externalRef)
         {
-            try
-            {
-                externalRef = "RM002900";
+          //  try
+           // {
+                //externalRef = "RM002900";
 
                 var url = GetUrl($"jobs/{externalRef}/summary");
                 JobSummaryDto jobSummary = new JobSummaryDto();
@@ -85,6 +85,8 @@ namespace MFC_VoxMe.Infrastructure.Services
                 if (response.IsSuccessStatusCode)
                 {
                     jobSummary = JsonConvert.DeserializeObject<JobSummaryDto>(response.Content.ReadAsStringAsync().Result);
+                    
+                    throw new ApplicationException("GetSummary:" + className + response + "statuscode: " , new Exception(response.StatusCode.ToString()));
                     result.dto = jobSummary;
                 }
                 else
@@ -92,12 +94,12 @@ namespace MFC_VoxMe.Infrastructure.Services
                     LoggingHelper.InsertLogs("GetSummary", className, response);
                 }
                 return result;
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"Method GetSummary in {className} failed. Exception thrown :{ex.Message}");
-            }
-            return null;
+           // }
+            //catch (Exception ex)
+            //{
+            //    Log.Error($"Method GetSummary in {className} failed. Exception thrown :{ex.Message}");
+            //}
+            //return null;
         }
 
 

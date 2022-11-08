@@ -1,4 +1,5 @@
-﻿using MFC_VoxMe_API.BusinessLogic.AccessToken;
+﻿using MFC_VoxMe.Infrastructure.HttpMethods.AccessToken;
+using MFC_VoxMe_API.BusinessLogic.AccessToken;
 using MFC_VoxMe_API.Dtos.Common;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
@@ -14,6 +15,7 @@ namespace MFC_VoxMe_API.HttpMethods
         private readonly IAccessTokenConfig _accessTokenConfig;
         private readonly AccessTokenConfigDto _accessTokenConfigDto;
         private readonly string className;
+        public HttpClient client = new HttpClient();
 
         public HttpRequests(IAccessTokenConfig accessTokenConfig)
         {
@@ -31,8 +33,6 @@ namespace MFC_VoxMe_API.HttpMethods
 
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-                HttpClient client = new HttpClient();
 
                 var request = new HttpRequestMessage
                 {
@@ -73,8 +73,6 @@ namespace MFC_VoxMe_API.HttpMethods
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-                HttpClient client = new HttpClient();
-
                 var request = new HttpRequestMessage
                 {
                     Method = HttpMethod.Get,
@@ -88,7 +86,11 @@ namespace MFC_VoxMe_API.HttpMethods
                 
                     response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
 
-                return response;
+                if (response.IsSuccessStatusCode)
+                {
+                    return response;
+                }
+                return null; //TODO
             }
             catch (Exception ex)
             {
@@ -105,8 +107,6 @@ namespace MFC_VoxMe_API.HttpMethods
             {
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-                HttpClient client = new HttpClient();
 
                 if (file != null && file.Length > 0)
                 {
@@ -155,8 +155,6 @@ namespace MFC_VoxMe_API.HttpMethods
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-
-                HttpClient client = new HttpClient();
                 var request = new HttpRequestMessage
                 {
                     Method = HttpMethod.Put,
@@ -188,9 +186,6 @@ namespace MFC_VoxMe_API.HttpMethods
             {
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-                HttpClient client = new HttpClient();
-
 
                 var request = new HttpRequestMessage
                 {
@@ -224,7 +219,6 @@ namespace MFC_VoxMe_API.HttpMethods
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
                 //Fetch the JSON string from URL.
-                HttpClient client = new HttpClient();
                 var request = new HttpRequestMessage
                 {
                     Method = HttpMethod.Patch,
@@ -249,20 +243,7 @@ namespace MFC_VoxMe_API.HttpMethods
 
         }
 
-        public class Token
-        {
-            [JsonProperty("access_token")]
-            public string AccessToken { get; set; }
-
-            [JsonProperty("token_type")]
-            public string TokenType { get; set; }
-
-            [JsonProperty("expires_in")]
-            public int ExpiresIn { get; set; }
-
-            [JsonProperty("refresh_token")]
-            public string RefreshToken { get; set; }
-        }
+       
 
     }
 }

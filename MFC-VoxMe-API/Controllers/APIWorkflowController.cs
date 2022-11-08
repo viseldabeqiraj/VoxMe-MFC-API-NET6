@@ -35,9 +35,9 @@ namespace MFC_VoxMe_API.Controllers
 
 		public async Task<ActionResult> WorkflowLogic([FromBody] string xml)
         {
-			try
-            {
-				var movingData = _helpers.XMLParse(xml);
+			//try
+   //         {
+			    var movingData = _helpers.XMLParse(xml);
 				var externalRef = movingData.GeneralInfo.EMFID;
 				var jobExternalRef = movingData.GeneralInfo.Groupageid;
 
@@ -75,7 +75,7 @@ namespace MFC_VoxMe_API.Controllers
 										var resourceCodes = _helpers.GetTransactionResources().staffResourceCodes;
 										foreach (var resourceCode in resourceCodes)
 										{
-											AddUpdateResourcesLogic(resourceCode.code);
+											CreateResourcesLogic(resourceCode.code);
 										}
 										var AssignStaff = await _transactionService.AssignStaffDesignateForeman(_helpers.GetTransactionResources(), externalRef);
 										if (AssignStaff.responseStatus != HttpStatusCode.OK)
@@ -128,17 +128,17 @@ namespace MFC_VoxMe_API.Controllers
 						else return BadRequest("CreateJobRequest:" + CreateJobRequest.responseStatus);
 					}
 				}
-				return Ok();
-			}
-			catch(Exception ex)
-            {
-				Log.Error($"Method WorkflowLogic in {this.GetType().Name} failed. Exception thrown :{ex.Message}");
-				return BadRequest(ex.Message);	
-            }
+				return BadRequest("testttttt");
+			//}
+			//catch(Exception ex)
+   //         {
+			//	Log.Error($"Method WorkflowLogic in {this.GetType().Name} failed. Exception thrown :{ex.Message}");
+			//	return BadRequest(ex.Message);	
+   //         }
         }
 
-        [HttpPost("AddUpdateResourcesLogic")]
-		public async void AddUpdateResourcesLogic(string resourceCode)
+        [HttpPost("CreateResource")]
+		public async Task<ActionResult> CreateResourcesLogic([FromBody] string resourceCode)
         {
 			try
 			{
@@ -147,27 +147,31 @@ namespace MFC_VoxMe_API.Controllers
 					resource = new CreateResourceDto.Resource()
 					{
 						code = resourceCode,
-						resourceName = resourceCode,
+						resourceName = resourceCode //split TODO,
 					}
 				};
-				await _resourceService.CreateResource(createResourceDto);
-
-
-				await _resourceService.ForceConfigurationChanges("Inventory");
+				var createResource = await _resourceService.CreateResource(createResourceDto);
+				if (createResource.responseStatus == HttpStatusCode.OK)
+                {
+					if (await _resourceService.ForceConfigurationChanges("Inventory"))
+						return Ok();
+				}
+				return BadRequest("CreateResource Request: " + createResource.responseStatus);
 			}
 			catch (Exception ex)
 			{
 				Log.Error($"Method ResourcesAddUpdateLogic in {this.GetType().Name} failed. Exception thrown :{ex.Message}");
+				return BadRequest(ex.Message);
 			}
 		}
 
-        [HttpPost("DeactivateResourcesLogic")]		
-		public async void DeactivateResourcesLogic(string resourceCode)
+        [HttpPost("DeactivateResource")]		
+		public async Task<ActionResult> DeactivateResourcesLogic([FromBody]string resourceCode)
 		{
 			try
 			{
 				var resourceDetails = await _resourceService.GetDetails(resourceCode);
-				if (resourceDetails != null)
+				if (resourceDetails.responseStatus == HttpStatusCode.OK)
 				{
 					if (await _resourceService.DisableResource(resourceCode))
                     {
@@ -176,13 +180,16 @@ namespace MFC_VoxMe_API.Controllers
 						{
 							staffResourceCodes = resourceCodesList
 						};
-						await _resourceService.ForceConfigurationChanges("Inventory");
+						if (await _resourceService.ForceConfigurationChanges("Inventory"))
+						return Ok();
 					}
-				}				
+				}
+				return BadRequest("ResourceDetails" + resourceDetails.responseStatus);
 			}
 			catch (Exception ex)
 			{
 				Log.Error($"Method DeactivateResourcesLogic in {this.GetType().Name} failed. Exception thrown :{ex.Message}");
+				return BadRequest(ex.Message);
 			}
 		}
 

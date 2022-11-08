@@ -1,2 +1,0 @@
-2022-10-21 18:48:42.147 +02:00 [WRN] Method GetDetails in TransactionService returned NotFound. Json Response: {"error":{"name":"mockRequestNotFoundError","message":"Double check your method and the request path and try again.","header":"No matching requests"}}
-2022-10-21 18:48:55.823 +02:00 [WRN] Method GetSummary in TransactionService returned NotFound. Json Response: {"error":{"name":"mockRequestNotFoundError","message":"Double check your method and the request path and try again.","header":"No matching requests"}}

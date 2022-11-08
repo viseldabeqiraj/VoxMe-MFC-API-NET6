@@ -1,0 +1,77 @@
+2022-11-08 13:24:01.847 +01:00 [WRN] Method CreateResource in ResourceService returned NotFound. Json Response: {"type":"https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.4","title":"Provided home division could not be found","status":404,"traceId":"00-b28424e021b0918865f3f0b127d5d162-58ccb1dd3386dc47-00","variables":{"HomeDivisionId":"JK Moving"}}
+2022-11-08 16:50:44.954 +01:00 [ERR] Method WorkflowLogic in APIWorkflowController failed. Exception thrown :GetSummary:JobServiceStatusCode: 204, ReasonPhrase: 'No Content', Version: 1.1, Content: System.Net.Http.HttpConnectionResponseContent, Headers:
+{
+  Date: Tue, 08 Nov 2022 15:50:23 GMT
+  Connection: keep-alive
+  Server: Kestrel
+  Content-Length: 0
+}
+2022-11-08 17:05:34.474 +01:00 [ERR] Method WorkflowLogic in APIWorkflowController failed. Exception thrown :{"StatusCode":204,"Response":"","MethodName":"GetSummary","ClassName":"JobService"}
+2022-11-08 17:08:09.812 +01:00 [ERR] Method WorkflowLogic in APIWorkflowController failed. Exception thrown :{"StatusCode":204,"Response":"","MethodName":"GetSummary","ClassName":"JobService"}
+2022-11-08 17:11:30.034 +01:00 [ERR] Method WorkflowLogic in APIWorkflowController failed. Exception thrown :{"StatusCode":204,"Response":"","MethodName":"GetSummary","ClassName":"JobService"}
+2022-11-08 17:13:54.095 +01:00 [ERR] Method WorkflowLogic in APIWorkflowController failed. Exception thrown :{"StatusCode":204,"Response":"","MethodName":"GetSummary","ClassName":"JobService"}
+2022-11-08 17:14:40.503 +01:00 [ERR] Method WorkflowLogic in APIWorkflowController failed. Exception thrown :{"StatusCode":204,"Response":"","MethodName":"GetSummary","ClassName":"JobService"}
+2022-11-08 17:15:52.167 +01:00 [ERR] Method WorkflowLogic in APIWorkflowController failed. Exception thrown :{"StatusCode":204,"Response":"","MethodName":"GetSummary","ClassName":"JobService"}
+2022-11-08 17:22:06.957 +01:00 [ERR] Method WorkflowLogic in APIWorkflowController failed. Exception thrown :{"StatusCode":204,"Response":"","MethodName":"GetSummary","ClassName":"JobService"}
+2022-11-08 17:23:26.770 +01:00 [ERR] Method WorkflowLogic in APIWorkflowController failed. Exception thrown :{"StatusCode":204,"Response":"","MethodName":"GetSummary","ClassName":"JobService"}
+2022-11-08 17:29:47.189 +01:00 [ERR] Method WorkflowLogic in APIWorkflowController failed. Exception thrown :GetSummary:JobServiceStatusCode: 204, ReasonPhrase: 'No Content', Version: 1.1, Content: System.Net.Http.HttpConnectionResponseContent, Headers:
+{
+  Date: Tue, 08 Nov 2022 16:29:42 GMT
+  Connection: keep-alive
+  Server: Kestrel
+  Content-Length: 0
+}statuscode: 
+2022-11-08 17:33:59.974 +01:00 [ERR] Method WorkflowLogic in APIWorkflowController failed. Exception thrown :GetSummary:JobServiceStatusCode: 204, ReasonPhrase: 'No Content', Version: 1.1, Content: System.Net.Http.HttpConnectionResponseContent, Headers:
+{
+  Date: Tue, 08 Nov 2022 16:33:55 GMT
+  Connection: keep-alive
+  Server: Kestrel
+  Content-Length: 0
+}statuscode: 
+2022-11-08 17:45:18.547 +01:00 [ERR] Method WorkflowLogic in APIWorkflowController failed. Exception thrown :GetSummary:JobServiceStatusCode: 204, ReasonPhrase: 'No Content', Version: 1.1, Content: System.Net.Http.HttpConnectionResponseContent, Headers:
+{
+  Date: Tue, 08 Nov 2022 16:45:13 GMT
+  Connection: keep-alive
+  Server: Kestrel
+  Content-Length: 0
+}statuscode: 
+2022-11-08 17:47:29.415 +01:00 [ERR] Something went wrong: System.ApplicationException: GetSummary:JobServiceStatusCode: 204, ReasonPhrase: 'No Content', Version: 1.1, Content: System.Net.Http.HttpConnectionResponseContent, Headers:
+{
+  Date: Tue, 08 Nov 2022 16:47:20 GMT
+  Connection: keep-alive
+  Server: Kestrel
+  Content-Length: 0
+}statuscode: 
+ ---> System.Exception: NoContent
+   --- End of inner exception stack trace ---
+   at MFC_VoxMe.Infrastructure.Services.JobService.GetSummary(String externalRef) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\Services\JobService.cs:line 89
+   at MFC_VoxMe_API.Controllers.APIWorkflowController.WorkflowLogic(String xml)
+   at lambda_method130(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.InvokeAsync(HttpContext httpContext) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\GlobalErrorHandling\ExceptionMiddlewareExtensions.cs:line 24
+2022-11-08 18:02:22.476 +01:00 [ERR] Something went wrong: 
+2022-11-08 18:03:22.341 +01:00 [ERR] Something went wrong: Missing type map configuration or unsupported mapping.
+
+Mapping types:
+CreateTransactionDto -> UpdateTransactionDto
+MFC_VoxMe_API.Dtos.Transactions.CreateTransactionDto -> MFC_VoxMe_API.Dtos.Transactions.UpdateTransactionDto
+2022-11-08 18:08:02.180 +01:00 [ERR] Something went wrong: Missing type map configuration or unsupported mapping.
+
+Mapping types:
+CreateTransactionDto -> UpdateTransactionDto
+MFC_VoxMe_API.Dtos.Transactions.CreateTransactionDto -> MFC_VoxMe_API.Dtos.Transactions.UpdateTransactionDto
+2022-11-08 18:09:12.989 +01:00 [ERR] Something went wrong: Missing type map configuration or unsupported mapping.
+
+Mapping types:
+CreateTransactionDto -> UpdateTransactionDto
+MFC_VoxMe_API.Dtos.Transactions.CreateTransactionDto -> MFC_VoxMe_API.Dtos.Transactions.UpdateTransactionDto

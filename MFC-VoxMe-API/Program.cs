@@ -47,7 +47,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseMiddleware<ExceptionMiddlewareExtensions>(); //added for global handling
+app.UseMiddleware<ExceptionMiddlewareExtensions>(); //added for global exception handling
 
 app.UseHttpsRedirection();
 

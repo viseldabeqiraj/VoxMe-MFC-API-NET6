@@ -9,7 +9,6 @@ using Newtonsoft.Json;
 using Serilog;
 using System.Net;
 using System.Text;
-using System.Text.Json;
 using System.Xml.Serialization;
 using static MFC_VoxMe_API.Dtos.Jobs.CreateJobDto;
 using static MFC_VoxMe_API.Dtos.Transactions.AssignStaffDesignateForemanDto;
@@ -876,8 +875,9 @@ namespace MFC_VoxMe_API.BusinessLogic
 				XmlSerializer serializer = new XmlSerializer(typeof(MovingDataDto));
 				MemoryStream memStream = new MemoryStream(Encoding.UTF8.GetBytes(xml));
 				MovingDataDto movingDataFromXml = (MovingDataDto)serializer.Deserialize(memStream);
-
 				_MovingData = movingDataFromXml;
+				setProperties();
+
 				return movingDataFromXml;
 			}
 			catch (Exception ex)
@@ -887,7 +887,15 @@ namespace MFC_VoxMe_API.BusinessLogic
 			}
 		}
 
-  
+		public void setProperties()
+		{
+			var moving = new MovingData();
+			//PropertyMatcher<CreateJobDto, MovingData>.GenerateMatchedObject(CreateJobObjectFromXml(), moving);
+			//PropertyMatcher<CreateJobDto.Client, MovingData>.GenerateMatchedObject(CreateJobObjectFromXml().client, moving);
+			var json = JsonConvert.SerializeObject(CreateJobObjectFromXml());//JsonSerializer.Serialize(CreateJobObjectFromXml());
+			var to = JsonConvert.DeserializeObject<MovingData>(json);//JsonSerializer.Deserialize<MovingData>(json);
+		}
+
 
 		public CreateJobDto CreateJobObjectFromXml()
         {
@@ -896,7 +904,7 @@ namespace MFC_VoxMe_API.BusinessLogic
 				CreateJobDto createJobDto = new CreateJobDto();
 	
 				var generalInfo = _MovingData.GeneralInfo;
-				createJobDto.externalRef = generalInfo.EMFID;
+				createJobDto.externalRef = generalInfo.Groupageid;
 				var properties = _MovingData.InventoryData.Properties.Property;
 
 				createJobDto.serviceType = "Enum.ServiceType." + properties.FirstOrDefault
@@ -919,18 +927,16 @@ namespace MFC_VoxMe_API.BusinessLogic
                     {
 						firstName = generalInfo.ClientFirstName,
 						lastName= generalInfo.Name,
-						salutation = generalInfo.ClientSalutation,
+						salutation = "Enum.Salutation." + generalInfo.ClientSalutation,
 						contactDetails = new ContactDetails()
                         {
-							MobilePhone = generalInfo.Address.PrimaryPhone,
-							Email = generalInfo.Address.Email
+							mobilePhone = generalInfo.Address.PrimaryPhone,
+							email = generalInfo.Address.Email
                         }
 					},
 					
 				};
 
-				//Check
-				//RC to be added
 				createJobDto.managedBy = new ManagedBy()
 				{
 					code = generalInfo.CoordinatorID,
@@ -940,7 +946,8 @@ namespace MFC_VoxMe_API.BusinessLogic
 						lastName = generalInfo.EstimatorName.Split(',')[0],
 						contactDetails = new ContactDetails()
                         {
-							Email = generalInfo.Coordinatoremail
+							email = generalInfo.Coordinatoremail,
+							mobilePhone =  generalInfo.CoordinatorMobile
                         },						
 						
 					}
@@ -951,6 +958,8 @@ namespace MFC_VoxMe_API.BusinessLogic
 
 				if (properties.Any(s => s.Type == "Form.General.Account" && s.Description != null))
 				{
+					createJobDto.account = new Account();
+					createJobDto.accountPerson = new AccountPerson();
 					createJobDto.account.code = "Enum.PartyType." + properties.FirstOrDefault
 						(s => s.Type == "Form.General.Account").Description.Replace(" ", "");
 					createJobDto.account.legalName = createJobDto.account.code;

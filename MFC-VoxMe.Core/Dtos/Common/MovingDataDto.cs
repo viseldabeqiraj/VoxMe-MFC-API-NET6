@@ -147,6 +147,8 @@ namespace MFC_VoxMe_API.Dtos.Common
 			public string Groupageid { get; set; }
 			[XmlElement(ElementName = "Coordinatoremail")]
 			public string Coordinatoremail { get; set; }
+			[XmlElement(ElementName = "CoordinatorMobile")]
+			public string CoordinatorMobile { get; set; }
 			[XmlElement(ElementName = "CoordinatorID")]
 			public string CoordinatorID { get; set; }
 			[XmlElement(ElementName = "ShipmentType")]

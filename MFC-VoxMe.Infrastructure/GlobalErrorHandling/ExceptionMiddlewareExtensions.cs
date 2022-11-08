@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace MFC_VoxMe.Infrastructure.GlobalErrorHandling
@@ -24,24 +25,42 @@ namespace MFC_VoxMe.Infrastructure.GlobalErrorHandling
             }
             catch (Exception ex)
             {
-                Log.Error($"Something went wrong: {ex}");
+                Log.Error($"Something went wrong: {ex.Message}");
                 await HandleExceptionAsync(httpContext, ex);
             }
         }
         private async Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            await context.Response.WriteAsync(new ErrorDetails()
+            var errorResponse = new ErrorDetails
             {
-                StatusCode = context.Response.StatusCode,
-                Message = "Internal Server Error from the custom middleware."
-            }.ToString());
+                Response = "Test"
+            };
+            switch (exception)
+            {
+                case ApplicationException e:
+                    // custom application error
+                    context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                    errorResponse.StatusCode = HttpStatusCode.Forbidden;
+                    break;
+                case NullReferenceException e:
+                    // not found error
+                    context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                    break;
+
+                default:
+                    // unhandled error
+                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    break;
+            }
+
+            var result = JsonSerializer.Serialize(errorResponse);
+            await context.Response.WriteAsync(result);
         }
 
-        public static void UseHttpStatusCodeExceptionMiddleware(IApplicationBuilder app)
-        {
-            app.UseMiddleware<ExceptionMiddlewareExtensions>();
-        }
+        //public static void UseHttpStatusCodeExceptionMiddleware(IApplicationBuilder app)
+        //{
+        //    app.UseMiddleware<ExceptionMiddlewareExtensions>();
+        //}
     }
 }
