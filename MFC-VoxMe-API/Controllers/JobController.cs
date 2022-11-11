@@ -68,22 +68,22 @@ namespace MFC_VoxMe_API.Controllers
             }
         }
 
-        [HttpPut("UpdateJob")]
-        public async Task<ActionResult> UpdateJob(UpdateJobDto request)
-        {
-            try
-            {
-                var result = await _jobService.UpdateJob(request);
+        //[HttpPut("UpdateJob")]
+        //public async Task<ActionResult> UpdateJob(UpdateJobDto request)
+        //{
+        //    try
+        //    {
+        //        var result = await _jobService.UpdateJob(request,);
 
-                if (result != null)
-                    return Ok(result);
-                else return BadRequest();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //        if (result != null)
+        //            return Ok(result);
+        //        else return BadRequest();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
     }
 }

@@ -8,7 +8,7 @@ namespace MFC_VoxMe_API.Services.Jobs
         Task<HttpResponseDto<JobDetailsDto>> GetDetails(string externalRef);
         Task<HttpResponseDto<CreateJobDto>> CreateJob(CreateJobDto createJobRequest);
         Task<HttpResponseDto<JobSummaryDto>> GetSummary(string externalRef);
-        Task<HttpResponseDto<UpdateJobDto>> UpdateJob(UpdateJobDto updateJobRequest);
+        Task<HttpResponseDto<UpdateJobDto>> UpdateJob(UpdateJobDto updateJobRequest, string externalRef);
 
      }
 }

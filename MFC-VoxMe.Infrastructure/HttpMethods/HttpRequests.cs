@@ -1,6 +1,7 @@
 ﻿using MFC_VoxMe.Infrastructure.HttpMethods.AccessToken;
 using MFC_VoxMe_API.BusinessLogic.AccessToken;
 using MFC_VoxMe_API.Dtos.Common;
+using MFC_VoxMe_API.Logging;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Serilog;
@@ -27,9 +28,7 @@ namespace MFC_VoxMe_API.HttpMethods
 
         public async Task<Token> GetAccessToken()
         {
-            try
-            {
-                var accessTokenUrl = _accessTokenConfigDto.accessTokenUrl;
+             var accessTokenUrl = _accessTokenConfigDto.accessTokenUrl;
 
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
@@ -55,21 +54,14 @@ namespace MFC_VoxMe_API.HttpMethods
                     Token token = JsonConvert.DeserializeObject<Token>(jsonContent);
                     return token;
                 }
-                return null;
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"Method GetAccessToken in {className} failed. Exception thrown :{ex.Message}");
-                return null;
-            }
+                throw new ApplicationException(accessTokenUrl + " Status code: " + response.StatusCode + " " + response);            
 
         }
 
         //GET method to call the httpclient to get response from the url specified as a parameter
-        public async Task<HttpResponseMessage> MakeGetHttpCall(string url, HttpContent data)
+        public async Task<HttpResponseMessage> MakeGetHttpCall(string url, HttpContent? data)
         {
-            try
-            {
+
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
@@ -87,24 +79,18 @@ namespace MFC_VoxMe_API.HttpMethods
                     response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
 
                 if (response.IsSuccessStatusCode)
-                {
                     return response;
-                }
-                return null; //TODO
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"Method MakeGetHttpCall in {className} failed. Exception thrown :{ex.Message}");
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
-            }
+
+                else
+                    throw new ApplicationException
+                    (url + " Status code: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
 
         }
 
         //POST method by calling httpclient to post data on api side
         public async Task<HttpResponseMessage> MakePostHttpCall(string url, HttpContent? data, IFormFile? file)
         {
-            try
-            {
+
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
@@ -136,22 +122,19 @@ namespace MFC_VoxMe_API.HttpMethods
 
                 response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
 
-                return response;
-               
-                }
-                catch (Exception ex)
-                {
-                    Log.Error($"Method MakePostHttpCall in {className} failed. Exception thrown :{ex.Message}");
-                    return new HttpResponseMessage(HttpStatusCode.BadRequest);
-                }
-
+                if (response.IsSuccessStatusCode)
+                    return response;  
+                
+                else
+                    throw new ApplicationException
+                    (url + " Status code: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
+         
         }
 
         //PUT method by calling httpclient to update data on api side
         public async Task<HttpResponseMessage> MakePutHttpCall(string url, HttpContent data)
         {
-            try
-            {
+
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
@@ -168,22 +151,19 @@ namespace MFC_VoxMe_API.HttpMethods
 
                 response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
 
-                return response;
+                if (response.IsSuccessStatusCode)
+                    return response;
 
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"Method MakePutHttpCall in {className} failed. Exception thrown :{ex.Message}");
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
-            }
+                else
+                throw new ApplicationException
+                (url + " Status code: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);          
 
         }
 
         //DELETE method by calling httpclient to delete data on api side
         public async Task<HttpResponseMessage> MakeDeleteHttpCall(string url, StringContent? data)
         {
-            try
-            {
+            
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
@@ -201,20 +181,18 @@ namespace MFC_VoxMe_API.HttpMethods
 
                 response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
 
-                return response;
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"Method MakeDeleteHttpCall in {className} failed. Exception thrown :{ex.Message}");
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
-            }
+                if (response.IsSuccessStatusCode)
+                    return response;
 
+                else
+                    throw new ApplicationException
+                    (url + " Status code: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
         }
+
         //PATCH method by calling httpclient
         public async Task<HttpResponseMessage> MakePatchHttpCall(string url, HttpContent data)
         {
-            try
-            {
+
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
@@ -232,18 +210,13 @@ namespace MFC_VoxMe_API.HttpMethods
 
                 response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
 
-                return response;
-                //HttpResponseMessage response = await client.PatchAsync(url, data);
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"Method MakePatchHttpCall in {className} failed. Exception thrown :{ex.Message}");
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
-            }
+                if (response.IsSuccessStatusCode)
+                    return response;
 
-        }
+                else
+                    throw new ApplicationException
+                    (url + " Status code: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
 
-       
-
+        }       
     }
 }

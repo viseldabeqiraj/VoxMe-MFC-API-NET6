@@ -25,7 +25,7 @@ namespace MFC_VoxMe.Infrastructure.GlobalErrorHandling
             }
             catch (Exception ex)
             {
-                Log.Error($"Something went wrong: {ex.Message}");
+                Log.Error(ex.Message);
                 await HandleExceptionAsync(httpContext, ex);
             }
         }
@@ -34,18 +34,44 @@ namespace MFC_VoxMe.Infrastructure.GlobalErrorHandling
             context.Response.ContentType = "application/json";
             var errorResponse = new ErrorDetails
             {
-                Response = "Test"
+                Response = exception.Message
             };
             switch (exception)
             {
                 case ApplicationException e:
                     // custom application error
-                    context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                    errorResponse.StatusCode = HttpStatusCode.Forbidden;
-                    break;
-                case NullReferenceException e:
-                    // not found error
-                    context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                    if (exception.Message.Contains("Status code: BadRequest"))
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                        errorResponse.StatusCode = HttpStatusCode.BadRequest;
+                        break;
+                    }
+                    else if (exception.Message.Contains("Status code: Unauthorized"))
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                        errorResponse.StatusCode = HttpStatusCode.Unauthorized;
+                        break;
+                    }
+                    else if (exception.Message.Contains("Status code: Conflict"))
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.Conflict;
+                        errorResponse.StatusCode = HttpStatusCode.Conflict;
+                        break;
+                    }
+                    else if (exception.Message.Contains("Status code: Forbidden"))
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                        errorResponse.StatusCode = HttpStatusCode.Forbidden;
+                        break;
+                    }
+                    else if (exception.Message.Contains("Status code: NotFound"))
+                    {
+                        context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                        errorResponse.StatusCode = HttpStatusCode.NotFound;
+                        break;
+                    }
+                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    errorResponse.StatusCode = HttpStatusCode.InternalServerError;
                     break;
 
                 default:
@@ -53,6 +79,8 @@ namespace MFC_VoxMe.Infrastructure.GlobalErrorHandling
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     break;
             }
+
+           
 
             var result = JsonSerializer.Serialize(errorResponse);
             await context.Response.WriteAsync(result);

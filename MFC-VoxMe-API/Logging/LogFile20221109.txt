@@ -1,0 +1,8 @@
+2022-11-09 15:50:23.036 +01:00 [WRN] API Endpoint https://api-stg.voxme.com/mfc/v2/transactions/RS249955/details returned MethodNotAllowed status code. Json Response: 
+2022-11-09 15:52:11.198 +01:00 [WRN] API Endpoint https://api-stg.voxme.com/mfc/v2/transactions/RS249955/details returned MethodNotAllowed status code. Json Response: 
+2022-11-09 15:54:50.483 +01:00 [WRN] API Endpoint https://api-stg.voxme.com/mfc/v2/transactions/RS249955/details returned MethodNotAllowed status code. Json Response: 
+2022-11-09 16:08:49.081 +01:00 [WRN] API Endpoint https://api-stg.voxme.com/mfc/v2/transactions/RS249955/details returned MethodNotAllowed status code. Json Response: 
+2022-11-09 16:35:22.550 +01:00 [WRN] API Endpoint https://api-stg.voxme.com/mfc/v2/transactions/RS249955/details returned MethodNotAllowed status code. Json Response: 
+2022-11-09 16:35:28.081 +01:00 [ERR] Method GetDetails in TransactionService failed. Exception thrown :Index was outside the bounds of the array.
+2022-11-09 16:36:09.047 +01:00 [WRN] API Endpoint https://api-stg.voxme.com/mfc/v2/transactions/RS249955/details returned MethodNotAllowed status code. Json Response: 
+2022-11-09 16:37:20.858 +01:00 [WRN] API Endpoint https://api-stg.voxme.com/mfc/v2/transactions/RS249955/details returned MethodNotAllowed status code. Json Response: 

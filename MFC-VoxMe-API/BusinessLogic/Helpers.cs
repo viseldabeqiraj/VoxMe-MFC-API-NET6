@@ -877,7 +877,6 @@ namespace MFC_VoxMe_API.BusinessLogic
 				MovingDataDto movingDataFromXml = (MovingDataDto)serializer.Deserialize(memStream);
 				_MovingData = movingDataFromXml;
 				setProperties();
-
 				return movingDataFromXml;
 			}
 			catch (Exception ex)
@@ -892,10 +891,9 @@ namespace MFC_VoxMe_API.BusinessLogic
 			var moving = new MovingData();
 			//PropertyMatcher<CreateJobDto, MovingData>.GenerateMatchedObject(CreateJobObjectFromXml(), moving);
 			//PropertyMatcher<CreateJobDto.Client, MovingData>.GenerateMatchedObject(CreateJobObjectFromXml().client, moving);
-			var json = JsonConvert.SerializeObject(CreateJobObjectFromXml());//JsonSerializer.Serialize(CreateJobObjectFromXml());
+			var json = JsonConvert.SerializeObject(CreateTransactionObjectFromXml());//JsonSerializer.Serialize(CreateJobObjectFromXml());
 			var to = JsonConvert.DeserializeObject<MovingData>(json);//JsonSerializer.Deserialize<MovingData>(json);
 		}
-
 
 		public CreateJobDto CreateJobObjectFromXml()
         {
@@ -1136,18 +1134,22 @@ namespace MFC_VoxMe_API.BusinessLogic
 						}).ToList();
 					createTransaction.auxServices = auxServices;
 				}
-				List<CreateTransactionDto.LoadingUnit> loadingUnits = new List<CreateTransactionDto.LoadingUnit>(1);
-				CreateTransactionDto.LoadingUnit loadingUnit = new CreateTransactionDto.LoadingUnit()
-				{
-					uniqueId = generalInfo.EMFID + ".Delivery",
-					loadingUnitDetails = new CreateTransactionDto.LoadingUnitDetails()
-					{
-						labelNr = 1 //TODO
-					}
-				};
-				loadingUnits.Add(loadingUnit);
-				createTransaction.loadingUnits = loadingUnits;
 
+				if (generalInfo.ShipmentType == "Delivery")
+				{
+
+					List<CreateTransactionDto.LoadingUnit> loadingUnits = new List<CreateTransactionDto.LoadingUnit>(1);
+					CreateTransactionDto.LoadingUnit loadingUnit = new CreateTransactionDto.LoadingUnit()
+					{
+						uniqueId = generalInfo.EMFID + ".Delivery",
+						loadingUnitDetails = new CreateTransactionDto.LoadingUnitDetails()
+						{
+							labelNr = 1 //TODO
+						}
+					};
+					loadingUnits.Add(loadingUnit);
+					createTransaction.loadingUnits = loadingUnits;
+				}
 
 				return createTransaction;
 			}

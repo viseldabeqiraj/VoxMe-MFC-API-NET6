@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using MFC_VoxMe.Core.Dtos.Common;
+using MFC_VoxMe.Infrastructure.HttpMethods;
+using MFC_VoxMe.Infrastructure.HttpMethods.Helpers;
 using MFC_VoxMe_API.Data;
 using MFC_VoxMe_API.Dtos.Management;
 using MFC_VoxMe_API.Dtos.Transactions;
@@ -8,6 +10,7 @@ using MFC_VoxMe_API.Logging;
 using MFC_VoxMe_API.Services.Transactions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Serilog;
 using System.Text;
@@ -17,425 +20,179 @@ namespace MFC_VoxMe.Infrastructure.Services
     public class TransactionService : ITransactionService
     {
         private readonly IConfiguration _config;
-        private readonly IHttpRequests _httpRequests;
+        private readonly IServiceProvider _serviceProvider;
         private readonly DataContext _context;
         private readonly IMapper _mapper;
         public readonly string className;
+        public string apiUrl;
 
-        public TransactionService(DataContext context, IMapper mapper, IConfiguration config, IHttpRequests httpRequests)
+        public TransactionService(DataContext context, IMapper mapper, IConfiguration config, IServiceProvider serviceProvider)
         {
             _context = context;
             _mapper = mapper;
             _config = config;
-            _httpRequests = httpRequests;
+            _serviceProvider = serviceProvider;
             className = GetType().Name;
         }
+        public IRequestHelpers<T> GetHelperService<T>()
+        {
+            return _serviceProvider.GetService<IRequestHelpers<T>>();
+        }
+
         public string GetUrl(string query_string)
         {
             var url = _config.GetValue<string>("API_Url:url");
             url += query_string;
-            return url;
+           return url;
         }
 
+        //TODO:: replace output of each endpoint in service to void, because we already know that response is success in Httprequest class
         public async Task<HttpResponseDto<CreateTransactionDto>> CreateTransaction(CreateTransactionDto createTransactionRequest)
         {
-            try
-            {
-                var url = GetUrl($"transactions");
-                var json = JsonConvert.SerializeObject(createTransactionRequest);
-                var data = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await _httpRequests.MakePostHttpCall(url, data, null);
+            var url = GetUrl($"transactions");
+            var result = await GetHelperService<CreateTransactionDto>()
+                .PostRequestHelper(url, null, createTransactionRequest);
 
-                var result = new HttpResponseDto<CreateTransactionDto>();
-                result.responseStatus = response.StatusCode;
-
-                if (response.IsSuccessStatusCode)
-                {
-                    result.dto = createTransactionRequest;
-                }           
-                else
-                {
-                    LoggingHelper.InsertLogs("CreateTransaction", className, response);
-                }
-                return result;
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"Method CreateTransaction in {className} failed. Exception thrown :{ex.Message}");
-            }
-            return null;
+            return result;
         }
 
         public async Task<HttpResponseDto<TransactionDetailsDto>> GetDetails(string externalRef)
         {
-            try
-            {
-                externalRef = "RS249955";
+            externalRef = "RS249955";
+            var url = GetUrl($"transactions/{externalRef}/details");
+            var result = await GetHelperService<TransactionDetailsDto>()
+                   .GetRequestHelper(url, null);
 
-                var url = GetUrl($"transactions/{externalRef}/details");
-                TransactionDetailsDto transactionDetails = new TransactionDetailsDto();
-
-                var response = await _httpRequests.MakeGetHttpCall(url, null);
-                var result = new HttpResponseDto<TransactionDetailsDto>();
-                result.responseStatus = response.StatusCode;
-
-                if (response.IsSuccessStatusCode)
-                {
-                    transactionDetails = JsonConvert.DeserializeObject<TransactionDetailsDto>(response.Content.ReadAsStringAsync().Result);
-                    result.dto = transactionDetails;
-                }
-                else
-                {
-                    LoggingHelper.InsertLogs("GetDetails", className, response);
-                }
-                return result;
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"Method GetDetails in {className} failed. Exception thrown :{ex.Message}");
-            }
-            return null;
+            return result;
         }
 
         public async Task<HttpResponseDto<TransactionSummaryDto>> GetSummary(string externalRef)
         {
-            try
-            {
-                externalRef = "RS0150687";
+            var url = GetUrl($"transactions/{externalRef}/summary");
+            var result = await GetHelperService<TransactionSummaryDto>()
+                   .GetRequestHelper(url, null);
 
-                var url = GetUrl($"transactions/{externalRef}/summary");
-                TransactionSummaryDto transactionSummary = new TransactionSummaryDto();
+            return result;
 
-                var response = await _httpRequests.MakeGetHttpCall(url, null);
-                var result = new HttpResponseDto<TransactionSummaryDto>();
-                result.responseStatus=response.StatusCode;
-                if (response.IsSuccessStatusCode)
-                {
-                    transactionSummary = JsonConvert.DeserializeObject<TransactionSummaryDto>(response.Content.ReadAsStringAsync().Result);
-                    result.dto = transactionSummary;
-                }
-                else
-                {
-                    LoggingHelper.InsertLogs("GetSummary", className, response);
-                }
-                return result;
-
-            }
-
-            catch (Exception ex)
-            {
-                Log.Error($"Method GetSummary in {className} failed. Exception thrown :{ex.Message}");
-            }
-            return null;
         }
 
-        public async Task<HttpResponseDto<UpdateTransactionDto>> UpdateTransaction(UpdateTransactionDto updateTransactionRequest)
+        public async Task<HttpResponseDto<UpdateTransactionDto>> UpdateTransaction(string externalRef, UpdateTransactionDto updateTransactionRequest)
         {
-            try
-            {
-                string externalRef = "RS0150687";
-                var url = GetUrl($"transactions/{externalRef}");
-                var json = "{\n    \"externalRef\": \"RS0150687\",\n    \"uniqueId\": \"11-1-4\",\n    \"transactionType\": \"Enum.TransactionType.Pickup\",\n    \"transactionStatus\": \"Enum.TransactionStatus.Scheduled\",\n    \"onsiteStatus\": \"Enum.TransactionOnSiteStatus.Arrived\",\n    \"updateDate\": \"10/27/2022 10:27:56\"\n}"; //JsonConvert.SerializeObject(updateTransactionRequest);
-                var data = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await _httpRequests.MakePutHttpCall(url, data);
 
-                var result = new HttpResponseDto<UpdateTransactionDto>();
-                result.responseStatus = response.StatusCode;
+            var url = GetUrl($"transactions/{externalRef}");
+            var result = await GetHelperService<UpdateTransactionDto>()
+            .PutRequestHelper(url, updateTransactionRequest);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    result.dto = updateTransactionRequest;
-                }
-                else
-                {
-                    LoggingHelper.InsertLogs("UpdateTransaction", className, response);
-                }
-                return result;
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"Method UpdateTransaction in {className} failed. Exception thrown :{ex.Message}");
-                return null;
-            }
+            return result;
+
         }
 
         public async Task<HttpResponseDto<List<TransactionDownloadDetails>>> GetDownloadDetails(string externalRef)
         {
-            try
-            {
-                externalRef = "RS0150687";
 
-                var url = GetUrl($"transactions/{externalRef}/download-details");
-                List<TransactionDownloadDetails> transactionDetails = new List<TransactionDownloadDetails>();
+            var url = GetUrl($"transactions/{externalRef}/download-details");
+            var result = await GetHelperService<List<TransactionDownloadDetails>>()
+                   .GetRequestHelper(url, null);
 
-                var response = await _httpRequests.MakeGetHttpCall(url, null);
-                var result = new HttpResponseDto<List<TransactionDownloadDetails>>();
-                result.responseStatus = System.Net.HttpStatusCode.Conflict;
-
-                if (response.IsSuccessStatusCode)
-                {
-                    transactionDetails = JsonConvert.DeserializeObject<List<TransactionDownloadDetails>>(response.Content.ReadAsStringAsync().Result);
-                    result.dto = transactionDetails;
-                }
-
-                else
-                {
-                    LoggingHelper.InsertLogs("GetDownloadDetails", className, response);
-                }
-                return result;
-
-            }
-
-            catch (Exception ex)
-            {
-                Log.Error($"Method GetDownloadDetails in {className} failed. Exception thrown :{ex.Message}");
-            }
-            return null;
+            return result;
         }
 
-        public async Task<bool> DeleteTransaction(string externalRef)
+        public async Task<HttpResponseDto<bool>> DeleteTransaction(string externalRef)
         {
-            try
-            {
-                externalRef = "RS249955";
 
-                var url = GetUrl($"transactions/{externalRef}");
+            externalRef = "RS249955";
+            var url = GetUrl($"transactions/{externalRef}");
 
-                var response = await _httpRequests.MakeDeleteHttpCall(url, null);
+            var result = await GetHelperService<bool>()
+                  .DeleteRequestHelper(url, null);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return true;
-                }
-                else
-                {
-                    LoggingHelper.InsertLogs("DeleteTransaction", className, response);
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"Method DeleteTransaction in {className} failed. Exception thrown :{ex.Message}");
-                return false;
-            }
+            return result;
+
         }
 
+        //TODO:
         public async Task<bool> AddDocumentToTransaction(IFormFile File, string DocTitle, string externalRef)
         {
-            try
-            {
-                externalRef = "RS249955";
 
-                var url = GetUrl($"transactions/{externalRef}/set-document");
+            externalRef = "RS249955";
 
-                var response = await _httpRequests.MakePostHttpCall(url, null, File);
+            var url = GetUrl($"transactions/{externalRef}/set-document");
+            var result = await GetHelperService<string>()
+                                .GetRequestHelper(url, null);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return true;
-                }
-                else
-                {
-                    LoggingHelper.InsertLogs("CreateTransaction", className, response);
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"Method AddDocumentToTransaction in {className} failed. Exception thrown :{ex.Message}");
-                return false;
-            }
+            return true;
         }
 
         public async Task<HttpResponseDto<AssignStaffDesignateForemanDto>> AssignStaffDesignateForeman(AssignStaffDesignateForemanDto request, string externalRef)
         {
-            try
-            {
-                var url = GetUrl($"transactions/{externalRef}/crew");
-                var json = JsonConvert.SerializeObject(request);
-                var data = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await _httpRequests.MakePostHttpCall(url, data, null);
+            var url = GetUrl($"transactions/{externalRef}/crew");
+            var result = await GetHelperService<AssignStaffDesignateForemanDto>()
+                .PostRequestHelper(url, null, request);
 
-                var result = new HttpResponseDto<AssignStaffDesignateForemanDto>();
-                result.responseStatus = response.StatusCode;
-
-                if (response.IsSuccessStatusCode)
-                {
-                    result.dto = request;
-                }
-                else
-                {
-                    LoggingHelper.InsertLogs("AssignStaffDesignateForeman", className, response);
-                }
-                return result;
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"Method CreateTransaction in {className} failed. Exception thrown :{ex.Message}");
-            }
-            return null;
+            return result;
         }
 
         //TODO:
-        public async Task<TransactionSummaryDto> GetDocumentAsBinary(string EntityRef, string EntityType, string Name)
+        public async Task<HttpResponseDto<TransactionSummaryDto>> GetDocumentAsBinary(string EntityRef, string EntityType, string Name)
         {
-            try
-            {
-                EntityRef = "RS249955";
 
-                var url = GetUrl($"documents?EntityRef={EntityRef}&EntityType={EntityType}&Name={Name}");
+            EntityRef = "RS249955";
 
-                var response = await _httpRequests.MakeGetHttpCall(url, null);
+            var url = GetUrl($"documents?EntityRef={EntityRef}&EntityType={EntityType}&Name={Name}");
 
-                if (response.IsSuccessStatusCode)
-                {
-                    //TODO:
-                }
-                else
-                {
-                    LoggingHelper.InsertLogs("GetDocumentAsBinary", className, response);
-                    return null;
-                }
-            }
-
-            catch (Exception ex)
-            {
-                Log.Error($"Method GetDocumentAsBinary in {className} failed. Exception thrown :{ex.Message}");
-            }
-            return null;
+            var result = await GetHelperService<TransactionSummaryDto>()
+                            .GetRequestHelper(url, null);
+            return result;
         }
         //TODO:
-        public async Task<TransactionSummaryDto> GetImageAsBinary(string EntityRef, string EntityType, string Name)
+        public async Task<HttpResponseDto<TransactionSummaryDto>> GetImageAsBinary(string EntityRef, string EntityType, string Name)
         {
-            try
-            {
-                EntityRef = "RS249955";
+            EntityRef = "RS249955";
 
-                var url = GetUrl($"images?EntityRef={EntityRef}&EntityType={EntityType}&Name={Name}");
+            var url = GetUrl("images?EntityRef={EntityRef}&EntityType={EntityType}&Name={Name}");
 
-                var response = await _httpRequests.MakeGetHttpCall(url, null);
+            var result = await GetHelperService<TransactionSummaryDto>()
+                            .GetRequestHelper(url, null);
+            return result;
 
-                if (response.IsSuccessStatusCode)
-                {
-                    //TODO:
-                }
-                else
-                {
-                    LoggingHelper.InsertLogs("GetImageAsBinary", className, response);
-                    return null;
-                }
-            }
-
-            catch (Exception ex)
-            {
-                Log.Error($"Method GetImageAsBinary in {className} failed. Exception thrown :{ex.Message}");
-            }
-            return null;
         }
 
-        public async Task<bool> RemoveResourceFromTransaction(string externalRef)
+        public async Task<HttpResponseDto<bool>> RemoveResourceFromTransaction(string externalRef)
         {
-            try
-            {
-                externalRef = "RS249955";
+            externalRef = "RS249955";
 
-                var url = GetUrl($"transactions/{externalRef}/resources");
-                var response = await _httpRequests.MakeDeleteHttpCall(url, null);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    return true;
-                }
-                else
-                {
-                    LoggingHelper.InsertLogs("RemoveResourceFromTransaction", className, response);
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"Method RemoveResourceFromTransaction in {className} failed. Exception thrown :{ex.Message}");
-                return false;
-            }
+            var url = GetUrl($"transactions/{externalRef}/resources");
+            var result = await GetHelperService<bool>()
+                             .DeleteRequestHelper(url, null);
+            return result;
         }
         //Will not be used
-        public async Task<ResourceCodesForTransactionDto> AssignResourcesToTransaction(ResourceCodesForTransactionDto request, string externalRef)
+        public async Task<HttpResponseDto<ResourceCodesForTransactionDto>> AssignResourcesToTransaction(ResourceCodesForTransactionDto request, string externalRef)
         {
-            try
-            {
-                var url = GetUrl($"transactions/{externalRef}/resources");
-                var json = JsonConvert.SerializeObject(request);
-                var data = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await _httpRequests.MakePostHttpCall(url, data, null);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return request;
-                }
-                else
-                {
-                    LoggingHelper.InsertLogs("AssignResourcesToTransaction", className, response);
-                    return null;
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"Method AssignResourcesToTransaction in {className} failed. Exception thrown :{ex.Message}");
-            }
-            return null;
+            var url = GetUrl($"transactions/{externalRef}/resources");
+            var result = await GetHelperService<ResourceCodesForTransactionDto>()
+                              .PostRequestHelper(url, null, request);
+            return result;
         }
 
-        public async Task<AssignMaterialsToTransactionDto> AssignMaterialsToTransaction(AssignMaterialsToTransactionDto request, string externalRef)
+        public async Task<HttpResponseDto<AssignMaterialsToTransactionDto>> AssignMaterialsToTransaction(AssignMaterialsToTransactionDto request, string externalRef)
         {
-            try
-            {
-                externalRef = "RS9192314";
-                var url = GetUrl($"transactions/{externalRef}/materials");
-                var json = JsonConvert.SerializeObject(request);
-                var data = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await _httpRequests.MakePostHttpCall(url, data, null);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    return request;
-                }
-                else
-                {
-                    LoggingHelper.InsertLogs("AssignMaterialsToTransaction", className, response);
-                    return null;
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"Method AssignMaterialsToTransaction in {className} failed. Exception thrown :{ex.Message}");
-            }
-            return null;
+            externalRef = "RS9192314";
+            var url = GetUrl($"transactions/{externalRef}/materials");
+            var result = await GetHelperService<AssignMaterialsToTransactionDto>()
+                            .PostRequestHelper(url, null, request);
+            return result;
         }
 
-        public async Task<bool> RemoveMaterialsFromTransaction(string externalRef)
+        public async Task<HttpResponseDto<bool>> RemoveMaterialsFromTransaction(string externalRef)
         {
-            try
-            {
-                externalRef = "RS249955";
+            externalRef = "RS249955";
 
-                var url = GetUrl($"transactions/{externalRef}/materials");
-                var response = await _httpRequests.MakeDeleteHttpCall(url, null);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    return true;
-                }
-                else
-                {
-                    LoggingHelper.InsertLogs("RemoveMaterialsFromTransaction", className, response);
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"Method RemoveMaterialsFromTransaction in {className} failed. Exception thrown :{ex.Message}");
-                return false;
-            }
+            var url = GetUrl($"transactions/{externalRef}/materials");
+            var result = await GetHelperService<bool>()
+                             .DeleteRequestHelper(url, null);
+            return result;
         }
     }
 }

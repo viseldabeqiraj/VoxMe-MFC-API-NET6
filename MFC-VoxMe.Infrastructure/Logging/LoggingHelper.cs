@@ -5,17 +5,12 @@ namespace MFC_VoxMe_API.Logging
 {
     public class LoggingHelper
     {
-        public static string warningLog(string methodName, string className, HttpStatusCode status, string data)
-        {
-            return $"Method {methodName} in {className} returned {status}." +
-                       $" Json Response: {data}";
-        }
-
-        public static void InsertLogs(string methodName, string className, HttpResponseMessage response)
+        public static void InsertLogs(string EndpointUrl, HttpResponseMessage response)
         {
             var result = response.Content.ReadAsStringAsync().Result;
 
-            Log.Warning(warningLog(methodName, className, response.StatusCode, result));
+            Log.Warning($"API Endpoint {EndpointUrl} returned {response.StatusCode} status code." +
+                       $" Json Response: {result}");
         }
     }
 }

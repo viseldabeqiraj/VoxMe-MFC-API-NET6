@@ -1,0 +1,28 @@
+2022-11-11 17:01:24.222 +01:00 [WRN] API Endpoint https://api-stg.voxme.com/mfc/v2/jobs returned BadRequest status code. Json Response: {"type":"https://tools.ietf.org/html/rfc7231#section-6.5.1","title":"One or more validation errors occurred.","status":400,"traceId":"00-37a26ca43830f113eb50a81b686bbb6c-b49542f2b63a574b-00","errors":{"ClientPerson.PersonDetails.ContactDetails.MobilePhone":["The MobilePhone field is required."],"OriginPartyContact.PersonDetails.ContactDetails.MobilePhone":["The MobilePhone field is required."],"DestinationPartyContact.PersonDetails.ContactDetails.MobilePhone":["The MobilePhone field is required."]}}
+2022-11-11 17:01:24.430 +01:00 [ERR] Method MakePostHttpCall in HttpRequests failed. Exception thrown :https://api-stg.voxme.com/mfc/v2/jobs Status code: BadRequestStatusCode: 400, ReasonPhrase: 'Bad Request', Version: 1.1, Content: System.Net.Http.HttpConnectionResponseContent, Headers:
+{
+  Date: Fri, 11 Nov 2022 16:01:22 GMT
+  Transfer-Encoding: chunked
+  Connection: keep-alive
+  Server: Kestrel
+  Content-Type: application/json; charset=utf-8
+}
+2022-11-11 17:02:10.815 +01:00 [ERR] https://api-stg.voxme.com/mfc/v2/jobs Status code: BadRequestStatusCode: 400, ReasonPhrase: 'Bad Request', Version: 1.1, Content: System.Net.Http.HttpConnectionResponseContent, Headers:
+{
+  Date: Fri, 11 Nov 2022 16:01:22 GMT
+  Transfer-Encoding: chunked
+  Connection: keep-alive
+  Server: Kestrel
+  Content-Type: application/json; charset=utf-8
+}
+2022-11-11 17:10:09.140 +01:00 [WRN] API Endpoint https://api-stg.voxme.com/mfc/v2/jobs returned BadRequest status code. Json Response: {"type":"https://tools.ietf.org/html/rfc7231#section-6.5.1","title":"One or more validation errors occurred.","status":400,"traceId":"00-a3a377707b0cef124b25571c1f1c687d-12ba9da618c0f144-00","errors":{"ClientPerson.PersonDetails.ContactDetails.MobilePhone":["The MobilePhone field is required."],"OriginPartyContact.PersonDetails.ContactDetails.MobilePhone":["The MobilePhone field is required."],"DestinationPartyContact.PersonDetails.ContactDetails.MobilePhone":["The MobilePhone field is required."]}}
+2022-11-11 17:10:37.175 +01:00 [ERR] https://api-stg.voxme.com/mfc/v2/jobs Status code: BadRequest StatusCode: 400, ReasonPhrase: 'Bad Request', Version: 1.1, Content: System.Net.Http.HttpConnectionResponseContent, Headers:
+{
+  Date: Fri, 11 Nov 2022 16:10:07 GMT
+  Transfer-Encoding: chunked
+  Connection: keep-alive
+  Server: Kestrel
+  Content-Type: application/json; charset=utf-8
+}
+2022-11-11 17:18:57.683 +01:00 [WRN] API Endpoint https://api-stg.voxme.com/mfc/v2/jobs returned BadRequest status code. Json Response: {"type":"https://tools.ietf.org/html/rfc7231#section-6.5.1","title":"One or more validation errors occurred.","status":400,"traceId":"00-6dc4d446584a30c958e9f61a472c9b51-c770d3c4827e3947-00","errors":{"ClientPerson.PersonDetails.ContactDetails.MobilePhone":["The MobilePhone field is required."],"OriginPartyContact.PersonDetails.ContactDetails.MobilePhone":["The MobilePhone field is required."],"DestinationPartyContact.PersonDetails.ContactDetails.MobilePhone":["The MobilePhone field is required."]}}
+2022-11-11 17:19:01.764 +01:00 [ERR] https://api-stg.voxme.com/mfc/v2/jobs Status code: BadRequest {"type":"https://tools.ietf.org/html/rfc7231#section-6.5.1","title":"One or more validation errors occurred.","status":400,"traceId":"00-6dc4d446584a30c958e9f61a472c9b51-c770d3c4827e3947-00","errors":{"ClientPerson.PersonDetails.ContactDetails.MobilePhone":["The MobilePhone field is required."],"OriginPartyContact.PersonDetails.ContactDetails.MobilePhone":["The MobilePhone field is required."],"DestinationPartyContact.PersonDetails.ContactDetails.MobilePhone":["The MobilePhone field is required."]}}

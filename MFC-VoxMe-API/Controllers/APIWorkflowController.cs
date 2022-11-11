@@ -35,8 +35,6 @@ namespace MFC_VoxMe_API.Controllers
 
 		public async Task<ActionResult> WorkflowLogic([FromBody] string xml)
         {
-			//try
-   //         {
 			    var movingData = _helpers.XMLParse(xml);
 				var externalRef = movingData.GeneralInfo.EMFID;
 				var jobExternalRef = movingData.GeneralInfo.Groupageid;
@@ -47,17 +45,12 @@ namespace MFC_VoxMe_API.Controllers
 				var jobSummaryRequest = await _jobService.GetSummary(jobExternalRef);
 				if (jobSummaryRequest.responseStatus != HttpStatusCode.NoContent)
 				{
-					if (jobSummaryRequest.responseStatus == HttpStatusCode.OK)
-					{ 
 						var transactionSummaryRequest = await _transactionService.GetSummary(externalRef);
 
 						if (transactionSummaryRequest.responseStatus != HttpStatusCode.NoContent)
 						{
-							if (transactionSummaryRequest.responseStatus == HttpStatusCode.OK)
-							{
-								var UpdateTransactionRequest = await _transactionService.UpdateTransaction(transactionToUpdate);
-								if (UpdateTransactionRequest.responseStatus != HttpStatusCode.OK)
-									return BadRequest("Update Transaction Request" + UpdateTransactionRequest.responseStatus);
+								 await _transactionService.UpdateTransaction(externalRef,transactionToUpdate);
+								
 								
 								var transactionDownloadDetails = await _transactionService.GetDownloadDetails(externalRef);
 								if (transactionDownloadDetails.responseStatus == HttpStatusCode.OK)
@@ -66,28 +59,18 @@ namespace MFC_VoxMe_API.Controllers
 								}
 								else
 								{
-									if (await _transactionService.RemoveMaterialsFromTransaction(externalRef))
-										await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
-									else return BadRequest("RemoveMaterialsFromTransaction" + externalRef);
+									await _transactionService.RemoveMaterialsFromTransaction(externalRef);
+									await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
 
-									if (await _transactionService.RemoveResourceFromTransaction(externalRef))
-									{
+									await _transactionService.RemoveResourceFromTransaction(externalRef);
+									
 										var resourceCodes = _helpers.GetTransactionResources().staffResourceCodes;
 										foreach (var resourceCode in resourceCodes)
 										{
 											CreateResourcesLogic(resourceCode.code);
 										}
-										var AssignStaff = await _transactionService.AssignStaffDesignateForeman(_helpers.GetTransactionResources(), externalRef);
-										if (AssignStaff.responseStatus != HttpStatusCode.OK)
-											return BadRequest("AssignStaff: " + AssignStaff.responseStatus);
-									}
-									else	//HTTP status other than 200
-										return BadRequest("RemoveResourceFromTransaction" + externalRef);
+										await _transactionService.AssignStaffDesignateForeman(_helpers.GetTransactionResources(), externalRef);										
 								}
-							}
-							else							
-								//HTTP status other than 200
-								return BadRequest("TransactionSummary" + transactionSummaryRequest.responseStatus);
 							
 						}
 						else
@@ -95,17 +78,10 @@ namespace MFC_VoxMe_API.Controllers
 							if (transactionToCreate != null)
 							{
 								var createTransactionRequest = await _transactionService.CreateTransaction(transactionToCreate);
-								if (createTransactionRequest != null)
-								{
-										await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
-										await _transactionService.AssignStaffDesignateForeman(_helpers.GetTransactionResources(), externalRef);								
-								}
+								await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
+								await _transactionService.AssignStaffDesignateForeman(_helpers.GetTransactionResources(), externalRef);																
 							}
 						}						
-					}
-					else					
-						//HTTP status other than 200
-						return BadRequest("Job Summary: " + jobSummaryRequest.responseStatus);										
 				}
 				else
                 {
@@ -114,27 +90,14 @@ namespace MFC_VoxMe_API.Controllers
 
 					if (jobToCreate != null)
 					{ 
-						var CreateJobRequest = await _jobService.CreateJob(jobToCreate);
-						if (CreateJobRequest.responseStatus == HttpStatusCode.OK)
-						{
+						await _jobService.CreateJob(jobToCreate);
 
 							if (transactionToCreate != null)
-							{
-								var createTransactionRequest = await _transactionService.CreateTransaction(transactionToCreate);
-								if (createTransactionRequest.responseStatus != HttpStatusCode.OK)
-									return BadRequest("createTransactionAPI: " + createTransactionRequest.responseStatus);
-							}
-						}
-						else return BadRequest("CreateJobRequest:" + CreateJobRequest.responseStatus);
+								await _transactionService.CreateTransaction(transactionToCreate);					
 					}
 				}
-				return BadRequest("testttttt");
-			//}
-			//catch(Exception ex)
-   //         {
-			//	Log.Error($"Method WorkflowLogic in {this.GetType().Name} failed. Exception thrown :{ex.Message}");
-			//	return BadRequest(ex.Message);	
-   //         }
+				return Ok();
+
         }
 
         [HttpPost("CreateResource")]

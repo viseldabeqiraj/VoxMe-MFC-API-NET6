@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace MFC_VoxMe.Core.Dtos.Common
 {
-    public  class HttpResponseDto<T> where T : class
+    public  class HttpResponseDto<T>
     {
         public HttpStatusCode responseStatus { get; set; }
         public T? dto { get; set; }
         public string Message { get; set; } = String.Empty;
     }
+
 }

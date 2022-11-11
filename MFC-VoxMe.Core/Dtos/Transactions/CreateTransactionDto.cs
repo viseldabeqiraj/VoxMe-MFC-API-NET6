@@ -121,14 +121,14 @@
 
         public class QuestionnaireQuestion
         {
-            public string name { get; set; }
-            public double numericValue { get; set; }
-            public string stringValue { get; set; }
-            public string listValues { get; set; }
+            public string name { get; set; } = string.Empty;    
+            public double numericValue { get; set; } 
+            public string stringValue { get; set; } = string.Empty;
+            public string listValues { get; set; } = string.Empty;
             public bool booleanValue { get; set; }
-            public DateTime dateValue { get; set; }
-            public string photoValue { get; set; }
-            public string signatureValue { get; set; }
+            //public DateTime dateValue { get; set; }
+            //public string photoValue { get; set; } = string.Empty;
+            public string signatureValue { get; set; } = string.Empty;
         }
 
     }

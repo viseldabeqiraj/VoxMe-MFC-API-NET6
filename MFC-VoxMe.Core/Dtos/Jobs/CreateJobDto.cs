@@ -5,13 +5,13 @@ namespace MFC_VoxMe_API.Dtos.Jobs
     {
         public Client client { get; set; } = new Client();
         public ClientPerson clientPerson { get; set; } = new ClientPerson();
-        public string? externalRef { get; set; }
-        public string handlingDivision { get; set; } = "JKMOVING";
+        public string? externalRef { get; set; } = String.Empty;
+        public string handlingDivision { get; set; } = "JKMOVINGTEST002";
         public string jobStatus { get; set; } = "Enum.Status.PackingSet";
-        public string? jobType { get; set; }
+        public string? jobType { get; set; } = String.Empty;
         public ManagedBy managedBy { get; set; } = new ManagedBy();
-        public string? serviceLevel { get; set; }
-        public string? serviceType { get; set; }
+        public string? serviceLevel { get; set; } = String.Empty;
+        public string? serviceType { get; set; } = String.Empty;
         public string sourceOfInquiry { get; set; } = "Enum.SourceOfInquiry.Email";
         public string bookingType { get; set; } = "Enum.BookingType.Private";
         public string loadType { get; set; } = "Enum.LoadType.FTL";
@@ -26,35 +26,35 @@ namespace MFC_VoxMe_API.Dtos.Jobs
         public DestinationPartyContact destinationPartyContact { get; set; } = new DestinationPartyContact();
         public string? instructionsCrewOrigin { get; set; }
         public string? instructionsCrewDestination { get; set; }
-        public InventoryData inventoryData { get; set; } = new InventoryData();
-        public string? jobCreationWebhookUrl { get; set; }
-        public string? jobStatusUpdateWebhookUrl { get; set; }
+        public InventoryData inventoryData { get; set; } //= new InventoryData();
+        public string? jobCreationWebhookUrl { get; set; } = String.Empty;
+        public string? jobStatusUpdateWebhookUrl { get; set; } = String.Empty;
 
         public class Account
         {
-            public string? code { get; set; }
-            public string? legalName { get; set; }
-            public string? partyType { get; set; }
+            public string? code { get; set; } = String.Empty;
+            public string? legalName { get; set; } = String.Empty;
+            public string? partyType { get; set; } = String.Empty;
         }
 
         public class AccountPerson
         {
-            public string? code { get; set; }
-            public string? partyCode { get; set; }
+            public string? code { get; set; } = String.Empty;
+            public string? partyCode { get; set; } = String.Empty;
             public PersonDetails? personDetails { get; set; } = new PersonDetails();
         }
 
         public class AddressDetails
         {
-            public string city { get; set; }
-            public string country { get; set; }
-            public string? street1 { get; set; }
-            public string? street2 { get; set; }
-            public string? street3 { get; set; }
-            public string area { get; set; }
-            public string zip { get; set; }
-            public string floor { get; set; }
-            public string notes { get; set; }
+            public string city { get; set; } = String.Empty;
+            public string country { get; set; } = String.Empty;
+            public string? street1 { get; set; } = String.Empty;
+            public string? street2 { get; set; } = String.Empty;
+            public string? street3 { get; set; } = String.Empty;
+            public string area { get; set; } = String.Empty;
+            public string zip { get; set; } = String.Empty;
+            public string floor { get; set; } = String.Empty;
+            public string notes { get; set; } = String.Empty;
         }
 
         public class Booker
@@ -66,44 +66,44 @@ namespace MFC_VoxMe_API.Dtos.Jobs
 
         public class BookerPerson
         {
-            public string code { get; set; }
+            public string code { get; set; } = String.Empty;
             public string partyCode { get; set; } = "JKMOVING";
             public PersonDetails personDetails { get; set; } = new PersonDetails();
         }
 
         public class Client
         {
-            public string code { get; set; }
+            public string code { get; set; } = String.Empty;
             //[MatchParent("ClientFirstName")] //TODO: legalName: GeneralInfo/ClientFirstName + GeneralInfo/Name
-            public string legalName { get; set; }
+            public string legalName { get; set; } = String.Empty;
             public string partyType { get; set; } = "Enum.PartyType.Transferee";
         }
 
         public class ClientPerson
         {
-            public string code { get; set; }
-            public string partyCode { get; set; }
+            public string code { get; set; } = String.Empty;
+            public string partyCode { get; set; } = String.Empty;
             public PersonDetails personDetails { get; set; } = new PersonDetails();
         }
 
         public class ContactDetails
         {
-            public string email { get; set; }
-            public string mobilePhone { get; set; }
-            public string homePhone { get; set; }
-            public string workPhone { get; set; }
+            public string email { get; set; } = String.Empty;
+            public string mobilePhone { get; set; } = "+123456789";
+            public string homePhone { get; set; } = String.Empty;
+            public string workPhone { get; set; } = String.Empty;
         }
 
         public class DestinationAddress
         {
-            public string partyCode { get; set; }
+            public string partyCode { get; set; } = String.Empty;
             public AddressDetails addressDetails { get; set; } = new AddressDetails();
         }
 
         public class DestinationPartyContact
         {
-            public string code { get; set; }
-            public string partyCode { get; set; }
+            public string code { get; set; } = String.Empty;
+            public string partyCode { get; set; } = String.Empty;
             public PersonDetails personDetails { get; set; } = new PersonDetails();
         }
 
@@ -189,8 +189,8 @@ namespace MFC_VoxMe_API.Dtos.Jobs
             public ContactDetails contactDetails { get; set; } = new ContactDetails();
             public string firstName { get; set; }
             public string lastName { get; set; }
-            public string preferredLanguage { get; set; } = "en-us";
-            public string salutation { get; set; }
+            public string preferredLanguage { get; set; } = "english";
+            public string salutation { get; set; } =  String.Empty;
         }
 
         public class Piece
@@ -216,10 +216,10 @@ namespace MFC_VoxMe_API.Dtos.Jobs
 
         public class Room
         {
-            public string name { get; set; }
-            public string notes { get; set; }
-            public string roomType { get; set; }
-            public object conditionBeforeService { get; set; }
+            public string name { get; set; } = String.Empty;
+            public string notes { get; set; } = String.Empty;
+            public string roomType { get; set; } = String.Empty;
+            public object conditionBeforeService { get; set; } 
             public object conditionAfterService { get; set; }
             public List<object> roomElements { get; set; }
         }

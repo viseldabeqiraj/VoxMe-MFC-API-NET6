@@ -10,13 +10,13 @@ namespace MFC_VoxMe_API.Services.Transactions
         Task<HttpResponseDto<TransactionDetailsDto>> GetDetails(string externalRef);
         Task<HttpResponseDto<CreateTransactionDto>> CreateTransaction(CreateTransactionDto createTransactionRequest);
         Task<HttpResponseDto<TransactionSummaryDto>> GetSummary(string externalRef);
-        Task<HttpResponseDto<UpdateTransactionDto>> UpdateTransaction(UpdateTransactionDto updateTransactionRequest);
+        Task<HttpResponseDto<UpdateTransactionDto>> UpdateTransaction(string externalRef,UpdateTransactionDto updateTransactionRequest);
         Task<HttpResponseDto<List<TransactionDownloadDetails>>> GetDownloadDetails(string externalRef);
         Task<bool> AddDocumentToTransaction(IFormFile File, string DocTitle, string externalRef);
         Task<HttpResponseDto<AssignStaffDesignateForemanDto>> AssignStaffDesignateForeman(AssignStaffDesignateForemanDto request, string externalRef);
-        Task<bool> RemoveResourceFromTransaction(string externalRef);
-        Task<ResourceCodesForTransactionDto> AssignResourcesToTransaction(ResourceCodesForTransactionDto request, string externalRef);
-        Task<AssignMaterialsToTransactionDto> AssignMaterialsToTransaction(AssignMaterialsToTransactionDto request, string externalRef);
-        Task<bool> RemoveMaterialsFromTransaction(string externalRef);
+        Task<HttpResponseDto<bool>> RemoveResourceFromTransaction(string externalRef);
+        Task<HttpResponseDto<ResourceCodesForTransactionDto>> AssignResourcesToTransaction(ResourceCodesForTransactionDto request, string externalRef);
+        Task<HttpResponseDto<AssignMaterialsToTransactionDto>> AssignMaterialsToTransaction(AssignMaterialsToTransactionDto request, string externalRef);
+        Task<HttpResponseDto<bool>> RemoveMaterialsFromTransaction(string externalRef);
     }
 }
