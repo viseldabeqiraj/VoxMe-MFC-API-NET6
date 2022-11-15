@@ -27,7 +27,10 @@
 
         public class ContactDetails
         {
-            public string value { get; set; }
+            public string email { get; set; } = String.Empty;
+            public string mobilePhone { get; set; } = "+123456789";
+            public string homePhone { get; set; } = String.Empty;
+            public string workPhone { get; set; } = String.Empty;
         }
 
         public class DestinationAddress

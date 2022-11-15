@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MFC_VoxMe.Core.Dtos.Common;
+using MFC_VoxMe.Core.Dtos.Management;
 using MFC_VoxMe.Infrastructure.HttpMethods.Helpers;
 using MFC_VoxMe_API.Data;
 using MFC_VoxMe_API.Dtos.Management;
@@ -93,7 +94,7 @@ namespace MFC_VoxMe.Infrastructure.Services
                 return result;
         }
 
-        //TODO: with request helpers
+        //TODO: 
         public async Task<HttpResponseDto<ConfiguredMaterialsDto>> GetConfiguredMaterials(ResourceCodesForTransactionDto codes)
         {
             try
@@ -121,14 +122,13 @@ namespace MFC_VoxMe.Infrastructure.Services
             }
         }
 
-        //TOODO
-        public async Task<HttpResponseDto<bool>> ForceConfigurationChanges(string appType)
+        public async Task<HttpResponseDto<List<string>>> ForceConfigurationChanges(string appType)
         {
            
                 var url = GetUrl($"management/configuration/download-to-devices?appType={appType}");
-
-                var result = await GetHelperService<bool>()
-                          .PutRequestHelper(url, null);
+                var forceConfig = new List<string>(); 
+                var result = await GetHelperService<List<string>>()
+                          .PutRequestHelper(url, forceConfig);
 
                 return result;
             }

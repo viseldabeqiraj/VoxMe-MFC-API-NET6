@@ -1,4 +1,5 @@
 ﻿using MFC_VoxMe.Core.Dtos.Common;
+using MFC_VoxMe.Core.Dtos.Management;
 using MFC_VoxMe_API.Dtos.Management;
 using MFC_VoxMe_API.Dtos.Transactions;
 
@@ -8,10 +9,10 @@ namespace MFC_VoxMe_API.Services.Resources
     {
         Task<HttpResponseDto<CreateResourceDto>> CreateResource(CreateResourceDto createResourceRequest);
         Task<HttpResponseDto<UpdateResourceDto>> UpdateResource(UpdateResourceDto updateResourceRequest, string code);
-        Task<bool> DeleteResource(string code);
-        Task<bool> DisableResource(string code);
+        Task<HttpResponseDto<bool>> DeleteResource(string code);
+        Task<HttpResponseDto<bool>> DisableResource(string code);
         Task<HttpResponseDto<GetResourceDetailsDto>> GetDetails(string code);
         Task<HttpResponseDto<ConfiguredMaterialsDto>> GetConfiguredMaterials(ResourceCodesForTransactionDto codes);
-        Task<bool> ForceConfigurationChanges(string appType);
+        Task<HttpResponseDto<List<string>>> ForceConfigurationChanges(string appType);
     }
 }

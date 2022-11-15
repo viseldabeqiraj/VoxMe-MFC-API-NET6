@@ -86,7 +86,7 @@ namespace MFC_VoxMe.Infrastructure.Services
                 //externalRef = "RS249955";
                 var url = GetUrl($"jobs/{externalRef}");
                 var result = await GetHelperService<UpdateJobDto>()
-                                  .PostRequestHelper(url, null, request);
+                                  .PutRequestHelper(url, request);
 
                 return result;
         }

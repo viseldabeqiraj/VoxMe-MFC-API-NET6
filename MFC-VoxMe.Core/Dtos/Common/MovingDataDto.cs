@@ -54,6 +54,8 @@ namespace MFC_VoxMe_API.Dtos.Common
 			public string Zip { get; set; }
 			[XmlElement(ElementName = "PrimaryPhone")]
 			public string PrimaryPhone { get; set; }
+			[XmlElement(ElementName = "SecondaryPhone")]
+			public string SecondaryPhone { get; set; }
 			[XmlElement(ElementName = "Email")]
 			public string Email { get; set; }
 			[XmlElement(ElementName = "Comment")]
@@ -97,7 +99,9 @@ namespace MFC_VoxMe_API.Dtos.Common
 			public string Country { get; set; }
 			[XmlElement(ElementName = "Zip")]
 			public string Zip { get; set; }
-			[XmlElement(ElementName = "SecondaryPhone")]
+			[XmlElement(ElementName = "PrimaryPhone")]
+			public string PrimaryPhone { get; set; }
+		[XmlElement(ElementName = "SecondaryPhone")]
 			public string SecondaryPhone { get; set; }
 			[XmlElement(ElementName = "Email")]
 			public string Email { get; set; }

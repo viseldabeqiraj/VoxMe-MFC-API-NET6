@@ -2,74 +2,74 @@
 {
     public class CreateTransactionDto
     {
-        public string externalRef { get; set; }
-        public string jobExternalRef { get; set; }
-        public DateTime scheduledDate { get; set; }
-        public string transactionType { get; set; }
-        public string originParty { get; set; }
+        public string externalRef { get; set; } = String.Empty;
+        public string jobExternalRef { get; set; } =  String.Empty;
+        public DateTime scheduledDate { get; set; } 
+        public string transactionType { get; set; } = String.Empty;
+        public string originParty { get; set; } = String.Empty;
         public OriginAddress originAddress { get; set; }
         public OriginPartyContact originPartyContact { get; set; }
-        public string destinationParty { get; set; }
+        public string destinationParty { get; set; } = String.Empty;
         public DestinationAddress destinationAddress { get; set; }
         public DestinationPartyContact destinationPartyContact { get; set; }
         public string transactionStatus { get; set; } = "Enum.TransactionStatus.Scheduled";
         public string onsiteStatus { get; set; } = "Enum.TransactionOnSiteStatus.ActivityScheduled";
         public string handlingDivision { get; set; } = "JKMOVING";
-        public string managedBy { get; set; }
-        public string instructionsCrewOrigin { get; set; }
-        public string instructionsCrewDestination { get; set; }
+        public string managedBy { get; set; } = String.Empty;
+        public string instructionsCrewOrigin { get; set; } = String.Empty;
+        public string instructionsCrewDestination { get; set; } = String.Empty;
         public List<string> services { get; set; }
         public List<QuestionnaireQuestion> questionnaireQuestions { get; set; }
         public List<AuxService> auxServices { get; set; }
         public List<LoadingUnit> loadingUnits { get; set; }
-        public string transactionCreationWebhookUrl { get; set; }
-        public string transactionStatusUpdateWebhookUrl { get; set; }
+        public string transactionCreationWebhookUrl { get; set; } = String.Empty;
+        public string transactionStatusUpdateWebhookUrl { get; set; } = String.Empty;
         public class AddressDetails
         {
-            public string city { get; set; }
-            public string country { get; set; }
-            public string street1 { get; set; }
-            public string street2 { get; set; }
-            public string street3 { get; set; }
-            public string area { get; set; }
-            public string zip { get; set; }
-            public string floor { get; set; }
-            public string notes { get; set; }
+            public string city { get; set; } = String.Empty;
+            public string country { get; set; } = String.Empty;
+            public string street1 { get; set; } = String.Empty;
+            public string street2 { get; set; } = String.Empty;
+            public string street3 { get; set; } = String.Empty;
+            public string area { get; set; } = String.Empty;
+            public string zip { get; set; } = String.Empty;
+            public string floor { get; set; } = String.Empty;
+            public string notes { get; set; } = String.Empty;
         }
 
         public class AuxService
         {
-            public string name { get; set; }
-            public double numericValue { get; set; }
-            public string stringValue { get; set; }
-            public string listValues { get; set; }
+            public string name { get; set; } = String.Empty;
+            public double numericValue { get; set; } 
+            public string stringValue { get; set; } = String.Empty;
+            public string listValues { get; set; } = String.Empty;
             public bool booleanValue { get; set; }
-            public DateTime dateValue { get; set; }
-            public string photoValue { get; set; }
-            public string signatureValue { get; set; }
+            //public DateTime dateValue { get; set; }
+            //public string photoValue { get; set; } = String.Empty;
+            public string signatureValue { get; set; } = String.Empty;
         }
 
         public class ContactDetails
         {
-            public string value { get; set; }
+            public string value { get; set; } = String.Empty;
         }
 
         public class DestinationAddress
         {
-            public string partyCode { get; set; }
+            public string partyCode { get; set; } = String.Empty;
             public AddressDetails addressDetails { get; set; }
         }
 
         public class DestinationPartyContact
         {
-            public string code { get; set; }
-            public string partyCode { get; set; }
+            public string code { get; set; } = String.Empty;
+            public string partyCode { get; set; } = String.Empty;
             public PersonDetails personDetails { get; set; }
         }
 
         public class LoadingUnit
         {
-            public string uniqueId { get; set; }
+            public string uniqueId { get; set; } = String.Empty;
             public LoadingUnitDetails loadingUnitDetails { get; set; }
         }
 
@@ -85,7 +85,7 @@
             public double netVolume { get; set; }
             public double netWeight { get; set; }
             public double netWidth { get; set; }
-            public string photos { get; set; }
+           // public string photos { get; set; } 
             public string serialNumber { get; set; } = "UNPACKED";
             public string uniqueId { get; set; }
             public string unitType { get; set; } = "Enum.ShipmentUnitType.Delivery";

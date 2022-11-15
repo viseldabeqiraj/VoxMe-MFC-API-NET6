@@ -7,6 +7,7 @@ using MFC_VoxMe_API.Services.Jobs;
 using MFC_VoxMe_API.Services.Resources;
 using MFC_VoxMe_API.Services.Transactions;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Serilog;
 using System.Net;
 
@@ -41,8 +42,14 @@ namespace MFC_VoxMe_API.Controllers
 
 				var transactionToCreate = _helpers.CreateTransactionObjectFromXml();
 				var transactionToUpdate = _mapper.Map<UpdateTransactionDto>(transactionToCreate);
+			var jobToCreate = _helpers.CreateJobObjectFromXml();
 
-				var jobSummaryRequest = await _jobService.GetSummary(jobExternalRef);
+			var jobToUpdate = _mapper.Map<UpdateJobDto>(jobToCreate);
+
+			var json = JsonConvert.SerializeObject(jobToUpdate);
+			///test
+			await _transactionService.UpdateTransaction(externalRef,transactionToUpdate);
+			var jobSummaryRequest = await _jobService.GetSummary(jobExternalRef);
 				if (jobSummaryRequest.responseStatus != HttpStatusCode.NoContent)
 				{
 						var transactionSummaryRequest = await _transactionService.GetSummary(externalRef);
@@ -85,8 +92,7 @@ namespace MFC_VoxMe_API.Controllers
 				}
 				else
                 {
-					var jobToCreate = _helpers.CreateJobObjectFromXml();
-					var jobToUpdate = _mapper.Map<UpdateJobDto>(jobToCreate);
+					var jobToCreate2 = _helpers.CreateJobObjectFromXml();
 
 					if (jobToCreate != null)
 					{ 
@@ -102,9 +108,7 @@ namespace MFC_VoxMe_API.Controllers
 
         [HttpPost("CreateResource")]
 		public async Task<ActionResult> CreateResourcesLogic([FromBody] string resourceCode)
-        {
-			try
-			{
+        {		
 				CreateResourceDto createResourceDto = new CreateResourceDto()
 				{
 					resource = new CreateResourceDto.Resource()
@@ -114,46 +118,26 @@ namespace MFC_VoxMe_API.Controllers
 					}
 				};
 				var createResource = await _resourceService.CreateResource(createResourceDto);
-				if (createResource.responseStatus == HttpStatusCode.OK)
-                {
-					if (await _resourceService.ForceConfigurationChanges("Inventory"))
-						return Ok();
-				}
-				return BadRequest("CreateResource Request: " + createResource.responseStatus);
-			}
-			catch (Exception ex)
-			{
-				Log.Error($"Method ResourcesAddUpdateLogic in {this.GetType().Name} failed. Exception thrown :{ex.Message}");
-				return BadRequest(ex.Message);
-			}
+
+				await _resourceService.ForceConfigurationChanges("Inventory");
+			return Ok();			
+			
 		}
 
         [HttpPost("DeactivateResource")]		
 		public async Task<ActionResult> DeactivateResourcesLogic([FromBody]string resourceCode)
 		{
-			try
-			{
+			
 				var resourceDetails = await _resourceService.GetDetails(resourceCode);
-				if (resourceDetails.responseStatus == HttpStatusCode.OK)
-				{
-					if (await _resourceService.DisableResource(resourceCode))
-                    {
+					await _resourceService.DisableResource(resourceCode);
+                    
 						var resourceCodesList = _helpers.GetTransactionResources().staffResourceCodes;
 						AssignStaffDesignateForemanDto resourceCodes = new AssignStaffDesignateForemanDto()
 						{
 							staffResourceCodes = resourceCodesList
 						};
-						if (await _resourceService.ForceConfigurationChanges("Inventory"))
-						return Ok();
-					}
-				}
-				return BadRequest("ResourceDetails" + resourceDetails.responseStatus);
-			}
-			catch (Exception ex)
-			{
-				Log.Error($"Method DeactivateResourcesLogic in {this.GetType().Name} failed. Exception thrown :{ex.Message}");
-				return BadRequest(ex.Message);
-			}
+						await _resourceService.ForceConfigurationChanges("Inventory");
+						return Ok();			
 		}
 
 

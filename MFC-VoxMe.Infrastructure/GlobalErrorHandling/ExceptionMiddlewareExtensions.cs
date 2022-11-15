@@ -25,7 +25,7 @@ namespace MFC_VoxMe.Infrastructure.GlobalErrorHandling
             }
             catch (Exception ex)
             {
-                Log.Error(ex.Message);
+                Log.Error(ex.Message + "\n" + ex.StackTrace);
                 await HandleExceptionAsync(httpContext, ex);
             }
         }
@@ -78,9 +78,7 @@ namespace MFC_VoxMe.Infrastructure.GlobalErrorHandling
                     // unhandled error
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     break;
-            }
-
-           
+            }         
 
             var result = JsonSerializer.Serialize(errorResponse);
             await context.Response.WriteAsync(result);
