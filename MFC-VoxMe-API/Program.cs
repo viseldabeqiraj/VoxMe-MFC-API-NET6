@@ -1,9 +1,10 @@
+using MFC_VoxMe.Infrastructure.Data;
 using MFC_VoxMe.Infrastructure.GlobalErrorHandling;
 using MFC_VoxMe.Infrastructure.HttpMethods;
 using MFC_VoxMe.Infrastructure.HttpMethods.Helpers;
 using MFC_VoxMe.Infrastructure.Services;
-using MFC_VoxMe_API.BusinessLogic;
 using MFC_VoxMe_API.BusinessLogic.AccessToken;
+using MFC_VoxMe_API.BusinessLogic.JimToVoxMe;
 using MFC_VoxMe_API.Data;
 using MFC_VoxMe_API.HttpMethods;
 using MFC_VoxMe_API.Services.Jobs;
@@ -26,6 +27,8 @@ options.CustomSchemaIds(type => type.ToString()));
 
 
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton<DapperContext>();
+
 builder.Services.AddAutoMapper(typeof(Program).Assembly); //Added for Automapper config
 builder.Services.AddScoped<IJobService, JobService>(); //added for DI 
 builder.Services.AddScoped<IResourceService, ResourceService>(); //added for DI 
@@ -34,6 +37,7 @@ builder.Services.AddSingleton<IAccessTokenConfig, AccessTokenConfig>(); //added 
 builder.Services.AddSingleton<IHttpRequests, HttpRequests>(); //added for DI 
 builder.Services.AddSingleton<IHelpers, Helpers>(); //added for DI 
 builder.Services.AddSingleton(typeof(IRequestHelpers<>), typeof(RequestHelpers<>)); //added for DI 
+
 //Added for Logging with Serilog library, to write logs in a file inside server
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Warning()
