@@ -58,7 +58,6 @@ namespace MFC_VoxMe.Infrastructure.Services
 
         public async Task<HttpResponseDto<TransactionDetailsDto>> GetDetails(string externalRef)
         {
-            externalRef = "RS249955";
             var url = GetUrl($"transactions/{externalRef}/details");
             var result = await GetHelperService<TransactionDetailsDto>()
                    .GetRequestHelper(url, null);
@@ -100,7 +99,6 @@ namespace MFC_VoxMe.Infrastructure.Services
         public async Task<HttpResponseDto<bool>> DeleteTransaction(string externalRef)
         {
 
-            externalRef = "RS249955";
             var url = GetUrl($"transactions/{externalRef}");
 
             var result = await GetHelperService<bool>()
@@ -114,7 +112,6 @@ namespace MFC_VoxMe.Infrastructure.Services
         public async Task<bool> AddDocumentToTransaction(IFormFile File, string DocTitle, string externalRef)
         {
 
-            externalRef = "RS249955";
 
             var url = GetUrl($"transactions/{externalRef}/set-document");
             var result = await GetHelperService<string>()
@@ -136,8 +133,6 @@ namespace MFC_VoxMe.Infrastructure.Services
         public async Task<HttpResponseDto<TransactionSummaryDto>> GetDocumentAsBinary(string EntityRef, string EntityType, string Name)
         {
 
-            EntityRef = "RS249955";
-
             var url = GetUrl($"documents?EntityRef={EntityRef}&EntityType={EntityType}&Name={Name}");
 
             var result = await GetHelperService<TransactionSummaryDto>()
@@ -147,8 +142,6 @@ namespace MFC_VoxMe.Infrastructure.Services
         //TODO:
         public async Task<HttpResponseDto<TransactionSummaryDto>> GetImageAsBinary(string EntityRef, string EntityType, string Name)
         {
-            EntityRef = "RS249955";
-
             var url = GetUrl("images?EntityRef={EntityRef}&EntityType={EntityType}&Name={Name}");
 
             var result = await GetHelperService<TransactionSummaryDto>()
@@ -159,7 +152,6 @@ namespace MFC_VoxMe.Infrastructure.Services
 
         public async Task<HttpResponseDto<bool>> RemoveResourceFromTransaction(string externalRef)
         {
-            externalRef = "RS249955";
 
             var url = GetUrl($"transactions/{externalRef}/resources");
             var result = await GetHelperService<bool>()
@@ -178,7 +170,6 @@ namespace MFC_VoxMe.Infrastructure.Services
 
         public async Task<HttpResponseDto<AssignMaterialsToTransactionDto>> AssignMaterialsToTransaction(AssignMaterialsToTransactionDto request, string externalRef)
         {
-            externalRef = "RS9192314";
             var url = GetUrl($"transactions/{externalRef}/materials");
             var result = await GetHelperService<AssignMaterialsToTransactionDto>()
                             .PostRequestHelper(url, null, request);
@@ -187,8 +178,6 @@ namespace MFC_VoxMe.Infrastructure.Services
 
         public async Task<HttpResponseDto<bool>> RemoveMaterialsFromTransaction(string externalRef)
         {
-            externalRef = "RS249955";
-
             var url = GetUrl($"transactions/{externalRef}/materials");
             var result = await GetHelperService<bool>()
                              .DeleteRequestHelper(url, null);

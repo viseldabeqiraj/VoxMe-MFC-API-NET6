@@ -352,11 +352,64 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
 
         public void InsertMovingDataRecords()
         {
-            var query = @"INSERT INTO table_name
-                                 VALUES(value1, value2, value3, ...)";
+            //Note 1: create array of cols, data to insert. create method create and pass those as parameters
+            var generalInfo = _MovingData.GeneralInfo;
+            //var query = @$"INSERT INTO [dbo].[MovingData]
+            //                   ([ClientName]
+            //                   ,[Date]
+            //                   ,[JobDescription]
+            //                   ,[EstimatorName]
+            //                   ,[Comment]
+            //                   ,[FileName]
+            //                   ,[BillOfLadingNo]
+            //                   ,[ExternalMFID]
+            //                   ,[State]
+            //                   ,[OrgID]
+            //                   ,[LastAccessTime]
+            //                   ,[CoordinatorName]
+            //                   ,[CoordinatorEmail]
+            //                   ,[BookingAgent]
+            //                   ,[BookingAgentContact]
+            //                   ,[BookingAgentContactEmail]
+            //                   ,[OriginAgent]
+            //                   ,[ShipmentType]
+            //                   ,[ClientSalutation]
+            //                   ,[ClientFirstName]
+            //                   ,[TripNumber]
+            //                   ,[Manager]
+            //                   ,[Hold])
+            //             VALUES
+            //                   ({generalInfo.ClientFirstName})";
+            //using (var connection = _context.CreateConnection())
+            //{
+            //    var companies =  connection.QueryAsync<string>(query);
+            //}
+
+            string[] cols = { "[ClientName]"
+                               ,"[Date]"
+                               ,"[JobDescription]" };
+
+            string[] data = { "test", "test", "test" };
+             InsertInto("MovingData", cols, data);
+        }
+
+        public void InsertInto(string table, string[] cols, string[] data)
+        {
+            //var result = new StringBuilder();
+            //var result2 = new StringBuilder();
+            string result = string.Join(",", cols);
+            string result2 = string.Join(",", data);
+            foreach( var item in cols)
+            {
+
+            }
+            var query = @$"INSERT INTO [dbo].[{table}]
+                               ({result})
+                         VALUES
+                               ({result2})";
             using (var connection = _context.CreateConnection())
             {
-                var companies =  connection.QueryAsync<string>(query);
+                var companies = connection.QueryAsync<string>(query);
             }
         }
     }
