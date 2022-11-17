@@ -97,8 +97,6 @@ namespace MFC_VoxMe.Infrastructure.Services
         //TODO: 
         public async Task<HttpResponseDto<ConfiguredMaterialsDto>> GetConfiguredMaterials(ResourceCodesForTransactionDto codes)
         {
-            try
-            {
                 var url = GetUrl($"management/resources/materials");
                 var json = JsonConvert.SerializeObject(codes);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
@@ -114,12 +112,7 @@ namespace MFC_VoxMe.Infrastructure.Services
                     result.dto = resourceDetails;
                 }
                 return result;
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"Method GetConfiguredMaterials in {className} failed. Exception thrown :{ex.Message}");
-                return null;
-            }
+
         }
 
         public async Task<HttpResponseDto<List<string>>> ForceConfigurationChanges(string appType)

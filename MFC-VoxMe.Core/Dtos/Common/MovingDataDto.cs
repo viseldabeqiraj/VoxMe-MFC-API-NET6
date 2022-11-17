@@ -62,8 +62,8 @@ namespace MFC_VoxMe_API.Dtos.Common
 			public string Comment { get; set; }
 			[XmlElement(ElementName = "AccessInfo")]
 			public AccessInfo AccessInfo { get; set; } = new AccessInfo();
-			[XmlElement(ElementName = "Rooms")]
-			public string Rooms { get; set; }
+			//[XmlElement(ElementName = "Rooms")]
+			//public Rooms Rooms { get; set; }
 		}
 
 		[XmlRoot(ElementName = "DestRoom")]
@@ -314,8 +314,8 @@ namespace MFC_VoxMe_API.Dtos.Common
 			public Services Services { get; set; } = new Services();
 			[XmlElement(ElementName = "Properties")]
 			public Properties Properties { get; set; } = new Properties();
-			[XmlAttribute(AttributeName = "Uom")]
-			public string Uom { get; set; }
+			//[XmlAttribute(AttributeName = "Uom")]
+			//public string Uom { get; set; }
 			[XmlAttribute(AttributeName = "Offset")]
 			public string Offset { get; set; }
 		}
