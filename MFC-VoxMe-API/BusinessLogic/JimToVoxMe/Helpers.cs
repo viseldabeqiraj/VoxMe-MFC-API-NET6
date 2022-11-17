@@ -359,7 +359,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             {
                 ClientName = generalInfo.ClientFirstName,
                 Date = DateTime.Parse(generalInfo.Preferences.PackingDate),
-                JobDescription = "",
+                JobDescription = "Imperial",
                 EstimatorName = generalInfo.EstimatorName,
                 Comment = generalInfo.Comment,  
                 FileName = "",
