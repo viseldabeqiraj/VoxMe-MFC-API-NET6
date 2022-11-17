@@ -54,7 +54,7 @@ namespace MFC_VoxMe_API.Controllers
 								
 								
 								var transactionDownloadDetails = await _transactionService.GetDownloadDetails(externalRef);
-								if (transactionDownloadDetails.responseStatus == HttpStatusCode.OK)
+								if (transactionDownloadDetails.dto.Count > 0)
 								{
 									//escalate to ops manager
 								}
@@ -89,13 +89,26 @@ namespace MFC_VoxMe_API.Controllers
 				var jobToCreate = _helpers.CreateJobObjectFromXml();
 
 				if (jobToCreate != null)
-					{ 
+				{ 
 						await _jobService.CreateJob(jobToCreate);
 
 							if (transactionToCreate != null)
-								await _transactionService.CreateTransaction(transactionToCreate);					
+								await _transactionService.CreateTransaction(transactionToCreate);
+
+					await _transactionService.RemoveMaterialsFromTransaction(externalRef);
+					await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
+
+					await _transactionService.RemoveResourceFromTransaction(externalRef);
+
+					var resourceCodes = _helpers.GetTransactionResources().staffResourceCodes;
+					foreach (var resourceCode in resourceCodes)
+					{
+						CreateResourcesLogic(resourceCode.code);
 					}
+					await _transactionService.AssignStaffDesignateForeman(_helpers.GetTransactionResources(), externalRef);
+
 				}
+			}
 				return Ok();
 
         }
@@ -108,7 +121,7 @@ namespace MFC_VoxMe_API.Controllers
 					resource = new CreateResourceDto.Resource()
 					{
 						code = resourceCode,
-						resourceName = resourceCode //split TODO,
+						resourceName = resourceCode.Split("-").ToString(),
 					}
 				};
 				var createResource = await _resourceService.CreateResource(createResourceDto);

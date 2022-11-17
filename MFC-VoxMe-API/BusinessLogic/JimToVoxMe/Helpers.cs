@@ -3,8 +3,6 @@ using MFC_VoxMe.Infrastructure.Data;
 using MFC_VoxMe_API.Dtos.Common;
 using MFC_VoxMe_API.Dtos.Jobs;
 using MFC_VoxMe_API.Dtos.Transactions;
-using MFC_VoxMe_API.Models;
-using Newtonsoft.Json;
 using System.Text;
 using System.Xml.Serialization;
 using static MFC_VoxMe_API.Dtos.Jobs.CreateJobDto;
@@ -31,15 +29,6 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             return movingDataFromXml;
 
         }
-
-        //public void setProperties()
-        //{
-        //    var moving = new MovingData();
-        //    //PropertyMatcher<CreateJobDto, MovingData>.GenerateMatchedObject(CreateJobObjectFromXml(), moving);
-        //    //PropertyMatcher<CreateJobDto.Client, MovingData>.GenerateMatchedObject(CreateJobObjectFromXml().client, moving);
-        //    var json = JsonConvert.SerializeObject(CreateTransactionObjectFromXml());//JsonSerializer.Serialize(CreateJobObjectFromXml());
-        //    var to = JsonConvert.DeserializeObject<MovingData>(json);//JsonSerializer.Deserialize<MovingData>(json);
-        //}
 
         public CreateJobDto CreateJobObjectFromXml()
         {
@@ -226,7 +215,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                     {
                         name = a.Type,
                         numericValue = a.QtyTaken,
-                        stringValue = "TEST",//a.Description ?? String.Empty,
+                        stringValue = a.Description ?? String.Empty,
                         listValues = a.Value,
                         booleanValue = a.QtyTaken > 0 ? true : false
 
@@ -350,67 +339,5 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             return resourceCodesDto;
         }
 
-        public void InsertMovingDataRecords()
-        {
-            //Note 1: create array of cols, data to insert. create method create and pass those as parameters
-            var generalInfo = _MovingData.GeneralInfo;
-            //var query = @$"INSERT INTO [dbo].[MovingData]
-            //                   ([ClientName]
-            //                   ,[Date]
-            //                   ,[JobDescription]
-            //                   ,[EstimatorName]
-            //                   ,[Comment]
-            //                   ,[FileName]
-            //                   ,[BillOfLadingNo]
-            //                   ,[ExternalMFID]
-            //                   ,[State]
-            //                   ,[OrgID]
-            //                   ,[LastAccessTime]
-            //                   ,[CoordinatorName]
-            //                   ,[CoordinatorEmail]
-            //                   ,[BookingAgent]
-            //                   ,[BookingAgentContact]
-            //                   ,[BookingAgentContactEmail]
-            //                   ,[OriginAgent]
-            //                   ,[ShipmentType]
-            //                   ,[ClientSalutation]
-            //                   ,[ClientFirstName]
-            //                   ,[TripNumber]
-            //                   ,[Manager]
-            //                   ,[Hold])
-            //             VALUES
-            //                   ({generalInfo.ClientFirstName})";
-            //using (var connection = _context.CreateConnection())
-            //{
-            //    var companies =  connection.QueryAsync<string>(query);
-            //}
-
-            string[] cols = { "[ClientName]"
-                               ,"[Date]"
-                               ,"[JobDescription]" };
-
-            string[] data = { "test", "test", "test" };
-             InsertInto("MovingData", cols, data);
-        }
-
-        public void InsertInto(string table, string[] cols, string[] data)
-        {
-            //var result = new StringBuilder();
-            //var result2 = new StringBuilder();
-            string result = string.Join(",", cols);
-            string result2 = string.Join(",", data);
-            foreach( var item in cols)
-            {
-
-            }
-            var query = @$"INSERT INTO [dbo].[{table}]
-                               ({result})
-                         VALUES
-                               ({result2})";
-            using (var connection = _context.CreateConnection())
-            {
-                var companies = connection.QueryAsync<string>(query);
-            }
-        }
     }
 }
