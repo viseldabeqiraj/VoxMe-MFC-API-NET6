@@ -48,8 +48,6 @@ namespace MFC_VoxMe.Infrastructure.Services
 
         public async Task<HttpResponseDto<JobDetailsDto>> GetDetails(string externalRef)
         {
-               // externalRef = "RS249955";
-
                 var url = GetUrl($"jobs/{externalRef}/details");
                 var result = await GetHelperService<JobDetailsDto>()
                        .GetRequestHelper(url, null);
@@ -60,8 +58,6 @@ namespace MFC_VoxMe.Infrastructure.Services
 
         public async Task<HttpResponseDto<JobSummaryDto>> GetSummary(string externalRef)
         {
-                externalRef = "RM002900";
-
                 var url = GetUrl($"jobs/{externalRef}/summary");
 
                 var result = await GetHelperService<JobSummaryDto>()
@@ -83,7 +79,6 @@ namespace MFC_VoxMe.Infrastructure.Services
 
         public async Task<HttpResponseDto<UpdateJobDto>> UpdateJob(UpdateJobDto request, string externalRef)
         {
-                //externalRef = "RS249955";
                 var url = GetUrl($"jobs/{externalRef}");
                 var result = await GetHelperService<UpdateJobDto>()
                                   .PutRequestHelper(url, request);
