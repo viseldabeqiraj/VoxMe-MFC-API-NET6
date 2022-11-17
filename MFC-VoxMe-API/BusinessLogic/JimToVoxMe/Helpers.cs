@@ -215,7 +215,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                     {
                         name = a.Type,
                         numericValue = a.QtyTaken,
-                        stringValue = "TEST",//a.Description ?? String.Empty,
+                        stringValue = a.Description ?? String.Empty,
                         listValues = a.Value,
                         booleanValue = a.QtyTaken > 0 ? true : false
 
