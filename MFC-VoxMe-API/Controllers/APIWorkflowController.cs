@@ -133,8 +133,7 @@ namespace MFC_VoxMe_API.Controllers
 
         [HttpPost("DeactivateResource")]		
 		public async Task<ActionResult> DeactivateResourcesLogic([FromBody]string resourceCode)
-		{
-			
+		{			
 				var resourceDetails = await _resourceService.GetDetails(resourceCode);
 					await _resourceService.DisableResource(resourceCode);
                     

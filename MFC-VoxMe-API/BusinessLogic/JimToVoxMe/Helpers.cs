@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using MFC_VoxMe.Infrastructure.Data;
+using MFC_VoxMe.Infrastructure.Models;
 using MFC_VoxMe_API.Dtos.Common;
 using MFC_VoxMe_API.Dtos.Jobs;
 using MFC_VoxMe_API.Dtos.Transactions;
@@ -28,19 +29,19 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             MemoryStream memStream = new MemoryStream(Encoding.UTF8.GetBytes(xml));
             MovingDataDto movingDataFromXml = (MovingDataDto)serializer.Deserialize(memStream);
             _MovingData = movingDataFromXml;
-            InsertMovingDataRecords();
+            InsertTableRecords();
             return movingDataFromXml;
 
         }
 
-        //public void setProperties()
-        //{
-        //    var moving = new MovingData();
-        //    //PropertyMatcher<CreateJobDto, MovingData>.GenerateMatchedObject(CreateJobObjectFromXml(), moving);
-        //    //PropertyMatcher<CreateJobDto.Client, MovingData>.GenerateMatchedObject(CreateJobObjectFromXml().client, moving);
-        //    var json = JsonConvert.SerializeObject(CreateTransactionObjectFromXml());//JsonSerializer.Serialize(CreateJobObjectFromXml());
-        //    var to = JsonConvert.DeserializeObject<MovingData>(json);//JsonSerializer.Deserialize<MovingData>(json);
-        //}
+        public void setProperties()
+        {
+            var moving = new MovingData();
+            //PropertyMatcher<CreateJobDto, MovingData>.GenerateMatchedObject(CreateJobObjectFromXml(), moving);
+            //PropertyMatcher<CreateJobDto.Client, MovingData>.GenerateMatchedObject(CreateJobObjectFromXml().client, moving);
+            var json = JsonConvert.SerializeObject(CreateJobObjectFromXml());//JsonSerializer.Serialize(CreateJobObjectFromXml());
+            var to = JsonConvert.DeserializeObject<MovingData>(json); //JsonSerializer.Deserialize<MovingData>(json);
+        }
 
         public CreateJobDto CreateJobObjectFromXml()
         {
@@ -55,7 +56,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             createJobDto.jobType = "Enum.JobType." + properties.FirstOrDefault
                 (s => s.Type == "Form.General.Authority").Description.Replace(" ", "");
 
-            createJobDto.serviceLevel = generalInfo.Preferences.ServiceLevel;
+            createJobDto.serviceLevel = "Enum.ServiceLevel." + generalInfo.Preferences.ServiceLevel.Replace(" ","");
             createJobDto.client.legalName = generalInfo.ClientFirstName + " " + generalInfo.Name;
             createJobDto.client.code = generalInfo.ClientNumber;
             createJobDto.instructionsCrewOrigin = generalInfo.Preferences.Comment + "\n" + generalInfo.Comment;
@@ -110,6 +111,11 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                     (s => s.Type == "Form.General.Account").Description.Replace(" ", "");
                 createJobDto.account.legalName = createJobDto.account.code;
                 createJobDto.accountPerson.personDetails = createJobDto.managedBy.personDetails;
+                createJobDto.accountPerson.code = generalInfo.CoordinatorID;
+
+                createJobDto.accountPerson.partyCode = properties.FirstOrDefault
+
+                    (s => s.Type == "Form.General.Account").Description.Replace(" ", "");
             }
 
             createJobDto.originAddress = new OriginAddress()
@@ -351,14 +357,15 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             return resourceCodesDto;
         }
 
-        public void InsertMovingDataRecords()
+        public void InsertTableRecords() 
         {
             var generalInfo = _MovingData.GeneralInfo;
 
-            var dto = new MovingData()
+            var movingData = new MovingData()
             {
                 ClientName = generalInfo.ClientFirstName,
-                Date = DateTime.Parse(generalInfo.Preferences.PackingDate),
+                Date = DateTime.Parse
+                            (generalInfo.Preferences.PackingDate),
                 JobDescription = "Imperial",
                 EstimatorName = generalInfo.EstimatorName,
                 Comment = generalInfo.Comment,  
@@ -380,7 +387,124 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                 Manager = "Voxme",
                 Hold = false
             };
-            InsertInto("MovingData", dto);
+
+            InsertInto("MovingData", movingData);
+
+            var NewMovingDataId = GetMovingDataId();
+            var prefs = new Prefs()
+            {
+                MovingDataID = NewMovingDataId,
+                PrefferedLanguageID = 1,
+                PackingDate = DateTime.Parse
+                            (generalInfo.Preferences.PackingDate),
+                ServiceTypeID = 1,
+                Comment = generalInfo.Preferences.Comment,
+                ItemsPath = generalInfo.ClientFirstName + "_" + generalInfo.Name + "_" + NewMovingDataId,
+                //RealArrivalDate = "",
+                DeliveryDate = DateTime.Parse
+                                (generalInfo.Preferences.DeliveryDate),
+                //SurveyDate = "",
+                CreationDate = DateTime.Now,
+                PackingFinishDate = DateTime.Parse
+                                (generalInfo.Preferences.PackingFinishDate)
+            };
+
+            var originAddress = new MFC_VoxMe.Infrastructure.Models.Address()
+            {
+                MovingDataID = NewMovingDataId,
+                IsDestination = false,
+                Street = generalInfo.Address.Street,
+                City = generalInfo.Address.City,
+                Country = generalInfo.Address.Country,
+                Floor = generalInfo.Address.AccessInfo.Floor,
+                Elevator = Convert.ToBoolean
+                            (generalInfo.Address.AccessInfo.HasElevator),
+                DistanceToParking = 0,
+                NeedCrane = false,
+                PrimaryPhone = generalInfo.Address.PrimaryPhone,
+                SecondaryPhone = generalInfo.Address.SecondaryPhone,
+                Email=generalInfo.Address.Email,
+                Comment= generalInfo.Address.Comment,   
+                Zip=generalInfo.Address.Zip,
+                State=generalInfo.Address.State,
+                PropertyType = generalInfo.Address.AccessInfo.PropertyType,
+                ParkingReservationRequired = false,
+                NumOfParkingSpots = 0,
+                ParkingSpotSize = 0,
+                CarryRequired = Convert.ToBoolean
+                                (generalInfo.Address.AccessInfo.CarryRequired),
+                CarryLength = 0,
+                ShuttleRequired = Convert.ToBoolean
+                                (generalInfo.Address.AccessInfo.ShuttleRequired),
+                ShuttleDistance = 0,
+                StairCarryRequired = Convert.ToBoolean
+                                (generalInfo.Address.AccessInfo.StairCarryRequired),
+                StairCarryLength = 0,
+                AdditionalStopRequired = Convert.ToBoolean
+                                (generalInfo.Address.AccessInfo.AdditionalStopRequired)
+
+            };
+
+            var destinationAddress = new MFC_VoxMe.Infrastructure.Models.Address()
+            {
+                MovingDataID = NewMovingDataId,
+                IsDestination = true,
+                Street = generalInfo.Destination.Street,
+                City = generalInfo.Destination.City,
+                Country = generalInfo.Destination.Country,
+                Floor = generalInfo.Destination.AccessInfo.Floor,
+                Elevator = Convert.ToBoolean
+                            (generalInfo.Destination.AccessInfo.HasElevator),
+                DistanceToParking = 0,
+                NeedCrane = false,
+                PrimaryPhone = generalInfo.Destination.PrimaryPhone,
+                SecondaryPhone = generalInfo.Destination.SecondaryPhone,
+                Email = generalInfo.Destination.Email,
+                Comment = generalInfo.Destination.Comment,
+                Zip = generalInfo.Destination.Zip,
+                State = generalInfo.Destination.State,
+                PropertyType = generalInfo.Destination.AccessInfo.PropertyType,
+                ParkingReservationRequired = false,
+                NumOfParkingSpots = 0,
+                ParkingSpotSize = 0,
+                CarryRequired = Convert.ToBoolean
+                                (generalInfo.Destination.AccessInfo.CarryRequired),
+                CarryLength = 0,
+                ShuttleRequired = Convert.ToBoolean
+                                (generalInfo.Destination.AccessInfo.ShuttleRequired),
+                ShuttleDistance = 0,
+                StairCarryRequired = Convert.ToBoolean
+                                (generalInfo.Destination.AccessInfo.StairCarryRequired),
+                StairCarryLength = 0,
+                AdditionalStopRequired = Convert.ToBoolean
+                                (generalInfo.Destination.AccessInfo.AdditionalStopRequired)
+
+            };
+
+            List<KeyValuePair<string, object>> objectsToInsert = 
+                         new List<KeyValuePair<string, object>>();
+
+            objectsToInsert.Add
+                (new KeyValuePair<string, object>("Prefs", prefs));
+            objectsToInsert.Add
+                (new KeyValuePair<string, object>("Address", originAddress));
+            objectsToInsert.Add
+                (new KeyValuePair<string, object>("Address", destinationAddress));
+
+            foreach (KeyValuePair<string, object> valuePair in objectsToInsert)
+            {
+                InsertInto(valuePair.Key, valuePair.Value);
+            }
+        }
+
+        public int GetMovingDataId()
+        {
+            var query = $@"select max(id) from MovingData";
+            using (var connection = _context.CreateConnection())
+            {
+                var result = connection.Query<int>(query);
+                return result.FirstOrDefault();
+            }
         }
 
         public void InsertInto<T>(string table, T dto) //where T : new()

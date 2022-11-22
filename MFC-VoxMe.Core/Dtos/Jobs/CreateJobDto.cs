@@ -32,9 +32,9 @@ namespace MFC_VoxMe_API.Dtos.Jobs
 
         public class Account
         {
-            public string? code { get; set; } = String.Empty;
-            public string? legalName { get; set; } = String.Empty;
-            public string? partyType { get; set; } = String.Empty;
+            public string code { get; set; } = String.Empty;
+            public string legalName { get; set; } = String.Empty;
+            public string partyType { get; set; } = "Enum.PartyType.ACCOUNT";
         }
 
         public class AccountPerson
