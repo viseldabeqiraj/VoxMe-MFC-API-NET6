@@ -497,17 +497,8 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             }
         }
 
-        public int GetMovingDataId()
-        {
-            var query = $@"select max(id) from MovingData";
-            using (var connection = _context.CreateConnection())
-            {
-                var result = connection.Query<int>(query);
-                return result.FirstOrDefault();
-            }
-        }
 
-        public void InsertInto<T>(string table, T dto) //where T : new()
+        public void InsertInto<T>(string table, T dto) 
         {
             var colsList = new List<string>();
             var dataList = new List<string>();
@@ -530,6 +521,16 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             using (var connection = _context.CreateConnection())
             {
                 var result = connection.Query<string>(query);
+            }
+        }
+
+        public int GetMovingDataId()
+        {
+            var query = $@"select max(id) from MovingData";
+            using (var connection = _context.CreateConnection())
+            {
+                var result = connection.Query<int>(query);
+                return result.FirstOrDefault();
             }
         }
     }
