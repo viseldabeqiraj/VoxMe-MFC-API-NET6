@@ -44,7 +44,6 @@ namespace MFC_VoxMe.Infrastructure.HttpMethods
 
             var result = new HttpResponseDto<T>();
             result.responseStatus = response.StatusCode;
-
             result.dto = JsonConvert.DeserializeObject<T>(response.Content.ReadAsStringAsync().Result);
             
             return result;

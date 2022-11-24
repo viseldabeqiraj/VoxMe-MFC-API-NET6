@@ -18,5 +18,6 @@ namespace MFC_VoxMe_API.Services.Transactions
         Task<HttpResponseDto<ResourceCodesForTransactionDto>> AssignResourcesToTransaction(ResourceCodesForTransactionDto request, string externalRef);
         Task<HttpResponseDto<AssignMaterialsToTransactionDto>> AssignMaterialsToTransaction(AssignMaterialsToTransactionDto request, string externalRef);
         Task<HttpResponseDto<bool>> RemoveMaterialsFromTransaction(string externalRef);
+        Task<HttpResponseDto<TransactionSummaryDto>> GetImageAsBinary(string EntityRef, string EntityType, string Name);
     }
 }

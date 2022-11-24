@@ -1,5 +1,7 @@
 ﻿using Dapper;
-using MFC_VoxMe.Infrastructure.Data;
+using MFC_VoxMe.Core.Dtos.Common;
+using MFC_VoxMe.Infrastructure.Data.QueryGenerator;
+using MFC_VoxMe.Infrastructure.Data.QueryGenerator.Helpers;
 using MFC_VoxMe.Infrastructure.Models;
 using MFC_VoxMe_API.Dtos.Common;
 using MFC_VoxMe_API.Dtos.Jobs;
@@ -16,11 +18,11 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
     public class Helpers : IHelpers
     {
         public static MovingDataDto _MovingData;
-        private readonly DapperContext _context;
+        private readonly IDynamicQueryGenerator _queryGenerator;
 
-        public Helpers(DapperContext context)
+        public Helpers(IDynamicQueryGenerator queryGenerator)
         {
-            _context = context;
+            _queryGenerator = queryGenerator;
         }
 
         public MovingDataDto XMLParse(string xml)
@@ -29,7 +31,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             MemoryStream memStream = new MemoryStream(Encoding.UTF8.GetBytes(xml));
             MovingDataDto movingDataFromXml = (MovingDataDto)serializer.Deserialize(memStream);
             _MovingData = movingDataFromXml;
-            InsertTableRecords();
+            // InsertTableRecords();
             return movingDataFromXml;
 
         }
@@ -52,9 +54,9 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             var properties = _MovingData.InventoryData.Properties.Property;
 
             createJobDto.serviceType = "Enum.ServiceType." + properties.FirstOrDefault
-                (s => s.Type == "Form.General.Contract").Description.Replace(" ", "");
+                (s => s.Type == "Form.General.Contract")?.Description.Replace(" ", "");
             createJobDto.jobType = "Enum.JobType." + properties.FirstOrDefault
-                (s => s.Type == "Form.General.Authority").Description.Replace(" ", "");
+                (s => s.Type == "Form.General.Authority")?.Description.Replace(" ", "");
 
             createJobDto.serviceLevel = "Enum.ServiceLevel." + generalInfo.Preferences.ServiceLevel.Replace(" ","");
             createJobDto.client.legalName = generalInfo.ClientFirstName + " " + generalInfo.Name;
@@ -388,9 +390,16 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                 Hold = false
             };
 
-            InsertInto("MovingData", movingData);
+            _queryGenerator.InsertInto("MovingData", movingData);
 
-            var NewMovingDataId = GetMovingDataId();
+            var NewMovingDataId = Convert.ToInt32(_queryGenerator.SelectFrom(
+             new SelectFrom()
+             {
+                 function = IEnums.functions.MAX,
+                 columns = "id",
+                 table = "MovingData"
+             }));
+
             var prefs = new Prefs()
             {
                 MovingDataID = NewMovingDataId,
@@ -478,7 +487,6 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                 StairCarryLength = 0,
                 AdditionalStopRequired = Convert.ToBoolean
                                 (generalInfo.Destination.AccessInfo.AdditionalStopRequired)
-
             };
 
             List<KeyValuePair<string, object>> objectsToInsert = 
@@ -493,45 +501,56 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
 
             foreach (KeyValuePair<string, object> valuePair in objectsToInsert)
             {
-                InsertInto(valuePair.Key, valuePair.Value);
+                _queryGenerator.InsertInto(valuePair.Key, valuePair.Value);
             }
         }
 
-
-        public void InsertInto<T>(string table, T dto) 
+      
+        public async Task<dynamic> GetMovingDataId(string externalRef)
         {
-            var colsList = new List<string>();
-            var dataList = new List<string>();
-
-            foreach (var propertyInfo in dto.GetType().GetProperties())
+            SelectFrom select = new SelectFrom()
             {
-                if (propertyInfo.GetValue(dto) != null)
+                columns = "*",
+                table = Constants.MOVINGDATA,
+                whereClause = new Dictionary<string, object>()
                 {
-                    colsList.Add(propertyInfo.Name);
-                    dataList.Add("'" + propertyInfo.GetValue(dto).ToString() + "'");
+                    {"ExternalMFID", @$"'{externalRef}'"}
+                },
+                logOperator = IEnums.logOperator.AND
+            };           
+            return await _queryGenerator.SelectFrom(select);
+        }
+        //To check:: photovalue not being assigned when creating transaction, so here comes empty string
+        public List<KeyValuePair<string, string>> GetImages(HttpResponseDto<TransactionDetailsDto> transactiondetails)
+        {
+            var questionnaireQuestions = transactiondetails.dto?.questionnaireQuestions.ToList();
+            var auxServices = transactiondetails.dto?.auxServices.ToList();
+
+            List<KeyValuePair<string, string>> imagesToStore =
+                        new List<KeyValuePair<string, string>>();
+            var lists = questionnaireQuestions?.Zip(auxServices, (q, a) =>
+                              new { questionnaireQuestions = q, auxServices = a });
+            if (lists is not null)
+            {
+                foreach (var item in lists)
+                {
+                    imagesToStore.Add
+                            (new KeyValuePair<string, string>
+                            ("QuestionnaireQuestions", item.questionnaireQuestions.signatureValue));
+                    imagesToStore.Add
+                            (new KeyValuePair<string, string>
+                            ("QuestionnaireQuestions", item?.questionnaireQuestions.photoValue));
+                    imagesToStore.Add
+                            (new KeyValuePair<string, string>
+                            ("AuxServices", item?.auxServices.signatureValue));
+                    imagesToStore.Add
+                            (new KeyValuePair<string, string>
+                            ("AuxServices", item?.auxServices.photoValue));
                 }
             }
-            string cols = string.Join(",", colsList);
-            string data = string.Join(",", dataList);
-
-            var query = @$"INSERT INTO [dbo].[{table}]
-                               ({cols})
-                         VALUES
-                               ({data})";
-            using (var connection = _context.CreateConnection())
-            {
-                var result = connection.Query<string>(query);
-            }
+            return imagesToStore;
         }
 
-        public int GetMovingDataId()
-        {
-            var query = $@"select max(id) from MovingData";
-            using (var connection = _context.CreateConnection())
-            {
-                var result = connection.Query<int>(query);
-                return result.FirstOrDefault();
-            }
-        }
+   
     }
 }

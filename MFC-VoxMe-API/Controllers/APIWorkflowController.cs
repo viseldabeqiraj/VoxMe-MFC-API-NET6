@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Dapper;
 using MFC_VoxMe_API.BusinessLogic.JimToVoxMe;
 using MFC_VoxMe_API.Dtos.Jobs;
 using MFC_VoxMe_API.Dtos.Management;
@@ -9,6 +10,7 @@ using MFC_VoxMe_API.Services.Transactions;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Serilog;
+using System.Linq;
 using System.Net;
 
 namespace MFC_VoxMe_API.Controllers
@@ -146,6 +148,27 @@ namespace MFC_VoxMe_API.Controllers
 						return Ok();			
 		}
 
+        [HttpPost("MFCStatusUpdate")]
+		public async Task<ActionResult> MFCStatusUpdate([FromBody]string externalRef, int? status, string? jobRef)
+        {
+			var result = await _helpers.GetMovingDataId(externalRef);
 
+				var movingDataId = result.ID;
+				var jobExternalRef = result.BillOfLadingNo;
+
+				if (jobExternalRef is not null)
+				{
+					var jobDetailsRequest = await _jobService.GetSummary(jobExternalRef);
+					//TODO: Create or update correlating records
+				}
+                var transactionDetails = await _transactionService.GetDetails(externalRef);
+				var images = _helpers.GetImages(transactionDetails);
+				foreach (var image in images)
+				{
+					await _transactionService.GetImageAsBinary(externalRef, "Transaction", "");
+				}
+
+			return Ok();
+        }
 	}
 }

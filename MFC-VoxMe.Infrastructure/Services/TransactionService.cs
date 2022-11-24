@@ -142,8 +142,8 @@ namespace MFC_VoxMe.Infrastructure.Services
         //TODO:
         public async Task<HttpResponseDto<TransactionSummaryDto>> GetImageAsBinary(string EntityRef, string EntityType, string Name)
         {
-            var url = GetUrl("images?EntityRef={EntityRef}&EntityType={EntityType}&Name={Name}");
-
+            var url = GetUrl($"images?EntityRef=RS0150687&EntityType=Transaction&Name=signature_1666862783756.png");
+            //check how to return byte from http request call
             var result = await GetHelperService<TransactionSummaryDto>()
                             .GetRequestHelper(url, null);
             return result;
