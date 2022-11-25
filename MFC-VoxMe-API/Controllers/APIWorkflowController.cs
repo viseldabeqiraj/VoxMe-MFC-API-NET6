@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Dapper;
+using MFC_VoxMe.Core.Dtos.Transactions;
 using MFC_VoxMe_API.BusinessLogic.JimToVoxMe;
 using MFC_VoxMe_API.Dtos.Jobs;
 using MFC_VoxMe_API.Dtos.Management;

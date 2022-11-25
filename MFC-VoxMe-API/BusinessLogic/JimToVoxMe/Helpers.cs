@@ -548,6 +548,14 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                             ("AuxServices", item?.auxServices.photoValue));
                 }
             }
+            imagesToStore.Add
+                (new KeyValuePair<string, string>("Transaction", transactiondetails.dto.clientSignature));
+            imagesToStore.Add
+               (new KeyValuePair<string, string>("Transaction", transactiondetails.dto.driverSignature));
+            imagesToStore.Add
+               (new KeyValuePair<string, string>("Transaction", transactiondetails.dto.destDriverSignature));
+            imagesToStore.Add
+               (new KeyValuePair<string, string>("Transaction", transactiondetails.dto.destClientSignature));
             return imagesToStore;
         }
 

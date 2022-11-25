@@ -1,4 +1,5 @@
-﻿using MFC_VoxMe.Infrastructure.HttpMethods.AccessToken;
+﻿using MFC_VoxMe.Core.Dtos.Transactions;
+using MFC_VoxMe.Infrastructure.HttpMethods.AccessToken;
 using MFC_VoxMe_API.BusinessLogic.AccessToken;
 using MFC_VoxMe_API.Dtos.Common;
 using MFC_VoxMe_API.Logging;
@@ -87,28 +88,46 @@ namespace MFC_VoxMe_API.HttpMethods
 
         }
 
+        public async Task<HttpResponseMessage> PostFile(string url, DocumentDto document)
+        {
+            var file = document.File;
+            //if (file != null && file.Length > 0)
+            //{
+                //byte[] fileData;
+                //using (var br = new BinaryReader(file.OpenReadStream()))
+                //    fileData = br.ReadBytes((int)file.OpenReadStream().Length);
+
+                ByteArrayContent bytes = new ByteArrayContent(file);
+                MultipartFormDataContent multiContent = new MultipartFormDataContent();
+
+                multiContent.Add(bytes, "file", document.DocTitle);
+                var request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Post,
+                    RequestUri = new Uri(url),
+                    Content = multiContent
+                };
+            HttpResponseMessage response;
+                request.Headers.Authorization = new AuthenticationHeaderValue(
+                       "Bearer", GetAccessToken().Result.AccessToken.ToString());
+
+                response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+
+                if (response.IsSuccessStatusCode)
+                    return response;
+
+                else
+                    throw new ApplicationException
+                    (url + " Status code: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
+        }
+
         //POST method by calling httpclient to post data on api side
         public async Task<HttpResponseMessage> MakePostHttpCall(string url, HttpContent? data, IFormFile? file)
         {
 
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-                if (file != null && file.Length > 0)
-                {
-                    byte[] fileData;
-                    using (var br = new BinaryReader(file.OpenReadStream()))
-                        fileData = br.ReadBytes((int)file.OpenReadStream().Length);
-
-                    ByteArrayContent bytes = new ByteArrayContent(fileData);
-
-                    MultipartFormDataContent multiContent = new MultipartFormDataContent();
-
-                    multiContent.Add(bytes, "file", file.FileName);
-
-                    HttpResponseMessage fileResponse  = client.PostAsync(url, multiContent).Result;
-                    return fileResponse;
-                }
+               
                 var request = new HttpRequestMessage
                 {
                     Method = HttpMethod.Post,
@@ -195,8 +214,7 @@ namespace MFC_VoxMe_API.HttpMethods
 
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-                //Fetch the JSON string from URL.
+                
                 var request = new HttpRequestMessage
                 {
                     Method = HttpMethod.Patch,
@@ -217,6 +235,27 @@ namespace MFC_VoxMe_API.HttpMethods
                     throw new ApplicationException
                     (url + " Status code: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
 
-        }       
+        }
+        public async Task<HttpResponseMessage> GetBinaryStream(string url)
+        {
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(url)
+            };
+            HttpResponseMessage response;
+
+            request.Headers.Authorization = new AuthenticationHeaderValue(
+                "Bearer", GetAccessToken().Result.AccessToken.ToString());
+
+            response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+
+            if (response.IsSuccessStatusCode)
+                return response;
+
+            else
+                throw new ApplicationException
+                (url + " Status code: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
+        }
     }
 }
