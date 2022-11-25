@@ -14,7 +14,7 @@
         public DestinationPartyContact destinationPartyContact { get; set; }
         public string transactionStatus { get; set; } = "Enum.TransactionStatus.Scheduled";
         public string onsiteStatus { get; set; } = "Enum.TransactionOnSiteStatus.ActivityScheduled";
-        public string handlingDivision { get; set; } = "JKMOVING";
+        public string handlingDivision { get; set; } = "JKMOVINGTEST002";
         public string managedBy { get; set; } = String.Empty;
         public string instructionsCrewOrigin { get; set; } = String.Empty;
         public string instructionsCrewDestination { get; set; } = String.Empty;

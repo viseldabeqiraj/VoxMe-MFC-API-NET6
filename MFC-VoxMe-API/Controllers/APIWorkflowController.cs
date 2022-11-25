@@ -31,69 +31,81 @@ namespace MFC_VoxMe_API.Controllers
             _helpers = helpers;
             _mapper = mapper;
         }
-		
+
 		[HttpPost("WorkflowLogic")]
 
 		public async Task<ActionResult> WorkflowLogic([FromBody] string xml)
-        {
-			    var movingData = _helpers.XMLParse(xml);
-				var externalRef = movingData.GeneralInfo.EMFID;
-				var jobExternalRef = movingData.GeneralInfo.Groupageid;
+		{
+			var movingData = _helpers.XMLParse(xml);
+			var externalRef = movingData.GeneralInfo.EMFID;
+			var jobExternalRef = movingData.GeneralInfo.Groupageid;
 
-				var transactionToCreate = _helpers.CreateTransactionObjectFromXml();
-				var transactionToUpdate = _mapper.Map<UpdateTransactionDto>(transactionToCreate);
-				
-				var jobSummaryRequest = await _jobService.GetSummary(jobExternalRef);
-				if (jobSummaryRequest.responseStatus != HttpStatusCode.NoContent)
+            var jobToCreate12 = _helpers.CreateJobObjectFromXml();
+            var jsonJob = JsonConvert.SerializeObject(jobToCreate12);
+
+			var transactionToCreate = _helpers.CreateTransactionObjectFromXml();
+
+           var jsonTransaction = JsonConvert.SerializeObject(transactionToCreate);
+
+            var transactionToUpdate = _mapper.Map<UpdateTransactionDto>(transactionToCreate);
+
+			var jobSummaryRequest = await _jobService.GetSummary(jobExternalRef);
+			if (jobSummaryRequest.responseStatus != HttpStatusCode.NoContent)
+			{
+				var transactionSummaryRequest = await _transactionService.GetSummary(externalRef);
+
+				if (transactionSummaryRequest.responseStatus != HttpStatusCode.NoContent)
 				{
-						var transactionSummaryRequest = await _transactionService.GetSummary(externalRef);
+					await _transactionService.UpdateTransaction(externalRef, transactionToUpdate);
 
-						if (transactionSummaryRequest.responseStatus != HttpStatusCode.NoContent)
+
+					var transactionDownloadDetails = await _transactionService.GetDownloadDetails(externalRef);
+					if (transactionDownloadDetails.dto.Count > 0)
+					{
+						//escalate to ops manager
+					}
+					else
+					{
+						await _transactionService.RemoveMaterialsFromTransaction(externalRef);
+						await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
+
+						await _transactionService.RemoveResourceFromTransaction(externalRef);
+
+						var resourceCodes = _helpers.GetTransactionResources().staffResourceCodes;
+						foreach (var resourceCode in resourceCodes)
 						{
-								 await _transactionService.UpdateTransaction(externalRef,transactionToUpdate);
-								
-								
-								var transactionDownloadDetails = await _transactionService.GetDownloadDetails(externalRef);
-								if (transactionDownloadDetails.dto.Count > 0)
-								{
-									//escalate to ops manager
-								}
-								else
-								{
-									await _transactionService.RemoveMaterialsFromTransaction(externalRef);
-									await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
-
-									await _transactionService.RemoveResourceFromTransaction(externalRef);
-									
-										var resourceCodes = _helpers.GetTransactionResources().staffResourceCodes;
-										foreach (var resourceCode in resourceCodes)
-										{
-											CreateResourcesLogic(resourceCode.code);
-										}
-										await _transactionService.AssignStaffDesignateForeman(_helpers.GetTransactionResources(), externalRef);										
-								}
-							
+							CreateResourcesLogic(resourceCode.code).Wait();
 						}
-						else
-                        {
-							if (transactionToCreate != null)
-							{
-								var createTransactionRequest = await _transactionService.CreateTransaction(transactionToCreate);
-								await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
-								await _transactionService.AssignStaffDesignateForeman(_helpers.GetTransactionResources(), externalRef);																
-							}
-						}						
+						await _transactionService.AssignStaffDesignateForeman(_helpers.GetTransactionResources(), externalRef);
+					}
+
 				}
 				else
-                {
+				{
+					if (transactionToCreate != null)
+					{
+						var createTransactionRequest = await _transactionService.CreateTransaction(transactionToCreate);
+						await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
+
+						var resourceCodes = _helpers.GetTransactionResources().staffResourceCodes;
+						foreach (var resourceCode in resourceCodes)
+						{
+							CreateResourcesLogic(resourceCode.code).Wait();
+						}
+						await _transactionService.AssignStaffDesignateForeman(_helpers.GetTransactionResources(), externalRef);
+					}
+				}
+			}
+			else
+			{
 				var jobToCreate = _helpers.CreateJobObjectFromXml();
 
 				if (jobToCreate != null)
-				{ 
-						await _jobService.CreateJob(jobToCreate);
+				{
+					await _jobService.CreateJob(jobToCreate);
 
-							if (transactionToCreate != null)
-								await _transactionService.CreateTransaction(transactionToCreate);
+					if (transactionToCreate != null)
+						await _transactionService.CreateTransaction(transactionToCreate);
 
 					await _transactionService.RemoveMaterialsFromTransaction(externalRef);
 					await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
@@ -109,9 +121,9 @@ namespace MFC_VoxMe_API.Controllers
 
 				}
 			}
-				return Ok();
+			return Ok();
 
-        }
+		}
 
         [HttpPost("CreateResource")]
 		public async Task<ActionResult> CreateResourcesLogic([FromBody] string resourceCode)
@@ -121,12 +133,17 @@ namespace MFC_VoxMe_API.Controllers
 					resource = new CreateResourceDto.Resource()
 					{
 						code = resourceCode,
-						resourceName = resourceCode.Split("-").ToString(),
-					}
+						resourceName = resourceCode
+                    }
 				};
-				var createResource = await _resourceService.CreateResource(createResourceDto);
+				var resourceDetails = await _resourceService.GetDetails(resourceCode);
+				
+			if (resourceDetails.responseStatus == HttpStatusCode.NotFound)
+			{
+                var createResource = await _resourceService.CreateResource(createResourceDto);
 
-				await _resourceService.ForceConfigurationChanges("Inventory");
+                await _resourceService.ForceConfigurationChanges("Inventory");
+            }
 			return Ok();			
 			
 		}
@@ -148,5 +165,5 @@ namespace MFC_VoxMe_API.Controllers
 		}
 
 
-	}
+    }
 }

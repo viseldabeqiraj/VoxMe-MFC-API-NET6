@@ -3,6 +3,7 @@ using MFC_VoxMe.Infrastructure.Data;
 using MFC_VoxMe_API.Dtos.Common;
 using MFC_VoxMe_API.Dtos.Jobs;
 using MFC_VoxMe_API.Dtos.Transactions;
+using Newtonsoft.Json;
 using System.Text;
 using System.Xml.Serialization;
 using static MFC_VoxMe_API.Dtos.Jobs.CreateJobDto;
@@ -26,8 +27,15 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             MemoryStream memStream = new MemoryStream(Encoding.UTF8.GetBytes(xml));
             MovingDataDto movingDataFromXml = (MovingDataDto)serializer.Deserialize(memStream);
             _MovingData = movingDataFromXml;
+            setProperties();
             return movingDataFromXml;
 
+        }
+
+        public void setProperties()
+        {
+            var json = JsonConvert.SerializeObject(CreateJobObjectFromXml());//JsonSerializer.Serialize(CreateJobObjectFromXml());
+            var test = json;
         }
 
         public CreateJobDto CreateJobObjectFromXml()
@@ -43,7 +51,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             createJobDto.jobType = "Enum.JobType." + properties.FirstOrDefault
                 (s => s.Type == "Form.General.Authority").Description.Replace(" ", "");
 
-            createJobDto.serviceLevel = generalInfo.Preferences.ServiceLevel;
+            createJobDto.serviceLevel = "Enum.ServiceLevel." + generalInfo.Preferences.ServiceLevel;
             createJobDto.client.legalName = generalInfo.ClientFirstName + " " + generalInfo.Name;
             createJobDto.client.code = generalInfo.ClientNumber;
             createJobDto.instructionsCrewOrigin = generalInfo.Preferences.Comment + "\n" + generalInfo.Comment;
@@ -81,7 +89,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                     contactDetails = new ContactDetails()
                     {
                         email = generalInfo.Coordinatoremail,
-                        mobilePhone = generalInfo.CoordinatorMobile ?? "+123456789"
+                        mobilePhone = generalInfo.CoordinatorMobile
                     },
 
                 }
@@ -90,13 +98,14 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             createJobDto.bookerPerson.personDetails = createJobDto.managedBy.personDetails;
             createJobDto.bookerPerson.code = generalInfo.CoordinatorID;
 
-            if (properties.Any(s => s.Type == "Form.General.Account" && s.Description != null))
+            if (properties.Any(s => s.Type == "Form.General.Account" && s.Description == "U.S.Military"))
             {
                 createJobDto.account = new Account();
                 createJobDto.accountPerson = new AccountPerson();
-                createJobDto.account.code = "Enum.PartyType." + properties.FirstOrDefault
-                    (s => s.Type == "Form.General.Account").Description.Replace(" ", "");
+                createJobDto.account.code = "U.S.MILITARY001";
                 createJobDto.account.legalName = createJobDto.account.code;
+                createJobDto.accountPerson.code = "U.S.MILITARY001";
+                createJobDto.accountPerson.partyCode = "U.S.MILITARY001"; 
                 createJobDto.accountPerson.personDetails = createJobDto.managedBy.personDetails;
             }
 
@@ -230,7 +239,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                     {
                         name = a.Type,
                         numericValue = a.QtyTaken,
-                        stringValue = "TEST",//a.Description ?? String.Empty,
+                        stringValue = a.Description ?? String.Empty,
                         listValues = a.Value,
                         booleanValue = a.QtyTaken > 0 ? true : false
 
@@ -303,21 +312,94 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
 
         public AssignMaterialsToTransactionDto GetTransactionMaterials()
         {
-            var materials = _MovingData.InventoryData.Materials.Material.ToList();
-            AssignMaterialsToTransactionDto assignMaterialsToTransaction =
-                new AssignMaterialsToTransactionDto();
-
-            if (materials != null)
+            AssignMaterialsToTransactionDto assignMaterialsToTransaction = new AssignMaterialsToTransactionDto();
+            var materialsDescription = _MovingData.InventoryData.Properties.Property.ToList().Find(prop => prop.Type == "Form.General.Materials").Description;
+            materialsDescription = materialsDescription.Replace('[',' ');
+            materialsDescription = materialsDescription.Replace(']', ' ');
+            var materieals = materialsDescription.Split(',');
+            if(materieals != null)
             {
-                List<AssignMaterialsToTransactionDto.HandedMaterial> materialList = materials.Select
-                    (a => new AssignMaterialsToTransactionDto.HandedMaterial()
+                List<AssignMaterialsToTransactionDto.HandedMaterial> materialList = materieals.Select
+                    (item => 
+                    new AssignMaterialsToTransactionDto.HandedMaterial()
                     {
-                        code = "Enum.MaterialType." + a.Type.Replace(" ", ""),
-                        qty = Convert.ToDouble(a.QtyTaken)
-                    }).ToList();
-                assignMaterialsToTransaction.handedMaterials = materialList;
+                        code = (item.Contains("Mirror (4pc)"))? "Enum.MaterialType.Mirror4Piece" : "Enum.MaterialType." + item.Split(':')[0].Replace(" ", ""),
+                        qty = Int32.Parse(item.Split(':')[1])
+                    }
+                    ).ToList();
+                var materilasToSendToMfc = materialList.Where(item => doesItMatchWithMFC(item.code)).ToList();
+                assignMaterialsToTransaction.handedMaterials = materilasToSendToMfc;
             }
             return assignMaterialsToTransaction;
+        }
+
+        private bool doesItMatchWithMFC(string code)
+        {
+            if(
+                code.Contains("1.5Carton")
+                || code.Contains("3.1Carton")
+                || code.Contains("4.5Carton")
+                || code.Contains("AcidFreeTissuePaper")
+                || code.Contains("BlanketWrap")
+                || code.Contains("BikeBox")
+                || code.Contains("BubbleWrap")
+                || code.Contains("CarpetShield")
+                || code.Contains("ClockCarton")
+                || code.Contains("CrateCount")
+                || code.Contains("CribMattressCarton")
+                || code.Contains("DAirFreightContainer")
+                || code.Contains("DishCarton")
+                || code.Contains("DolphinFoam")
+                || code.Contains("DoubleMattressCarton")
+                || code.Contains("FlatWardrobe")
+                || code.Contains("GatorBox")
+                || code.Contains("GreenTape")
+                || code.Contains("HoistingStraps")
+                || code.Contains("KingMattressCarton")
+                || code.Contains("KraftBubble")
+                || code.Contains("LampCarton")
+                || code.Contains("LdnAirFreightContainer")
+                || code.Contains("LiftVans")
+                || code.Contains("MattressBags-Single")
+                || code.Contains("MattressBags-Queen/Double")
+                || code.Contains("MattressBags-King")
+                || code.Contains("Memoryfoam")
+                || code.Contains("Mirror4Piece")
+                || code.Contains("OfficeTotes")
+                || code.Contains("Paper")
+                || code.Contains("PaperPad")
+                || code.Contains("PartsBox")
+                || code.Contains("Peanuts")
+                || code.Contains("PillowtopCarton")
+                || code.Contains("QueenMattressCarton")
+                || code.Contains("ShortyLiftvan")
+                || code.Contains("SingleMattressCarton")
+                || code.Contains("StretchWrap")
+                || code.Contains("Tape")
+                || code.Contains("Triwall10")
+                || code.Contains("Triwall15")
+                || code.Contains("Triwall5")
+                || code.Contains("TvBox")
+                || code.Contains("UsedLiftvans")
+                || code.Contains("WardrobeRent")
+                || code.Contains("WardrobeSold")
+                || code.Contains("WasherKitFL")
+                || code.Contains("WasherKitTL")
+                || code.Contains("WineBox")
+                || code.Contains("Brownpaperpads")
+                || code.Contains("6.5Carton")
+                || code.Contains("6.0Carton")
+                || code.Contains("Glassine")
+                || code.Contains("SlatBox")
+                || code.Contains("CribMattressBag")
+                )
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public AssignStaffDesignateForemanDto GetTransactionResources()

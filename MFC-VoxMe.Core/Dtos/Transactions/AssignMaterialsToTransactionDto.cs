@@ -9,7 +9,7 @@ namespace MFC_VoxMe_API.Dtos.Transactions
         public class HandedMaterial
         {
             public string code { get; set; }
-            public double qty { get; set; }
+            public int qty { get; set; }
         }
 
 

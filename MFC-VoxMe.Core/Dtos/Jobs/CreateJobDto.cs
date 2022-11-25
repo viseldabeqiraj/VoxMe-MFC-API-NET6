@@ -34,7 +34,7 @@ namespace MFC_VoxMe_API.Dtos.Jobs
         {
             public string? code { get; set; } = String.Empty;
             public string? legalName { get; set; } = String.Empty;
-            public string? partyType { get; set; } = String.Empty;
+            public string? partyType { get; set; } = "Enum.PartyType.ACCOUNT";
         }
 
         public class AccountPerson
@@ -59,15 +59,15 @@ namespace MFC_VoxMe_API.Dtos.Jobs
 
         public class Booker
         {
-            public string code { get; set; } = "JKMOVING";
-            public string legalName { get; set; } = "Jk Moving Services";
+            public string code { get; set; } = "JKMOVINGTEST002";
+            public string legalName { get; set; } = "JK Moving Services";
             public string partyType { get; set; } = "Enum.PartyType.Division";
         }
 
         public class BookerPerson
         {
             public string code { get; set; } = String.Empty;
-            public string partyCode { get; set; } = "JKMOVING";
+            public string partyCode { get; set; } = "JKMOVINGTEST002";
             public PersonDetails personDetails { get; set; } = new PersonDetails();
         }
 
@@ -89,7 +89,7 @@ namespace MFC_VoxMe_API.Dtos.Jobs
         public class ContactDetails
         {
             public string email { get; set; } = String.Empty;
-            public string mobilePhone { get; set; } = "+123456789";
+            public string mobilePhone { get; set; } = String.Empty;
             public string homePhone { get; set; } = String.Empty;
             public string workPhone { get; set; } = String.Empty;
         }
@@ -161,7 +161,7 @@ namespace MFC_VoxMe_API.Dtos.Jobs
         public class ManagedBy
         {
             public string code { get; set; }
-            public string partyCode { get; set; } = "JKMOVING";
+            public string partyCode { get; set; } = "JKMOVINGTEST002";
             public PersonDetails personDetails { get; set; } = new PersonDetails();
         }
 
