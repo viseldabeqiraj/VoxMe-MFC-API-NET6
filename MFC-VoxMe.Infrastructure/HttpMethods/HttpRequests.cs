@@ -242,6 +242,7 @@ namespace MFC_VoxMe_API.HttpMethods
             MultipartFormDataContent multiContent = new MultipartFormDataContent();
 
             multiContent.Add(bytes, "file", document.DocTitle);
+            multiContent.Add(new StringContent(document.DocTitle), "DocTitle");
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
