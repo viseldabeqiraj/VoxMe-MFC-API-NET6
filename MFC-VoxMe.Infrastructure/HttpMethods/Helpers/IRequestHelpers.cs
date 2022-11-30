@@ -11,7 +11,7 @@ namespace MFC_VoxMe.Infrastructure.HttpMethods.Helpers
 {
     public interface IRequestHelpers<T> 
     {
-        Task<HttpResponseDto<T>> PostRequestHelper<T>(string url, IFormFile? file, T dto);
+        Task<HttpResponseDto<T>> PostRequestHelper<T>(string url, T dto);
         Task<HttpResponseDto<T>> GetRequestHelper(string url,  HttpContent data);
         Task<HttpResponseDto<T>> PutRequestHelper<T>(string url, T? dto);
         Task<HttpResponseDto<bool>> DeleteRequestHelper(string url, StringContent? data);

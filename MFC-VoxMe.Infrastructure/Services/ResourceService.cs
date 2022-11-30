@@ -48,7 +48,7 @@ namespace MFC_VoxMe.Infrastructure.Services
 
                 var url = GetUrl($"management/resources");
                 var result = await GetHelperService<CreateResourceDto>()
-                         .PostRequestHelper(url, null, request);
+                         .PostRequestHelper(url, request);
 
                 return result;
         }

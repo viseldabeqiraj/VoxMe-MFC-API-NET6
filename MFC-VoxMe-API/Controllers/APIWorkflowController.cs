@@ -166,7 +166,7 @@ namespace MFC_VoxMe_API.Controllers
 				var images = _helpers.GetImages(transactionDetails);
 				foreach (var image in images)
 				{
-					await _transactionService.GetImageAsBinary(externalRef, "Transaction", "");
+					await _transactionService.GetImageAsBinary(externalRef, "Transaction", "");					
 				}
 
 			return Ok();

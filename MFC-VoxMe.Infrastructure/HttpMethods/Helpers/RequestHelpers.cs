@@ -21,7 +21,7 @@ namespace MFC_VoxMe.Infrastructure.HttpMethods
             _httpRequests = httpRequests;
         }
 
-        public async Task<HttpResponseDto<T>> PostRequestHelper<T>(string url, IFormFile? file, T dto) 
+        public async Task<HttpResponseDto<T>> PostRequestHelper<T>(string url, T dto) 
         {
             StringContent? data = null;
             if (dto != null)
@@ -29,7 +29,7 @@ namespace MFC_VoxMe.Infrastructure.HttpMethods
                 var json = JsonConvert.SerializeObject(dto);
                 data = new StringContent(json, Encoding.UTF8, "application/json");
             }
-                var response = await _httpRequests.MakePostHttpCall(url, data, file);
+                var response = await _httpRequests.MakePostHttpCall(url, data);
 
                 var result = new HttpResponseDto<T>();
                 result.responseStatus = response.StatusCode;

@@ -91,11 +91,6 @@ namespace MFC_VoxMe_API.HttpMethods
         public async Task<HttpResponseMessage> PostFile(string url, DocumentDto document)
         {
             var file = document.File;
-            //if (file != null && file.Length > 0)
-            //{
-                //byte[] fileData;
-                //using (var br = new BinaryReader(file.OpenReadStream()))
-                //    fileData = br.ReadBytes((int)file.OpenReadStream().Length);
 
                 ByteArrayContent bytes = new ByteArrayContent(file);
                 MultipartFormDataContent multiContent = new MultipartFormDataContent();
@@ -107,7 +102,7 @@ namespace MFC_VoxMe_API.HttpMethods
                     RequestUri = new Uri(url),
                     Content = multiContent
                 };
-            HttpResponseMessage response;
+                HttpResponseMessage response;
                 request.Headers.Authorization = new AuthenticationHeaderValue(
                        "Bearer", GetAccessToken().Result.AccessToken.ToString());
 
@@ -122,7 +117,7 @@ namespace MFC_VoxMe_API.HttpMethods
         }
 
         //POST method by calling httpclient to post data on api side
-        public async Task<HttpResponseMessage> MakePostHttpCall(string url, HttpContent? data, IFormFile? file)
+        public async Task<HttpResponseMessage> MakePostHttpCall(string url, HttpContent? data)
         {
 
                 ServicePointManager.Expect100Continue = true;
