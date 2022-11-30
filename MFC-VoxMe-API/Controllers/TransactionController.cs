@@ -49,23 +49,23 @@ namespace MFC_VoxMe_API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("uploadFile")]
-        public async Task<ActionResult> AddDocumentToTransaction(IFormFile File, string DocTitle, string externalRef)
-        {
-            try
-            {
-                var result = await _transactionService.AddDocumentToTransaction(File, DocTitle, externalRef);
+        //[HttpPost("uploadFile")]
+        //public async Task<ActionResult> AddDocumentToTransaction(IFormFile File, string DocTitle, string externalRef)
+        //{
+        //    try
+        //    {
+        //        var result = await _transactionService.AddDocumentToTransaction(File, DocTitle, externalRef);
 
-                if (result != null)
-                    return Ok(result);
-                else return BadRequest();
+        //        if (result != null)
+        //            return Ok(result);
+        //        else return BadRequest();
 
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
         //[HttpPost("CreateJob")]
         //public async Task<ActionResult> CreateJob(CreateJobDto request)

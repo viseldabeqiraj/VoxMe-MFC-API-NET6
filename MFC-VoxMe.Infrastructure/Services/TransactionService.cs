@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MFC_VoxMe.Core.Dtos.Common;
+using MFC_VoxMe.Core.Dtos.Transactions;
 using MFC_VoxMe.Infrastructure.HttpMethods;
 using MFC_VoxMe.Infrastructure.HttpMethods.Helpers;
 using MFC_VoxMe_API.Data;
@@ -107,18 +108,14 @@ namespace MFC_VoxMe.Infrastructure.Services
             return result;
 
         }
-
-        //TODO:
-        public async Task<bool> AddDocumentToTransaction(IFormFile File, string DocTitle, string externalRef)
+        public async Task<HttpResponseDto<DocumentDto>> AddDocumentToTransaction(DocumentDto document, string externalRef)
         {
-
-
             var url = GetUrl($"transactions/{externalRef}/set-document");
-            var result = await GetHelperService<string>()
-                                .GetRequestHelper(url, null);
-
-            return true;
+            var result = await GetHelperService<DocumentDto>()
+                                .PostByteRequestHelper(url, document);
+            return result;
         }
+
 
         public async Task<HttpResponseDto<AssignStaffDesignateForemanDto>> AssignStaffDesignateForeman(AssignStaffDesignateForemanDto request, string externalRef)
         {
@@ -130,22 +127,21 @@ namespace MFC_VoxMe.Infrastructure.Services
         }
 
         //TODO:
-        public async Task<HttpResponseDto<TransactionSummaryDto>> GetDocumentAsBinary(string EntityRef, string EntityType, string Name)
+        public async Task<HttpResponseDto<byte[]>> GetDocumentAsBinary(string EntityRef, string EntityType, string Name)
         {
 
             var url = GetUrl($"documents?EntityRef={EntityRef}&EntityType={EntityType}&Name={Name}");
 
-            var result = await GetHelperService<TransactionSummaryDto>()
-                            .GetRequestHelper(url, null);
+            var result = await GetHelperService<byte[]>()
+                            .GetByteRequestHelper(url);
             return result;
         }
-        //TODO:
-        public async Task<HttpResponseDto<TransactionSummaryDto>> GetImageAsBinary(string EntityRef, string EntityType, string Name)
+        public async Task<HttpResponseDto<byte[]>> GetImageAsBinary(string EntityRef, string EntityType, string Name)
         {
-            var url = GetUrl("images?EntityRef={EntityRef}&EntityType={EntityType}&Name={Name}");
-
-            var result = await GetHelperService<TransactionSummaryDto>()
-                            .GetRequestHelper(url, null);
+            var url = GetUrl($"images?EntityRef=RS0150687&EntityType=Transaction&Name=signature_1666862783756.png");
+            //var url = GetUrl($"images?EntityRef={EntityRef}&EntityType=Transaction&Name={name}");
+            var result = await GetHelperService<byte[]>()
+                            .GetByteRequestHelper(url);
             return result;
 
         }

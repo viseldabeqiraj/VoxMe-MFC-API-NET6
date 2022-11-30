@@ -1,4 +1,5 @@
-﻿using MFC_VoxMe.Infrastructure.HttpMethods.AccessToken;
+﻿using MFC_VoxMe.Core.Dtos.Transactions;
+using MFC_VoxMe.Infrastructure.HttpMethods.AccessToken;
 using MFC_VoxMe_API.BusinessLogic.AccessToken;
 using MFC_VoxMe_API.Dtos.Common;
 using MFC_VoxMe_API.Logging;
@@ -217,6 +218,34 @@ namespace MFC_VoxMe_API.HttpMethods
                     throw new ApplicationException
                     (url + " Status code: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
 
-        }       
+        }
+
+        public async Task<HttpResponseMessage> PostFile(string url, DocumentDto document)
+        {
+            var file = document.File;
+
+            ByteArrayContent bytes = new ByteArrayContent(file);
+            MultipartFormDataContent multiContent = new MultipartFormDataContent();
+
+            multiContent.Add(bytes, "file", document.DocTitle);
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Post,
+                RequestUri = new Uri(url),
+                Content = multiContent
+            };
+            HttpResponseMessage response;
+            request.Headers.Authorization = new AuthenticationHeaderValue(
+                   "Bearer", GetAccessToken().Result.AccessToken.ToString());
+
+            response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+
+            if (response.IsSuccessStatusCode)
+                return response;
+
+            else
+                throw new ApplicationException
+                (url + " Status code: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
+        }
     }
 }
