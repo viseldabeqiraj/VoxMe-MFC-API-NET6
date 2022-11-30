@@ -137,37 +137,49 @@ namespace MFC_VoxMe_API.Controllers
         [HttpPost("DeactivateResource")]		
 		public async Task<ActionResult> DeactivateResourcesLogic([FromBody]string resourceCode)
 		{			
-				var resourceDetails = await _resourceService.GetDetails(resourceCode);
-					await _resourceService.DisableResource(resourceCode);
+			var resourceDetails = await _resourceService.GetDetails(resourceCode);
+			await _resourceService.DisableResource(resourceCode);
                     
-						var resourceCodesList = _helpers.GetTransactionResources().staffResourceCodes;
-						AssignStaffDesignateForemanDto resourceCodes = new AssignStaffDesignateForemanDto()
-						{
-							staffResourceCodes = resourceCodesList
-						};
-						await _resourceService.ForceConfigurationChanges("Inventory");
-						return Ok();			
+				var resourceCodesList = _helpers.GetTransactionResources().staffResourceCodes;
+				AssignStaffDesignateForemanDto resourceCodes = new AssignStaffDesignateForemanDto()
+				{
+					staffResourceCodes = resourceCodesList
+				};
+				await _resourceService.ForceConfigurationChanges("Inventory");
+				return Ok();			
 		}
 
         [HttpPost("MFCStatusUpdate")]
 		public async Task<ActionResult> MFCStatusUpdate([FromBody]string externalRef, int? status, string? jobRef)
         {
-			var result = await _helpers.GetMovingDataId(externalRef);
+			//var result = await _helpers.GetMovingDataId(externalRef);
 
-				var movingDataId = result.ID;
-				var jobExternalRef = result.BillOfLadingNo;
+				//var movingDataId = result.ID;
+				//var jobExternalRef = result.BillOfLadingNo;
 
-				if (jobExternalRef is not null)
-				{
-					var jobDetailsRequest = await _jobService.GetSummary(jobExternalRef);
-					//TODO: Create or update correlating records
-				}
-                var transactionDetails = await _transactionService.GetDetails(externalRef);
-				var images = _helpers.GetImages(transactionDetails);
-				foreach (var image in images)
-				{
-					await _transactionService.GetImageAsBinary(externalRef, "Transaction", "");					
-				}
+			Random rnd = new Random();
+			byte[] b = new byte[100 * 1024];
+			rnd.NextBytes(b);
+			var doc = new DocumentDto()
+			{
+				File = b,
+				DocTitle = "Test doc"
+			};
+			var x = await _transactionService.AddDocumentToTransaction(doc, "RS2222226");
+			var cc = x;
+
+			//if (jobExternalRef is not null)
+			//	{
+			//		var jobDetailsRequest = await _jobService.GetSummary(jobExternalRef);
+			//		//TODO: Create or update correlating records
+			//	}
+			
+			//var transactionDetails = await _transactionService.GetDetails(externalRef);
+			//	var images = _helpers.GetImages(transactionDetails);
+			//	foreach (var image in images)
+			//	{
+			//		var response = await _transactionService.GetImageAsBinary(externalRef, "Transaction", "");					
+			//	}
 
 			return Ok();
         }

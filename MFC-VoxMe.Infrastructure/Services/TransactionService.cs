@@ -109,7 +109,6 @@ namespace MFC_VoxMe.Infrastructure.Services
 
         }
 
-        //TODO:
         public async Task<HttpResponseDto<DocumentDto>> AddDocumentToTransaction(DocumentDto document, string externalRef)
         {
 

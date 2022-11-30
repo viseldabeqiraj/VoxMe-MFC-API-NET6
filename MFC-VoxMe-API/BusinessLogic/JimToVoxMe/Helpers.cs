@@ -549,7 +549,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                 }
             }
             imagesToStore.Add
-                (new KeyValuePair<string, string>("Transaction", transactiondetails.dto.clientSignature));
+               (new KeyValuePair<string, string>("Transaction", transactiondetails.dto.clientSignature));
             imagesToStore.Add
                (new KeyValuePair<string, string>("Transaction", transactiondetails.dto.driverSignature));
             imagesToStore.Add
