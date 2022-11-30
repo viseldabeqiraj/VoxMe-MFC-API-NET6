@@ -151,7 +151,7 @@ namespace MFC_VoxMe.Infrastructure.Services
 
             var url = GetUrl($"transactions/{externalRef}/resources");
             var result = await GetHelperService<bool>()
-                             .DeleteRequestHelper(url, null);
+                             .DeleteRequestHelper(url, new StringContent(@"[]", Encoding.UTF8, "application/json"));
             return result;
         }
         //Will not be used
@@ -176,7 +176,7 @@ namespace MFC_VoxMe.Infrastructure.Services
         {
             var url = GetUrl($"transactions/{externalRef}/materials");
             var result = await GetHelperService<bool>()
-                             .DeleteRequestHelper(url, null);
+                             .DeleteRequestHelper(url, new StringContent(@"[]", Encoding.UTF8, "application/json"));
             return result;
         }
     }

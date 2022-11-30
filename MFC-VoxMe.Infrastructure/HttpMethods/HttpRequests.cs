@@ -79,12 +79,25 @@ namespace MFC_VoxMe_API.HttpMethods
                 
                     response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
 
+            if (url.Contains("management") && url.Contains('-'))
+            {
+                if (response.IsSuccessStatusCode)
+                    return response;
+                else if(response.StatusCode == HttpStatusCode.NotFound)
+                    return response;
+                else
+                    throw new ApplicationException
+                    (url + " Status code: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
+            }
+            else
+            {
                 if (response.IsSuccessStatusCode)
                     return response;
 
                 else
                     throw new ApplicationException
                     (url + " Status code: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
+            }
 
         }
 
@@ -189,6 +202,7 @@ namespace MFC_VoxMe_API.HttpMethods
                     throw new ApplicationException
                     (url + " Status code: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
         }
+
 
         //PATCH method by calling httpclient
         public async Task<HttpResponseMessage> MakePatchHttpCall(string url, HttpContent data)
