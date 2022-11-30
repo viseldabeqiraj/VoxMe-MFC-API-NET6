@@ -23,7 +23,7 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
             {
                 sub = "where ";
                 if (select.whereClause.Count == 1)
-                    sub += select.whereClause.First().Key + "=" + select.whereClause.First().Value;
+                    sub += select.whereClause.First().Key + select.comparisonOperator + select.whereClause.First().Value;
                 else
                 {
                     foreach (KeyValuePair<string, object> valuePair in select.whereClause)
@@ -31,9 +31,9 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
                         var last = select.whereClause.Last();
                         if (valuePair.Equals(last))
                         {
-                            sub += valuePair.Key + "=" + valuePair.Value;
+                            sub += valuePair.Key + select.comparisonOperator + valuePair.Value;
                         }
-                        else sub += valuePair.Key + "=" + valuePair.Value + " " + select.logOperator + " ";
+                        else sub += valuePair.Key + select.comparisonOperator + valuePair.Value + " " + select.logOperator + " ";
                     }
                 }
             }
@@ -46,12 +46,7 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
                            {sub}";
             using (var connection = _context.CreateConnection())
             {
-                var result = await connection.QuerySingleAsync(query);
-                return result;
-                
-                //return result
-                //    .Cast<IDictionary<string, object>>()
-                //    .Select(it => it.ToDictionary(it => it.Key, it => it.Value));
+                return await connection.QuerySingleAsync(query);
             }
         }
 
@@ -75,6 +70,26 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
                                ({cols})
                          VALUES
                                ({data})";
+            using (var connection = _context.CreateConnection())
+            {
+                var result = connection.Query<string>(query);
+            }
+        }
+
+        public void UpdateTable<T>(string table, T dto) //UpdateTableDto ->
+        {
+            string colsValues = "";
+            foreach (var propertyInfo in dto.GetType().GetProperties())
+            {
+                if (propertyInfo.GetValue(dto) != null)
+                {
+                    colsValues += propertyInfo.Name +  "operator" + "'" + propertyInfo.GetValue(dto).ToString() + "'";
+                }
+            }
+
+            var query = @$"UPDATE [dbo].[{table}]
+                              SET ({colsValues})
+                          ";
             using (var connection = _context.CreateConnection())
             {
                 var result = connection.Query<string>(query);

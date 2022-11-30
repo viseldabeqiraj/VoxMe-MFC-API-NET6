@@ -6,9 +6,15 @@
             public string uniqueId { get; set; }
             public string jobType { get; set; }
             public string jobStatus { get; set; }
-            public List<object> documents { get; set; }
+            public List<Documents> documents { get; set; }
             public JobInventory jobInventory { get; set; }
         
+
+        public class Documents
+        {
+            public string fileName { get; set; }
+            public string docTitle { get; set; }
+        }
         public class JobInventory
         {
             public int piecesNr { get; set; }

@@ -152,13 +152,13 @@ namespace MFC_VoxMe_API.Controllers
         [HttpPost("MFCStatusUpdate")]
 		public async Task<ActionResult> MFCStatusUpdate([FromBody]string externalRef, int? status, string? jobRef)
         {
-			//var result = await _helpers.GetMovingDataId(externalRef);
+            var result = await _helpers.GetMovingDataId(externalRef);
 
-				//var movingDataId = result.ID;
-				//var jobExternalRef = result.BillOfLadingNo;
+            var movingDataId = result.ID;
+            var jobExternalRef = result.BillOfLadingNo;
 
-			Random rnd = new Random();
-			byte[] b = new byte[100 * 1024];
+            Random rnd = new Random();
+			byte[] b = new byte[10 * 1024];
 			rnd.NextBytes(b);
 			var doc = new DocumentDto()
 			{
@@ -166,22 +166,21 @@ namespace MFC_VoxMe_API.Controllers
 				DocTitle = "Test doc"
 			};
 			var x = await _transactionService.AddDocumentToTransaction(doc, "RS2222226");
-			var cc = x;
 
-			//if (jobExternalRef is not null)
-			//	{
-			//		var jobDetailsRequest = await _jobService.GetSummary(jobExternalRef);
-			//		//TODO: Create or update correlating records
-			//	}
-			
-			//var transactionDetails = await _transactionService.GetDetails(externalRef);
-			//	var images = _helpers.GetImages(transactionDetails);
-			//	foreach (var image in images)
-			//	{
-			//		var response = await _transactionService.GetImageAsBinary(externalRef, "Transaction", "");					
-			//	}
+            if (jobExternalRef is not null)
+            {
+                var jobDetailsRequest = await _jobService.GetSummary(jobExternalRef);
+                //TODO: Create or update correlating records
+            }
 
-			return Ok();
+            var transactionDetails = await _transactionService.GetDetails(externalRef);
+            var images = _helpers.GetImages(transactionDetails);
+            foreach (var image in images)
+            {
+                var response = await _transactionService.GetImageAsBinary(externalRef, "Transaction", "");
+            }
+
+            return Ok();
         }
 	}
 }

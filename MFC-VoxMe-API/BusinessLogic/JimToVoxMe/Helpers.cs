@@ -73,7 +73,8 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                 {
                     firstName = generalInfo.ClientFirstName,
                     lastName = generalInfo.Name,
-                    salutation = generalInfo.ClientSalutation ?? "Enum.Salutation." + generalInfo.ClientSalutation,
+                    salutation = !string.IsNullOrEmpty(generalInfo.ClientSalutation)
+                    ? "Enum.Salutation." + generalInfo.ClientSalutation : "",
                     contactDetails = new ContactDetails()
                     {
                         mobilePhone = generalInfo.Address.PrimaryPhone ??
@@ -511,12 +512,12 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             SelectFrom select = new SelectFrom()
             {
                 columns = "*",
-                table = Constants.MOVINGDATA,
+                table = Constants.Tables.MOVINGDATA,
                 whereClause = new Dictionary<string, object>()
                 {
                     {"ExternalMFID", @$"'{externalRef}'"}
                 },
-                logOperator = IEnums.logOperator.AND
+                comparisonOperator = Constants.ComparisonOperators.EQUALTO
             };           
             return await _queryGenerator.SelectFrom(select);
         }
