@@ -66,7 +66,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                 {
                     firstName = generalInfo.ClientFirstName,
                     lastName = generalInfo.Name,
-                    salutation = generalInfo.ClientSalutation ?? "Enum.Salutation." + generalInfo.ClientSalutation,
+                    salutation = !string.IsNullOrEmpty(generalInfo.ClientSalutation) ? generalInfo.ClientSalutation + "Enum.Salutation.": "",
                     contactDetails = new ContactDetails()
                     {
                         mobilePhone = generalInfo.Address.PrimaryPhone ??
