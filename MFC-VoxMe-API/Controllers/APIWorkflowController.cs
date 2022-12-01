@@ -39,7 +39,7 @@ namespace MFC_VoxMe_API.Controllers
 
 		public async Task<ActionResult> WorkflowLogic([FromBody] string xml)
         {
-			    var movingData = _helpers.XMLParse(xml);
+			    var movingData = await _helpers.XMLParseAsync(xml);
 				var externalRef = movingData.GeneralInfo.EMFID;
 				var jobExternalRef = movingData.GeneralInfo.Groupageid;
 
@@ -71,7 +71,7 @@ namespace MFC_VoxMe_API.Controllers
 										var resourceCodes = _helpers.GetTransactionResources().staffResourceCodes;
 										foreach (var resourceCode in resourceCodes)
 										{
-											CreateResourcesLogic(resourceCode.code);
+											await CreateResourcesLogic(resourceCode.code);
 										}
 										await _transactionService.AssignStaffDesignateForeman(_helpers.GetTransactionResources(), externalRef);										
 								}
@@ -106,7 +106,7 @@ namespace MFC_VoxMe_API.Controllers
 					var resourceCodes = _helpers.GetTransactionResources().staffResourceCodes;
 					foreach (var resourceCode in resourceCodes)
 					{
-						CreateResourcesLogic(resourceCode.code);
+						await CreateResourcesLogic(resourceCode.code);
 					}
 					await _transactionService.AssignStaffDesignateForeman(_helpers.GetTransactionResources(), externalRef);
 
@@ -156,16 +156,6 @@ namespace MFC_VoxMe_API.Controllers
 
             var movingDataId = result.ID;
             var jobExternalRef = result.BillOfLadingNo;
-
-            Random rnd = new Random();
-			byte[] b = new byte[10 * 1024];
-			rnd.NextBytes(b);
-			var doc = new DocumentDto()
-			{
-				File = b,
-				DocTitle = "Test doc"
-			};
-			var x = await _transactionService.AddDocumentToTransaction(doc, "RS2222226");
 
             if (jobExternalRef is not null)
             {

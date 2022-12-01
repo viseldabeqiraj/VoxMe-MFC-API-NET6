@@ -11,7 +11,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
         AssignMaterialsToTransactionDto GetTransactionMaterials();
         CreateTransactionDto CreateTransactionObjectFromXml();
         CreateJobDto CreateJobObjectFromXml();
-        MovingDataDto XMLParse(string xml);
+        Task<MovingDataDto> XMLParseAsync(string xml);
         AssignStaffDesignateForemanDto GetTransactionResources();
         Task<dynamic> GetMovingDataId(string externalRef);
         List<KeyValuePair<string, string>> GetImages(HttpResponseDto<TransactionDetailsDto> transactiondetails);

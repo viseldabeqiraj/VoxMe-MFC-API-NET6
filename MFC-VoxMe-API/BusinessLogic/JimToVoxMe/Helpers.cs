@@ -25,13 +25,13 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             _queryGenerator = queryGenerator;
         }
 
-        public MovingDataDto XMLParse(string xml)
+        public async Task<MovingDataDto> XMLParseAsync(string xml)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(MovingDataDto));
             MemoryStream memStream = new MemoryStream(Encoding.UTF8.GetBytes(xml));
             MovingDataDto movingDataFromXml = (MovingDataDto)serializer.Deserialize(memStream);
             _MovingData = movingDataFromXml;
-             InsertTableRecords();
+             await InsertTableRecords();
             return movingDataFromXml;
 
         }
@@ -360,7 +360,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             return resourceCodesDto;
         }
 
-        public void InsertTableRecords() 
+        public async Task InsertTableRecords() 
         {
             var generalInfo = _MovingData.GeneralInfo;
 
@@ -391,16 +391,16 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                 Hold = false
             };
             
-            _queryGenerator.InsertInto(new SqlQuery<MovingData>()
+            await _queryGenerator.InsertInto(new SqlQuery<MovingData>()
                         { table = "MovingData", dto = movingData});
 
-            var NewMovingDataId = Convert.ToInt32(_queryGenerator.SelectFrom(
+            var NewMovingDataId = Convert.ToInt32(await _queryGenerator.SelectFrom(
              new SqlQuery<string>()
              {
                  function = IEnums.functions.MAX,
                  columns = "id",
                  table = "MovingData"
-             }).);
+             })).ID;
 
             var prefs = new Prefs()
             {
@@ -508,8 +508,18 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                     table = valuePair.Key,
                     dto = valuePair.Value
                 };
-                _queryGenerator.InsertInto(query);
+                await _queryGenerator.InsertInto(query);
             }
+            var test = new MovingData()
+            {
+                ClientName="viselda"
+            };
+            await _queryGenerator.UpdateTable(new SqlQuery<MovingData>() 
+            { dto = test, whereClause = new Dictionary<string, object>()
+                {
+                    {"ExternalMFID", @$"'RS0210275'"}
+                }
+            });
         }
 
       
