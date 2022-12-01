@@ -15,10 +15,12 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
     {
         public static MovingDataDto _MovingData;
         private readonly DapperContext _context;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public Helpers(DapperContext context)
+        public Helpers(DapperContext context, IWebHostEnvironment hostingEnvironment)
         {
             _context = context;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public MovingDataDto XMLParse(string xml)
@@ -431,6 +433,12 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                 resourceCodesDto.staffResourceCodes = packerList;
             }
             return resourceCodesDto;
+        }
+
+        public byte[] GetDoc()
+        {
+           return File.ReadAllBytes(Path.Combine
+                    (_hostingEnvironment.ContentRootPath, @"BusinessLogic\JimToVoxMe\pdf-test.pdf"));
         }
 
     }

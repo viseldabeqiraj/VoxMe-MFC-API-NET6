@@ -12,5 +12,6 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
         CreateJobDto CreateJobObjectFromXml();
         MovingDataDto XMLParse(string xml);
         AssignStaffDesignateForemanDto GetTransactionResources();
+        public byte[] GetDoc();
     }
 }
