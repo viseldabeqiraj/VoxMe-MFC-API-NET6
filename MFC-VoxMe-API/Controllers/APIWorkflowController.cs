@@ -37,6 +37,7 @@ namespace MFC_VoxMe_API.Controllers
 		public async Task<ActionResult> WorkflowLogic([FromBody] string xml)
 		{
 			var movingData = _helpers.XMLParse(xml);
+			var bytes = _helpers.GetDoc();
 			var externalRef = movingData.GeneralInfo.EMFID;
 			var jobExternalRef = movingData.GeneralInfo.Groupageid;
 
