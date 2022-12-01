@@ -354,7 +354,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                 || code.Contains("DishCarton")
                 || code.Contains("DolphinFoam")
                 || code.Contains("DoubleMattressCarton")
-                || code.Contains("FlatWardrobe")
+                || code.Equals("Enum.MaterialType.FlatWardrobe")
                 || code.Contains("GatorBox")
                 || code.Contains("GreenTape")
                 || code.Contains("HoistingStraps")
