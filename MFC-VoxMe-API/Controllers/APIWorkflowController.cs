@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MFC_VoxMe.Core.Dtos.Transactions;
 using MFC_VoxMe_API.BusinessLogic.JimToVoxMe;
 using MFC_VoxMe_API.Dtos.Jobs;
 using MFC_VoxMe_API.Dtos.Management;
@@ -44,10 +45,7 @@ namespace MFC_VoxMe_API.Controllers
             var jsonJob = JsonConvert.SerializeObject(jobToCreate12);
 
 			var transactionToCreate = _helpers.CreateTransactionObjectFromXml();
-
-           var jsonTransaction = JsonConvert.SerializeObject(transactionToCreate);
-
-            var transactionToUpdate = _mapper.Map<UpdateTransactionDto>(transactionToCreate);
+			var jsonTransaction = JsonConvert.SerializeObject(transactionToCreate);
 
 			var jobSummaryRequest = await _jobService.GetSummary(jobExternalRef);
 			if (jobSummaryRequest.responseStatus != HttpStatusCode.NoContent)
@@ -56,7 +54,10 @@ namespace MFC_VoxMe_API.Controllers
 
 				if (transactionSummaryRequest.responseStatus != HttpStatusCode.NoContent)
 				{
-					await _transactionService.UpdateTransaction(externalRef, transactionToUpdate);
+
+                    var transactionToUpdate = _mapper.Map<UpdateTransactionDto>(transactionToCreate);
+
+                    await _transactionService.UpdateTransaction(externalRef, transactionToUpdate);
 
 
 					var transactionDownloadDetails = await _transactionService.GetDownloadDetails(externalRef);
@@ -85,6 +86,7 @@ namespace MFC_VoxMe_API.Controllers
 					if (transactionToCreate != null)
 					{
 						var createTransactionRequest = await _transactionService.CreateTransaction(transactionToCreate);
+
 						await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
 
 						var resourceCodes = _helpers.GetTransactionResources().staffResourceCodes;
@@ -107,7 +109,21 @@ namespace MFC_VoxMe_API.Controllers
 					if (transactionToCreate != null)
 						await _transactionService.CreateTransaction(transactionToCreate);
 
-					await _transactionService.RemoveMaterialsFromTransaction(externalRef);
+                    Random rnd = new Random();
+                    byte[] b = new byte[100 * 1024];
+                    rnd.NextBytes(b);
+
+                    foreach (var doc in movingData.Documents.Document)
+                    {
+                        await _transactionService.AddDocumentToTransaction(
+                        new DocumentDto()
+                        {
+                            File = b,
+                            DocTitle = doc.FileName
+                        }, externalRef);
+                    }
+
+                    await _transactionService.RemoveMaterialsFromTransaction(externalRef);
 					await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
 
 					await _transactionService.RemoveResourceFromTransaction(externalRef);

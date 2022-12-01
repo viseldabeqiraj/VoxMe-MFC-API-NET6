@@ -70,3 +70,75 @@
    at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
    at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
    at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.InvokeAsync(HttpContext httpContext) in C:\Users\Emired Culiqi\Source\Repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\GlobalErrorHandling\ExceptionMiddlewareExtensions.cs:line 24
+2022-12-01 06:06:34.637 -05:00 [ERR] https://api-stg.voxme.com/mfc/v2/transactions/RS0210202/materials  POST Request: BadRequest {"type":"https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.1","title":"One or more non-existent materials found: Enum.MaterialType.UsedLiftVans","status":400,"traceId":"00-eed8a78ff3d45e900217a844ed158dad-940cd87b9849384d-00","variables":null}
+   at MFC_VoxMe_API.HttpMethods.HttpRequests.MakePostHttpCall(String url, HttpContent data) in C:\Users\Emired Culiqi\Source\Repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\HttpMethods\HttpRequests.cs:line 129
+   at MFC_VoxMe.Infrastructure.HttpMethods.RequestHelpers`1.PostRequestHelper[T](String url, T dto) in C:\Users\Emired Culiqi\Source\Repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\HttpMethods\Helpers\RequestHelpers.cs:line 32
+   at MFC_VoxMe.Infrastructure.Services.TransactionService.AssignMaterialsToTransaction(AssignMaterialsToTransactionDto request, String externalRef) in C:\Users\Emired Culiqi\Source\Repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\Services\TransactionService.cs:line 170
+   at MFC_VoxMe_API.Controllers.APIWorkflowController.WorkflowLogic(String xml) in C:\Users\Emired Culiqi\Source\Repos\voxme-mfc-api\MFC-VoxMe-API\Controllers\APIWorkflowController.cs:line 127
+   at lambda_method5(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.InvokeAsync(HttpContext httpContext) in C:\Users\Emired Culiqi\Source\Repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\GlobalErrorHandling\ExceptionMiddlewareExtensions.cs:line 24
+2022-12-01 07:29:44.946 -05:00 [ERR] https://api-stg.voxme.com/mfc/v2/transactions/RS0210202/materials  POST Request: BadRequest {"type":"https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.1","title":"One or more non-existent materials found: Enum.MaterialType.UsedLiftVans","status":400,"traceId":"00-453f279a821df7e479e4ee54fa952ed2-63adc550d3b90141-00","variables":null}
+   at MFC_VoxMe_API.HttpMethods.HttpRequests.MakePostHttpCall(String url, HttpContent data) in C:\Users\Emired Culiqi\Source\Repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\HttpMethods\HttpRequests.cs:line 129
+   at MFC_VoxMe.Infrastructure.HttpMethods.RequestHelpers`1.PostRequestHelper[T](String url, T dto) in C:\Users\Emired Culiqi\Source\Repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\HttpMethods\Helpers\RequestHelpers.cs:line 32
+   at MFC_VoxMe.Infrastructure.Services.TransactionService.AssignMaterialsToTransaction(AssignMaterialsToTransactionDto request, String externalRef) in C:\Users\Emired Culiqi\Source\Repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\Services\TransactionService.cs:line 170
+   at MFC_VoxMe_API.Controllers.APIWorkflowController.WorkflowLogic(String xml) in C:\Users\Emired Culiqi\Source\Repos\voxme-mfc-api\MFC-VoxMe-API\Controllers\APIWorkflowController.cs:line 71
+   at lambda_method5(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.InvokeAsync(HttpContext httpContext) in C:\Users\Emired Culiqi\Source\Repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\GlobalErrorHandling\ExceptionMiddlewareExtensions.cs:line 24
+2022-12-01 07:38:14.119 -05:00 [ERR] https://api-stg.voxme.com/mfc/v2/transactions/RS0210202/materials  POST Request: BadRequest {"type":"https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.1","title":"One or more non-existent materials found: Enum.MaterialType.UsedLiftVans","status":400,"traceId":"00-c470cbf523e57259ba75c8bdb25380c8-bbd68a29d7c3264b-00","variables":null}
+   at MFC_VoxMe_API.HttpMethods.HttpRequests.MakePostHttpCall(String url, HttpContent data) in C:\Users\Emired Culiqi\Source\Repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\HttpMethods\HttpRequests.cs:line 129
+   at MFC_VoxMe.Infrastructure.HttpMethods.RequestHelpers`1.PostRequestHelper[T](String url, T dto) in C:\Users\Emired Culiqi\Source\Repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\HttpMethods\Helpers\RequestHelpers.cs:line 32
+   at MFC_VoxMe.Infrastructure.Services.TransactionService.AssignMaterialsToTransaction(AssignMaterialsToTransactionDto request, String externalRef) in C:\Users\Emired Culiqi\Source\Repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\Services\TransactionService.cs:line 170
+   at MFC_VoxMe_API.Controllers.APIWorkflowController.WorkflowLogic(String xml)
+   at lambda_method256(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.InvokeAsync(HttpContext httpContext) in C:\Users\Emired Culiqi\Source\Repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\GlobalErrorHandling\ExceptionMiddlewareExtensions.cs:line 24
+2022-12-01 07:40:11.149 -05:00 [ERR] https://api-stg.voxme.com/mfc/v2/transactions/RS0210202/materials  POST Request: BadRequest {"type":"https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.1","title":"One or more non-existent materials found: Enum.MaterialType.UsedLiftVans","status":400,"traceId":"00-8aeaf4fcbfbe65734dc8753abd814f13-c9ee08a4cc051a4d-00","variables":null}
+   at MFC_VoxMe_API.HttpMethods.HttpRequests.MakePostHttpCall(String url, HttpContent data) in C:\Users\Emired Culiqi\Source\Repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\HttpMethods\HttpRequests.cs:line 129
+   at MFC_VoxMe.Infrastructure.HttpMethods.RequestHelpers`1.PostRequestHelper[T](String url, T dto) in C:\Users\Emired Culiqi\Source\Repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\HttpMethods\Helpers\RequestHelpers.cs:line 32
+   at MFC_VoxMe.Infrastructure.Services.TransactionService.AssignMaterialsToTransaction(AssignMaterialsToTransactionDto request, String externalRef) in C:\Users\Emired Culiqi\Source\Repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\Services\TransactionService.cs:line 170
+   at MFC_VoxMe_API.Controllers.APIWorkflowController.WorkflowLogic(String xml)
+   at lambda_method256(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.InvokeAsync(HttpContext httpContext) in C:\Users\Emired Culiqi\Source\Repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\GlobalErrorHandling\ExceptionMiddlewareExtensions.cs:line 24
