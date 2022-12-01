@@ -45,7 +45,7 @@ namespace MFC_VoxMe_API.Controllers
 
 				var transactionToCreate = _helpers.CreateTransactionObjectFromXml();
 				var transactionToUpdate = _mapper.Map<UpdateTransactionDto>(transactionToCreate);
-				
+				 
 				var jobSummaryRequest = await _jobService.GetSummary(jobExternalRef);
 				if (jobSummaryRequest.responseStatus != HttpStatusCode.NoContent)
 				{

@@ -31,19 +31,23 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             MemoryStream memStream = new MemoryStream(Encoding.UTF8.GetBytes(xml));
             MovingDataDto movingDataFromXml = (MovingDataDto)serializer.Deserialize(memStream);
             _MovingData = movingDataFromXml;
-             await InsertTableRecords();
+            // await InsertTableRecords();
+            //var test = new MovingData()
+            //{
+            //    ClientName = "viselda test update",
+                
+            //};
+            //var update = new SqlQuery<MovingData>();
+
+            //update.dto = test;
+            //update.whereClause = update.Where("ExternalMFID", "RS0210275");
+            //update.comparisonOperator = Constants.ComparisonOperators.EQUALTO;
+           
+            //await _queryGenerator.UpdateTable(update);
             return movingDataFromXml;
 
         }
 
-        public void setProperties()
-        {
-            var moving = new MovingData();
-            //PropertyMatcher<CreateJobDto, MovingData>.GenerateMatchedObject(CreateJobObjectFromXml(), moving);
-            //PropertyMatcher<CreateJobDto.Client, MovingData>.GenerateMatchedObject(CreateJobObjectFromXml().client, moving);
-            var json = JsonConvert.SerializeObject(CreateJobObjectFromXml());//JsonSerializer.Serialize(CreateJobObjectFromXml());
-            var to = JsonConvert.DeserializeObject<MovingData>(json); //JsonSerializer.Deserialize<MovingData>(json);
-        }
 
         public CreateJobDto CreateJobObjectFromXml()
         {
@@ -510,16 +514,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                 };
                 await _queryGenerator.InsertInto(query);
             }
-            var test = new MovingData()
-            {
-                ClientName="viselda"
-            };
-            await _queryGenerator.UpdateTable(new SqlQuery<MovingData>() 
-            { dto = test, whereClause = new Dictionary<string, object>()
-                {
-                    {"ExternalMFID", @$"'RS0210275'"}
-                }
-            });
+
         }
 
       

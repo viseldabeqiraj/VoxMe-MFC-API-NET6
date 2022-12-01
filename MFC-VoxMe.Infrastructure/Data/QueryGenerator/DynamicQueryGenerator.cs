@@ -60,7 +60,7 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
                 if (propertyInfo.GetValue(insertInto.dto) != null)
                 {
                     colsList.Add(propertyInfo.Name);
-                    dataList.Add("'" + propertyInfo.GetValue(insertInto.dto).ToString() + "'");
+                    dataList.Add("'" + propertyInfo.GetValue(insertInto.dto)?.ToString() + "'");
                 }
             }
             string cols = string.Join(",", colsList);
@@ -78,17 +78,25 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
 
         public async Task UpdateTable<T>(SqlQuery<T> update) 
         {
-            string colsValues = "";
+            string colsValues = "", whereClause = "";
+            string table = update.dto.GetType().Name;
             foreach (var propertyInfo in update.dto.GetType().GetProperties())
             {
                 if (propertyInfo.GetValue(update.dto) != null)
                 {
-                    colsValues += propertyInfo.Name +  "operator" + "'" + propertyInfo.GetValue(update.dto).ToString() + "'";
+                    colsValues += propertyInfo.Name + "=" + "'" + propertyInfo.GetValue(update.dto)?.ToString() + "'";
                 }
             }
-
-            var query = @$"UPDATE [dbo].[{update.table}]
-                              SET ({colsValues})
+            foreach(var item in update.whereClause)
+            {
+                whereClause += item.Key.ToString();
+                whereClause += update.logOperator != null
+                    ? update.logOperator.ToString()
+                    : update.comparisonOperator.ToString();
+                whereClause += $@"'{item.Value.ToString()}'";
+            }
+            var query = @$"UPDATE [dbo].[{table}]
+                              SET {colsValues} WHERE {whereClause}
                           ";
             using (var connection = _context.CreateConnection())
             {
