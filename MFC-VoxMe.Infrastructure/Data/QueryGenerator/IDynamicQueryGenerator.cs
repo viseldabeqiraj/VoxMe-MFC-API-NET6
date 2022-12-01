@@ -9,7 +9,8 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
 {
     public interface IDynamicQueryGenerator
     {
-        Task<dynamic> SelectFrom(SelectFrom select);
-        void InsertInto<T>(string table, T dto);
+        Task<dynamic> SelectFrom(SqlQuery<string> select);
+        public async Task UpdateTable<T>(SqlQuery<T> update);
+        public async Task InsertInto<T>(SqlQuery<T> insertInto);
     }
 }

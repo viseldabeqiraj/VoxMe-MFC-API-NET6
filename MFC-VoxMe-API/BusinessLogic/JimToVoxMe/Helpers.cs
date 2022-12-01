@@ -31,7 +31,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             MemoryStream memStream = new MemoryStream(Encoding.UTF8.GetBytes(xml));
             MovingDataDto movingDataFromXml = (MovingDataDto)serializer.Deserialize(memStream);
             _MovingData = movingDataFromXml;
-            // InsertTableRecords();
+             InsertTableRecords();
             return movingDataFromXml;
 
         }
@@ -390,16 +390,17 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                 Manager = "Voxme",
                 Hold = false
             };
-
-            _queryGenerator.InsertInto("MovingData", movingData);
+            
+            _queryGenerator.InsertInto(new SqlQuery<MovingData>()
+                        { table = "MovingData", dto = movingData});
 
             var NewMovingDataId = Convert.ToInt32(_queryGenerator.SelectFrom(
-             new SelectFrom()
+             new SqlQuery<string>()
              {
                  function = IEnums.functions.MAX,
                  columns = "id",
                  table = "MovingData"
-             }));
+             }).);
 
             var prefs = new Prefs()
             {
@@ -502,14 +503,19 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
 
             foreach (KeyValuePair<string, object> valuePair in objectsToInsert)
             {
-                _queryGenerator.InsertInto(valuePair.Key, valuePair.Value);
+                var query = new SqlQuery<object>()
+                {
+                    table = valuePair.Key,
+                    dto = valuePair.Value
+                };
+                _queryGenerator.InsertInto(query);
             }
         }
 
       
         public async Task<dynamic> GetMovingDataId(string externalRef)
         {
-            SelectFrom select = new SelectFrom()
+            SqlQuery<string> select = new SqlQuery<string>()
             {
                 columns = "*",
                 table = Constants.Tables.MOVINGDATA,
@@ -521,7 +527,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             };           
             return await _queryGenerator.SelectFrom(select);
         }
-        //To check:: photovalue not being assigned when creating transaction, so here comes empty string
+
         public List<KeyValuePair<string, string>> GetImages(HttpResponseDto<TransactionDetailsDto> transactiondetails)
         {
             var questionnaireQuestions = transactiondetails.dto?.questionnaireQuestions.ToList();

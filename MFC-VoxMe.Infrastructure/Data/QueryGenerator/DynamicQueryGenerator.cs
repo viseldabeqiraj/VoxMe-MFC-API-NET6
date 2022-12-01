@@ -16,7 +16,7 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
         {
             _context = context;
         }
-        public async Task<dynamic> SelectFrom(SelectFrom select)
+        public async Task<dynamic> SelectFrom(SqlQuery<string> select)
         {
             string sub = "", query = "";
             if (select.whereClause != null)
@@ -50,49 +50,49 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
             }
         }
 
-        public void InsertInto<T>(string table, T dto)
+        public async Task InsertInto<T>(SqlQuery<T> insertInto) 
         {
             var colsList = new List<string>();
             var dataList = new List<string>();
 
-            foreach (var propertyInfo in dto.GetType().GetProperties())
+            foreach (var propertyInfo in insertInto.dto.GetType().GetProperties())
             {
-                if (propertyInfo.GetValue(dto) != null)
+                if (propertyInfo.GetValue(insertInto.dto) != null)
                 {
                     colsList.Add(propertyInfo.Name);
-                    dataList.Add("'" + propertyInfo.GetValue(dto).ToString() + "'");
+                    dataList.Add("'" + propertyInfo.GetValue(insertInto.dto).ToString() + "'");
                 }
             }
             string cols = string.Join(",", colsList);
             string data = string.Join(",", dataList);
 
-            var query = @$"INSERT INTO [dbo].[{table}]
+            var query = @$"INSERT INTO [dbo].[{insertInto.table}]
                                ({cols})
                          VALUES
                                ({data})";
             using (var connection = _context.CreateConnection())
             {
-                var result = connection.Query<string>(query);
+                var result = await connection.QueryAsync<string>(query);
             }
         }
 
-        public void UpdateTable<T>(string table, T dto) //UpdateTableDto ->
+        public async Task UpdateTable<T>(SqlQuery<T> update) 
         {
             string colsValues = "";
-            foreach (var propertyInfo in dto.GetType().GetProperties())
+            foreach (var propertyInfo in update.dto.GetType().GetProperties())
             {
-                if (propertyInfo.GetValue(dto) != null)
+                if (propertyInfo.GetValue(update.dto) != null)
                 {
-                    colsValues += propertyInfo.Name +  "operator" + "'" + propertyInfo.GetValue(dto).ToString() + "'";
+                    colsValues += propertyInfo.Name +  "operator" + "'" + propertyInfo.GetValue(update.dto).ToString() + "'";
                 }
             }
 
-            var query = @$"UPDATE [dbo].[{table}]
+            var query = @$"UPDATE [dbo].[{update.table}]
                               SET ({colsValues})
                           ";
             using (var connection = _context.CreateConnection())
             {
-                var result = connection.Query<string>(query);
+                var result = await connection.QueryAsync<string>(query);
             }
         }
 
