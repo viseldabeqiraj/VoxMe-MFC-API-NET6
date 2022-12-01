@@ -87,7 +87,7 @@ namespace MFC_VoxMe_API.HttpMethods
                     return response;
                 else
                     throw new ApplicationException
-                    (url + " Status code: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
+                    (url + " GET Request: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
             }
             else
             {
@@ -96,33 +96,19 @@ namespace MFC_VoxMe_API.HttpMethods
 
                 else
                     throw new ApplicationException
-                    (url + " Status code: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
+                    (url + " GET Request: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
             }
 
         }
 
         //POST method by calling httpclient to post data on api side
-        public async Task<HttpResponseMessage> MakePostHttpCall(string url, HttpContent? data, IFormFile? file)
+        public async Task<HttpResponseMessage> MakePostHttpCall(string url, HttpContent? data)
         {
 
                 ServicePointManager.Expect100Continue = true;
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-                if (file != null && file.Length > 0)
-                {
-                    byte[] fileData;
-                    using (var br = new BinaryReader(file.OpenReadStream()))
-                        fileData = br.ReadBytes((int)file.OpenReadStream().Length);
-
-                    ByteArrayContent bytes = new ByteArrayContent(fileData);
-
-                    MultipartFormDataContent multiContent = new MultipartFormDataContent();
-
-                    multiContent.Add(bytes, "file", file.FileName);
-
-                    HttpResponseMessage fileResponse  = client.PostAsync(url, multiContent).Result;
-                    return fileResponse;
-                }
+                
                 var request = new HttpRequestMessage
                 {
                     Method = HttpMethod.Post,
@@ -141,7 +127,7 @@ namespace MFC_VoxMe_API.HttpMethods
                 
                 else
                     throw new ApplicationException
-                    (url + " Status code: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
+                    (url + "  POST Request: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
          
         }
 
@@ -170,7 +156,7 @@ namespace MFC_VoxMe_API.HttpMethods
 
                 else
                 throw new ApplicationException
-                (url + " Status code: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);          
+                (url + " PUT Request: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);          
 
         }
 
@@ -200,7 +186,7 @@ namespace MFC_VoxMe_API.HttpMethods
 
                 else
                     throw new ApplicationException
-                    (url + " Status code: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
+                    (url + " DELETE Request: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
         }
 
 
@@ -230,7 +216,7 @@ namespace MFC_VoxMe_API.HttpMethods
 
                 else
                     throw new ApplicationException
-                    (url + " Status code: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
+                    (url + " PATCH Request: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
 
         }
 
@@ -260,7 +246,7 @@ namespace MFC_VoxMe_API.HttpMethods
 
             else
                 throw new ApplicationException
-                (url + " Status code: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
+                (url + " POSTFILE Request: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
         }
     }
 }
