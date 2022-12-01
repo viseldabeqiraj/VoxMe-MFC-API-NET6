@@ -52,7 +52,7 @@ namespace MFC_VoxMe.Infrastructure.Services
         {
             var url = GetUrl($"transactions");
             var result = await GetHelperService<CreateTransactionDto>()
-                .PostRequestHelper(url, null, createTransactionRequest);
+                .PostRequestHelper(url, createTransactionRequest);
 
             return result;
         }
@@ -121,7 +121,7 @@ namespace MFC_VoxMe.Infrastructure.Services
         {
             var url = GetUrl($"transactions/{externalRef}/crew");
             var result = await GetHelperService<AssignStaffDesignateForemanDto>()
-                .PostRequestHelper(url, null, request);
+                .PostRequestHelper(url, request);
 
             return result;
         }
@@ -160,7 +160,7 @@ namespace MFC_VoxMe.Infrastructure.Services
 
             var url = GetUrl($"transactions/{externalRef}/resources");
             var result = await GetHelperService<ResourceCodesForTransactionDto>()
-                              .PostRequestHelper(url, null, request);
+                              .PostRequestHelper(url, request);
             return result;
         }
 
@@ -168,7 +168,7 @@ namespace MFC_VoxMe.Infrastructure.Services
         {
             var url = GetUrl($"transactions/{externalRef}/materials");
             var result = await GetHelperService<AssignMaterialsToTransactionDto>()
-                            .PostRequestHelper(url, null, request);
+                            .PostRequestHelper(url, request);
             return result;
         }
 

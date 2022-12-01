@@ -71,7 +71,7 @@ namespace MFC_VoxMe.Infrastructure.Services
         {
                 var url = GetUrl($"jobs");
                 var result = await GetHelperService<CreateJobDto>()
-                                   .PostRequestHelper(url, null, request);
+                                   .PostRequestHelper(url, request);
 
                 return result;           
         }

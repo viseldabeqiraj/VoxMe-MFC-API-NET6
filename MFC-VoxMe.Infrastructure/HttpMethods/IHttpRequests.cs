@@ -9,7 +9,7 @@ namespace MFC_VoxMe_API.HttpMethods
     {
          Task<Token> GetAccessToken();
         Task<HttpResponseMessage> MakeGetHttpCall(string url, HttpContent data);
-        Task<HttpResponseMessage> MakePostHttpCall(string url, HttpContent? data, IFormFile? file);
+        Task<HttpResponseMessage> MakePostHttpCall(string url, HttpContent? data);
         Task<HttpResponseMessage> MakePutHttpCall(string url, HttpContent data);
         Task<HttpResponseMessage> MakeDeleteHttpCall(string url, StringContent? data);
         Task<HttpResponseMessage> MakePatchHttpCall(string url, HttpContent data);
