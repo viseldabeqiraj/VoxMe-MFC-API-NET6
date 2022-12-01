@@ -326,10 +326,21 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                     (item => 
                     new AssignMaterialsToTransactionDto.HandedMaterial()
                     {
-                        code = (item.Contains("Mirror (4pc)"))? "Enum.MaterialType.Mirror4Piece" : "Enum.MaterialType." + item.Split(':')[0].Replace(" ", ""),
+                        code = "Enum.MaterialType." + item.Split(':')[0].Replace(" ", ""),
                         qty = Int32.Parse(item.Split(':')[1])
                     }
                     ).ToList();
+                foreach(var item in materialList)
+                {
+                    if (item.code.Contains("UsedLiftVans"))
+                    {
+                        item.code = "Enum.MaterialType.UsedLiftvans";
+                    }
+                    else if (item.code.Contains("Mirror(4pc)"))
+                    {
+                        item.code = "Enum.MaterialType.Mirror4Piece";
+                    }
+                }
                 var materilasToSendToMfc = materialList.Where(item => doesItMatchWithMFC(item.code)).ToList();
                 assignMaterialsToTransaction.handedMaterials = materilasToSendToMfc;
             }
