@@ -517,7 +517,21 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
 
         }
 
-      
+        public async Task UpdateMovingData()
+        {
+            var test = new MovingData()
+            {
+                ClientName = "viselda test update",
+            };
+            var update = new SqlQuery<MovingData>();
+
+            update.dto = test;
+            update.whereClause = update.Where("ExternalMFID", "RS0210275");
+            update.comparisonOperator = Constants.ComparisonOperators.EQUALTO;
+
+            await _queryGenerator.UpdateTable(update);
+        }
+
         public async Task<dynamic> GetMovingDataId(string externalRef)
         {
             SqlQuery<string> select = new SqlQuery<string>()

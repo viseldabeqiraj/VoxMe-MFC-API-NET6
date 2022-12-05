@@ -93,7 +93,7 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
                 whereClause += update.logOperator != null
                     ? update.logOperator.ToString()
                     : update.comparisonOperator.ToString();
-                whereClause += $@"'{item.Value.ToString()}'";
+                whereClause += $@"'{item.Value}'";
             }
             var query = @$"UPDATE [dbo].[{table}]
                               SET {colsValues} WHERE {whereClause}
