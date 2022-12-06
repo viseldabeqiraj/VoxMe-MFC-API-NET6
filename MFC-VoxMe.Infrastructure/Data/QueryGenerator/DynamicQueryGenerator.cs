@@ -39,10 +39,10 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
             }
             if (select.function != null)
             {
-                query = @$"SELECT {select.function}({select.columns}) FROM [dbo].[{select.table}]
+                query = @$"SELECT {select.function}({select.columns}) {select.As} FROM [dbo].[{select.table}]
                            {sub}";
             }
-            else query = @$"SELECT {select.columns} FROM [dbo].[{select.table}]
+            else query = @$"SELECT {select.columns}{select.As} FROM [dbo].[{select.table}]
                            {sub}";
             using (var connection = _context.CreateConnection())
             {

@@ -31,7 +31,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             MemoryStream memStream = new MemoryStream(Encoding.UTF8.GetBytes(xml));
             MovingDataDto movingDataFromXml = (MovingDataDto)serializer.Deserialize(memStream);
             _MovingData = movingDataFromXml;
-            // await InsertTableRecords();
+            await InsertTableRecords();
             //var test = new MovingData()
             //{
             //    ClientName = "viselda test update",
@@ -397,14 +397,15 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             
             await _queryGenerator.InsertInto(new SqlQuery<MovingData>()
                         { table = "MovingData", dto = movingData});
-
-            var NewMovingDataId = Convert.ToInt32(await _queryGenerator.SelectFrom(
+            var x = await _queryGenerator.SelectFrom(
              new SqlQuery<string>()
              {
                  function = IEnums.functions.MAX,
                  columns = "id",
-                 table = "MovingData"
-             })).ID;
+                 table = "MovingData",
+                 As = "as ID"
+             });
+            var NewMovingDataId = x.ID(); ;
 
             var prefs = new Prefs()
             {
