@@ -593,7 +593,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
         }
 
         //_config.GetSection("API_Url:AccessToken").Get<AccessTokenConfigDto>(); ;
-        private void CreateClientFoderDir(string firstname, string lastname, string moveDataId)
+        private void CreateClientFoderDir(string firstname, string lastname, int moveDataId)
         {
             var clientFullName = $@"{firstname}_{lastname}";
 
