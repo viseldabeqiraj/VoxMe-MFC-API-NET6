@@ -38,14 +38,14 @@ namespace MFC_VoxMe_API.Controllers
 		public async Task<ActionResult> WorkflowLogic([FromBody] string xml)
 		{
 			var movingData = _helpers.XMLParse(xml);
-			var bytes = _helpers.GetDoc();
+			//var bytes = _helpers.GetDoc();
 			var externalRef = movingData.GeneralInfo.EMFID;
 			var jobExternalRef = movingData.GeneralInfo.Groupageid;
 
             var jobToCreate12 = _helpers.CreateJobObjectFromXml();
             var jsonJob = JsonConvert.SerializeObject(jobToCreate12);
 
-			var transactionToCreate = _helpers.CreateTransactionObjectFromXml();
+            var transactionToCreate = _helpers.CreateTransactionObjectFromXml();
 			var jsonTransaction = JsonConvert.SerializeObject(transactionToCreate);
 
 			var jobSummaryRequest = await _jobService.GetSummary(jobExternalRef);
