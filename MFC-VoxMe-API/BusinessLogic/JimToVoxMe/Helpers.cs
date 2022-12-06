@@ -405,11 +405,11 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                  table = "MovingData",
                  As = "as ID"
              });
-            var NewMovingDataId = x.ID(); ;
+            var NewMovingDataId = x.ID as int? ;
 
             var prefs = new Prefs()
             {
-                MovingDataID = NewMovingDataId,
+                MovingDataID = (int)NewMovingDataId,
                 PrefferedLanguageID = 1,
                 PackingDate = DateTime.Parse
                             (generalInfo.Preferences.PackingDate),
@@ -427,7 +427,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
 
             var originAddress = new MFC_VoxMe.Infrastructure.Models.Address()
             {
-                MovingDataID = NewMovingDataId,
+                MovingDataID = (int)NewMovingDataId,
                 IsDestination = false,
                 Street = generalInfo.Address.Street,
                 City = generalInfo.Address.City,
@@ -463,7 +463,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
 
             var destinationAddress = new MFC_VoxMe.Infrastructure.Models.Address()
             {
-                MovingDataID = NewMovingDataId,
+                MovingDataID = (int)NewMovingDataId,
                 IsDestination = true,
                 Street = generalInfo.Destination.Street,
                 City = generalInfo.Destination.City,
