@@ -15,5 +15,6 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
         AssignStaffDesignateForemanDto GetTransactionResources();
         Task<dynamic> GetMovingDataId(string externalRef);
         List<KeyValuePair<string, string>> GetImages(HttpResponseDto<TransactionDetailsDto> transactiondetails);
+        Task InsertTableRecords();
     }
 }

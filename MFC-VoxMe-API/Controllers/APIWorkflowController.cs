@@ -98,19 +98,19 @@ namespace MFC_VoxMe_API.Controllers
 							if (transactionToCreate != null)
 								await _transactionService.CreateTransaction(transactionToCreate);
 
-					await _transactionService.RemoveMaterialsFromTransaction(externalRef);
-					await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
+					//await _transactionService.RemoveMaterialsFromTransaction(externalRef);
+					//await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
 
-					await _transactionService.RemoveResourceFromTransaction(externalRef);
+					//await _transactionService.RemoveResourceFromTransaction(externalRef);
 
-					var resourceCodes = _helpers.GetTransactionResources().staffResourceCodes;
-					foreach (var resourceCode in resourceCodes)
-					{
-						await CreateResourcesLogic(resourceCode.code);
-					}
-					await _transactionService.AssignStaffDesignateForeman(_helpers.GetTransactionResources(), externalRef);
-
-				}
+					//var resourceCodes = _helpers.GetTransactionResources().staffResourceCodes;
+					//foreach (var resourceCode in resourceCodes)
+					//{
+					//	await CreateResourcesLogic(resourceCode.code);
+					//}
+					//await _transactionService.AssignStaffDesignateForeman(_helpers.GetTransactionResources(), externalRef);
+					await _helpers.InsertTableRecords();
+                }
 			}
 				return Ok();
 

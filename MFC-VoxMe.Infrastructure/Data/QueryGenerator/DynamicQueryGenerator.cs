@@ -46,6 +46,7 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
                            {sub}";
             using (var connection = _context.CreateConnection())
             {
+                var test = await connection.QuerySingleAsync(query);
                 return await connection.QuerySingleAsync(query);
             }
         }

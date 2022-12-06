@@ -59,7 +59,7 @@ namespace MFC_VoxMe_API.Dtos.Jobs
 
         public class Booker
         {
-            public string code { get; set; } = "JKMOVING";
+            public string code { get; set; } = "JKMOVINGTEST002";
             public string legalName { get; set; } = "Jk Moving Services";
             public string partyType { get; set; } = "Enum.PartyType.Division";
         }
@@ -67,7 +67,7 @@ namespace MFC_VoxMe_API.Dtos.Jobs
         public class BookerPerson
         {
             public string code { get; set; } = String.Empty;
-            public string partyCode { get; set; } = "JKMOVING";
+            public string partyCode { get; set; } = "JKMOVINGTEST002";
             public PersonDetails personDetails { get; set; } = new PersonDetails();
         }
 
@@ -161,7 +161,7 @@ namespace MFC_VoxMe_API.Dtos.Jobs
         public class ManagedBy
         {
             public string code { get; set; }
-            public string partyCode { get; set; } = "JKMOVING";
+            public string partyCode { get; set; } = "JKMOVINGTEST002";
             public PersonDetails personDetails { get; set; } = new PersonDetails();
         }
 
