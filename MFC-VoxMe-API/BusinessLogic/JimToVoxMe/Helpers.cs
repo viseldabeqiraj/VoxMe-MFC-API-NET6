@@ -19,10 +19,12 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
     {
         public static MovingDataDto _MovingData;
         private readonly IDynamicQueryGenerator _queryGenerator;
+        private readonly IConfiguration _configuration;
 
-        public Helpers(IDynamicQueryGenerator queryGenerator)
+        public Helpers(IDynamicQueryGenerator queryGenerator, IConfiguration configuration)
         {
             _queryGenerator = queryGenerator;
+            _configuration = configuration;
         }
 
         public async Task<MovingDataDto> XMLParseAsync(string xml)
@@ -370,7 +372,8 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
 
             var movingData = new MovingData()
             {
-                ClientName = generalInfo.ClientFirstName,
+                ClientFirstName = generalInfo.ClientFirstName,
+                ClientName = generalInfo.Name,
                 Date = DateTime.Parse
                             (generalInfo.Preferences.PackingDate),
                 JobDescription = "Imperial",
@@ -398,13 +401,16 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             await _queryGenerator.InsertInto(new SqlQuery<MovingData>()
                         { table = "MovingData", dto = movingData});
 
-            var NewMovingDataId = Convert.ToInt32(await _queryGenerator.SelectFrom(
+            var queryResponse = await _queryGenerator.SelectFrom(
              new SqlQuery<string>()
              {
                  function = IEnums.functions.MAX,
                  columns = "id",
                  table = "MovingData"
-             })).ID;
+             });
+            var NewMovingDataId = Convert.ToInt32(queryResponse.Results()).ID;
+
+            CreateClientFoderDir(movingData.ClientFirstName, movingData.ClientName, NewMovingDataId);
 
             var prefs = new Prefs()
             {
@@ -585,6 +591,23 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             return imagesToStore;
         }
 
-   
+        //_config.GetSection("API_Url:AccessToken").Get<AccessTokenConfigDto>(); ;
+        private void CreateClientFoderDir(string firstname, string lastname, string moveDataId)
+        {
+            var clientFullName = $@"{firstname}_{lastname}";
+
+            var clientDirStaging = _configuration.GetValue<String>("Client_Folder_Dir:stagingDir") + $@"\\{clientFullName}_{moveDataId}";
+            var clientDirProduction = _configuration.GetValue<String>("Client_Folder_Dir:productionDir") + $@"\\{clientFullName}_{moveDataId}";
+
+            if (!Directory.Exists(clientDirStaging))
+            {
+                Directory.CreateDirectory(clientDirStaging);
+                Directory.CreateDirectory(clientDirStaging + "\\Documents");
+                Directory.CreateDirectory(clientDirStaging + "\\DocumentsForSuppliers");
+                Directory.CreateDirectory(clientDirStaging + "\\Files");
+                Directory.CreateDirectory(clientDirStaging + "\\Pictures");
+            }
+        }
+
     }
 }
