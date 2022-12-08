@@ -38,7 +38,7 @@ namespace MFC_VoxMe_API.Controllers
 		public async Task<ActionResult> WorkflowLogic([FromBody] string xml)
 		{
 			var movingData = _helpers.XMLParse(xml);
-			//var bytes = _helpers.GetDoc();
+			var bytes = _helpers.GetDoc();
 			var externalRef = movingData.GeneralInfo.EMFID;
 			var jobExternalRef = movingData.GeneralInfo.Groupageid;
 
@@ -69,16 +69,19 @@ namespace MFC_VoxMe_API.Controllers
 					else
 					{
 						await _transactionService.RemoveMaterialsFromTransaction(externalRef);
-						await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
+						if(_helpers.GetTransactionMaterials().handedMaterials!=null)
+							await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
 
 						await _transactionService.RemoveResourceFromTransaction(externalRef);
-
 						var resourceCodes = _helpers.GetTransactionResources().staffResourceCodes;
-						foreach (var resourceCode in resourceCodes)
-						{
-							CreateResourcesLogic(resourceCode.code).Wait();
-						}
-						await _transactionService.AssignStaffDesignateForeman(_helpers.GetTransactionResources(), externalRef);
+                        if (resourceCodes != null)
+                        {
+                            foreach (var resourceCode in resourceCodes)
+                            {
+                                CreateResourcesLogic(resourceCode.code).Wait();
+                            }
+                            await _transactionService.AssignStaffDesignateForeman(_helpers.GetTransactionResources(), externalRef);
+                        }
 					}
 
 				}
@@ -86,21 +89,40 @@ namespace MFC_VoxMe_API.Controllers
 				{
 					if (transactionToCreate != null)
 					{
-						var createTransactionRequest = await _transactionService.CreateTransaction(transactionToCreate);
+					    await _transactionService.CreateTransaction(transactionToCreate);
 
-						await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
+                        Random rnd = new Random();
+                        byte[] b = new byte[1];
+                        rnd.NextBytes(b);
 
-						var resourceCodes = _helpers.GetTransactionResources().staffResourceCodes;
-						foreach (var resourceCode in resourceCodes)
-						{
-							CreateResourcesLogic(resourceCode.code).Wait();
-						}
-						await _transactionService.AssignStaffDesignateForeman(_helpers.GetTransactionResources(), externalRef);
-					}
+                        foreach (var doc in movingData.Documents.Document)
+                        {
+                            await _transactionService.AddDocumentToTransaction(
+                            new DocumentDto()
+                            {
+                                File = bytes,
+                                DocTitle = doc.FileName
+                            }, externalRef);
+                        }
+
+                        if (_helpers.GetTransactionMaterials().handedMaterials != null)
+                            await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
+
+                        var resourceCodes = _helpers.GetTransactionResources().staffResourceCodes;
+                        if (resourceCodes != null)
+                        {
+                            foreach (var resourceCode in resourceCodes)
+                            {
+                                CreateResourcesLogic(resourceCode.code).Wait();
+                            }
+                            await _transactionService.AssignStaffDesignateForeman(_helpers.GetTransactionResources(), externalRef);
+                        }
+                    }
 				}
 			}
 			else
 			{
+                // Create Job
 				var jobToCreate = _helpers.CreateJobObjectFromXml();
 
 				if (jobToCreate != null)
@@ -108,6 +130,7 @@ namespace MFC_VoxMe_API.Controllers
 					await _jobService.CreateJob(jobToCreate);
 
 					if (transactionToCreate != null)
+                        //Create Transaction
 						await _transactionService.CreateTransaction(transactionToCreate);
 
                     Random rnd = new Random();
@@ -119,24 +142,26 @@ namespace MFC_VoxMe_API.Controllers
                         await _transactionService.AddDocumentToTransaction(
                         new DocumentDto()
                         {
-                            File = b,
+                            File = bytes,
                             DocTitle = doc.FileName
                         }, externalRef);
                     }
 
                     await _transactionService.RemoveMaterialsFromTransaction(externalRef);
-					await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
+                    if (_helpers.GetTransactionMaterials().handedMaterials != null)
+                        await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
 
-					await _transactionService.RemoveResourceFromTransaction(externalRef);
-
-					var resourceCodes = _helpers.GetTransactionResources().staffResourceCodes;
-					foreach (var resourceCode in resourceCodes)
-					{
-						CreateResourcesLogic(resourceCode.code);
-					}
-					await _transactionService.AssignStaffDesignateForeman(_helpers.GetTransactionResources(), externalRef);
-
-				}
+                    await _transactionService.RemoveResourceFromTransaction(externalRef);
+                    var resourceCodes = _helpers.GetTransactionResources().staffResourceCodes;
+                    if (resourceCodes !=null)
+                    {
+                        foreach (var resourceCode in resourceCodes)
+                        {
+                            CreateResourcesLogic(resourceCode.code).Wait();
+                        }
+                        await _transactionService.AssignStaffDesignateForeman(_helpers.GetTransactionResources(), externalRef);
+                    }
+                }
 			}
 			return Ok();
 

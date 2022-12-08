@@ -3,6 +3,7 @@ using MFC_VoxMe.Infrastructure.Data;
 using MFC_VoxMe_API.Dtos.Common;
 using MFC_VoxMe_API.Dtos.Jobs;
 using MFC_VoxMe_API.Dtos.Transactions;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System.Text;
 using System.Xml.Serialization;
@@ -317,6 +318,8 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
         {
             AssignMaterialsToTransactionDto assignMaterialsToTransaction = new AssignMaterialsToTransactionDto();
             var materialsDescription = _MovingData.InventoryData.Properties.Property.ToList().Find(prop => prop.Type == "Form.General.Materials").Description;
+            if (materialsDescription.IsNullOrEmpty())
+                return assignMaterialsToTransaction;
             materialsDescription = materialsDescription.Replace('[',' ');
             materialsDescription = materialsDescription.Replace(']', ' ');
             var materieals = materialsDescription.Split(',');
