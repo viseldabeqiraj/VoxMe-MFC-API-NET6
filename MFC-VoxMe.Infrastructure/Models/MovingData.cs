@@ -1,5 +1,4 @@
-﻿using MFC_VoxMe_API.Profiles;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace MFC_VoxMe_API.Models
 {

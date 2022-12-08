@@ -6,18 +6,13 @@ using MFC_VoxMe_API.Dtos.Transactions;
 
 namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
 {
-    public interface IHelpers
+    public interface IJimToVoxmeHelper
     {
         AssignMaterialsToTransactionDto GetTransactionMaterials();
         CreateTransactionDto CreateTransactionObjectFromXml();
         CreateJobDto CreateJobObjectFromXml();
         Task<MovingDataDto> XMLParseAsync(string xml);
         AssignStaffDesignateForemanDto GetTransactionResources();
-        Task<dynamic> GetMovingDataId(string externalRef);
-        List<KeyValuePair<string, string>> GetImages(HttpResponseDto<TransactionDetailsDto> transactiondetails);
-        Task InsertTableRecords();
-        Task<string> GetItemsPath(int movingDataId);
-        Task UpdateMovingData(string externalRef);
-        Task InsertDataFromJobDetails(JobDetailsDto jobDetails, int movingDataId);
+
     }
 }
