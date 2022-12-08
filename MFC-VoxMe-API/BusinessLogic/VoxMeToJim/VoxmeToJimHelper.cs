@@ -6,7 +6,6 @@ using MFC_VoxMe_API.Dtos.Common;
 using MFC_VoxMe_API.Dtos.Jobs;
 using MFC_VoxMe_API.Dtos.Transactions;
 using MFC_VoxMe_API.Models;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using static MFC_VoxMe.Infrastructure.Data.Helpers.Enums;
 
@@ -187,9 +186,11 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
         {
             var roomDetails = jobDetails.jobInventory.rooms;
             var packersDetails = jobDetails.jobInventory.packers;
+            var piecesDetails = jobDetails.jobInventory.pieces;
+
             foreach (var room in roomDetails)
             {
-                var rooms = new Rooms()
+                var newRoom = new Rooms()
                 {
                     MovingDataID = movingDataId,
                     Name = room.name,
@@ -199,9 +200,97 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                     MoveInPictures = room.conditionBeforeService.photos,
                     MoveOutCondition = room.conditionAfterService.description,
                     MoveOutPictures = room.conditionAfterService.photos,
-                    ID = 2
+                    ID = 0 //?
 
                 };
+
+                await _queryGenerator.InsertInto(
+                    new SqlQuery<Rooms>()
+                    {
+                        table = "Rooms",
+                        dto = newRoom
+                    }
+                    );
+
+                foreach (var roomElement in room.roomElements)
+                {
+                    var roomProperties = new RoomProperties()
+                    {
+                        Description = roomElement.description,
+                        MoveInCondition = roomElement.conditionBeforeService.description,
+                        MoveInPictures = roomElement.conditionBeforeService.photos,
+                        MoveOutCondition= roomElement.conditionAfterService.description,
+                        MoveOutPictures= roomElement.conditionAfterService.photos,
+                        MovingDataId = movingDataId,
+                        RoomID = newRoom.ID //?
+                    };
+                }
+            }
+
+            foreach(var packer in packersDetails)
+            {
+                var newPacker = new MFC_VoxMe.Infrastructure.Models.Packers
+                {
+                    ID = 0, //?,
+                    IsForeman = packer.isForeman,
+                    Name = packer.packer,
+                    MovingDataID = movingDataId
+                };
+            }
+
+            foreach(var piece in piecesDetails)
+            {
+                var newPiece = new Pieces()
+                {
+                    Description  = piece.tag,
+                    Barcode = piece.barcode,
+                    PackerID = 0, //?
+                    RoomID = 0 , //?
+                    PBO = piece.pbo,
+                    BoxType = 0, //?
+                    ShippingCost = piece.packageUnitCost,
+                    BoxQty = 0, //?,
+                    Void = piece.@void,
+                    Weight = piece.weight,
+                    Width = piece.width,
+                    Height = piece.height,
+                    Length = piece.length,
+                    Volume = piece.volume,                    
+
+                };
+
+                foreach(var item in piece.items)
+                {
+                    var newItem = new Items()
+                    {
+                        Name =item.itemName,
+                        Type = item.itemType,
+                        ItemStatus = item.itemCategory,
+                        Volume = item.volume,
+                        Value = item.value.ToString(),
+                        ValuationCurrency = item.valuationCurrency,
+                        Qty = item.qty,
+                        Condition = item.condition,
+                        Make = item.make,
+                        Model = item.model,
+                        Year = item.year,
+                        SerialNumber = item.serialNumber,
+                        Width = item.width,
+                        Height = item.height,
+                        Length = item.length,
+                        IsPart = item.isPart,
+                        Dismantle = item.dismantle,
+                        IsValuable = item.isValuable,
+                        IsInventory = true,
+                        PictureAuthor = item.pictureAuthor,
+                        PictureTitle = item.pictureTitle,
+                        PictureYear = item.pictureYear,
+                        MaterialsDesc = item.materialsDesc,
+                        CountryOrigin = item.countryOrigin,
+                        Comment = item.comment,
+                       
+                    };
+                }
             }
         }
         public async Task UpdateMovingData(string externalRef)
@@ -304,16 +393,14 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
             }
         }
 
-        public string GetJsonConfigFile(string key)
+        public string GetValueFromJsonConfig(string key)
         {
             string json = File.ReadAllText(Path.Combine
                          (_hostingEnvironment.ContentRootPath, @"NamingConfigurationFile.json"));
 
-            //var data = (JObject)JsonConvert.DeserializeObject(json);
-            //string x = data["Enum.RoomResidential.Foyer"].Value<string>();
             JObject obj = JObject.Parse(json);
-            string x = (string)obj["RoomsConfig"]["Enum.RoomResidential.Foyer"];
-            return x;
+            string value = (string)obj["RoomsConfig"]["Enum.RoomResidential.Foyer"];
+            return value;
 
         }
     }

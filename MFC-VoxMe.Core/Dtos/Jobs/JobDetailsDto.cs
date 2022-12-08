@@ -117,17 +117,17 @@
             public double volume { get; set; }
             public decimal value { get; set; }
             public string valuationCurrency { get; set; }
-            public int qty { get; set; }
-            public string condition { get; set; }
+            public short qty { get; set; }
+            public byte condition { get; set; }
             public string conditionLocation { get; set; }
             public string make { get; set; }
             public string model { get; set; }
             public string year { get; set; }
             public string serialNumber { get; set; }
             public string sealNumber { get; set; }
-            public double width { get; set; }
-            public double height { get; set; }
-            public double length { get; set; }
+            public float width { get; set; }
+            public float height { get; set; }
+            public float length { get; set; }
             public bool isPart { get; set; }
             public bool dismantle { get; set; }
             public bool isCrated { get; set; }
