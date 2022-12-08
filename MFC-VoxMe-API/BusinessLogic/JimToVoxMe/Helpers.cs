@@ -33,7 +33,6 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             MemoryStream memStream = new MemoryStream(Encoding.UTF8.GetBytes(xml));
             MovingDataDto movingDataFromXml = (MovingDataDto)serializer.Deserialize(memStream);
             _MovingData = movingDataFromXml;
-            await InsertTableRecords();
             //var test = new MovingData()
             //{
             //    ClientName = "viselda test update",
