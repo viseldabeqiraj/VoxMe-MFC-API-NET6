@@ -10,6 +10,7 @@ using MFC_VoxMe_API.Models;
 using Newtonsoft.Json;
 using System.Text;
 using System.Xml.Serialization;
+using static MFC_VoxMe.Infrastructure.Data.Helpers.Enums;
 using static MFC_VoxMe_API.Dtos.Jobs.CreateJobDto;
 using static MFC_VoxMe_API.Dtos.Transactions.AssignStaffDesignateForemanDto;
 
@@ -523,6 +524,27 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
 
         }
 
+        public async Task InsertDataFromJobDetails(JobDetailsDto jobDetails, int movingDataId)
+        {
+            var roomDetails = jobDetails.jobInventory.rooms;
+            var packersDetails = jobDetails.jobInventory.packers;
+            foreach (var room in roomDetails)
+            {
+                var rooms = new Rooms()
+                {
+                    MovingDataID = movingDataId,
+                    Name = room.name,
+                    Description = room.notes,
+                    NickName = room.name,
+                    MoveInCondition = room.conditionBeforeService.description,
+                    MoveInPictures = room.conditionBeforeService.photos,
+                    MoveOutCondition = room.conditionAfterService.description,
+                    MoveOutPictures = room.conditionAfterService.photos,
+                    ID = 2
+                    
+                };
+            }
+        }
         public async Task UpdateMovingData(string externalRef)
         {
             var test = new MovingData()
@@ -540,16 +562,18 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
 
         public async Task<dynamic> GetMovingDataId(string externalRef)
         {
-            SqlQuery<string> select = new SqlQuery<string>();
-                select.columns = "*";
-                select.table = Constants.Tables.MOVINGDATA;
-                select.whereClause = new Dictionary<string, object>()
-                {
-                    {"ExternalMFID", externalRef},
-                    {"JobDescription", "Imperial"}
-                };// select.Where("ExternalMFID", @$"'{externalRef}'");
-                select.comparisonOperator = Constants.ComparisonOperators.EQUALTO;
-            select.logOperator = IEnums.logOperator.AND;
+            SqlQuery<string> select = new SqlQuery<string>()
+            {
+                columns = "*",
+                table = Constants.Tables.MOVINGDATA,
+                whereClause = new Dictionary<string, object>()
+                    {
+                        {"ExternalMFID", externalRef},
+                        {"JobDescription", "Imperial"}
+                    }, // select.Where("ExternalMFID", @$"'{externalRef}'");
+                comparisonOperator = Constants.ComparisonOperators.EQUALTO,
+                logOperator = IEnums.logOperator.AND
+            };
 
                 return await _queryGenerator.SelectFrom(select);
         }

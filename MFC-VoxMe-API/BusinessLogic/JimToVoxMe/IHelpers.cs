@@ -18,5 +18,6 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
         Task InsertTableRecords();
         Task<string> GetItemsPath(int movingDataId);
         Task UpdateMovingData(string externalRef);
+        Task InsertDataFromJobDetails(JobDetailsDto jobDetails, int movingDataId);
     }
 }

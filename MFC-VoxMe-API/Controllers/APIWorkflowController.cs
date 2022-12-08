@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using Serilog;
 using System.Linq;
 using System.Net;
+using static MFC_VoxMe.Infrastructure.Data.Helpers.Enums;
 
 namespace MFC_VoxMe_API.Controllers
 {
@@ -153,17 +154,26 @@ namespace MFC_VoxMe_API.Controllers
 		public async Task<ActionResult> MFCStatusUpdate([FromBody] string externalRef, string status, string? jobRef)
 		{
 			status = status.Replace("Enum.TransactionOnsiteStatus.", "");
-			if (status == 21 || status == 23 || status == 24)
+
+			if (status == IEnums.TransactionOnSiteStatus.Completed.ToString() 
+				|| status == IEnums.TransactionOnSiteStatus.GeneratePaperwork.ToString()
+				|| status == IEnums.TransactionOnSiteStatus.SubmitTimesheets.ToString())
 			{ 
             var result = await _helpers.GetMovingDataId(externalRef);
 
             int movingDataId = result[0].ID;
             string jobExternalRef = result[0].BillOfLadingNo;
+			int state = result[0].State;
             if (jobExternalRef is not null)
             {
-                var jobDetailsRequest = await _jobService.GetSummary(jobExternalRef);
-				//TODO: Create or update correlating records
-				//var x = _helpers.UpdateMovingData(externalRef);
+                var jobDetailsRequest = await _jobService.GetDetails(jobExternalRef);
+
+				if (state == 3)
+                {
+					await _helpers.InsertDataFromJobDetails(jobDetailsRequest.dto, movingDataId);
+                }
+					//TODO: Create or update correlating records
+					//var x = _helpers.UpdateMovingData(externalRef);
 
 			}
 

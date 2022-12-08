@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static MFC_VoxMe.Infrastructure.Data.Helpers.Enums;
 
 namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator.Helpers
 {
@@ -26,24 +27,5 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator.Helpers
         }
 
     }
-    public interface IEnums
-    {
-        public enum logOperator
-        {
-            AND,
-            OR,
-            ANY,
-            EXISTS,
-            NOT,
-            LIKE
-        }
-        public enum functions
-        {
-            MAX,
-            SUM,
-            COUNT,
-            AVG,
-            BETWEEN
-        }
-    }
+
 }
