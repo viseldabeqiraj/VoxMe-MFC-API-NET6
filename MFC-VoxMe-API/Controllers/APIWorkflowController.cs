@@ -149,26 +149,43 @@ namespace MFC_VoxMe_API.Controllers
 				return Ok();			
 		}
 
-        [HttpPost("MFCStatusUpdate")]
-		public async Task<ActionResult> MFCStatusUpdate([FromBody]string externalRef, int? status, string? jobRef)
-        {
+		[HttpPost("MFCStatusUpdate")]
+		public async Task<ActionResult> MFCStatusUpdate([FromBody] string externalRef, string status, string? jobRef)
+		{
+			status = status.Replace("Enum.TransactionOnsiteStatus.", "");
+			if (status == 21 || status == 23 || status == 24)
+			{ 
             var result = await _helpers.GetMovingDataId(externalRef);
 
-            var movingDataId = result.ID;
-            var jobExternalRef = result.BillOfLadingNo;
-
+            int movingDataId = result[0].ID;
+            string jobExternalRef = result[0].BillOfLadingNo;
             if (jobExternalRef is not null)
             {
                 var jobDetailsRequest = await _jobService.GetSummary(jobExternalRef);
-                //TODO: Create or update correlating records
-            }
+				//TODO: Create or update correlating records
+				//var x = _helpers.UpdateMovingData(externalRef);
 
-            var transactionDetails = await _transactionService.GetDetails(externalRef);
+			}
+
+			var transactionDetails = await _transactionService.GetDetails(externalRef);
             var images = _helpers.GetImages(transactionDetails);
-            foreach (var image in images)
-            {
-                var response = await _transactionService.GetImageAsBinary(externalRef, "Transaction", image.Value);
-            }
+				foreach (var image in images)
+				{
+					var response = await _transactionService.GetImageAsBinary(externalRef, "Transaction", image.Value);
+					var bytes = response.dto;
+					//select itemspath from prefs for that movingid
+					string filePath = await _helpers.GetItemsPath(movingDataId) + "\\test3.png"; //image.Value
+
+					if (!Directory.Exists(filePath))
+					{
+						//Directory.CreateDirectory(filePath);
+						using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+						{
+							stream.Write(bytes);
+						}
+					}
+				}
+			}
 
             return Ok();
         }

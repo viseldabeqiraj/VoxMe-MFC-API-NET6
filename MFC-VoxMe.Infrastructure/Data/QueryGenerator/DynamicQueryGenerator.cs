@@ -22,20 +22,21 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
             if (select.whereClause != null)
             {
                 sub = "where ";
-                if (select.whereClause.Count == 1)
-                    sub += select.whereClause.First().Key + select.comparisonOperator + select.whereClause.First().Value;
-                else
-                {
-                    foreach (KeyValuePair<string, object> valuePair in select.whereClause)
-                    {
-                        var last = select.whereClause.Last();
-                        if (valuePair.Equals(last))
-                        {
-                            sub += valuePair.Key + select.comparisonOperator + valuePair.Value;
-                        }
-                        else sub += valuePair.Key + select.comparisonOperator + valuePair.Value + " " + select.logOperator + " ";
-                    }
-                }
+                //if (select.whereClause.Count == 1)
+                //    sub += select.whereClause.First().Key + select.comparisonOperator + select.whereClause.First().Value;
+                //else
+                //{
+                //    foreach (KeyValuePair<string, object> valuePair in select.whereClause)
+                //    {
+                //        var last = select.whereClause.Last();
+                //        if (valuePair.Equals(last))
+                //        {
+                //            sub += valuePair.Key + select.comparisonOperator + valuePair.Value;
+                //        }
+                //        else sub += valuePair.Key + select.comparisonOperator + valuePair.Value + " " + select.logOperator + " ";
+                //    }
+                //}
+                sub += GetWhereClause(select);
             }
             if (select.function != null)
             {
@@ -46,8 +47,8 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
                            {sub}";
             using (var connection = _context.CreateConnection())
             {
-                var test = await connection.QuerySingleAsync(query);
-                return await connection.QuerySingleAsync(query);
+                var test = await connection.QueryAsync(query);
+                return await connection.QueryAsync(query);
             }
         }
 
@@ -79,7 +80,7 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
 
         public async Task UpdateTable<T>(SqlQuery<T> update) 
         {
-            string colsValues = "", whereClause = "";
+            string colsValues = "";
             string table = update.dto.GetType().Name;
             foreach (var propertyInfo in update.dto.GetType().GetProperties())
             {
@@ -88,14 +89,8 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
                     colsValues += propertyInfo.Name + "=" + "'" + propertyInfo.GetValue(update.dto)?.ToString() + "'";
                 }
             }
-            foreach(var item in update.whereClause)
-            {
-                whereClause += item.Key.ToString();
-                whereClause += update.logOperator != null
-                    ? update.logOperator.ToString()
-                    : update.comparisonOperator.ToString();
-                whereClause += $@"'{item.Value}'";
-            }
+            string whereClause = GetWhereClause(update);
+
             var query = @$"UPDATE [dbo].[{table}]
                               SET {colsValues} WHERE {whereClause}
                           ";
@@ -103,6 +98,29 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
             {
                 var result = await connection.QueryAsync<string>(query);
             }
+        }
+
+        public string GetWhereClause<T>(SqlQuery<T> query)
+        {
+            string whereClause = "";
+
+            var last = query.whereClause.Last();
+
+            foreach (var valuePair in query.whereClause)
+            {
+                whereClause += valuePair.Key.ToString();
+                whereClause += query.comparisonOperator != null
+                    ? query.comparisonOperator.ToString()
+                    : query.logOperator.ToString();
+                whereClause += $@"'{valuePair.Value}'";
+
+                if (!valuePair.Equals(last))
+                {
+                    whereClause += " " + query.logOperator.ToString() + " ";
+                }
+            }         
+
+            return whereClause;
         }
 
     }

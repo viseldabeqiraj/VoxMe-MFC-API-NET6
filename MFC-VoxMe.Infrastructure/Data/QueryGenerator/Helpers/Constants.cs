@@ -21,6 +21,14 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator.Helpers
             public const string GREATERTHAN = ">";
             public const string LESSTHAN = "<";
         }
-        
+
+        public enum EnumDisplayStatus
+        {
+            GeneratePaperwork = 1,
+            Visible = 2,
+            Hidden = 3,
+            MarkedForDeletion = 4
+        }
+
     }
 }

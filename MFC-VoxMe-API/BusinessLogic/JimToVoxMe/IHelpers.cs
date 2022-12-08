@@ -16,5 +16,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
         Task<dynamic> GetMovingDataId(string externalRef);
         List<KeyValuePair<string, string>> GetImages(HttpResponseDto<TransactionDetailsDto> transactiondetails);
         Task InsertTableRecords();
+        Task<string> GetItemsPath(int movingDataId);
+        Task UpdateMovingData(string externalRef);
     }
 }

@@ -524,16 +524,16 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
 
         }
 
-        public async Task UpdateMovingData()
+        public async Task UpdateMovingData(string externalRef)
         {
             var test = new MovingData()
             {
-                ClientName = "viselda test update",
+                ClientName = "viseldaa test update 2",
             };
             var update = new SqlQuery<MovingData>();
 
             update.dto = test;
-            update.whereClause = update.Where("ExternalMFID", "RS0210275");
+            update.whereClause = update.Where("ExternalMFID", externalRef);
             update.comparisonOperator = Constants.ComparisonOperators.EQUALTO;
 
             await _queryGenerator.UpdateTable(update);
@@ -541,17 +541,30 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
 
         public async Task<dynamic> GetMovingDataId(string externalRef)
         {
-            SqlQuery<string> select = new SqlQuery<string>()
-            {
-                columns = "*",
-                table = Constants.Tables.MOVINGDATA,
-                whereClause = new Dictionary<string, object>()
+            SqlQuery<string> select = new SqlQuery<string>();
+                select.columns = "*";
+                select.table = Constants.Tables.MOVINGDATA;
+                select.whereClause = new Dictionary<string, object>()
                 {
-                    {"ExternalMFID", @$"'{externalRef}'"}
-                },
-                comparisonOperator = Constants.ComparisonOperators.EQUALTO
-            };           
-            return await _queryGenerator.SelectFrom(select);
+                    {"ExternalMFID", externalRef},
+                    {"JobDescription", "Imperial"}
+                };// select.Where("ExternalMFID", @$"'{externalRef}'");
+                select.comparisonOperator = Constants.ComparisonOperators.EQUALTO;
+            select.logOperator = IEnums.logOperator.AND;
+
+                return await _queryGenerator.SelectFrom(select);
+        }
+
+        public async Task<string> GetItemsPath(int movingDataId)
+        {
+            SqlQuery<string> select = new SqlQuery<string>();
+            select.columns = "ItemsPath";
+            select.table = Constants.Tables.PREFS;
+            select.whereClause = select.Where("MovingDataID", @$"'{movingDataId}'");
+            select.comparisonOperator = Constants.ComparisonOperators.EQUALTO;
+
+            var result = await _queryGenerator.SelectFrom(select);
+            return _configuration.GetValue<string>("Client_Folder_Dir:stagingDir") + result.ItemsPath;
         }
 
         public List<KeyValuePair<string, string>> GetImages(HttpResponseDto<TransactionDetailsDto> transactiondetails)
