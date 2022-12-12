@@ -158,6 +158,88 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                 personDetails = createJobDto.clientPerson.personDetails
             };
 
+            var rooms = generalInfo.Address.Rooms.Room;
+            createJobDto.inventoryData = new CreateJobDto.InventoryData()
+            {
+                rooms = rooms.Select(x => new CreateJobDto.Room()
+                {
+                    roomType = "Enum.RoomResidential." + x.Name,
+                }
+               ).ToList()              
+            };
+
+            var packers = _MovingData.InventoryData.Packers.Packer;
+            createJobDto.inventoryData.packers = packers.Select(x => new CreateJobDto.Packer()
+            {
+                packer = x.Name,
+                isForeman = bool.Parse(x.IsForeman)
+            }).ToList();
+
+            var skids = _MovingData.InventoryData.Skids.Skid;
+
+            createJobDto.inventoryData.loadingUnits = skids.Select(x => new LoadingUnit()
+            {
+                uniqueId = x.Barcode,
+                unitType = x.Type,
+                serialNumber = x.SerialNo,
+                //labelNr = x.
+                sealNumber = x.SealNo,
+
+            }).ToList();
+
+            var pieces = _MovingData.InventoryData.Pieces;
+            createJobDto.inventoryData.pieces = pieces.Select(x => new CreateJobDto.Piece()
+            {
+                labelNr = x.Id.ToString(),
+                tag = x.Id.ToString(),
+                barcode = x.Barcode,
+                packerName = x.Packer,
+                roomName = "Enum.RoomResidential." + x.Location,
+                pbo = x.PBO,
+                packageType = "Enum.MaterialType." + x.Box.Name,
+                packageQty = x.Box.Quantity,
+                loadUnitUniqueId = x.Barcode,
+                @void = x.Void,
+                height = x.Size.Height,
+                length = x.Size.Length,
+                volume = x.Volume,
+                weight = x.Weight,                
+                //packageUnitCost = x.Box.
+                items = new List<CreateJobDto.Item>()
+                {
+                    new CreateJobDto.Item()
+                    {
+                        itemNr = x.Id.ToString(),
+                        itemName =x.Item.Name,
+                        itemType = x.Item.Type,
+                        itemCategory = x.Item.Category,
+                        volume = x.Volume,
+                        value = x.Item.Value,
+                        valuationCurrency = "USD",
+                        qty=x.Item.Quantity,
+                        condition = x.Item.Condition,
+                        make = x.Item.Make,
+                        model = x.Item.Model,
+                        year = x.Item.Year,
+                        serialNumber = x.Item.SerialNumber,
+                        width = x.Item.Size.Width,
+                        height = x.Item.Size.Height,
+                        length = x.Item.Size.Length,
+                        isPart = x.Item.IsPart,
+                        dismantle = x.Item.Dismantling,
+                        isCrated = x.Item.IsPart,
+                        isValuable = x.Item.IsValuable,
+                        pictureAuthor = x.Item.PictureAuthor,
+                        pictureTitle = x.Item.PictureName,
+                        pictureYear= x.Item.PictureYear,
+                        materialsDesc = x.Item.MaterialsDesc,
+                        countryOrigin = x.Item.CountryOrigin,
+                        comment = x.Item.Comment,
+                        photos = x.Item.PictureFileName,
+                    }
+                }
+            }).ToList();
+
             return createJobDto;
 
         }

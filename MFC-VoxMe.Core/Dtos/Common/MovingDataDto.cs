@@ -62,11 +62,229 @@ namespace MFC_VoxMe_API.Dtos.Common
 			public string Comment { get; set; }
 			[XmlElement(ElementName = "AccessInfo")]
 			public AccessInfo AccessInfo { get; set; } = new AccessInfo();
-			//[XmlElement(ElementName = "Rooms")]
-			//public string Rooms { get; set; }
+			[XmlElement(ElementName = "Rooms")]
+			public Rooms Rooms { get; set; }
 		}
 
-		[XmlRoot(ElementName = "DestRoom")]
+		[XmlRoot(ElementName = "Rooms")]
+		public class Rooms
+		{
+
+			[XmlElement(ElementName = "Room")]
+			public List<Room> Room { get; set; }
+		}
+
+
+		[XmlRoot(ElementName = "Room")]
+		public class Room
+		{
+
+			[XmlElement(ElementName = "Nickname")]
+			public string Nickname { get; set; }
+
+			[XmlElement(ElementName = "NumOfPeople")]
+			public int NumOfPeople { get; set; }
+
+			[XmlElement(ElementName = "EstimatedVolume")]
+			public int EstimatedVolume { get; set; }
+
+			[XmlAttribute(AttributeName = "name")]
+			public string Name { get; set; }
+
+			[XmlText]
+			public string Text { get; set; }
+		}
+
+	[XmlRoot(ElementName = "Box")]
+	public class Box
+	{
+
+		[XmlElement(ElementName = "Quantity")]
+		public int Quantity { get; set; }
+
+		[XmlAttribute(AttributeName = "name")]
+		public string Name { get; set; }
+
+		//[XmlText]
+		//public int Text { get; set; }
+	}
+
+	[XmlRoot(ElementName = "Size")]
+	public class Size
+	{
+
+		[XmlElement(ElementName = "Width")]
+		public double Width { get; set; }
+
+		[XmlElement(ElementName = "Height")]
+		public double Height { get; set; }
+
+		[XmlElement(ElementName = "Length")]
+		public double Length { get; set; }
+	}
+
+	[XmlRoot(ElementName = "Item")]
+	public class Item
+	{
+
+		[XmlElement(ElementName = "Type")]
+		public string Type { get; set; }
+
+		[XmlElement(ElementName = "Quantity")]
+		public int Quantity { get; set; }
+
+		[XmlElement(ElementName = "Value")]
+		public int Value { get; set; }
+
+		[XmlElement(ElementName = "Condition")]
+		public string Condition { get; set; }
+
+		[XmlElement(ElementName = "Comment")]
+		public string Comment { get; set; }
+
+		[XmlElement(ElementName = "Size")]
+		public Size Size { get; set; }
+
+		[XmlElement(ElementName = "IsPart")]
+		public bool IsPart { get; set; }
+
+		[XmlElement(ElementName = "Dismantling")]
+		public bool Dismantling { get; set; }
+
+		[XmlElement(ElementName = "Assembling")]
+		public bool Assembling { get; set; }
+
+		[XmlElement(ElementName = "SpecialContainer")]
+		public bool SpecialContainer { get; set; }
+
+		[XmlElement(ElementName = "Make")]
+		public string Make { get; set; }
+
+		[XmlElement(ElementName = "Model")]
+		public string Model { get; set; }
+
+		[XmlElement(ElementName = "Year")]
+		public string Year { get; set; }
+
+		[XmlElement(ElementName = "SerialNumber")]
+		public string SerialNumber { get; set; }
+
+		[XmlElement(ElementName = "PictureName")]
+		public string PictureName { get; set; }
+
+		[XmlElement(ElementName = "PictureAuthor")]
+		public string PictureAuthor { get; set; }
+
+		[XmlElement(ElementName = "PictureAuthorFirstName")]
+		public string PictureAuthorFirstName { get; set; }
+
+		[XmlElement(ElementName = "PictureYear")]
+		public string PictureYear { get; set; }
+
+		[XmlElement(ElementName = "MaterialsDesc")]
+		public string MaterialsDesc { get; set; }
+
+		[XmlElement(ElementName = "CountryOrigin")]
+		public string CountryOrigin { get; set; }
+
+		[XmlElement(ElementName = "SurfaceSize")]
+		public object SurfaceSize { get; set; }
+
+		[XmlElement(ElementName = "CarpetYear")]
+		public string CarpetYear { get; set; }
+
+		[XmlElement(ElementName = "PictureFileName")]
+		public string PictureFileName { get; set; }
+
+		[XmlElement(ElementName = "IsValuable")]
+		public bool IsValuable { get; set; }
+
+		[XmlElement(ElementName = "Category")]
+		public string Category { get; set; }
+
+		[XmlAttribute(AttributeName = "id")]
+		public int Id { get; set; }
+
+		[XmlAttribute(AttributeName = "name")]
+		public string Name { get; set; }
+
+		[XmlText]
+		public string Text { get; set; }
+	}
+
+	[XmlRoot(ElementName = "Piece")]
+	public class Piece
+	{
+
+		[XmlElement(ElementName = "Barcode")]
+		public string Barcode { get; set; }
+
+		[XmlElement(ElementName = "Location")]
+		public string Location { get; set; }
+
+		[XmlElement(ElementName = "Volume")]
+		public double Volume { get; set; }
+
+		[XmlElement(ElementName = "Weight")]
+		public double Weight { get; set; }
+
+		[XmlElement(ElementName = "Copies")]
+		public int Copies { get; set; }
+
+		[XmlElement(ElementName = "PBO")]
+		public bool PBO { get; set; }
+
+		[XmlElement(ElementName = "NeedBox")]
+		public bool NeedBox { get; set; }
+
+		[XmlElement(ElementName = "Destination")]
+		public string Destination { get; set; }
+
+		[XmlElement(ElementName = "Box")]
+		public Box Box { get; set; }
+
+		[XmlElement(ElementName = "NumberOfElements")]
+		public int NumberOfElements { get; set; }
+
+		[XmlElement(ElementName = "LineItemNumber")]
+		public int LineItemNumber { get; set; }
+
+		[XmlElement(ElementName = "NumberOfPackages")]
+		public int NumberOfPackages { get; set; }
+
+		[XmlElement(ElementName = "SkidID")]
+		public int SkidID { get; set; }
+
+		[XmlElement(ElementName = "Packer")]
+		public string Packer { get; set; }
+
+		[XmlElement(ElementName = "IsSplit")]
+		public int IsSplit { get; set; }
+
+		[XmlElement(ElementName = "Parent")]
+		public object Parent { get; set; }
+
+		[XmlElement(ElementName = "Size")]
+		public Size Size { get; set; }
+
+		[XmlElement(ElementName = "Item")]
+		public Item Item { get; set; }
+
+		[XmlElement(ElementName = "AssociatedMaterials")]
+		public object AssociatedMaterials { get; set; }
+
+		[XmlElement(ElementName = "Void")]
+		public bool Void { get; set; }
+
+		[XmlAttribute(AttributeName = "id")]
+		public int Id { get; set; }
+
+		[XmlText]
+		public string Text { get; set; }
+	}
+
+
+	[XmlRoot(ElementName = "DestRoom")]
 		public class DestRoom
 		{
 			[XmlAttribute(AttributeName = "density")]
@@ -208,7 +426,7 @@ namespace MFC_VoxMe_API.Dtos.Common
 		public class Skids
 		{
 			[XmlElement(ElementName = "Skid")]
-			public Skid Skid { get; set; } = new Skid();
+			public List<Skid> Skid { get; set; } //= new Skid();
 		}
 
 		[XmlRoot(ElementName = "Packer")]
@@ -317,8 +535,10 @@ namespace MFC_VoxMe_API.Dtos.Common
 			//[XmlAttribute(AttributeName = "Uom")]
 			//public string Uom { get; set; }
 			[XmlAttribute(AttributeName = "Offset")]
-			public string Offset { get; set; }
-		}
+				public string Offset { get; set; }
+			[XmlElement(ElementName = "Pieces")]
+			public List<Piece> Pieces { get; set; }
+	}
 
 		[XmlRoot(ElementName = "Document")]
 		public class Document

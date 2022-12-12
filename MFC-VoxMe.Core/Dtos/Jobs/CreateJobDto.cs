@@ -18,8 +18,8 @@ namespace MFC_VoxMe_API.Dtos.Jobs
         public string transportMode { get; set; } = "Enum.TransportMode.Truck";
         public Booker booker { get; set; } = new Booker();
         public BookerPerson bookerPerson { get; set; } = new BookerPerson();
-        public Account account { get; set; } 
-        public AccountPerson accountPerson { get; set; } 
+        public Account account { get; set; }
+        public AccountPerson accountPerson { get; set; }
         public OriginAddress originAddress { get; set; } = new OriginAddress();
         public OriginPartyContact originPartyContact { get; set; } = new OriginPartyContact();
         public DestinationAddress destinationAddress { get; set; } = new DestinationAddress();
@@ -109,20 +109,45 @@ namespace MFC_VoxMe_API.Dtos.Jobs
 
         public class InventoryData
         {
-            public int firstLabelNr { get; set; }
+            public int firstLabelNr { get; set; } = 0;
+            public double grossVolume { get; set; } = 0.0;
+            public double grossWeight { get; set; } = 0.0;
+            public int lastLabelNr { get; set; } = 0;
+            public int piecesNr { get; set; } = 0;
+            public double value { get; set; } = 0.0;
+            public double volume { get; set; } = 0.0;
+            public double weight { get; set; } = 0.0;
+            public string? labelColor { get; set; } = String.Empty;
+            public string? firstTag { get; set; } = "001";
+            public List<Room> rooms { get; set; }
+            public List<Packer> packers { get; set; }
+            public List<LoadingUnit>? loadingUnits { get; set; }
+            public List<Piece>? pieces { get; set; }
+        }
+
+        public class LoadingUnit
+        {
+            public string uniqueId { get; set; }
+            public string unitType { get; set; }
+            public string serialNumber { get; set; }
+            public int labelNr { get; set; }
+            public string sealNumber { get; set; }
+            public string warehouseLocation { get; set; }
+            public string storageUnit { get; set; }
+            public double netWidth { get; set; }
+            public double netHeight { get; set; }
+            public double netLength { get; set; }
+            public double netVolume { get; set; }
+            public double netWeight { get; set; }
+            public double extWidth { get; set; }
+            public double extHeight { get; set; }
+            public double extLength { get; set; }
             public double grossVolume { get; set; }
             public double grossWeight { get; set; }
-            public int lastLabelNr { get; set; }
-            public int piecesNr { get; set; }
-            public double value { get; set; }
-            public double volume { get; set; }
-            public double weight { get; set; }
-            public string? labelColor { get; set; }
-            public string? firstTag { get; set; }
-            public List<Room> rooms { get; set; } 
-            public List<Packer> packers { get; set; }
-            public double? loadingUnits { get; set; }
-            public List<Piece>? pieces { get; set; }
+            public string photos { get; set; }
+            public DateTime dateIn { get; set; }
+            public DateTime dateOut { get; set; }
+
         }
 
         public class Item
