@@ -22,20 +22,6 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
             if (select.whereClause != null)
             {
                 sub = "where ";
-                //if (select.whereClause.Count == 1)
-                //    sub += select.whereClause.First().Key + select.comparisonOperator + select.whereClause.First().Value;
-                //else
-                //{
-                //    foreach (KeyValuePair<string, object> valuePair in select.whereClause)
-                //    {
-                //        var last = select.whereClause.Last();
-                //        if (valuePair.Equals(last))
-                //        {
-                //            sub += valuePair.Key + select.comparisonOperator + valuePair.Value;
-                //        }
-                //        else sub += valuePair.Key + select.comparisonOperator + valuePair.Value + " " + select.logOperator + " ";
-                //    }
-                //}
                 sub += GetWhereClause(select);
             }
             if (select.function != null)

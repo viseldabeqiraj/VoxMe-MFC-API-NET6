@@ -399,7 +399,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                          (_hostingEnvironment.ContentRootPath, @"NamingConfigurationFile.json"));
 
             JObject obj = JObject.Parse(json);
-            string value = (string)obj["RoomsConfig"]["Enum.RoomResidential.Foyer"];
+            string value = (string)obj[key];
             return value;
 
         }

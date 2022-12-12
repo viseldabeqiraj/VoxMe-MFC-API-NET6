@@ -1,5 +1,4 @@
 {
-  "RoomsConfig": {  
       "Enum.RoomResidential.Foyer": "Foyer",
       "Enum.RoomResidential.Hall": "Hall",
       "Enum.RoomResidential.Bathroom": "Bathroom",
@@ -36,6 +35,6 @@
       "Enum.RoomResidential.PlayRoom": "Play Room",
       "Enum.RoomResidential.LivingRoom": "Living Room",
       "Enum.RoomResidential.SunRoom": "Sun Room"
-    }
+    
   
 }
