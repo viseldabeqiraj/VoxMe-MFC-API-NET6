@@ -13,6 +13,9 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator.Helpers
             public const string MOVINGDATA = "MovingData";
             public const string PREFS = "Prefs";
             public const string ADDRESS = "Address";
+            public const string ROOMS = "Rooms";
+            public const string PACKERS = "Packers";
+            public const string ITEMS = "Items";
         }
 
         public class ComparisonOperators

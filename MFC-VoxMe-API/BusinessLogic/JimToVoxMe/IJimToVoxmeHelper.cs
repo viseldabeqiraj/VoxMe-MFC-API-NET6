@@ -13,6 +13,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
         CreateJobDto CreateJobObjectFromXml();
         Task<MovingDataDto> XMLParseAsync(string xml);
         AssignStaffDesignateForemanDto GetTransactionResources();
+        Task InsertTableRecords();
 
     }
 }

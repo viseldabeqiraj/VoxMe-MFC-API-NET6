@@ -369,5 +369,182 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             return resourceCodesDto;
         }
 
+        public async Task InsertTableRecords()
+        {
+            var generalInfo = _MovingData.GeneralInfo;
+
+            var movingData = new MovingData()
+            {
+                ClientFirstName = generalInfo.ClientFirstName,
+                ClientName = generalInfo.Name,
+                Date = DateTime.Parse
+                            (generalInfo.Preferences.PackingDate),
+                JobDescription = "Imperial",
+                EstimatorName = generalInfo.EstimatorName,
+                Comment = generalInfo.Comment,
+                FileName = "",
+                BillOfLadingNo = generalInfo.Groupageid,
+                ExternalMFID = generalInfo.EMFID,
+                State = 3,
+                OrgID = "",
+                LastAccessTime = DateTime.Now,
+                CoordinatorName = "Voxme",
+                CoordinatorEmail = "jkmoving@voxme.com",
+                BookingAgent = "JK",
+                BookingAgentContact = "Voxme",
+                BookingAgentContactEmail = "jkmoving@voxme.com",
+                OriginAgent = "JK",
+                ShipmentType = generalInfo.ShipmentType,
+                ClientSalutation = generalInfo.ClientSalutation,
+                TripNumber = 0,
+                Manager = "Voxme",
+                Hold = false
+            };
+
+            await _queryGenerator.InsertInto(new SqlQuery<MovingData>()
+            { table = "MovingData", dto = movingData });
+
+            var resp = await _queryGenerator.SelectFrom(
+              new SqlQuery<string>()
+              {
+                  function = IEnums.functions.MAX,
+                  columns = "id",
+                  table = "MovingData",
+                  As = "as ID"
+              });
+            var NewMovingDataId = resp.ID as int?;
+            CreateClientFoderDir(movingData.ClientFirstName, movingData.ClientName, (int)NewMovingDataId);
+
+
+            var prefs = new Prefs()
+            {
+                MovingDataID = (int)NewMovingDataId,
+                PrefferedLanguageID = 1,
+                PackingDate = DateTime.Parse
+                            (generalInfo.Preferences.PackingDate),
+                ServiceTypeID = 1,
+                Comment = generalInfo.Preferences.Comment,
+                ItemsPath = generalInfo.ClientFirstName + "_" + generalInfo.Name + "_" + NewMovingDataId,
+                //RealArrivalDate = "",
+                DeliveryDate = DateTime.Parse
+                                (generalInfo.Preferences.DeliveryDate),
+                //SurveyDate = "",
+                CreationDate = DateTime.Now,
+                PackingFinishDate = DateTime.Parse
+                                (generalInfo.Preferences.PackingFinishDate)
+            };
+
+            var originAddress = new MFC_VoxMe.Infrastructure.Models.Address()
+            {
+                MovingDataID = (int)NewMovingDataId,
+                IsDestination = false,
+                Street = generalInfo.Address.Street,
+                City = generalInfo.Address.City,
+                Country = generalInfo.Address.Country,
+                Floor = generalInfo.Address.AccessInfo.Floor,
+                Elevator = Convert.ToBoolean
+                            (generalInfo.Address.AccessInfo.HasElevator),
+                DistanceToParking = 0,
+                NeedCrane = false,
+                PrimaryPhone = generalInfo.Address.PrimaryPhone,
+                SecondaryPhone = generalInfo.Address.SecondaryPhone,
+                Email = generalInfo.Address.Email,
+                Comment = generalInfo.Address.Comment,
+                Zip = generalInfo.Address.Zip,
+                State = generalInfo.Address.State,
+                PropertyType = generalInfo.Address.AccessInfo.PropertyType,
+                ParkingReservationRequired = false,
+                NumOfParkingSpots = 0,
+                ParkingSpotSize = 0,
+                CarryRequired = Convert.ToBoolean
+                                (generalInfo.Address.AccessInfo.CarryRequired),
+                CarryLength = 0,
+                ShuttleRequired = Convert.ToBoolean
+                                (generalInfo.Address.AccessInfo.ShuttleRequired),
+                ShuttleDistance = 0,
+                StairCarryRequired = Convert.ToBoolean
+                                (generalInfo.Address.AccessInfo.StairCarryRequired),
+                StairCarryLength = 0,
+                AdditionalStopRequired = Convert.ToBoolean
+                                (generalInfo.Address.AccessInfo.AdditionalStopRequired)
+
+            };
+
+            var destinationAddress = new MFC_VoxMe.Infrastructure.Models.Address()
+            {
+                MovingDataID = (int)NewMovingDataId,
+                IsDestination = true,
+                Street = generalInfo.Destination.Street,
+                City = generalInfo.Destination.City,
+                Country = generalInfo.Destination.Country,
+                Floor = generalInfo.Destination.AccessInfo.Floor,
+                Elevator = Convert.ToBoolean
+                            (generalInfo.Destination.AccessInfo.HasElevator),
+                DistanceToParking = 0,
+                NeedCrane = false,
+                PrimaryPhone = generalInfo.Destination.PrimaryPhone,
+                SecondaryPhone = generalInfo.Destination.SecondaryPhone,
+                Email = generalInfo.Destination.Email,
+                Comment = generalInfo.Destination.Comment,
+                Zip = generalInfo.Destination.Zip,
+                State = generalInfo.Destination.State,
+                PropertyType = generalInfo.Destination.AccessInfo.PropertyType,
+                ParkingReservationRequired = false,
+                NumOfParkingSpots = 0,
+                ParkingSpotSize = 0,
+                CarryRequired = Convert.ToBoolean
+                                (generalInfo.Destination.AccessInfo.CarryRequired),
+                CarryLength = 0,
+                ShuttleRequired = Convert.ToBoolean
+                                (generalInfo.Destination.AccessInfo.ShuttleRequired),
+                ShuttleDistance = 0,
+                StairCarryRequired = Convert.ToBoolean
+                                (generalInfo.Destination.AccessInfo.StairCarryRequired),
+                StairCarryLength = 0,
+                AdditionalStopRequired = Convert.ToBoolean
+                                (generalInfo.Destination.AccessInfo.AdditionalStopRequired)
+            };
+
+            List<KeyValuePair<string, object>> objectsToInsert =
+                         new List<KeyValuePair<string, object>>();
+
+            objectsToInsert.Add
+                (new KeyValuePair<string, object>("Prefs", prefs));
+            objectsToInsert.Add
+                (new KeyValuePair<string, object>("Address", originAddress));
+            objectsToInsert.Add
+                (new KeyValuePair<string, object>("Address", destinationAddress));
+
+            foreach (KeyValuePair<string, object> valuePair in objectsToInsert)
+            {
+                var query = new SqlQuery<object>()
+                {
+                    table = valuePair.Key,
+                    dto = valuePair.Value
+                };
+                await _queryGenerator.InsertInto(query);
+            }
+
+        }
+
+
+        private void CreateClientFoderDir(string firstname, string lastname, int moveDataId)
+        {
+            var clientFullName = $@"{firstname}_{lastname}";
+
+            var clientDirStaging = _configuration.GetValue<String>("Client_Folder_Dir:stagingDir") + $@"\\{clientFullName}_{moveDataId}";
+            var clientDirProduction = _configuration.GetValue<String>("Client_Folder_Dir:productionDir") + $@"\\{clientFullName}_{moveDataId}";
+
+            if (!Directory.Exists(clientDirStaging))
+            {
+                Directory.CreateDirectory(clientDirStaging);
+                Directory.CreateDirectory(clientDirStaging + "\\Documents");
+                Directory.CreateDirectory(clientDirStaging + "\\DocumentsForSuppliers");
+                Directory.CreateDirectory(clientDirStaging + "\\Files");
+                Directory.CreateDirectory(clientDirStaging + "\\Pictures");
+            }
+        }
+
+
     }
 }
