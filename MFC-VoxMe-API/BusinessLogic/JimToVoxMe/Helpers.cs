@@ -164,6 +164,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                 rooms = rooms.Select(x => new CreateJobDto.Room()
                 {
                     roomType = "Enum.RoomResidential." + x.Name,
+                    name = x.Name,
                 }
                ).ToList()              
             };
