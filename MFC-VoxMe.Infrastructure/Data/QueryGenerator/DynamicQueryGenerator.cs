@@ -94,11 +94,11 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
 
             foreach (var valuePair in query.whereClause)
             {
-                whereClause += valuePair.Key.ToString();
+                whereClause += valuePair.Key.ToString() + " ";
                 whereClause += query.comparisonOperator != null
                     ? query.comparisonOperator.ToString()
                     : query.logOperator.ToString();
-                whereClause += $@"'{valuePair.Value}'";
+                whereClause += " " + $@"'{valuePair.Value}'" + " ";
 
                 if (!valuePair.Equals(last))
                 {

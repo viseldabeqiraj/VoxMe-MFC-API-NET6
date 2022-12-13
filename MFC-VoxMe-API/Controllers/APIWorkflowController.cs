@@ -157,6 +157,7 @@ namespace MFC_VoxMe_API.Controllers
 		public async Task<ActionResult> MFCStatusUpdate([FromBody] string externalRef, string status, string? jobRef)
 		{
 			//var x = _helper.GetValueFromJsonConfig("d");
+			var xx = await _helper.testc();
 			status = status.Replace("Enum.TransactionOnsiteStatus.", "");
 
 			if (status == IEnums.TransactionOnSiteStatus.Completed.ToString() 
@@ -189,7 +190,7 @@ namespace MFC_VoxMe_API.Controllers
 					var response = await _transactionService.GetImageAsBinary(externalRef, "Transaction", image.Value);
 					var bytes = response.dto;
 					//select itemspath from prefs for that movingid
-					string filePath = await _helper.GetItemsPath(movingDataId) + "\\image.Value";
+					string filePath = await _helper.GetItemsPath(movingDataId) + image.Value;
 
 					if (!Directory.Exists(filePath))
 					{

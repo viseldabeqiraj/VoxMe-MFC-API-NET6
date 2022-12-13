@@ -16,6 +16,8 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator.Helpers
             public const string ROOMS = "Rooms";
             public const string PACKERS = "Packers";
             public const string ITEMS = "Items";
+            public const string SKIDS = "Skids";
+            public const string SKIDTYPES = "SkidTypes";
         }
 
         public class ComparisonOperators

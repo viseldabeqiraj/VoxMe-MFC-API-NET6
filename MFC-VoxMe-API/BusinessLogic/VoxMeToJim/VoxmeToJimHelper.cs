@@ -35,6 +35,25 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
             return value;
         }
 
+        public async Task<int> testc()
+        {
+            var query = await _queryGenerator.SelectFrom(
+                     new SqlQuery<string>()
+                     {
+                         columns = "ID",
+                         table = Constants.Tables.SKIDTYPES,
+                         logOperator = IEnums.logOperator.LIKE,
+                         whereClause = new Dictionary<string, object>()
+                         {
+                             { "Name", "Liftvan"}
+                         }
+                     });
+
+            int skidType = query[0].ID;
+            return skidType;
+
+        }
+
         public async Task InsertDataFromJobDetails(JobDetailsDto jobDetails, int movingDataId)
         {
             if (jobDetails.jobInventory.rooms != null)
@@ -49,7 +68,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                            As = "ID"
                        });
 
-                var maxRoomId = maxRoomIdQuery.FirstOrDefault().ID;
+                short maxRoomId = maxRoomIdQuery.FirstOrDefault().ID;
 
                 foreach (var room in roomDetails)
                 {
@@ -57,13 +76,13 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                     {
                         MovingDataID = movingDataId,
                         Name = room.name,
-                        Description = room.notes,
-                        NickName = room.name,
-                        MoveInCondition = room.conditionBeforeService.description,
-                        MoveInPictures = room.conditionBeforeService.photos,
-                        MoveOutCondition = room.conditionAfterService.description,
-                        MoveOutPictures = room.conditionAfterService.photos,
-                        ID = 0 //?
+                        //Description = room.notes,
+                        //NickName = room.name,
+                        //MoveInCondition = room.conditionBeforeService.description,
+                        //MoveInPictures = room.conditionBeforeService.photos,
+                        //MoveOutCondition = room.conditionAfterService.description,
+                        //MoveOutPictures = room.conditionAfterService.photos,
+                        ID = (short)(maxRoomId + 1) //?
                     };
 
                     await _queryGenerator.InsertInto(
@@ -73,19 +92,19 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                             dto = newRoom
                         });
 
-                    foreach (var roomElement in room.roomElements)
-                    {
-                        var roomProperties = new RoomProperties()
-                        {
-                            Description = roomElement.description,
-                            MoveInCondition = roomElement.conditionBeforeService.description,
-                            MoveInPictures = roomElement.conditionBeforeService.photos,
-                            MoveOutCondition = roomElement.conditionAfterService.description,
-                            MoveOutPictures = roomElement.conditionAfterService.photos,
-                            MovingDataId = movingDataId,
-                            RoomID = newRoom.ID //?
-                        };
-                    }
+                    //foreach (var roomElement in room.roomElements)
+                    //{
+                    //    var roomProperties = new RoomProperties()
+                    //    {
+                    //        Description = roomElement.description,
+                    //        MoveInCondition = roomElement.conditionBeforeService.description,
+                    //        MoveInPictures = roomElement.conditionBeforeService.photos,
+                    //        MoveOutCondition = roomElement.conditionAfterService.description,
+                    //        MoveOutPictures = roomElement.conditionAfterService.photos,
+                    //        MovingDataId = movingDataId,
+                    //        RoomID = newRoom.ID 
+                    //    };
+                    //}
                 }
             }
             if (jobDetails.jobInventory.packers != null)
@@ -162,6 +181,46 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                 }
             }
          
+            if (jobDetails.jobInventory.loadingUnits != null)
+            {
+                var loadingUnits = jobDetails.jobInventory.loadingUnits;
+
+                foreach(var unit in loadingUnits)
+                {
+                    var query = await _queryGenerator.SelectFrom(
+                     new SqlQuery<string>()
+                     {
+                         columns = "ID",
+                         table = Constants.Tables.SKIDTYPES,
+                         logOperator = IEnums.logOperator.LIKE,
+                         whereClause = new Dictionary<string, object>()
+                         {
+                             { "Name", unit.unitType}
+                         }
+                     });
+
+                    int skidType = query[0].ID; //get skid id for the 
+
+                    var newSkid = new MFC_VoxMe.Infrastructure.Models.Skids()
+                    {
+                        Barcode = unit.uniqueId,
+                        TypeID = skidType,
+                        SerialNumber = unit.serialNumber,
+                        SealNumber = unit.sealNumber,
+                        Location = unit.warehouseLocation,
+                        Width = (int)unit.netWidth,
+                        Height = (int)unit.netHeight,
+                       
+                    };
+
+                    await _queryGenerator.InsertInto(
+                        new SqlQuery<MFC_VoxMe.Infrastructure.Models.Skids>()
+                        {
+                            table = Constants.Tables.SKIDS,
+                            dto = newSkid
+                        });
+                }
+            }
         }
         public async Task UpdateMovingData(string externalRef)
         {
@@ -205,7 +264,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
             select.comparisonOperator = Constants.ComparisonOperators.EQUALTO;
 
             var result = await _queryGenerator.SelectFrom(select);
-            return _configuration.GetValue<string>("Client_Folder_Dir:stagingDir") + result.ItemsPath;
+            return _configuration.GetValue<string>("Client_Folder_Dir:stagingDir") + result.ItemsPath + "\\";
         }
 
         public List<KeyValuePair<string, string>> GetImages(HttpResponseDto<TransactionDetailsDto> transactiondetails)

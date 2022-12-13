@@ -12,5 +12,6 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
         Task UpdateMovingData(string externalRef);
         Task InsertDataFromJobDetails(JobDetailsDto jobDetails, int movingDataId);
         string GetValueFromJsonConfig(string key);
+        Task<int> testc();
     }
 }
