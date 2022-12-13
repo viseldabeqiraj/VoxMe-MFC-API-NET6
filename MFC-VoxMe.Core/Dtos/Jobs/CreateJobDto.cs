@@ -127,13 +127,13 @@ namespace MFC_VoxMe_API.Dtos.Jobs
 
         public class LoadingUnit
         {
-            public string uniqueId { get; set; }
-            public string unitType { get; set; }
-            public string serialNumber { get; set; }
+            public string uniqueId { get; set; } = String.Empty;
+            public string unitType { get; set; } = String.Empty;
+            public string serialNumber { get; set; } = String.Empty;
             public int labelNr { get; set; }
-            public string sealNumber { get; set; }
-            public string warehouseLocation { get; set; }
-            public string storageUnit { get; set; }
+            public string sealNumber { get; set; } = String.Empty;
+            public string warehouseLocation { get; set; } = String.Empty;
+            public string storageUnit { get; set; } = String.Empty;
             public double netWidth { get; set; }
             public double netHeight { get; set; }
             public double netLength { get; set; }
@@ -144,7 +144,7 @@ namespace MFC_VoxMe_API.Dtos.Jobs
             public double extLength { get; set; }
             public double grossVolume { get; set; }
             public double grossWeight { get; set; }
-            public string photos { get; set; }
+            public string photos { get; set; } = String.Empty;
             public DateTime dateIn { get; set; }
             public DateTime dateOut { get; set; }
 
@@ -152,35 +152,35 @@ namespace MFC_VoxMe_API.Dtos.Jobs
 
         public class Item
         {
-            public string? comment { get; set; }
-            public string? condition { get; set; }
-            public string? conditionLocation { get; set; }
-            public string? countryOrigin { get; set; }
+            public string? comment { get; set; } = String.Empty;
+            public string? condition { get; set; } = String.Empty;
+            public string? conditionLocation { get; set; } = String.Empty;
+            public string? countryOrigin { get; set; } = String.Empty;
             public bool dismantle { get; set; }
             public double height { get; set; }
             public bool isCrated { get; set; }
             public bool isPart { get; set; }
             public bool isValuable { get; set; }
-            public string? itemCategory { get; set; }
-            public string? itemName { get; set; }
-            public string? itemNr { get; set; }
-            public string? itemType { get; set; }
+            public string? itemCategory { get; set; } = String.Empty;
+            public string? itemName { get; set; } = String.Empty;
+            public string? itemNr { get; set; } = String.Empty;
+            public string? itemType { get; set; } = String.Empty;
             public double? length { get; set; }
-            public string? make { get; set; }
-            public string? materialsDesc { get; set; }
-            public string? model { get; set; }
-            public string? photos { get; set; }
-            public string? pictureAuthor { get; set; }
-            public string? pictureTitle { get; set; }
-            public string? pictureYear { get; set; }
+            public string? make { get; set; } = String.Empty;
+            public string? materialsDesc { get; set; } = String.Empty;
+            public string? model { get; set; } = String.Empty;
+            public string? photos { get; set; } = String.Empty;
+            public string? pictureAuthor { get; set; } = String.Empty;
+            public string? pictureTitle { get; set; } = String.Empty;
+            public string? pictureYear { get; set; } = String.Empty;
             public int qty { get; set; }
-            public string sealNumber { get; set; }
-            public string serialNumber { get; set; }
-            public string valuationCurrency { get; set; }
+            public string sealNumber { get; set; } = String.Empty;
+            public string serialNumber { get; set; } = String.Empty;
+            public string valuationCurrency { get; set; } = String.Empty;
             public double value { get; set; }
             public double volume { get; set; }
             public double width { get; set; }
-            public string year { get; set; }
+            public string year { get; set; } = String.Empty;
         }
 
         public class ManagedBy

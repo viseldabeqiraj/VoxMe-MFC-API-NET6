@@ -158,62 +158,74 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                 personDetails = createJobDto.clientPerson.personDetails
             };
 
-            var rooms = generalInfo.Address.Rooms.Room;
-            createJobDto.inventoryData = new CreateJobDto.InventoryData()
+            if (generalInfo.Address.Rooms.Room != null)
             {
-                rooms = rooms.Select(x => new CreateJobDto.Room()
+                var rooms = generalInfo.Address.Rooms.Room;
+                createJobDto.inventoryData = new CreateJobDto.InventoryData()
                 {
-                    roomType = "Enum.RoomResidential." + x.Name,
-                    name = x.Name,
-                }
-               ).ToList()              
-            };
+                    rooms = rooms.Select(x => new CreateJobDto.Room()
+                    {
+                        roomType = "Enum.RoomResidential." + x.Name.Replace(" ", ""),
+                        name = x.Name,
+                    }
+                   ).ToList()
+                };
+            }
 
-            var packers = _MovingData.InventoryData.Packers.Packer;
-            createJobDto.inventoryData.packers = packers.Select(x => new CreateJobDto.Packer()
+            if (_MovingData.InventoryData.Packers.Packer != null)
             {
-                packer = x.Name,
-                isForeman = bool.Parse(x.IsForeman)
-            }).ToList();
+                var packers = _MovingData.InventoryData.Packers.Packer;
+                createJobDto.inventoryData.packers = packers.Select(x => new CreateJobDto.Packer()
+                {
+                    packer = x.Name,
+                    isForeman = bool.Parse(x.IsForeman)
+                }).ToList();
+            }
 
-            var skids = _MovingData.InventoryData.Skids.Skid;
-
-            createJobDto.inventoryData.loadingUnits = skids.Select(x => new LoadingUnit()
+            if (_MovingData.InventoryData.Skids.Skid != null)
             {
-                uniqueId = x.Barcode,
-                unitType = x.Type,
-                serialNumber = x.SerialNo,
-                //labelNr = x.
-                sealNumber = x.SealNo,
+                var skids = _MovingData.InventoryData.Skids.Skid;
 
-            }).ToList();
+                createJobDto.inventoryData.loadingUnits = skids.Select(x => new LoadingUnit()
+                {
+                    uniqueId = x.Barcode,
+                    unitType = x.Type,
+                    serialNumber = x.SerialNo,
+                    //labelNr = x.
+                    sealNumber = x.SealNo,
 
-            var pieces = _MovingData.InventoryData.Pieces;
-            createJobDto.inventoryData.pieces = pieces.Select(x => new CreateJobDto.Piece()
+                }).ToList();
+            }
+
+            if (_MovingData.InventoryData.Piece != null)
             {
-                labelNr = x.Id.ToString(),
-                tag = x.Id.ToString(),
-                barcode = x.Barcode,
-                packerName = x.Packer,
-                roomName = "Enum.RoomResidential." + x.Location,
-                pbo = x.PBO,
-                packageType = "Enum.MaterialType." + x.Box.Name,
-                packageQty = x.Box.Quantity,
-                loadUnitUniqueId = x.Barcode,
-                @void = x.Void,
-                height = x.Size.Height,
-                length = x.Size.Length,
-                volume = x.Volume,
-                weight = x.Weight,                
-                //packageUnitCost = x.Box.
-                items = new List<CreateJobDto.Item>()
+
+                var pieces = _MovingData.InventoryData.Piece;
+                createJobDto.inventoryData.pieces = pieces.Select(x => new CreateJobDto.Piece()
+                {
+                    labelNr = x.Id.ToString(),
+                    tag = x.Id.ToString(),
+                    barcode = x.Barcode,
+                    packerName = x.Packer,
+                    roomName = "Enum.RoomResidential." + x.Location.Replace(" ", ""),
+                    pbo = x.PBO,
+                    packageType = "Enum.MaterialType." + x.Box.Name.Replace(" ", ""),
+                    packageQty = x.Box.Quantity,
+                    loadUnitUniqueId = x.Barcode,
+                    @void = x.Void,
+                    height = x.Size.Height,
+                    length = x.Size.Length,
+                    volume = x.Volume,
+                    weight = x.Weight,
+                    //packageUnitCost = x.Box.
+                    items = new List<CreateJobDto.Item>()
                 {
                     new CreateJobDto.Item()
                     {
                         itemNr = x.Id.ToString(),
                         itemName =x.Item.Name,
-                        itemType = x.Item.Type,
-                        itemCategory = x.Item.Category,
+                        itemType = "Enum.ItemType." + "Generic",//x.Item.Type,
+                        itemCategory = "Enum.ItemCategory." + x.Item.Category,
                         volume = x.Volume,
                         value = x.Item.Value,
                         valuationCurrency = "USD",
@@ -239,7 +251,8 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                         photos = x.Item.PictureFileName,
                     }
                 }
-            }).ToList();
+                }).ToList();
+            }
 
             return createJobDto;
 

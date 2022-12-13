@@ -536,8 +536,9 @@ namespace MFC_VoxMe_API.Dtos.Common
 			//public string Uom { get; set; }
 			[XmlAttribute(AttributeName = "Offset")]
 				public string Offset { get; set; }
-			[XmlElement(ElementName = "Pieces")]
-			public List<Piece> Pieces { get; set; }
+
+			[XmlElement(ElementName = "Piece")]
+			public List<Piece> Piece { get; set; }
 	}
 
 		[XmlRoot(ElementName = "Document")]
