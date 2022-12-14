@@ -131,9 +131,9 @@ namespace MFC_VoxMe_API.Dtos.Jobs
             public string unitType { get; set; } = String.Empty;
             public string serialNumber { get; set; } = String.Empty;
             public int labelNr { get; set; }
-            public string sealNumber { get; set; } = String.Empty;
-            public string warehouseLocation { get; set; } = String.Empty;
-            public string storageUnit { get; set; } = String.Empty;
+            //public string sealNumber { get; set; } = String.Empty;
+            //public string warehouseLocation { get; set; } = String.Empty;
+            //public string storageUnit { get; set; } = String.Empty;
             public double netWidth { get; set; }
             public double netHeight { get; set; }
             public double netLength { get; set; }
@@ -144,9 +144,6 @@ namespace MFC_VoxMe_API.Dtos.Jobs
             public double extLength { get; set; }
             public double grossVolume { get; set; }
             public double grossWeight { get; set; }
-            public string photos { get; set; } = String.Empty;
-            public DateTime dateIn { get; set; }
-            public DateTime dateOut { get; set; }
 
         }
 

@@ -166,7 +166,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                     rooms = rooms.Select(x => new CreateJobDto.Room()
                     {
                         roomType = "Enum.RoomResidential." + x.Name.Replace(" ", ""),
-                        name = x.Name,
+                        name = "Enum.RoomResidential." + x.Name.Replace(" ", ""),
                     }
                    ).ToList()
                 };
@@ -189,11 +189,10 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                 createJobDto.inventoryData.loadingUnits = skids.Select(x => new LoadingUnit()
                 {
                     uniqueId = x.Barcode,
-                    unitType = x.Type,
+                    unitType = "Enum.ShipmentUnitType." 
+                    + x.Type.Substring(0, 1) + x.Type.Substring(1).ToLower(),
                     serialNumber = x.SerialNo,
-                    //labelNr = x.
-                    sealNumber = x.SealNo,
-
+                    labelNr = Convert.ToInt32(x.ID)
                 }).ToList();
             }
 
@@ -209,23 +208,26 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                     packerName = x.Packer,
                     roomName = "Enum.RoomResidential." + x.Location.Replace(" ", ""),
                     pbo = x.PBO,
-                    packageType = "Enum.MaterialType." + x.Box.Name.Replace(" ", ""),
+                    packageType = x.Box.Name == "No Box" 
+                    ? "" : "Enum.MaterialType." + x.Box.Name.Replace(" ", ""),
                     packageQty = x.Box.Quantity,
-                    loadUnitUniqueId = x.Barcode,
+                    loadUnitUniqueId = _MovingData.InventoryData.Skids.Skid.FirstOrDefault().Barcode, //? check if we recieve list of skids or just one skid
                     @void = x.Void,
                     height = x.Size.Height,
                     length = x.Size.Length,
                     volume = x.Volume,
                     weight = x.Weight,
-                    //packageUnitCost = x.Box.
+                    //packageUnitCost = x.Box., //??
                     items = new List<CreateJobDto.Item>()
                 {
                     new CreateJobDto.Item()
                     {
                         itemNr = x.Id.ToString(),
                         itemName =x.Item.Name,
-                        itemType = "Enum.ItemType." + "Generic",//x.Item.Type,
-                        itemCategory = "Enum.ItemCategory." + x.Item.Category,
+                        itemType =  x.Item.Type == null 
+                        ? "Enum.ItemType.Generic" 
+                        : "Enum.ItemType." + x.Item.Type.Replace(" ", ""),
+                        itemCategory = "Enum.ItemCategory." + x.Item.Category.Replace(" ", ""),
                         volume = x.Volume,
                         value = x.Item.Value,
                         valuationCurrency = "USD",
