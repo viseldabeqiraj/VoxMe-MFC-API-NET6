@@ -37,89 +37,128 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
 
         public async Task<int> testc()
         {
-            var query = await _queryGenerator.SelectFrom(
-                     new SqlQuery<string>()
-                     {
-                         columns = "ID",
-                         table = Constants.Tables.SKIDTYPES,
-                         logOperator = IEnums.logOperator.LIKE,
-                         whereClause = new Dictionary<string, object>()
-                         {
-                             { "Name", "Liftvan"}
-                         }
-                     });
+            //var query = await _queryGenerator.SelectFrom(
+            //         new SqlQuery<string>()
+            //         {
+            //             columns = "ID",
+            //             table = Constants.Tables.SKIDTYPES,
+            //             logOperator = IEnums.logOperator.LIKE,
+            //             whereClause = new Dictionary<string, object>()
+            //             {
+            //                 { "Name", "Liftvan"}
+            //             }
+            //         });
 
-            int skidType = query[0].ID;
-            return skidType;
+            //int skidType = query[0].ID;
+            //return skidType;
+
+            var query = await _queryGenerator.SelectFrom(
+                    new SqlQuery<string>()
+                    {
+                        columns = "Id",
+                        table = Constants.Tables.PACKERS,
+                        whereClause = SqlQuery<string>.Where
+                                    ("Name", IEnums.logOperator.LIKE.ToString(), "'BRITT-JUSTIN'") 
+                                    +IEnums.logOperator.AND
+                                    + SqlQuery<string>.Where("MovingDataID", Constants.ComparisonOperators.EQUALTO, 123),
+                    });
+
+            int packerId = query[0].Id;
+
+            return packerId;
 
         }
 
         public async Task InsertDataFromJobDetails(JobDetailsDto jobDetails, int movingDataId)
         {
-            if (jobDetails.jobInventory.rooms != null)
-            {
-                var roomDetails = jobDetails.jobInventory.rooms;
-                var maxRoomIdQuery = await _queryGenerator.SelectFrom(
-                       new SqlQuery<string>()
-                       {
-                           columns = "ID",
-                           table = Constants.Tables.ROOMS,
-                           function = IEnums.functions.MAX,
-                           As = "ID"
-                       });
+            //if (jobDetails.jobInventory.rooms != null)
+            //{
+            //    var roomDetails = jobDetails.jobInventory.rooms;
+            //    var maxRoomIdQuery = await _queryGenerator.SelectFrom(
+            //           new SqlQuery<string>()
+            //           {
+            //               columns = "ID",
+            //               table = Constants.Tables.ROOMS,
+            //               function = IEnums.functions.MAX,
+            //               As = "ID"
+            //           });
 
-                short maxRoomId = maxRoomIdQuery.FirstOrDefault().ID;
+            //    short maxRoomId = maxRoomIdQuery[0].ID ;
 
-                foreach (var room in roomDetails)
-                {
-                    var newRoom = new Rooms()
-                    {
-                        MovingDataID = movingDataId,
-                        Name = room.name,
-                        //Description = room.notes,
-                        //NickName = room.name,
-                        //MoveInCondition = room.conditionBeforeService.description,
-                        //MoveInPictures = room.conditionBeforeService.photos,
-                        //MoveOutCondition = room.conditionAfterService.description,
-                        //MoveOutPictures = room.conditionAfterService.photos,
-                        ID = (short)(maxRoomId + 1) //?
-                    };
+            //    foreach (var room in roomDetails)
+            //    {
+            //        maxRoomId++;
+            //        var newRoom = new Rooms()
+            //        {
+            //            MovingDataID = movingDataId,
+            //            Name = GetValueFromJsonConfig(room.name),
+            //            Description = room.notes,
+            //            NickName = GetValueFromJsonConfig(room.name),
+            //            MoveInCondition = room.conditionBeforeService == null 
+            //            ? "" :room.conditionBeforeService.description,
+            //            MoveInPictures = room.conditionBeforeService == null 
+            //            ? "" : room.conditionBeforeService.photos,
+            //            MoveOutCondition = room.conditionBeforeService == null
+            //            ? "" : room.conditionAfterService.description,
+            //            MoveOutPictures = room.conditionBeforeService == null 
+            //            ? "" : room.conditionAfterService.photos,
+            //            ID = maxRoomId
+            //        };
 
-                    await _queryGenerator.InsertInto(
-                        new SqlQuery<Rooms>()
-                        {
-                            table = Constants.Tables.ROOMS,
-                            dto = newRoom
-                        });
+            //        await _queryGenerator.InsertInto(
+            //            new SqlQuery<Rooms>()
+            //            {
+            //                table = Constants.Tables.ROOMS,
+            //                dto = newRoom
+            //            });
 
-                    //foreach (var roomElement in room.roomElements)
-                    //{
-                    //    var roomProperties = new RoomProperties()
-                    //    {
-                    //        Description = roomElement.description,
-                    //        MoveInCondition = roomElement.conditionBeforeService.description,
-                    //        MoveInPictures = roomElement.conditionBeforeService.photos,
-                    //        MoveOutCondition = roomElement.conditionAfterService.description,
-                    //        MoveOutPictures = roomElement.conditionAfterService.photos,
-                    //        MovingDataId = movingDataId,
-                    //        RoomID = newRoom.ID 
-                    //    };
-                    //}
-                }
-            }
+            //        //foreach (var roomElement in room.roomElements)
+            //        //{
+            //        //    var roomProperties = new RoomProperties()
+            //        //    {
+            //        //        Description = roomElement.description,
+            //        //        MoveInCondition = roomElement.conditionBeforeService.description,
+            //        //        MoveInPictures = roomElement.conditionBeforeService.photos,
+            //        //        MoveOutCondition = roomElement.conditionAfterService.description,
+            //        //        MoveOutPictures = roomElement.conditionAfterService.photos,
+            //        //        MovingDataId = movingDataId,
+            //        //        RoomID = newRoom.ID 
+            //        //    };
+            //        //}
+            //    }
+            //}
             if (jobDetails.jobInventory.packers != null)
             {
+                var query = await _queryGenerator.SelectFrom(
+                      new SqlQuery<string>()
+                      {
+                          columns = "ID",
+                          table = Constants.Tables.PACKERS,
+                          function = IEnums.functions.MAX,
+                          As = "ID"
+                      });
+
+                int maxPackerId = query[0].ID;
+
                 var packersDetails = jobDetails.jobInventory.packers;
 
                 foreach (var packer in packersDetails)
                 {
+                    maxPackerId++;
                     var newPacker = new MFC_VoxMe.Infrastructure.Models.Packers
                     {
-                        ID = 0, //?,
-                        IsForeman = packer.isForeman,
+                        ID = maxPackerId, //?,
+                        IsForeman = Convert.ToBoolean(packer.isForeman),
                         Name = packer.packer,
                         MovingDataID = movingDataId
                     };
+
+                    await _queryGenerator.InsertInto(
+                     new SqlQuery<MFC_VoxMe.Infrastructure.Models.Packers>()
+                     {
+                         table = Constants.Tables.PACKERS,
+                         dto = newPacker
+                     });
                 }
             }
             if (jobDetails.jobInventory.pieces != null)
@@ -127,16 +166,32 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                 var piecesDetails = jobDetails.jobInventory.pieces;
                 foreach (var piece in piecesDetails)
                 {
+                    var query = await _queryGenerator.SelectFrom(
+                     new SqlQuery<string>()
+                     {
+                         columns = "Id",
+                         table = Constants.Tables.PACKERS,
+                         logOperator = IEnums.logOperator.LIKE,
+                         comparisonOperator = IEnums.logOperator.AND.ToString(),
+                         whereClause = SqlQuery<string>.Where
+                                    ("Name", IEnums.logOperator.LIKE.ToString(), @$"'{piece.packerName}'")
+                                    + IEnums.logOperator.AND
+                                    + SqlQuery<string>.Where("MovingDataID", Constants.ComparisonOperators.EQUALTO, movingDataId)
+                     });
+
+                    int packerId = query[0].Id;
+
                     var newPiece = new Pieces()
                     {
                         Description = piece.tag,
                         Barcode = piece.barcode,
-                        PackerID = 0, //?
+                        PackerID = packerId, //?
                         RoomID = 0, //?
                         PBO = piece.pbo,
                         BoxType = 0, //?
                         ShippingCost = piece.packageUnitCost,
                         BoxQty = 0, //?,
+                        ID = Convert.ToInt32(piece.labelNr),
                         Void = piece.@void,
                         Weight = piece.weight,
                         Width = piece.width,
@@ -193,10 +248,8 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                          columns = "ID",
                          table = Constants.Tables.SKIDTYPES,
                          logOperator = IEnums.logOperator.LIKE,
-                         whereClause = new Dictionary<string, object>()
-                         {
-                             { "Name", unit.unitType}
-                         }
+                         whereClause = SqlQuery<string>.Where
+                                    ("Name", IEnums.logOperator.LIKE.ToString(), $@"'{ unit.unitType }'")
                      });
 
                     int skidType = query[0].ID; //get skid id for the 
@@ -231,7 +284,8 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
             var update = new SqlQuery<MovingData>();
 
             update.dto = test;
-            update.whereClause = update.Where("ExternalMFID", externalRef);
+            update.whereClause = SqlQuery<string>.Where
+                                    ("ExternalMFID", Constants.ComparisonOperators.EQUALTO, @$"'{externalRef}'");
             update.comparisonOperator = Constants.ComparisonOperators.EQUALTO;
 
             await _queryGenerator.UpdateTable(update);
@@ -243,13 +297,8 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
             {
                 columns = "*",
                 table = Constants.Tables.MOVINGDATA,
-                whereClause = new Dictionary<string, object>()
-                    {
-                        {"ExternalMFID", externalRef},
-                        {"JobDescription", "Imperial"}
-                    }, // select.Where("ExternalMFID", @$"'{externalRef}'");
-                comparisonOperator = Constants.ComparisonOperators.EQUALTO,
-                logOperator = IEnums.logOperator.AND
+                whereClause = SqlQuery<string>.Where
+                               ("ExternalMFID", Constants.ComparisonOperators.EQUALTO, @$"'{externalRef}'")
             };
 
             return await _queryGenerator.SelectFrom(select);
@@ -260,7 +309,8 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
             SqlQuery<string> select = new SqlQuery<string>();
             select.columns = "ItemsPath";
             select.table = Constants.Tables.PREFS;
-            select.whereClause = select.Where("MovingDataID", @$"'{movingDataId}'");
+            select.whereClause = SqlQuery<string>.Where
+                               ("MovingDataId", Constants.ComparisonOperators.EQUALTO, @$"'{movingDataId}'");
             select.comparisonOperator = Constants.ComparisonOperators.EQUALTO;
 
             var result = await _queryGenerator.SelectFrom(select);

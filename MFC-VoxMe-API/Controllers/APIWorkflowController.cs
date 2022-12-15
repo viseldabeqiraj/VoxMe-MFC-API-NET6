@@ -157,7 +157,7 @@ namespace MFC_VoxMe_API.Controllers
 		public async Task<ActionResult> MFCStatusUpdate([FromBody] string externalRef, string status, string? jobRef)
 		{
 			//var x = _helper.GetValueFromJsonConfig("d");
-			var xx = await _helper.testc();
+			//var xx = await _helper.testc();
 			status = status.Replace("Enum.TransactionOnsiteStatus.", "");
 
 			if (status == IEnums.TransactionOnSiteStatus.Completed.ToString() 

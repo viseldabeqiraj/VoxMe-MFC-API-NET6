@@ -18,11 +18,10 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
         }
         public async Task<dynamic> SelectFrom(SqlQuery<string> select)
         {
-            string sub = "", query = "";
-            if (select.whereClause != null)
+            string query, sub = "";
+            if (select.whereClause != string.Empty)
             {
-                sub = "where ";
-                sub += GetWhereClause(select);
+                sub = "WHERE " + select.whereClause;
             }
             if (select.function != null)
             {
@@ -75,7 +74,8 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
                     colsValues += propertyInfo.Name + "=" + "'" + propertyInfo.GetValue(update.dto)?.ToString() + "'";
                 }
             }
-            string whereClause = GetWhereClause(update);
+            //string whereClause = GetWhereClause(update);
+            string whereClause = update.whereClause;
 
             var query = @$"UPDATE [dbo].[{table}]
                               SET {colsValues} WHERE {whereClause}
@@ -86,28 +86,28 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
             }
         }
 
-        public string GetWhereClause<T>(SqlQuery<T> query)
-        {
-            string whereClause = "";
+        //public string GetWhereClause<T>(SqlQuery<T> query)
+        //{
+        //    string whereClause = "";
 
-            var last = query.whereClause.Last();
+        //    var last = query.whereClause.Last();
 
-            foreach (var valuePair in query.whereClause)
-            {
-                whereClause += valuePair.Key.ToString() + " ";
-                whereClause += query.comparisonOperator != null
-                    ? query.comparisonOperator.ToString()
-                    : query.logOperator.ToString();
-                whereClause += " " + $@"'{valuePair.Value}'" + " ";
+        //    foreach (var valuePair in query.whereClause)
+        //    {
+        //        whereClause += valuePair.Key.ToString() + " ";
+        //        whereClause += query.comparisonOperator != null
+        //            ? query.comparisonOperator.ToString()
+        //            : query.logOperator.ToString();
+        //        whereClause += " " + $@"'{valuePair.Value}'" + " ";
 
-                if (!valuePair.Equals(last))
-                {
-                    whereClause += " " + query.logOperator.ToString() + " ";
-                }
-            }         
+        //        if (!valuePair.Equals(last))
+        //        {
+        //            whereClause += " " + query.logOperator.ToString() + " ";
+        //        }
+        //    }         
 
-            return whereClause;
-        }
+        //    return whereClause;
+        //}
 
     }
 }
