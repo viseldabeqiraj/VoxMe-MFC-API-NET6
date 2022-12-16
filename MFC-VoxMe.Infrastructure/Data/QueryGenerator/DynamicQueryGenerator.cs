@@ -19,16 +19,16 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
         public async Task<dynamic> SelectFrom(SqlQuery<string> select)
         {
             string query, sub = "";
-            if (select.whereClause != string.Empty)
+            if (select.WhereClause != string.Empty)
             {
-                sub = "WHERE " + select.whereClause;
+                sub = "WHERE " + select.WhereClause;
             }
-            if (select.function != null)
+            if (select.Function != null)
             {
-                query = @$"SELECT {select.function}({select.columns}) {select.As} FROM [dbo].[{select.table}]
+                query = @$"SELECT {select.Function}({select.Columns}) {select.As} FROM [dbo].[{select.Table}]
                            {sub}";
             }
-            else query = @$"SELECT {select.columns}{select.As} FROM [dbo].[{select.table}]
+            else query = @$"SELECT {select.Columns}{select.As} FROM [dbo].[{select.Table}]
                            {sub}";
             using (var connection = _context.CreateConnection())
             {
@@ -42,18 +42,18 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
             var colsList = new List<string>();
             var dataList = new List<string>();
 
-            foreach (var propertyInfo in insertInto.dto.GetType().GetProperties())
+            foreach (var propertyInfo in insertInto.Dto.GetType().GetProperties())
             {
-                if (propertyInfo.GetValue(insertInto.dto) != null)
+                if (propertyInfo.GetValue(insertInto.Dto) != null)
                 {
                     colsList.Add(propertyInfo.Name);
-                    dataList.Add("'" + propertyInfo.GetValue(insertInto.dto)?.ToString() + "'");
+                    dataList.Add("'" + propertyInfo.GetValue(insertInto.Dto)?.ToString() + "'");
                 }
             }
             string cols = string.Join(",", colsList);
             string data = string.Join(",", dataList);
 
-            var query = @$"INSERT INTO [dbo].[{insertInto.table}]
+            var query = @$"INSERT INTO [dbo].[{insertInto.Table}]
                                ({cols})
                          VALUES
                                ({data})";
@@ -66,16 +66,16 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
         public async Task UpdateTable<T>(SqlQuery<T> update) 
         {
             string colsValues = "";
-            string table = update.dto.GetType().Name;
-            foreach (var propertyInfo in update.dto.GetType().GetProperties())
+            string table = update.Dto.GetType().Name;
+            foreach (var propertyInfo in update.Dto.GetType().GetProperties())
             {
-                if (propertyInfo.GetValue(update.dto) != null)
+                if (propertyInfo.GetValue(update.Dto) != null)
                 {
-                    colsValues += propertyInfo.Name + "=" + "'" + propertyInfo.GetValue(update.dto)?.ToString() + "'";
+                    colsValues += propertyInfo.Name + "=" + "'" + propertyInfo.GetValue(update.Dto)?.ToString() + "'";
                 }
             }
             //string whereClause = GetWhereClause(update);
-            string whereClause = update.whereClause;
+            string whereClause = update.WhereClause;
 
             var query = @$"UPDATE [dbo].[{table}]
                               SET {colsValues} WHERE {whereClause}

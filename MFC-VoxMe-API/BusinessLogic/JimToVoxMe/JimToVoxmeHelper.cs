@@ -402,14 +402,14 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             };
 
             await _queryGenerator.InsertInto(new SqlQuery<MovingData>()
-            { table = "MovingData", dto = movingData });
+            { Table = "MovingData", Dto = movingData });
 
             var resp = await _queryGenerator.SelectFrom(
               new SqlQuery<string>()
               {
-                  function = IEnums.functions.MAX,
-                  columns = "id",
-                  table = "MovingData",
+                  Function = IEnums.functions.MAX,
+                  Columns = "id",
+                  Table = "MovingData",
                   As = "as ID"
               });
             var NewMovingDataId = resp.ID as int?;
@@ -519,8 +519,8 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             {
                 var query = new SqlQuery<object>()
                 {
-                    table = valuePair.Key,
-                    dto = valuePair.Value
+                    Table = valuePair.Key,
+                    Dto = valuePair.Value
                 };
                 await _queryGenerator.InsertInto(query);
             }

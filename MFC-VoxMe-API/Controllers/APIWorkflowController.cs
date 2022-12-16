@@ -177,7 +177,7 @@ namespace MFC_VoxMe_API.Controllers
 				if (state == 3)
                 {
 					await _helper.InsertDataFromJobDetails(jobDetailsRequest.dto, movingDataId);
-                }
+                } 
 					//TODO: Create or update correlating records
 					//var x = _helpers.UpdateMovingData(externalRef);
 
@@ -185,9 +185,11 @@ namespace MFC_VoxMe_API.Controllers
 
 			var transactionDetails = await _transactionService.GetDetails(externalRef);
             var images = _helper.GetImages(transactionDetails);
+
 				foreach (var image in images)
 				{
-					var response = await _transactionService.GetImageAsBinary(externalRef, "Transaction", image.Value);
+					var response = await _transactionService.GetImageAsBinary
+								(externalRef, "Transaction", image.Value);
 					var bytes = response.dto;
 					//select itemspath from prefs for that movingid
 					string filePath = await _helper.GetItemsPath(movingDataId) + image.Value;
@@ -195,8 +197,8 @@ namespace MFC_VoxMe_API.Controllers
 					if (!Directory.Exists(filePath))
 					{
 						//Directory.CreateDirectory(filePath);
-						using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
-						{
+						using (var stream = new FileStream (filePath, FileMode.Create, FileAccess.Write))
+						{ 
 							stream.Write(bytes);
 						}
 					}
@@ -207,3 +209,4 @@ namespace MFC_VoxMe_API.Controllers
         }
 	}
 }
+           

@@ -5,7 +5,6 @@ using MFC_VoxMe.Infrastructure.Models;
 using MFC_VoxMe_API.Dtos.Common;
 using MFC_VoxMe_API.Dtos.Jobs;
 using MFC_VoxMe_API.Dtos.Transactions;
-using MFC_VoxMe_API.Models;
 using Newtonsoft.Json.Linq;
 using static MFC_VoxMe.Infrastructure.Data.Helpers.Enums;
 
@@ -55,9 +54,9 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
             var query = await _queryGenerator.SelectFrom(
                     new SqlQuery<string>()
                     {
-                        columns = "Id",
-                        table = Constants.Tables.PACKERS,
-                        whereClause = SqlQuery<string>.Where
+                        Columns = "Id",
+                        Table = Constants.Tables.PACKERS,
+                        WhereClause = SqlQuery<string>.Where
                                     ("Name", IEnums.logOperator.LIKE.ToString(), "'BRITT-JUSTIN'") 
                                     +IEnums.logOperator.AND
                                     + SqlQuery<string>.Where("MovingDataID", Constants.ComparisonOperators.EQUALTO, 123),
@@ -71,70 +70,70 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
 
         public async Task InsertDataFromJobDetails(JobDetailsDto jobDetails, int movingDataId)
         {
-            //if (jobDetails.jobInventory.rooms != null)
-            //{
-            //    var roomDetails = jobDetails.jobInventory.rooms;
-            //    var maxRoomIdQuery = await _queryGenerator.SelectFrom(
-            //           new SqlQuery<string>()
-            //           {
-            //               columns = "ID",
-            //               table = Constants.Tables.ROOMS,
-            //               function = IEnums.functions.MAX,
-            //               As = "ID"
-            //           });
+            if (jobDetails.jobInventory.rooms != null)
+            {
+                var roomDetails = jobDetails.jobInventory.rooms;
+                var maxRoomIdQuery = await _queryGenerator.SelectFrom(
+                       new SqlQuery<string>()
+                       {
+                           Columns = "ID",
+                           Table = Constants.Tables.ROOMS,
+                           Function = IEnums.functions.MAX,
+                           As = "ID"
+                       });
 
-            //    short maxRoomId = maxRoomIdQuery[0].ID ;
+                short maxRoomId = maxRoomIdQuery[0].ID;
 
-            //    foreach (var room in roomDetails)
-            //    {
-            //        maxRoomId++;
-            //        var newRoom = new Rooms()
-            //        {
-            //            MovingDataID = movingDataId,
-            //            Name = GetValueFromJsonConfig(room.name),
-            //            Description = room.notes,
-            //            NickName = GetValueFromJsonConfig(room.name),
-            //            MoveInCondition = room.conditionBeforeService == null 
-            //            ? "" :room.conditionBeforeService.description,
-            //            MoveInPictures = room.conditionBeforeService == null 
-            //            ? "" : room.conditionBeforeService.photos,
-            //            MoveOutCondition = room.conditionBeforeService == null
-            //            ? "" : room.conditionAfterService.description,
-            //            MoveOutPictures = room.conditionBeforeService == null 
-            //            ? "" : room.conditionAfterService.photos,
-            //            ID = maxRoomId
-            //        };
+                foreach (var room in roomDetails)
+                {
+                    maxRoomId++;
+                    var newRoom = new Rooms()
+                    {
+                        MovingDataID = movingDataId,
+                        Name = GetValueFromJsonConfig(room.name),
+                        Description = room.notes,
+                        NickName = GetValueFromJsonConfig(room.name),
+                        MoveInCondition = room.conditionBeforeService == null
+                        ? "" : room.conditionBeforeService.description,
+                        MoveInPictures = room.conditionBeforeService == null
+                        ? "" : room.conditionBeforeService.photos,
+                        MoveOutCondition = room.conditionBeforeService == null
+                        ? "" : room.conditionAfterService.description,
+                        MoveOutPictures = room.conditionBeforeService == null
+                        ? "" : room.conditionAfterService.photos,
+                        ID = maxRoomId
+                    };
 
-            //        await _queryGenerator.InsertInto(
-            //            new SqlQuery<Rooms>()
-            //            {
-            //                table = Constants.Tables.ROOMS,
-            //                dto = newRoom
-            //            });
+                    await _queryGenerator.InsertInto(
+                        new SqlQuery<Rooms>()
+                        {
+                            Table = Constants.Tables.ROOMS,
+                            Dto = newRoom
+                        });
 
-            //        //foreach (var roomElement in room.roomElements)
-            //        //{
-            //        //    var roomProperties = new RoomProperties()
-            //        //    {
-            //        //        Description = roomElement.description,
-            //        //        MoveInCondition = roomElement.conditionBeforeService.description,
-            //        //        MoveInPictures = roomElement.conditionBeforeService.photos,
-            //        //        MoveOutCondition = roomElement.conditionAfterService.description,
-            //        //        MoveOutPictures = roomElement.conditionAfterService.photos,
-            //        //        MovingDataId = movingDataId,
-            //        //        RoomID = newRoom.ID 
-            //        //    };
-            //        //}
-            //    }
-            //}
+                    //foreach (var roomElement in room.roomElements)
+                    //{
+                    //    var roomProperties = new RoomProperties()
+                    //    {
+                    //        Description = roomElement.description,
+                    //        MoveInCondition = roomElement.conditionBeforeService.description,
+                    //        MoveInPictures = roomElement.conditionBeforeService.photos,
+                    //        MoveOutCondition = roomElement.conditionAfterService.description,
+                    //        MoveOutPictures = roomElement.conditionAfterService.photos,
+                    //        MovingDataId = movingDataId,
+                    //        RoomID = newRoom.ID 
+                    //    };
+                    //}
+                }
+            }
             if (jobDetails.jobInventory.packers != null)
             {
                 var query = await _queryGenerator.SelectFrom(
                       new SqlQuery<string>()
                       {
-                          columns = "ID",
-                          table = Constants.Tables.PACKERS,
-                          function = IEnums.functions.MAX,
+                          Columns = "ID",
+                          Table = Constants.Tables.PACKERS,
+                          Function = IEnums.functions.MAX,
                           As = "ID"
                       });
 
@@ -156,11 +155,72 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                     await _queryGenerator.InsertInto(
                      new SqlQuery<MFC_VoxMe.Infrastructure.Models.Packers>()
                      {
-                         table = Constants.Tables.PACKERS,
-                         dto = newPacker
+                         Table = Constants.Tables.PACKERS,
+                         Dto = newPacker
                      });
                 }
             }
+
+            if (jobDetails.jobInventory.loadingUnits != null)
+            {
+                var loadingUnits = jobDetails.jobInventory.loadingUnits;
+
+                var skidQuery = await _queryGenerator.SelectFrom(
+                    new SqlQuery<string>()
+                    {
+                        Columns = "ID",
+                        Table = Constants.Tables.SKIDS,
+                        Function = IEnums.functions.MAX,
+                        As = "ID"
+                    });
+
+                int maxSkidId = skidQuery[0].ID;
+
+                foreach (var unit in loadingUnits)
+                {
+                    maxSkidId++;
+                    var query = await _queryGenerator.SelectFrom(
+                     new SqlQuery<string>()
+                     {
+                         Columns = "ID",
+                         Table = Constants.Tables.SKIDTYPES,
+                         LogOperator = IEnums.logOperator.LIKE,
+                         WhereClause = SqlQuery<string>.Where
+                               ("Name", IEnums.logOperator.LIKE.ToString(), $@"'{GetValueFromJsonConfig(unit.unitType)}'")
+                         //TODO: unitType = "Enum.ShipmentUnitType" is not part of config word file. needs to be put in json
+                     });
+
+                    int skidType = query[0].ID;
+
+                    var newSkid = new MFC_VoxMe.Infrastructure.Models.Skids()
+                    {
+                        ID = maxSkidId,
+                        Barcode = unit.uniqueId,
+                        TypeID = skidType,
+                        SerialNumber = unit.serialNumber,
+                        SealNumber = unit.sealNumber,
+                        Location = unit.warehouseLocation,
+                        Width = (int)unit.netWidth,
+                        Height = (int)unit.netHeight,
+                        GrossVolume = unit.grossVolume,
+                        GrossWeight = unit.grossWeight,
+                        ChargableVolume = unit.netVolume, //?
+                        ChargableWeight = unit.netWeight, //?
+                        PictureFileName = unit.photos
+                        //Weight = unit.netWeight, //?
+                        //Length = unit.extLength, //?
+
+                    };
+
+                    await _queryGenerator.InsertInto(
+                        new SqlQuery<MFC_VoxMe.Infrastructure.Models.Skids>()
+                        {
+                            Table = Constants.Tables.SKIDS,
+                            Dto = newSkid
+                        });
+                }
+            }
+
             if (jobDetails.jobInventory.pieces != null)
             {
                 var piecesDetails = jobDetails.jobInventory.pieces;
@@ -169,11 +229,11 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                     var query = await _queryGenerator.SelectFrom(
                      new SqlQuery<string>()
                      {
-                         columns = "Id",
-                         table = Constants.Tables.PACKERS,
-                         logOperator = IEnums.logOperator.LIKE,
-                         comparisonOperator = IEnums.logOperator.AND.ToString(),
-                         whereClause = SqlQuery<string>.Where
+                         Columns = "Id",
+                         Table = Constants.Tables.PACKERS,
+                         LogOperator = IEnums.logOperator.LIKE,
+                         ComparisonOperator = IEnums.logOperator.AND.ToString(),
+                         WhereClause = SqlQuery<string>.Where
                                     ("Name", IEnums.logOperator.LIKE.ToString(), @$"'{piece.packerName}'")
                                     + IEnums.logOperator.AND
                                     + SqlQuery<string>.Where("MovingDataID", Constants.ComparisonOperators.EQUALTO, movingDataId)
@@ -181,16 +241,59 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
 
                     int packerId = query[0].Id;
 
+                    var roomQuery = await _queryGenerator.SelectFrom(
+                    new SqlQuery<string>()
+                    {
+                        Columns = "Id",
+                        Table = Constants.Tables.ROOMS,
+                        LogOperator = IEnums.logOperator.LIKE,
+                        ComparisonOperator = IEnums.logOperator.AND.ToString(),
+                        WhereClause = SqlQuery<string>.Where
+                                   ("Name", IEnums.logOperator.LIKE.ToString(), @$"'{piece.roomName}'")
+                                   + IEnums.logOperator.AND
+                                   + SqlQuery<string>.Where("MovingDataID", Constants.ComparisonOperators.EQUALTO, movingDataId)
+                    });
+
+                    int roomId = roomQuery[0].Id;
+
+                   var boxTypeQuery = await _queryGenerator.SelectFrom(
+                   new SqlQuery<string>()
+                   {
+                       Columns = "Id",
+                       Table = Constants.Tables.ROOMS,
+
+                       WhereClause = SqlQuery<string>.Where
+                                  ("Name", IEnums.logOperator.LIKE.ToString(), @$"'{GetValueFromJsonConfig(piece.roomName)}'")
+                                  + IEnums.logOperator.AND
+                                  + SqlQuery<string>.Where("MovingDataID", Constants.ComparisonOperators.EQUALTO, movingDataId)
+                   });
+
+                int boxTypeId = boxTypeQuery[0].Id;
+
+                   var skidQuery = await _queryGenerator.SelectFrom(
+                   new SqlQuery<string>()
+                   {
+                       Columns = "Id",
+                       Table = Constants.Tables.SKIDS,
+                       WhereClause = SqlQuery<string>.Where
+                                  ("Barcode", IEnums.functions.DISTINCT.ToString(), @$"'{piece.loadUnitUniqueId}'")
+                                  + IEnums.logOperator.AND
+                                  + SqlQuery<string>.Where("MovingDataID", Constants.ComparisonOperators.EQUALTO, movingDataId)
+                   });
+
+                    int skidId = skidQuery[0].Id;
+
+
                     var newPiece = new Pieces()
                     {
                         Description = piece.tag,
                         Barcode = piece.barcode,
                         PackerID = packerId, //?
-                        RoomID = 0, //?
+                        RoomID = roomId, //?
                         PBO = piece.pbo,
-                        BoxType = 0, //?
+                        BoxType = boxTypeId, //?
                         ShippingCost = piece.packageUnitCost,
-                        BoxQty = 0, //?,
+                        BoxQty = piece.packageQty, 
                         ID = Convert.ToInt32(piece.labelNr),
                         Void = piece.@void,
                         Weight = piece.weight,
@@ -198,8 +301,15 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                         Height = piece.height,
                         Length = piece.length,
                         Volume = piece.volume,
-
+                        SkidID = skidId //?
                     };
+
+                    await _queryGenerator.InsertInto(
+                    new SqlQuery<MFC_VoxMe.Infrastructure.Models.Pieces>()
+                    {
+                        Table = Constants.Tables.PIECES,
+                        Dto = newPiece
+                    });
 
                     foreach (var item in piece.items)
                     {
@@ -232,46 +342,117 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                             Comment = item.comment,
 
                         };
+
+                        await _queryGenerator.InsertInto(
+                         new SqlQuery<MFC_VoxMe.Infrastructure.Models.Items>()
+                         {
+                             Table = Constants.Tables.ITEMS,
+                             Dto = newItem
+                         });
                     }
                 }
-            }
-         
-            if (jobDetails.jobInventory.loadingUnits != null)
+            }         
+        }
+
+        public async Task InsertDataFromTransactionDetails(TransactionDetailsDto details, int movingDataId)
+        {
+            var newMovingData = new MovingData()
             {
-                var loadingUnits = jobDetails.jobInventory.loadingUnits;
+                State = Convert.ToInt32(GetValueFromJsonConfig
+                        (details.onsiteStatus.Replace("Enum.TransactionOnsiteStatus.",""))),
+                InventorySignature = details.clientSignature,
+                DriverSignature = details.driverSignature,
+                DestInventorySignature = details.destClientSignature,
+                DestDriverSignature = details.destDriverSignature               
 
-                foreach(var unit in loadingUnits)
+            };
+
+            await _queryGenerator.InsertInto(
+                  new SqlQuery<MovingData>()
+                  {
+                   Table = Constants.Tables.MOVINGDATA,
+                   Dto = newMovingData
+                  });
+
+            var newPrefs = new Prefs()
+            {
+                PackingDate = details.scheduledDate,
+                RealArrivalDate = details.crewArrivalOnSiteDate,
+                DepartureDate = details.crewDepartureFromSiteDate,
+                Comment = details.crewNotes,
+            };
+
+            await _queryGenerator.InsertInto(
+                 new SqlQuery<Prefs>()
+                 {
+                     Table = Constants.Tables.MOVINGDATA,
+                     Dto = newPrefs
+                 });
+
+            if (details.questionnaireQuestions != null)
+            {
+                var questionnaireQuestions = details.questionnaireQuestions;
+                foreach (var item in questionnaireQuestions)
                 {
-                    var query = await _queryGenerator.SelectFrom(
-                     new SqlQuery<string>()
-                     {
-                         columns = "ID",
-                         table = Constants.Tables.SKIDTYPES,
-                         logOperator = IEnums.logOperator.LIKE,
-                         whereClause = SqlQuery<string>.Where
-                                    ("Name", IEnums.logOperator.LIKE.ToString(), $@"'{ unit.unitType }'")
-                     });
-
-                    int skidType = query[0].ID; //get skid id for the 
-
-                    var newSkid = new MFC_VoxMe.Infrastructure.Models.Skids()
+                    var newMaterial = new MFC_VoxMe.Infrastructure.Models.Materials()
                     {
-                        Barcode = unit.uniqueId,
-                        TypeID = skidType,
-                        SerialNumber = unit.serialNumber,
-                        SealNumber = unit.sealNumber,
-                        Location = unit.warehouseLocation,
-                        Width = (int)unit.netWidth,
-                        Height = (int)unit.netHeight,
-                       
+                        BoxType = item.name,
+                        QtyTaken = item.numericValue, //?? item.booleanValue,
+                        Description = item.stringValue ?? item.dateValue.ToString() ?? item.photoValue ?? item.signatureValue, //?
+                        Value = item.listValues,
+                        MovingDataID = movingDataId
+                                       
                     };
 
-                    await _queryGenerator.InsertInto(
-                        new SqlQuery<MFC_VoxMe.Infrastructure.Models.Skids>()
-                        {
-                            table = Constants.Tables.SKIDS,
-                            dto = newSkid
-                        });
+                await _queryGenerator.InsertInto(
+                new SqlQuery<MFC_VoxMe.Infrastructure.Models.Materials>()
+                {
+                    Table = Constants.Tables.MOVINGDATA,
+                    Dto = newMaterial
+                });
+                }
+            }
+            if (details.timeSheets != null)
+            {
+                var timesheets = details.timeSheets;
+                foreach (var item in timesheets)
+                {
+                    var newTimesheet = new PackersTimesheets()
+                    {
+                        StartTime = item.startDate,
+                        EndTime = item.endDate,
+                        Break1Duration = item.break1,
+                        Break2Duration = item.break2,
+                        Break3Duration = item.break3
+                    };
+
+                  await _queryGenerator.InsertInto(
+                  new SqlQuery<PackersTimesheets>()
+                  {
+                      Table = Constants.Tables.PACKERSTIMESHEETS,
+                      Dto = newTimesheet
+                  });
+                }        
+            }       
+
+            if (details.crewMembers!=null)
+            {
+                var crewMembers = details.crewMembers;
+
+                foreach(var crew in crewMembers)
+                {
+                    var newCrew = new MFC_VoxMe.Infrastructure.Models.Packers()
+                    {
+                        Name = crew.code,
+                        IsForeman = crew.isForeman
+                    };
+
+                  await _queryGenerator.InsertInto(
+                  new SqlQuery<MFC_VoxMe.Infrastructure.Models.Packers>()
+                  {
+                      Table = Constants.Tables.PACKERS,
+                      Dto = newCrew
+                  });
                 }
             }
         }
@@ -283,10 +464,10 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
             };
             var update = new SqlQuery<MovingData>();
 
-            update.dto = test;
-            update.whereClause = SqlQuery<string>.Where
+            update.Dto = test;
+            update.WhereClause = SqlQuery<string>.Where
                                     ("ExternalMFID", Constants.ComparisonOperators.EQUALTO, @$"'{externalRef}'");
-            update.comparisonOperator = Constants.ComparisonOperators.EQUALTO;
+            update.ComparisonOperator = Constants.ComparisonOperators.EQUALTO;
 
             await _queryGenerator.UpdateTable(update);
         }
@@ -295,9 +476,9 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
         {
             SqlQuery<string> select = new SqlQuery<string>()
             {
-                columns = "*",
-                table = Constants.Tables.MOVINGDATA,
-                whereClause = SqlQuery<string>.Where
+                Columns = "*",
+                Table = Constants.Tables.MOVINGDATA,
+                WhereClause = SqlQuery<string>.Where
                                ("ExternalMFID", Constants.ComparisonOperators.EQUALTO, @$"'{externalRef}'")
             };
 
@@ -307,11 +488,11 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
         public async Task<string> GetItemsPath(int movingDataId)
         {
             SqlQuery<string> select = new SqlQuery<string>();
-            select.columns = "ItemsPath";
-            select.table = Constants.Tables.PREFS;
-            select.whereClause = SqlQuery<string>.Where
+            select.Columns = "ItemsPath";
+            select.Table = Constants.Tables.PREFS;
+            select.WhereClause = SqlQuery<string>.Where
                                ("MovingDataId", Constants.ComparisonOperators.EQUALTO, @$"'{movingDataId}'");
-            select.comparisonOperator = Constants.ComparisonOperators.EQUALTO;
+            select.ComparisonOperator = Constants.ComparisonOperators.EQUALTO;
 
             var result = await _queryGenerator.SelectFrom(select);
             return _configuration.GetValue<string>("Client_Folder_Dir:stagingDir") + result.ItemsPath + "\\";

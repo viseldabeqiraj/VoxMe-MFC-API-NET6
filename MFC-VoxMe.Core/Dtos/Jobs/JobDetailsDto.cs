@@ -74,7 +74,7 @@
             public string packageType { get; set; }
             public int packageUnitCost { get; set; }
             public int packageQty { get; set; }
-            public object loadUnitUniqueId { get; set; }
+            public string loadUnitUniqueId { get; set; }
             public bool @void { get; set; }
             public int width { get; set; }
             public int height { get; set; }

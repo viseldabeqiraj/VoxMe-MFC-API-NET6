@@ -25,7 +25,8 @@ namespace MFC_VoxMe.Infrastructure.Data.Helpers
                 SUM,
                 COUNT,
                 AVG,
-                BETWEEN
+                BETWEEN,
+                DISTINCT
             }
             public enum TransactionOnSiteStatus
             {

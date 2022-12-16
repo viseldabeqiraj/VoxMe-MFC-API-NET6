@@ -25,7 +25,7 @@ namespace MFC_VoxMe.Infrastructure.Models
 		public double Qty { get; set; }
 		public int RoomID { get; set; }
 		public string Description { get; set; }
-		public byte BoxQty { get; set; }
+		public int BoxQty { get; set; } //byte
 		public bool NeedBox { get; set; }
 		public int PackerID { get; set; }
 		public int DestRoomID { get; set; }
