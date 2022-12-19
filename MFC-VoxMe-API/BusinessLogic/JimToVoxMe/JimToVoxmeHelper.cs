@@ -6,7 +6,6 @@ using MFC_VoxMe.Infrastructure.Models;
 using MFC_VoxMe_API.Dtos.Common;
 using MFC_VoxMe_API.Dtos.Jobs;
 using MFC_VoxMe_API.Dtos.Transactions;
-using MFC_VoxMe_API.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Text;

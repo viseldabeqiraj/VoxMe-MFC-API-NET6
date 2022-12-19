@@ -53,8 +53,8 @@
             public double grossVolume { get; set; }
             public double grossWeight { get; set; }
             public string photos { get; set; }
-            public DateTime dateIn { get; set; }
-            public DateTime dateOut { get; set; }
+            //public DateTime dateIn { get; set; }
+            //public DateTime dateOut { get; set; }
         }
 
         public class Packer

@@ -194,6 +194,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
 
                     var newSkid = new MFC_VoxMe.Infrastructure.Models.Skids()
                     {
+                        MovingDataID = movingDataId,
                         ID = maxSkidId,
                         Barcode = unit.uniqueId,
                         TypeID = skidType,
@@ -249,7 +250,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                         LogOperator = IEnums.logOperator.LIKE,
                         ComparisonOperator = IEnums.logOperator.AND.ToString(),
                         WhereClause = SqlQuery<string>.Where
-                                   ("Name", IEnums.logOperator.LIKE.ToString(), @$"'{piece.roomName}'")
+                                   ("Name", IEnums.logOperator.LIKE.ToString(), @$"'{GetValueFromJsonConfig(piece.roomName)}'")
                                    + IEnums.logOperator.AND
                                    + SqlQuery<string>.Where("MovingDataID", Constants.ComparisonOperators.EQUALTO, movingDataId)
                     });
@@ -276,7 +277,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                        Columns = "Id",
                        Table = Constants.Tables.SKIDS,
                        WhereClause = SqlQuery<string>.Where
-                                  ("Barcode", IEnums.functions.DISTINCT.ToString(), @$"'{piece.loadUnitUniqueId}'")
+                                  ("Barcode", IEnums.logOperator.LIKE.ToString(), @$"'{piece.loadUnitUniqueId}'")
                                   + IEnums.logOperator.AND
                                   + SqlQuery<string>.Where("MovingDataID", Constants.ComparisonOperators.EQUALTO, movingDataId)
                    });
@@ -385,7 +386,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
             await _queryGenerator.InsertInto(
                  new SqlQuery<Prefs>()
                  {
-                     Table = Constants.Tables.MOVINGDATA,
+                     Table = Constants.Tables.PREFS,
                      Dto = newPrefs
                  });
 
@@ -407,7 +408,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                 await _queryGenerator.InsertInto(
                 new SqlQuery<MFC_VoxMe.Infrastructure.Models.Materials>()
                 {
-                    Table = Constants.Tables.MOVINGDATA,
+                    Table = Constants.Tables.MATERIALS,
                     Dto = newMaterial
                 });
                 }

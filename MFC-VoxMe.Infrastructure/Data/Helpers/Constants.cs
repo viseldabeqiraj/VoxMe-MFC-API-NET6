@@ -20,6 +20,7 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator.Helpers
             public const string SKIDTYPES = "SkidTypes";
             public const string PIECES = "Pieces";
             public const string PACKERSTIMESHEETS = "PackersTimesheets";
+            public const string MATERIALS = "Materials";
         }
 
         public class ComparisonOperators

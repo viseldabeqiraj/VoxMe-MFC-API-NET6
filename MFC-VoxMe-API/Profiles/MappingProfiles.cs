@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MFC_VoxMe_API.Dtos.Jobs;
 using MFC_VoxMe_API.Dtos.Transactions;
-using MFC_VoxMe_API.Models;
 
 namespace MFC_VoxMe_API.Profiles
 {
