@@ -226,6 +226,7 @@ namespace MFC_VoxMe_API.HttpMethods
 
             ByteArrayContent bytes = new ByteArrayContent(file);
             MultipartFormDataContent multiContent = new MultipartFormDataContent();
+            bytes.Headers.ContentType = MediaTypeHeaderValue.Parse("multipart/form-data");
 
             multiContent.Add(bytes, "file", document.DocTitle);
             multiContent.Add(new StringContent(document.DocTitle), "DocTitle");
