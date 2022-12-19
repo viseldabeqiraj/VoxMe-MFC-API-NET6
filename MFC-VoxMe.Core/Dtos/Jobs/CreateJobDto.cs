@@ -166,7 +166,7 @@ namespace MFC_VoxMe_API.Dtos.Jobs
             public string? make { get; set; } = String.Empty;
             public string? materialsDesc { get; set; } = String.Empty;
             public string? model { get; set; } = String.Empty;
-            public string? photos { get; set; } = String.Empty;
+            //public string? photos { get; set; } = String.Empty;
             public string? pictureAuthor { get; set; } = String.Empty;
             public string? pictureTitle { get; set; } = String.Empty;
             public string? pictureYear { get; set; } = String.Empty;
