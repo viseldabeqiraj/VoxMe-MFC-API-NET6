@@ -544,6 +544,12 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             }
         }
 
+        public byte[] GetDoc()
+        {
+            return File.ReadAllBytes(Path.Combine
+                     (_hostingEnvironment.ContentRootPath, @"BusinessLogic\JimToVoxMe\pdf-test.pdf"));
+        }
+
 
     }
 }

@@ -4,7 +4,7 @@ namespace MFC_VoxMe.Infrastructure.Models
 {
 		public class MovingData
 		{
-		public int ID { get; set; }
+		//public int ID { get; set; }
 		public string ClientName { get; set; }
 		public DateTime Date{get;set;}
 		public string JobDescription { get; set; }

@@ -90,10 +90,11 @@ namespace MFC_VoxMe_API.HttpMethods
 
         public async Task<HttpResponseMessage> PostFile(string url, DocumentDto document)
         {
-            var file = document.File;
+                var file = document.File;
 
                 ByteArrayContent bytes = new ByteArrayContent(file);
                 MultipartFormDataContent multiContent = new MultipartFormDataContent();
+                bytes.Headers.ContentType = MediaTypeHeaderValue.Parse("multipart/form-data");
 
                 multiContent.Add(bytes, "file", document.DocTitle);
                 multiContent.Add(new StringContent(document.DocTitle), "DocTitle");
@@ -103,6 +104,7 @@ namespace MFC_VoxMe_API.HttpMethods
                     RequestUri = new Uri(url),
                     Content = multiContent
                 };
+
                 HttpResponseMessage response;
                 request.Headers.Authorization = new AuthenticationHeaderValue(
                        "Bearer", GetAccessToken().Result.AccessToken.ToString());
