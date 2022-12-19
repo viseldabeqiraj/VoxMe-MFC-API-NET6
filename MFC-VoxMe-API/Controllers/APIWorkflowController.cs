@@ -44,15 +44,15 @@ namespace MFC_VoxMe_API.Controllers
 		public async Task<ActionResult> WorkflowLogic([FromBody] string xml)
 		{
 			var movingData = await _helpers.XMLParseAsync(xml);
-			var bytes = _helpers.GetDoc();
-			await _transactionService.AddDocumentToTransaction(
-							new DocumentDto()
-							{
-								File = bytes,
-								DocTitle = "test viselda 2"
-							}, "RS021022023VB");
-			var externalRef = movingData.GeneralInfo.EMFID;
-			var jobExternalRef = movingData.GeneralInfo.Groupageid;
+            var bytes = _helpers.GetDoc();
+            //await _transactionService.AddDocumentToTransaction(
+            //				new DocumentDto()
+            //				{
+            //					File = bytes,
+            //					DocTitle = "test viselda 2"
+            //				}, "RS021022023VB");
+            var externalRef = movingData.GeneralInfo.EMFID;
+            var jobExternalRef = movingData.GeneralInfo.Groupageid;
 			await _helpers.InsertTableRecords();
 			var jobToCreate12 = _helpers.CreateJobObjectFromXml();
 			var jsonJob = JsonConvert.SerializeObject(jobToCreate12);

@@ -411,7 +411,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                   Table = "MovingData",
                   As = "as ID"
               });
-            var NewMovingDataId = resp.ID as int?;
+            var NewMovingDataId = resp[0].ID as int?;
             CreateClientFoderDir(movingData.ClientFirstName, movingData.ClientName, (int)NewMovingDataId);
 
 
