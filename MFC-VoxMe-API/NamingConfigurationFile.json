@@ -1,7 +1,7 @@
 {
   "GeneratePaperwork": 23,
-  "Completed" :  24,
-  "SubmitTimesheets" :  21,
+  "Completed": 24,
+  "SubmitTimesheets": 21,
   "Enum.RoomResidential.Foyer": "Foyer",
   "Enum.RoomResidential.Hall": "Hall",
   "Enum.RoomResidential.Bathroom": "Bathroom",
@@ -93,6 +93,29 @@
   "Enum.MaterialType.6.0Carton": "6.0 Carton",
   "Enum.MaterialType.Glassine": "Glassine",
   "Enum.MaterialType.SlatBox": "Slat Box",
-  "Enum.MaterialType.CribMattressBag": "Crib Mattress Bag"
+  "Enum.MaterialType.CribMattressBag": "Crib Mattress Bag",
+  "Enum.ShipmentUnitType.Liftvan": "Liftvan",
+  "Enum.ShipmentUnitType.Vault": "Vault",
+  "Enum.ShipmentUnitType.Airvan": "Airvan",
+  "Enum.ShipmentUnitType.Warehouse": "Warehouse",
+  "Enum.ShipmentUnitType.Storage": "Storage",
+  "Enum.ShipmentUnitType.Container20ft": "Container 20ft",
+  "Enum.ShipmentUnitType.Container40ft": "Container 40ft",
+  "Enum.ShipmentUnitType.Container40hq": "Container 40hq",
+  "Enum.ShipmentUnitType.Discharged": "Discharged",
+  "Enum.ShipmentUnitType.Pallet": "Pallet",
+  "Enum.ShipmentUnitType.Delivered": "Delivered",
+  "Enum.ShipmentUnitType.Loose": "Loose",
+  "Enum.ShipmentUnitType.SIT": "SIT",
+  "Enum.ShipmentUnitType.Released": "Released",
+  "Enum.ShipmentUnitType.Shipping": "Shipping",
+  "Enum.ShipmentUnitType.Building": "Building",
+  "Enum.ShipmentUnitType.DELIVERY": "DELIVERY"
+
+
+
+
+
+
 
 }
