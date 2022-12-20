@@ -101,8 +101,6 @@ namespace MFC_VoxMe_API.HttpMethods
 
         }
 
-        //POST method by calling httpclient to post data on api side
-        public async Task<HttpResponseMessage> MakePostHttpCall(string url, HttpContent? data)
         public async Task<HttpResponseMessage> PostFile(string url, DocumentDto document)
         {
                 var file = document.File;
@@ -251,33 +249,6 @@ namespace MFC_VoxMe_API.HttpMethods
 
         }
 
-        public async Task<HttpResponseMessage> PostFile(string url, DocumentDto document)
-        {
-            var file = document.File;
-
-            ByteArrayContent bytes = new ByteArrayContent(file);
-            MultipartFormDataContent multiContent = new MultipartFormDataContent();
-            bytes.Headers.ContentType = MediaTypeHeaderValue.Parse("multipart/form-data");
-
-            multiContent.Add(bytes, "file", document.DocTitle);
-            multiContent.Add(new StringContent(document.DocTitle), "DocTitle");
-
-            var request = new HttpRequestMessage
-            {
-                Method = HttpMethod.Post,
-                RequestUri = new Uri(url),
-                Content = multiContent
-            };
-            HttpResponseMessage response;
-            request.Headers.Authorization = new AuthenticationHeaderValue(
-                   "Bearer", GetAccessToken().Result.AccessToken.ToString());
-
-            response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
-
-            if (response.IsSuccessStatusCode)
-                return response;
-
-        }
         public async Task<HttpResponseMessage> GetBinaryStream(string url)
         {
             var request = new HttpRequestMessage
@@ -298,10 +269,6 @@ namespace MFC_VoxMe_API.HttpMethods
             else
                 throw new ApplicationException
                 (url + " Status code: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
-        }
-            else
-                throw new ApplicationException
-                (url + " POSTFILE Request: " + response.StatusCode + " " + response.Content.ReadAsStringAsync().Result);
         }
     }
 }

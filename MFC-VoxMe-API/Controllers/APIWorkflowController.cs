@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MFC_VoxMe.Core.Dtos.Transactions;
 using MFC_VoxMe_API.BusinessLogic.JimToVoxMe;
+using MFC_VoxMe_API.BusinessLogic.VoxMeToJim;
 using MFC_VoxMe_API.Dtos.Jobs;
 using MFC_VoxMe_API.Dtos.Management;
 using MFC_VoxMe_API.Dtos.Transactions;
@@ -41,7 +42,7 @@ namespace MFC_VoxMe_API.Controllers
 
 		public async Task<ActionResult> WorkflowLogic([FromBody] string xml)
 		{
-			var movingData = _helpers.XMLParse(xml);
+			var movingData = await _helpers.XMLParseAsync(xml);
 			var bytes = _helpers.GetDoc();
 			var externalRef = movingData.GeneralInfo.EMFID;
 			var jobExternalRef = movingData.GeneralInfo.Groupageid;

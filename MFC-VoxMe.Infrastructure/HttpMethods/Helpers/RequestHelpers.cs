@@ -84,26 +84,6 @@ namespace MFC_VoxMe.Infrastructure.HttpMethods
             result.responseStatus = response.StatusCode;
             return result;
         }
-        public async Task<HttpResponseDto<byte[]>> GetByteRequestHelper(string url)
-        {
-            var response = await _httpRequests.MakeGetHttpCall(url, null);
-            var bytes = response.Content.ReadAsByteArrayAsync().Result;
-            var base64 = Convert.ToBase64String(bytes);
-            var result = new HttpResponseDto<byte[]>()
-            {
-                dto = bytes
-            };
-            return result;
-        }
-
-        public async Task<HttpResponseDto<DocumentDto>> PostByteRequestHelper(string url, DocumentDto document)
-        {
-            var response = await _httpRequests.PostFile(url, document);
-
-            var result = new HttpResponseDto<DocumentDto>();
-            result.responseStatus = response.StatusCode;
-            return result;
-        }
 
         public async Task<HttpResponseDto<DocumentDto>> PostByteRequestHelper(string url, DocumentDto document)
         {

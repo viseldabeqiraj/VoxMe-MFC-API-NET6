@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace MFC_VoxMe.Infrastructure.Models
 {
-    public class Pieces
-    {
+	public class Pieces
+	{
 		public int ID { get; set; }
 		public int MovingDataID { get; set; }
 		public bool IsInventory { get; set; }

@@ -87,7 +87,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                 foreach (var room in roomDetails)
                 {
                     maxRoomId++;
-                    var newRoom = new Rooms()
+                    var newRoom = new MFC_VoxMe.Infrastructure.Models.Rooms()
                     {
                         MovingDataID = movingDataId,
                         Name = GetValueFromJsonConfig(room.name),
@@ -105,7 +105,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                     };
 
                     await _queryGenerator.InsertInto(
-                        new SqlQuery<Rooms>()
+                        new SqlQuery<MFC_VoxMe.Infrastructure.Models.Rooms>()
                         {
                             Table = Constants.Tables.ROOMS,
                             Dto = newRoom

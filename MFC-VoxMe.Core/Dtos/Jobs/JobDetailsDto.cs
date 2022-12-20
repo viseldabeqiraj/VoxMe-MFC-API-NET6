@@ -1,16 +1,14 @@
-﻿using static MFC_VoxMe_API.Dtos.Jobs.CreateJobDto;
-
-namespace MFC_VoxMe_API.Dtos.Jobs
+﻿namespace MFC_VoxMe_API.Dtos.Jobs
 {
     public class JobDetailsDto
     {
-            public string externalRef { get; set; }
-            public string uniqueId { get; set; }
-            public string jobType { get; set; }
-            public string jobStatus { get; set; }
-            public List<Documents> documents { get; set; }
-            public JobInventory jobInventory { get; set; }
-        
+        public string externalRef { get; set; }
+        public string uniqueId { get; set; }
+        public string jobType { get; set; }
+        public string jobStatus { get; set; }
+        public List<Documents> documents { get; set; }
+        public JobInventory jobInventory { get; set; }
+
 
         public class Documents
         {
@@ -19,7 +17,11 @@ namespace MFC_VoxMe_API.Dtos.Jobs
         }
         public class JobInventory
         {
+            public int piecesNr { get; set; }
             public int firstLabelNr { get; set; }
+            public int lastLabelNr { get; set; }
+            public int volume { get; set; }
+            public int weight { get; set; }
             public int grossVolume { get; set; }
             public int grossWeight { get; set; }
             public double value { get; set; }
@@ -57,12 +59,14 @@ namespace MFC_VoxMe_API.Dtos.Jobs
 
         public class Packer
         {
-            public bool isForeman { get; set; }
             public string packer { get; set; }
+            public bool isForeman { get; set; }
         }
 
         public class Piece
         {
+            public string labelNr { get; set; }
+            public string tag { get; set; }
             public string barcode { get; set; }
             public string packerName { get; set; }
             public string roomName { get; set; }
@@ -79,7 +83,6 @@ namespace MFC_VoxMe_API.Dtos.Jobs
             public int weight { get; set; }
             public List<Item> items { get; set; }
         }
-       
 
         public class Room
         {

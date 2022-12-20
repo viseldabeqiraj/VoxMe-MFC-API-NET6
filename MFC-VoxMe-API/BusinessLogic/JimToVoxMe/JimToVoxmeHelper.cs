@@ -36,21 +36,10 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             MemoryStream memStream = new MemoryStream(Encoding.UTF8.GetBytes(xml));
             MovingDataDto movingDataFromXml = (MovingDataDto)serializer.Deserialize(memStream);
             _MovingData = movingDataFromXml;
-            //var test = new MovingData()
-            //{
-            //    ClientName = "viselda test update",
-                
-            //};
-            //var update = new SqlQuery<MovingData>();
-
-            //update.dto = test;
-            //update.whereClause = update.Where("ExternalMFID", "RS0210275");
-            //update.comparisonOperator = Constants.ComparisonOperators.EQUALTO;
-           
-            //await _queryGenerator.UpdateTable(update);
             return movingDataFromXml;
 
         }
+
 
 
         public CreateJobDto CreateJobObjectFromXml()
@@ -62,11 +51,11 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             var properties = _MovingData.InventoryData.Properties.Property;
 
             createJobDto.serviceType = "Enum.ServiceType." + properties.FirstOrDefault
-                (s => s.Type == "Form.General.Contract")?.Description.Replace(" ", "");
+                (s => s.Type == "Form.General.Contract").Description.Replace(" ", "");
             createJobDto.jobType = "Enum.JobType." + properties.FirstOrDefault
-                (s => s.Type == "Form.General.Authority")?.Description.Replace(" ", "");
+                (s => s.Type == "Form.General.Authority").Description.Replace(" ", "");
 
-            createJobDto.serviceLevel = "Enum.ServiceLevel." + generalInfo.Preferences.ServiceLevel.Replace(" ","");
+            createJobDto.serviceLevel = "Enum.ServiceLevel." + generalInfo.Preferences.ServiceLevel;
             createJobDto.client.legalName = generalInfo.ClientFirstName + " " + generalInfo.Name;
             createJobDto.client.code = generalInfo.ClientNumber;
             createJobDto.instructionsCrewOrigin = generalInfo.Preferences.Comment + "\n" + generalInfo.Comment;
@@ -81,7 +70,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                 {
                     firstName = generalInfo.ClientFirstName,
                     lastName = generalInfo.Name,
-                    salutation = !string.IsNullOrEmpty(generalInfo.ClientSalutation)
+                    salutation = !string.IsNullOrEmpty(generalInfo.ClientSalutation) 
                     ? "Enum.Salutation." + generalInfo.ClientSalutation : "",
                     contactDetails = new ContactDetails()
                     {
@@ -105,7 +94,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                     contactDetails = new ContactDetails()
                     {
                         email = generalInfo.Coordinatoremail,
-                        mobilePhone = generalInfo.CoordinatorMobile ?? "+123456789"
+                        mobilePhone = generalInfo.CoordinatorMobile
                     },
 
                 }
@@ -114,19 +103,15 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             createJobDto.bookerPerson.personDetails = createJobDto.managedBy.personDetails;
             createJobDto.bookerPerson.code = generalInfo.CoordinatorID;
 
-            if (properties.Any(s => s.Type == "Form.General.Account" && s.Description != null))
+            if (properties.Any(s => s.Type == "Form.General.Account" && s.Description == "U.S.Military"))
             {
                 createJobDto.account = new Account();
                 createJobDto.accountPerson = new AccountPerson();
-                createJobDto.account.code = "Enum.PartyType." + properties.FirstOrDefault
-                    (s => s.Type == "Form.General.Account").Description.Replace(" ", "");
+                createJobDto.account.code = "U.S.MILITARY001";
                 createJobDto.account.legalName = createJobDto.account.code;
+                createJobDto.accountPerson.code = "U.S.MILITARY001";
+                createJobDto.accountPerson.partyCode = "U.S.MILITARY001"; 
                 createJobDto.accountPerson.personDetails = createJobDto.managedBy.personDetails;
-                createJobDto.accountPerson.code = generalInfo.CoordinatorID;
-
-                createJobDto.accountPerson.partyCode = properties.FirstOrDefault
-
-                    (s => s.Type == "Form.General.Account").Description.Replace(" ", "");
             }
 
             createJobDto.originAddress = new OriginAddress()
@@ -173,6 +158,104 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                 partyCode = generalInfo.ClientNumber,
                 personDetails = createJobDto.clientPerson.personDetails
             };
+
+            if (generalInfo.Address.Rooms.Room != null)
+            {
+                var rooms = generalInfo.Address.Rooms.Room;
+                createJobDto.inventoryData = new CreateJobDto.InventoryData()
+                {
+                    rooms = rooms.Select(x => new CreateJobDto.Room()
+                    {
+                        roomType = "Enum.RoomResidential." + x.Name.Replace(" ", ""),
+                        name = "Enum.RoomResidential." + x.Name.Replace(" ", ""),
+                    }
+                   ).ToList()
+                };
+            }
+
+            if (_MovingData.InventoryData.Packers.Packer != null)
+            {
+                var packers = _MovingData.InventoryData.Packers.Packer;
+                createJobDto.inventoryData.packers = packers.Select(x => new CreateJobDto.Packer()
+                {
+                    packer = x.Name,
+                    isForeman = bool.Parse(x.IsForeman)
+                }).ToList();
+            }
+
+            if (_MovingData.InventoryData.Skids.Skid != null)
+            {
+                var skids = _MovingData.InventoryData.Skids.Skid;
+
+                createJobDto.inventoryData.loadingUnits = skids.Select(x => new LoadingUnit()
+                {
+                    uniqueId = x.Barcode,
+                    unitType = "Enum.ShipmentUnitType." 
+                    + x.Type.Substring(0, 1) + x.Type.Substring(1).ToLower(),
+                    serialNumber = x.SerialNo,
+                    labelNr = Convert.ToInt32(x.ID)
+                }).ToList();
+            }
+
+            if (_MovingData.InventoryData.Piece != null)
+            {
+
+                var pieces = _MovingData.InventoryData.Piece;
+                createJobDto.inventoryData.pieces = pieces.Select(x => new CreateJobDto.Piece()
+                {
+                    labelNr = x.Id.ToString(),
+                    tag = x.Id.ToString(),
+                    barcode = x.Barcode,
+                    packerName = x.Packer,
+                    roomName = "Enum.RoomResidential." + x.Location.Replace(" ", ""),
+                    pbo = x.PBO,
+                    packageType = x.Box.Name == "No Box" 
+                    ? "" : "Enum.MaterialType." + x.Box.Name.Replace(" ", ""),
+                    packageQty = x.Box.Quantity,
+                    loadUnitUniqueId = _MovingData.InventoryData.Skids.Skid.FirstOrDefault().Barcode, //? check if we recieve list of skids or just one skid
+                    @void = x.Void,
+                    height = x.Size.Height,
+                    length = x.Size.Length,
+                    volume = x.Volume,
+                    weight = x.Weight,
+                    //packageUnitCost = x.Box., //??
+                    items = new List<CreateJobDto.Item>()
+                {
+                    new CreateJobDto.Item()
+                    {
+                        itemNr = x.Id.ToString(),
+                        itemName =x.Item.Name,
+                        itemType =  x.Item.Type == null 
+                        ? "Enum.ItemType.Generic" 
+                        : "Enum.ItemType." + x.Item.Type.Replace(" ", ""),
+                        itemCategory = "Enum.ItemCategory." + x.Item.Category.Replace(" ", ""),
+                        volume = x.Volume,
+                        value = x.Item.Value,
+                        valuationCurrency = "USD",
+                        qty=x.Item.Quantity,
+                        condition = x.Item.Condition,
+                        make = x.Item.Make,
+                        model = x.Item.Model,
+                        year = x.Item.Year,
+                        serialNumber = x.Item.SerialNumber,
+                        width = x.Item.Size.Width,
+                        height = x.Item.Size.Height,
+                        length = x.Item.Size.Length,
+                        isPart = x.Item.IsPart,
+                        dismantle = x.Item.Dismantling,
+                        isCrated = x.Item.IsPart,
+                        isValuable = x.Item.IsValuable,
+                        pictureAuthor = x.Item.PictureAuthor,
+                        pictureTitle = x.Item.PictureName,
+                        pictureYear= x.Item.PictureYear,
+                        materialsDesc = x.Item.MaterialsDesc,
+                        countryOrigin = x.Item.CountryOrigin,
+                        comment = x.Item.Comment,
+                        //photos = x.Item.PictureFileName,
+                    }
+                }
+                }).ToList();
+            }
 
             return createJobDto;
 
@@ -244,7 +327,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                     {
                         name = a.Type,
                         numericValue = a.QtyTaken,
-                        stringValue = "TEST",//a.Description ?? String.Empty,
+                        stringValue = a.Description ?? String.Empty,
                         listValues = a.Value,
                         booleanValue = a.QtyTaken > 0 ? true : false
 
@@ -259,7 +342,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                     {
                         name = a.Type,
                         numericValue = a.QtyTaken,
-                        stringValue = "TEST",//a.Description ?? String.Empty,
+                        stringValue = a.Description ?? String.Empty,
                         listValues = a.Value,
                         booleanValue = a.QtyTaken > 0 ? true : false
 
@@ -332,21 +415,96 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
 
         public AssignMaterialsToTransactionDto GetTransactionMaterials()
         {
-            var materials = _MovingData.InventoryData.Materials.Material.ToList();
-            AssignMaterialsToTransactionDto assignMaterialsToTransaction =
-                new AssignMaterialsToTransactionDto();
-
-            if (materials != null)
+            AssignMaterialsToTransactionDto assignMaterialsToTransaction = new AssignMaterialsToTransactionDto();
+            var materialsDescription = _MovingData.InventoryData.Properties.Property.ToList().Find(prop => prop.Type == "Form.General.Materials").Description;
+            if (string.IsNullOrEmpty(materialsDescription))
+                return assignMaterialsToTransaction;
+            materialsDescription = materialsDescription.Replace('[',' ');
+            materialsDescription = materialsDescription.Replace(']', ' ');
+            var materieals = materialsDescription.Split(',');
+            if(materieals != null)
             {
-                List<AssignMaterialsToTransactionDto.HandedMaterial> materialList = materials.Select
-                    (a => new AssignMaterialsToTransactionDto.HandedMaterial()
+                List<AssignMaterialsToTransactionDto.HandedMaterial> materialList = materieals.Select
+                    (item => 
+                    new AssignMaterialsToTransactionDto.HandedMaterial()
                     {
-                        code = "Enum.MaterialType." + a.Type.Replace(" ", ""),
-                        qty = Convert.ToDouble(a.QtyTaken)
-                    }).ToList();
-                assignMaterialsToTransaction.handedMaterials = materialList;
+                        code = "Enum.MaterialType." + item.Split(':')[0].Replace(" ", ""),
+                        qty = Int32.Parse(item.Split(':')[1])
+                    }
+                    ).ToList();
+                var materilasToSendToMfc = materialList.Where(item => doesItMatchWithMFC(item.code)).ToList();
+                assignMaterialsToTransaction.handedMaterials = materilasToSendToMfc;
             }
             return assignMaterialsToTransaction;
+        }
+
+        private bool doesItMatchWithMFC(string code)
+        {
+            if(
+                code.Contains("1.5Carton")
+                || code.Contains("3.1Carton")
+                || code.Contains("4.5Carton")
+                || code.Contains("AcidFreeTissuePaper")
+                || code.Contains("BlanketWrap")
+                || code.Contains("BikeBox")
+                || code.Contains("BubbleWrap")
+                || code.Contains("CarpetShield")
+                || code.Contains("ClockCarton")
+                || code.Contains("CrateCount")
+                || code.Contains("CribMattressCarton")
+                || code.Contains("DAirFreightContainer")
+                || code.Contains("DishCarton")
+                || code.Contains("DolphinFoam")
+                || code.Contains("DoubleMattressCarton")
+                || code.Equals("Enum.MaterialType.FlatWardrobe")
+                || code.Contains("GatorBox")
+                || code.Contains("GreenTape")
+                || code.Contains("HoistingStraps")
+                || code.Contains("KingMattressCarton")
+                || code.Contains("KraftBubble")
+                || code.Contains("LampCarton")
+                || code.Contains("LdnAirFreightContainer")
+                || code.Contains("LiftVans")
+                || code.Contains("MattressBags-Single")
+                || code.Contains("MattressBags-Queen/Double")
+                || code.Contains("MattressBags-King")
+                || code.Contains("Memoryfoam")
+                || code.Contains("Mirror4Piece")
+                || code.Contains("OfficeTotes")
+                || code.Contains("Paper")
+                || code.Contains("PaperPad")
+                || code.Contains("PartsBox")
+                || code.Contains("Peanuts")
+                || code.Contains("PillowtopCarton")
+                || code.Contains("QueenMattressCarton")
+                || code.Contains("ShortyLiftvan")
+                || code.Contains("SingleMattressCarton")
+                || code.Contains("StretchWrap")
+                || code.Contains("Tape")
+                || code.Contains("Triwall10")
+                || code.Contains("Triwall15")
+                || code.Contains("Triwall5")
+                || code.Contains("TvBox")
+                || code.Contains("UsedLiftvans")
+                || code.Contains("WardrobeRent")
+                || code.Contains("WardrobeSold")
+                || code.Contains("WasherKitFL")
+                || code.Contains("WasherKitTL")
+                || code.Contains("WineBox")
+                || code.Contains("Brownpaperpads")
+                || code.Contains("6.5Carton")
+                || code.Contains("6.0Carton")
+                || code.Contains("Glassine")
+                || code.Contains("SlatBox")
+                || code.Contains("CribMattressBag")
+                )
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public AssignStaffDesignateForemanDto GetTransactionResources()
