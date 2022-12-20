@@ -38,22 +38,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
         }
 
         public async Task<int> testc()
-        {
-            //var query = await _queryGenerator.SelectFrom(
-            //         new SqlQuery<string>()
-            //         {
-            //             columns = "ID",
-            //             table = Constants.Tables.SKIDTYPES,
-            //             logOperator = IEnums.logOperator.LIKE,
-            //             whereClause = new Dictionary<string, object>()
-            //             {
-            //                 { "Name", "Liftvan"}
-            //             }
-            //         });
-
-            //int skidType = query[0].ID;
-            //return skidType;
-
+        { 
             var query = await _queryGenerator.SelectFrom(
                     new SqlQuery<string>()
                     {
@@ -182,9 +167,11 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                          LogOperator = IEnums.logOperator.LIKE,
                          ComparisonOperator = IEnums.logOperator.AND.ToString(),
                          WhereClause = SqlQuery<string>.Where
-                                    ("Name", IEnums.logOperator.LIKE.ToString(), @$"'{piece.packerName}'")
+                                    ("Name", IEnums.logOperator.LIKE.ToString(), 
+                                    @$"'{piece.packerName}'")
                                     + IEnums.logOperator.AND
-                                    + SqlQuery<string>.Where("MovingDataID", Constants.ComparisonOperators.EQUALTO, movingDataId)
+                                    + SqlQuery<string>.Where("MovingDataID", 
+                                    Constants.ComparisonOperators.EQUALTO, movingDataId)
                      });
 
                     int packerId = query[0].Id;
@@ -197,9 +184,11 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                         LogOperator = IEnums.logOperator.LIKE,
                         ComparisonOperator = IEnums.logOperator.AND.ToString(),
                         WhereClause = SqlQuery<string>.Where
-                                   ("Name", IEnums.logOperator.LIKE.ToString(), @$"'{GetValueFromJsonConfig(piece.roomName)}'")
+                                   ("Name", IEnums.logOperator.LIKE.ToString(), 
+                                   @$"'{GetValueFromJsonConfig(piece.roomName)}'")
                                    + IEnums.logOperator.AND
-                                   + SqlQuery<string>.Where("MovingDataID", Constants.ComparisonOperators.EQUALTO, movingDataId)
+                                   + SqlQuery<string>.Where("MovingDataID", 
+                                   Constants.ComparisonOperators.EQUALTO, movingDataId)
                     });
 
                     int roomId = roomQuery[0].Id;
@@ -211,9 +200,11 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                        Table = Constants.Tables.ROOMS,
 
                        WhereClause = SqlQuery<string>.Where
-                                  ("Name", IEnums.logOperator.LIKE.ToString(), @$"'{GetValueFromJsonConfig(piece.roomName)}'")
+                                  ("Name", IEnums.logOperator.LIKE.ToString(), 
+                                  @$"'{GetValueFromJsonConfig(piece.roomName)}'")
                                   + IEnums.logOperator.AND
-                                  + SqlQuery<string>.Where("MovingDataID", Constants.ComparisonOperators.EQUALTO, movingDataId)
+                                  + SqlQuery<string>.Where("MovingDataID", 
+                                  Constants.ComparisonOperators.EQUALTO, movingDataId)
                    });
 
                 int boxTypeId = boxTypeQuery[0].Id;
@@ -224,9 +215,11 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                        Columns = "Id",
                        Table = Constants.Tables.SKIDS,
                        WhereClause = SqlQuery<string>.Where
-                                  ("Barcode", IEnums.logOperator.LIKE.ToString(), @$"'{piece.loadUnitUniqueId}'")
+                                  ("Barcode", IEnums.logOperator.LIKE.ToString(), 
+                                  @$"'{piece.loadUnitUniqueId}'")
                                   + IEnums.logOperator.AND
-                                  + SqlQuery<string>.Where("MovingDataID", Constants.ComparisonOperators.EQUALTO, movingDataId)
+                                  + SqlQuery<string>.Where("MovingDataID", 
+                                  Constants.ComparisonOperators.EQUALTO, movingDataId)
                    });
 
                     int skidId = skidQuery[0].Id;
@@ -331,7 +324,8 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                              Table = Constants.Tables.SKIDTYPES,
                              LogOperator = IEnums.logOperator.LIKE,
                              WhereClause = SqlQuery<string>.Where
-                                   ("Name", IEnums.logOperator.LIKE.ToString(), $@"'{GetValueFromJsonConfig(unit.unitType)}'")
+                                   ("Name", IEnums.logOperator.LIKE.ToString(), 
+                                   $@"'{GetValueFromJsonConfig(unit.unitType)}'")
                          });
 
                         int skidType = query[0].ID;
@@ -445,8 +439,8 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                   });
                 }        
             }       
-
-            if (details.crewMembers!=null)
+             
+            if (details.crewMembers != null)
             {
                 var crewMembers = details.crewMembers;
 
