@@ -23,7 +23,7 @@
         public List<AuxService> auxServices { get; set; }
         public List<LoadingUnit> loadingUnits { get; set; }
         public string transactionCreationWebhookUrl { get; set; } = String.Empty;
-        public string transactionStatusUpdateWebhookUrl { get; set; } = String.Empty;
+        public string transactionStatusUpdateWebhookUrl { get; set; } = "https://webhook.site/8ed65dc6-fe6a-415c-996e-8653ee6d9fad";
         public class AddressDetails
         {
             public string city { get; set; } = String.Empty;
