@@ -1,0 +1,186 @@
+2022-12-20 16:06:20.498 +01:00 [ERR] Invalid column name 'Name'.
+Invalid column name 'MovingDataID'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__208_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__272_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 418
+   at MFC_VoxMe.Infrastructure.Data.QueryGenerator.DynamicQueryGenerator.SelectFrom(SqlQuery`1 select)
+   at MFC_VoxMe_API.BusinessLogic.VoxMeToJim.VoxmeToJimHelper.InsertDataFromJobDetails(JobDetailsDto jobDetails, Int32 movingDataId)
+   at MFC_VoxMe_API.Controllers.APIWorkflowController.MFCStatusUpdate(String externalRef, String status, String jobRef)
+   at lambda_method5(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.InvokeAsync(HttpContext httpContext)
+2022-12-20 16:20:04.317 +01:00 [ERR] Invalid column name 'Name'.
+   at Microsoft.Data.SqlClient.SqlCommand.<>c.<ExecuteDbDataReaderAsync>b__208_0(Task`1 result)
+   at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+   at System.Threading.Tasks.Task.<>c.<.cctor>b__272_0(Object obj)
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+--- End of stack trace from previous location ---
+   at System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state)
+   at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+--- End of stack trace from previous location ---
+   at Dapper.SqlMapper.QueryAsync[T](IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 418
+   at MFC_VoxMe.Infrastructure.Data.QueryGenerator.DynamicQueryGenerator.SelectFrom(SqlQuery`1 select) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\Data\QueryGenerator\DynamicQueryGenerator.cs:line 35
+   at MFC_VoxMe_API.BusinessLogic.VoxMeToJim.VoxmeToJimHelper.InsertDataFromJobDetails(JobDetailsDto jobDetails, Int32 movingDataId)
+   at MFC_VoxMe_API.Controllers.APIWorkflowController.MFCStatusUpdate(String ExternalRef, String Status, String JobRef)
+   at lambda_method5(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.InvokeAsync(HttpContext httpContext) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\GlobalErrorHandling\ExceptionMiddlewareExtensions.cs:line 24
+2022-12-20 16:20:04.870 +01:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Headers are read-only, response has already started.
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpHeaders.ThrowHeadersReadOnlyException()
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpResponseHeaders.Microsoft.AspNetCore.Http.IHeaderDictionary.set_ContentType(StringValues value)
+   at Microsoft.AspNetCore.Http.DefaultHttpResponse.set_ContentType(String value)
+   at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.HandleExceptionAsync(HttpContext context, Exception exception) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\GlobalErrorHandling\ExceptionMiddlewareExtensions.cs:line 34
+   at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.InvokeAsync(HttpContext httpContext) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\GlobalErrorHandling\ExceptionMiddlewareExtensions.cs:line 29
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2022-12-20 16:20:04.892 +01:00 [WRN] The response has already started, the error page middleware will not be executed.
+2022-12-20 16:20:05.203 +01:00 [ERR] Connection id "0HMN2JKLRBC45", Request id "0HMN2JKLRBC45:00000009": An unhandled exception was thrown by the application.
+System.InvalidOperationException: Headers are read-only, response has already started.
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpHeaders.ThrowHeadersReadOnlyException()
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpResponseHeaders.Microsoft.AspNetCore.Http.IHeaderDictionary.set_ContentType(StringValues value)
+   at Microsoft.AspNetCore.Http.DefaultHttpResponse.set_ContentType(String value)
+   at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.HandleExceptionAsync(HttpContext context, Exception exception) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\GlobalErrorHandling\ExceptionMiddlewareExtensions.cs:line 34
+   at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.InvokeAsync(HttpContext httpContext) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\GlobalErrorHandling\ExceptionMiddlewareExtensions.cs:line 29
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Watch.BrowserRefresh.BrowserRefreshMiddleware.InvokeAsync(HttpContext context)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.HttpProtocol.ProcessRequests[TContext](IHttpApplication`1 application)
+2022-12-20 16:52:26.987 +01:00 [ERR] Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')
+   at CallSite.Target(Closure , CallSite , Object , Int32 )
+   at System.Dynamic.UpdateDelegates.UpdateAndExecute2[T0,T1,TRet](CallSite site, T0 arg0, T1 arg1)
+   at MFC_VoxMe_API.BusinessLogic.VoxMeToJim.VoxmeToJimHelper.InsertDataFromJobDetails(JobDetailsDto jobDetails, Int32 movingDataId) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe-API\BusinessLogic\VoxMeToJim\VoxmeToJimHelper.cs:line 223
+   at MFC_VoxMe_API.Controllers.APIWorkflowController.MFCStatusUpdate(String ExternalRef, String Status, String JobRef) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe-API\Controllers\APIWorkflowController.cs:line 234
+   at lambda_method5(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.InvokeAsync(HttpContext httpContext) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\GlobalErrorHandling\ExceptionMiddlewareExtensions.cs:line 24
+2022-12-20 17:28:11.976 +01:00 [ERR] There is an error in XML document (1, 92140).
+   at System.Xml.Serialization.XmlSerializer.Deserialize(XmlReader xmlReader, String encodingStyle, XmlDeserializationEvents events)
+   at System.Xml.Serialization.XmlSerializer.Deserialize(Stream stream)
+   at MFC_VoxMe_API.BusinessLogic.JimToVoxMe.JimToVoxmeHelper.XMLParseAsync(String xml) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe-API\BusinessLogic\JimToVoxMe\JimToVoxmeHelper.cs:line 37
+   at MFC_VoxMe_API.Controllers.APIWorkflowController.WorkflowLogic(String xml) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe-API\Controllers\APIWorkflowController.cs:line 45
+   at lambda_method5(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.InvokeAsync(HttpContext httpContext) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\GlobalErrorHandling\ExceptionMiddlewareExtensions.cs:line 24
+2022-12-20 17:29:14.538 +01:00 [ERR] https://api-stg.voxme.com/mfc/v2/jobs  POST Request: InternalServerError {"type":"https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.1","title":"Failed to create Client File","status":500,"traceId":"00-a2160e2dd1626294ad24d0bddc8e01a0-6e8cb4c18af92649-00","variables":null}
+   at MFC_VoxMe_API.HttpMethods.HttpRequests.MakePostHttpCall(String url, HttpContent data) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\HttpMethods\HttpRequests.cs:line 159
+   at MFC_VoxMe.Infrastructure.HttpMethods.RequestHelpers`1.PostRequestHelper[T](String url, T dto) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\HttpMethods\Helpers\RequestHelpers.cs:line 32
+   at MFC_VoxMe.Infrastructure.Services.JobService.CreateJob(CreateJobDto request) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\Services\JobService.cs:line 72
+   at MFC_VoxMe_API.Controllers.APIWorkflowController.WorkflowLogic(String xml) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe-API\Controllers\APIWorkflowController.cs:line 135
+   at lambda_method5(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.InvokeAsync(HttpContext httpContext) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\GlobalErrorHandling\ExceptionMiddlewareExtensions.cs:line 24
+2022-12-20 17:31:22.322 +01:00 [ERR] https://api-stg.voxme.com/mfc/v2/jobs  POST Request: InternalServerError {"type":"https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.1","title":"Failed to create Client File","status":500,"traceId":"00-204974679f3af8d630ff23cf04b33e24-e1b0824e6eac954f-00","variables":null}
+   at MFC_VoxMe_API.HttpMethods.HttpRequests.MakePostHttpCall(String url, HttpContent data) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\HttpMethods\HttpRequests.cs:line 159
+   at MFC_VoxMe.Infrastructure.HttpMethods.RequestHelpers`1.PostRequestHelper[T](String url, T dto) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\HttpMethods\Helpers\RequestHelpers.cs:line 32
+   at MFC_VoxMe.Infrastructure.Services.JobService.CreateJob(CreateJobDto request) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\Services\JobService.cs:line 72
+   at MFC_VoxMe_API.Controllers.APIWorkflowController.WorkflowLogic(String xml) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe-API\Controllers\APIWorkflowController.cs:line 135
+   at lambda_method5(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.InvokeAsync(HttpContext httpContext) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\GlobalErrorHandling\ExceptionMiddlewareExtensions.cs:line 24
+2022-12-20 17:50:27.215 +01:00 [ERR] https://api-stg.voxme.com/mfc/v2/jobs  POST Request: InternalServerError {"type":"https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.1","title":"Failed to create Client File","status":500,"traceId":"00-ec2045d36bafc860d3e6155d6bd0e74a-937b568589608e41-00","variables":null}
+   at MFC_VoxMe_API.HttpMethods.HttpRequests.MakePostHttpCall(String url, HttpContent data) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\HttpMethods\HttpRequests.cs:line 159
+   at MFC_VoxMe.Infrastructure.HttpMethods.RequestHelpers`1.PostRequestHelper[T](String url, T dto) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\HttpMethods\Helpers\RequestHelpers.cs:line 32
+   at MFC_VoxMe.Infrastructure.Services.JobService.CreateJob(CreateJobDto request) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\Services\JobService.cs:line 72
+   at MFC_VoxMe_API.Controllers.APIWorkflowController.WorkflowLogic(String xml) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe-API\Controllers\APIWorkflowController.cs:line 135
+   at lambda_method5(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.InvokeAsync(HttpContext httpContext) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\GlobalErrorHandling\ExceptionMiddlewareExtensions.cs:line 24
+2022-12-20 18:03:09.931 +01:00 [ERR] https://api-stg.voxme.com/mfc/v2/jobs  POST Request: InternalServerError {"type":"https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.1","title":"Failed to create Client File","status":500,"traceId":"00-221684d09edc340bad0f279e704e9dc2-24d3d1dc6ec57143-00","variables":null}
+   at MFC_VoxMe_API.HttpMethods.HttpRequests.MakePostHttpCall(String url, HttpContent data) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\HttpMethods\HttpRequests.cs:line 159
+   at MFC_VoxMe.Infrastructure.HttpMethods.RequestHelpers`1.PostRequestHelper[T](String url, T dto) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\HttpMethods\Helpers\RequestHelpers.cs:line 32
+   at MFC_VoxMe.Infrastructure.Services.JobService.CreateJob(CreateJobDto request) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\Services\JobService.cs:line 72
+   at MFC_VoxMe_API.Controllers.APIWorkflowController.WorkflowLogic(String xml) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe-API\Controllers\APIWorkflowController.cs:line 135
+   at lambda_method5(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.InvokeAsync(HttpContext httpContext) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\GlobalErrorHandling\ExceptionMiddlewareExtensions.cs:line 24

@@ -17,8 +17,6 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
         private readonly IDynamicQueryGenerator _queryGenerator;
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _hostingEnvironment;
-        private List<LoadingUnit>? _loadingUnits;
-
 
         public VoxmeToJimHelper(IDynamicQueryGenerator queryGenerator, IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
@@ -56,21 +54,12 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
 
         }
 
-        public async Task InsertDataFromJobDetails(JobDetailsDto jobDetails, int movingDataId)
+        public async Task InsertDataFromJobDetails(JobDetailsDto jobDetails, List<string> loadingUnitUniqueIds, int movingDataId)
         {
             if (jobDetails.jobInventory.rooms != null)
             {
                 var roomDetails = jobDetails.jobInventory.rooms;
-                var maxRoomIdQuery = await _queryGenerator.SelectFrom(
-                       new SqlQuery<string>()
-                       {
-                           Columns = "ID",
-                           Table = Constants.Tables.ROOMS,
-                           Function = IEnums.functions.MAX,
-                           As = "ID"
-                       });
-
-                short maxRoomId = maxRoomIdQuery[0].ID;
+                short maxRoomId = 1;
 
                 foreach (var room in roomDetails)
                 {
@@ -115,17 +104,8 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                 }
             }
             if (jobDetails.jobInventory.packers != null)
-            {
-                var query = await _queryGenerator.SelectFrom(
-                      new SqlQuery<string>()
-                      {
-                          Columns = "ID",
-                          Table = Constants.Tables.PACKERS,
-                          Function = IEnums.functions.MAX,
-                          As = "ID"
-                      });
-
-                int maxPackerId = query[0].ID;
+            {             
+                int maxPackerId = 1;
 
                 var packersDetails = jobDetails.jobInventory.packers;
 
@@ -148,10 +128,60 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                      });
                 }
             }
+            var loadingUnits = jobDetails.jobInventory.loadingUnits;
+            if (loadingUnits != null)
+            {              
+                int maxSkidId =1;
 
-            if (jobDetails.jobInventory.loadingUnits != null)
-            {
-                _loadingUnits = jobDetails.jobInventory.loadingUnits;             
+                foreach (var unit in loadingUnits)
+                {
+                    bool alreadyExist = loadingUnitUniqueIds.Contains(unit.uniqueId);
+                    if (alreadyExist)
+                    {
+                        maxSkidId++;
+                        var query = await _queryGenerator.SelectFrom(
+                         new SqlQuery<string>()
+                         {
+                             Columns = "ID",
+                             Table = Constants.Tables.SKIDTYPES,
+                             LogOperator = IEnums.logOperator.LIKE,
+                             WhereClause = SqlQuery<string>.Where
+                                   ("Name", IEnums.logOperator.LIKE.ToString(),
+                                   $@"'{GetValueFromJsonConfig(unit.unitType)}'")
+                         });
+
+                        int skidType = query[0].ID;
+
+                        var newSkid = new MFC_VoxMe.Infrastructure.Models.Skids()
+                        {
+                            MovingDataID = movingDataId,
+                            ID = maxSkidId,
+                            Barcode = unit.uniqueId,
+                            TypeID = skidType,
+                            SerialNumber = unit.serialNumber,
+                            SealNumber = unit.sealNumber,
+                            Location = unit.warehouseLocation,
+                            Width = (int)unit.netWidth,
+                            Height = (int)unit.netHeight,
+                            GrossVolume = unit.grossVolume,
+                            GrossWeight = unit.grossWeight,
+                            ChargableVolume = unit.netVolume, //?
+                            ChargableWeight = unit.netWeight, //?
+                            PictureFileName = unit.photos
+                            //Weight = unit.netWeight, //?
+                            //Length = unit.extLength, //?
+
+                        };
+
+                        await _queryGenerator.InsertInto(
+                            new SqlQuery<MFC_VoxMe.Infrastructure.Models.Skids>()
+                            {
+                                Table = Constants.Tables.SKIDS,
+                                Dto = newSkid
+                            });
+                    }
+                    else continue;
+                }
             }
 
             if (jobDetails.jobInventory.pieces != null)
@@ -197,14 +227,12 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                    new SqlQuery<string>()
                    {
                        Columns = "Id",
-                       Table = Constants.Tables.ROOMS,
+                       Table = Constants.Tables.BOXES,
 
                        WhereClause = SqlQuery<string>.Where
-                                  ("Name", IEnums.logOperator.LIKE.ToString(), 
-                                  @$"'{GetValueFromJsonConfig(piece.roomName)}'")
-                                  + IEnums.logOperator.AND
-                                  + SqlQuery<string>.Where("MovingDataID", 
-                                  Constants.ComparisonOperators.EQUALTO, movingDataId)
+                                  ("Type", IEnums.logOperator.LIKE.ToString(), 
+                                  @$"'{GetValueFromJsonConfig(piece.packageType)}'")
+                                  
                    });
 
                 int boxTypeId = boxTypeQuery[0].Id;
@@ -227,6 +255,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
 
                     var newPiece = new Pieces()
                     {
+                        MovingDataID = movingDataId,
                         Description = piece.tag,
                         Barcode = piece.barcode,
                         PackerID = packerId, //?
@@ -242,7 +271,8 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                         Height = piece.height,
                         Length = piece.length,
                         Volume = piece.volume,
-                        SkidID = skidId //?
+                        SkidID = skidId, //?
+                        
                     };
 
                     await _queryGenerator.InsertInto(
@@ -296,71 +326,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
         }
 
         public async Task InsertDataFromTransactionDetails(TransactionDetailsDto details, int movingDataId)
-        {
-            if (_loadingUnits != null)
-            {
-                var loadingUnitUniqueIds = details.loadingUnitUniqueIds;
-                var skidQuery = await _queryGenerator.SelectFrom(
-                    new SqlQuery<string>()
-                    {
-                        Columns = "ID",
-                        Table = Constants.Tables.SKIDS,
-                        Function = IEnums.functions.MAX,
-                        As = "ID"
-                    });
-
-                int maxSkidId = skidQuery[0].ID;
-
-                foreach (var unit in _loadingUnits)
-                {
-                    bool alreadyExist = loadingUnitUniqueIds.Contains(unit.uniqueId);
-                    if (alreadyExist)
-                    {
-                        maxSkidId++;
-                        var query = await _queryGenerator.SelectFrom(
-                         new SqlQuery<string>()
-                         {
-                             Columns = "ID",
-                             Table = Constants.Tables.SKIDTYPES,
-                             LogOperator = IEnums.logOperator.LIKE,
-                             WhereClause = SqlQuery<string>.Where
-                                   ("Name", IEnums.logOperator.LIKE.ToString(), 
-                                   $@"'{GetValueFromJsonConfig(unit.unitType)}'")
-                         });
-
-                        int skidType = query[0].ID;
-
-                        var newSkid = new MFC_VoxMe.Infrastructure.Models.Skids()
-                        {
-                            MovingDataID = movingDataId,
-                            ID = maxSkidId,
-                            Barcode = unit.uniqueId,
-                            TypeID = skidType,
-                            SerialNumber = unit.serialNumber,
-                            SealNumber = unit.sealNumber,
-                            Location = unit.warehouseLocation,
-                            Width = (int)unit.netWidth,
-                            Height = (int)unit.netHeight,
-                            GrossVolume = unit.grossVolume,
-                            GrossWeight = unit.grossWeight,
-                            ChargableVolume = unit.netVolume, //?
-                            ChargableWeight = unit.netWeight, //?
-                            PictureFileName = unit.photos
-                            //Weight = unit.netWeight, //?
-                            //Length = unit.extLength, //?
-
-                        };
-
-                        await _queryGenerator.InsertInto(
-                            new SqlQuery<MFC_VoxMe.Infrastructure.Models.Skids>()
-                            {
-                                Table = Constants.Tables.SKIDS,
-                                Dto = newSkid
-                            });
-                    }
-                    else continue;
-                }
-            }
+        {           
             var newMovingData = new MovingData()
             {
                 State = Convert.ToInt32(GetValueFromJsonConfig

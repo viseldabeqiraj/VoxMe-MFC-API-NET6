@@ -168,6 +168,7 @@ namespace MFC_VoxMe_API.Controllers
                     }
                 }
 			}
+			await _helpers.InsertTableRecords();
 			return Ok();
 
 		}
@@ -211,52 +212,53 @@ namespace MFC_VoxMe_API.Controllers
 		}
 
 		[HttpPost("MFCStatusUpdate")]
-		public async Task<ActionResult> MFCStatusUpdate([FromBody] string externalRef, string status, string? jobRef)
+		public async Task<ActionResult> MFCStatusUpdate(string ExternalRef, string Status, string? JobRef)
 		{
-			//var x = _helper.GetValueFromJsonConfig("d");
 			//var xx = await _helper.testc();
-			status = status.Replace("Enum.TransactionOnsiteStatus.", "");
+			int status = Convert.ToInt32(_helper.GetValueFromJsonConfig
+				(Status.Replace("Enum.TransactionOnsiteStatus.", "")));
 
-			if (status == IEnums.TransactionOnSiteStatus.Completed.ToString() 
-				|| status == IEnums.TransactionOnSiteStatus.GeneratePaperwork.ToString()
-				|| status == IEnums.TransactionOnSiteStatus.SubmitTimesheets.ToString())
+			if (status == 21 || status == 23 || status == 24)
 			{ 
-            var result = await _helper.GetMovingDataId(externalRef);
+				var result = await _helper.GetMovingDataId(ExternalRef);
 
-            int movingDataId = result[0].ID;
-            string jobExternalRef = result[0].BillOfLadingNo;
-			int state = result[0].State;
+				int movingDataId = result[0].ID;
+				string jobExternalRef = result[0].BillOfLadingNo;
+				int state = result[0].State;
 
-            if (jobExternalRef is not null)
-            {
-                var jobDetailsRequest = await _jobService.GetDetails(jobExternalRef);
+				if (jobExternalRef is not null)
+				{
+					var jobDetailsRequest = await _jobService.GetDetails(jobExternalRef);
+					var transactionDetails = await _transactionService.GetDetails(ExternalRef);
+					if (state == 3)
+					{
 
-				if (state == 3)
-                {
-					await _helper.InsertDataFromJobDetails(jobDetailsRequest.dto, movingDataId);
-                } 
+						await _helper.InsertDataFromJobDetails
+							(jobDetailsRequest.dto, transactionDetails.dto.loadingUnitUniqueIds, movingDataId);
+					}
 					//TODO: Create or update correlating records
 					//var x = _helpers.UpdateMovingData(externalRef);
 
-			}
 
-			var transactionDetails = await _transactionService.GetDetails(externalRef);
-            var images = _helper.GetImages(transactionDetails);
 
-				foreach (var image in images)
-				{
-					var response = await _transactionService.GetImageAsBinary
-								(externalRef, "Transaction", image.Value);
-					var bytes = response.dto;
-					//select itemspath from prefs for that movingid
-					string filePath = await _helper.GetItemsPath(movingDataId) + image.Value;
 
-					if (!Directory.Exists(filePath))
+					var images = _helper.GetImages(transactionDetails);
+
+					foreach (var image in images)
 					{
-						//Directory.CreateDirectory(filePath);
-						using (var stream = new FileStream (filePath, FileMode.Create, FileAccess.Write))
-						{ 
-							stream.Write(bytes);
+						var response = await _transactionService.GetImageAsBinary
+									(ExternalRef, "Transaction", image.Value);
+						var bytes = response.dto;
+						//select itemspath from prefs for that movingid
+						string filePath = await _helper.GetItemsPath(movingDataId) + image.Value;
+
+						if (!Directory.Exists(filePath))
+						{
+							//Directory.CreateDirectory(filePath);
+							using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+							{
+								stream.Write(bytes);
+							}
 						}
 					}
 				}

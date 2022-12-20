@@ -10,7 +10,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
         List<KeyValuePair<string, string>> GetImages(HttpResponseDto<TransactionDetailsDto> transactiondetails);
         Task<string> GetItemsPath(int movingDataId);
         Task UpdateMovingData(string externalRef);
-        Task InsertDataFromJobDetails(JobDetailsDto jobDetails, int movingDataId);
+        Task InsertDataFromJobDetails(JobDetailsDto jobDetails, List<string> loadingUnitUniqueIds, int movingDataId);
         string GetValueFromJsonConfig(string key);
         Task<int> testc();
     }

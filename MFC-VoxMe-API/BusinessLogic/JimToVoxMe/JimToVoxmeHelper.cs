@@ -225,7 +225,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                     {
                         itemNr = x.Id.ToString(),
                         itemName =x.Item.Name,
-                        itemType =  x.Item.Type == null 
+                        itemType =  string.IsNullOrEmpty(x.Item.Type) 
                         ? "Enum.ItemType.Generic" 
                         : "Enum.ItemType." + x.Item.Type.Replace(" ", ""),
                         itemCategory = "Enum.ItemCategory." + x.Item.Category.Replace(" ", ""),
