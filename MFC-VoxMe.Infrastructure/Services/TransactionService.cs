@@ -108,11 +108,14 @@ namespace MFC_VoxMe.Infrastructure.Services
             return result;
 
         }
+
         public async Task<HttpResponseDto<DocumentDto>> AddDocumentToTransaction(DocumentDto document, string externalRef)
         {
+
             var url = GetUrl($"transactions/{externalRef}/set-document");
             var result = await GetHelperService<DocumentDto>()
                                 .PostByteRequestHelper(url, document);
+
             return result;
         }
 
@@ -136,6 +139,7 @@ namespace MFC_VoxMe.Infrastructure.Services
                             .GetByteRequestHelper(url);
             return result;
         }
+        //TODO:
         public async Task<HttpResponseDto<byte[]>> GetImageAsBinary(string EntityRef, string EntityType, string Name)
         {
             var url = GetUrl($"images?EntityRef=RS0150687&EntityType=Transaction&Name=signature_1666862783756.png");
@@ -148,6 +152,7 @@ namespace MFC_VoxMe.Infrastructure.Services
 
         public async Task<HttpResponseDto<bool>> RemoveResourceFromTransaction(string externalRef)
         {
+            externalRef = "RS249955";
 
             var url = GetUrl($"transactions/{externalRef}/resources");
             var result = await GetHelperService<bool>()

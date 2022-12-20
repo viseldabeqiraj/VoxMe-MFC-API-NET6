@@ -10,7 +10,9 @@ using MFC_VoxMe_API.Services.Transactions;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Serilog;
+using System.Linq;
 using System.Net;
+using static MFC_VoxMe.Infrastructure.Data.Helpers.Enums;
 
 namespace MFC_VoxMe_API.Controllers
 {
@@ -21,14 +23,16 @@ namespace MFC_VoxMe_API.Controllers
         private readonly IJobService _jobService;
         private readonly ITransactionService _transactionService;
         private readonly IResourceService _resourceService;
-        private readonly IHelpers _helpers;
+        private readonly IVoxmeToJimHelper _helper;
+        private readonly IJimToVoxmeHelper _helpers;
         private readonly IMapper _mapper;
 
-		public APIWorkflowController(IJobService jobService, ITransactionService transactionService, IResourceService resourceService, IHelpers helpers,IMapper mapper)
+		public APIWorkflowController(IJobService jobService, ITransactionService transactionService, IResourceService resourceService, IVoxmeToJimHelper helper,IJimToVoxmeHelper helpers,IMapper mapper)
         {
             _jobService = jobService;
             _transactionService = transactionService;
             _resourceService = resourceService;
+            _helper = helper;
             _helpers = helpers;
             _mapper = mapper;
         }
@@ -167,7 +171,7 @@ namespace MFC_VoxMe_API.Controllers
 
 		}
 
-        [HttpPost("CreateResource")]
+		[HttpPost("CreateResource")]
 		public async Task<ActionResult> CreateResourcesLogic([FromBody] string resourceCode)
         {		
 				CreateResourceDto createResourceDto = new CreateResourceDto()
@@ -192,20 +196,73 @@ namespace MFC_VoxMe_API.Controllers
 
         [HttpPost("DeactivateResource")]		
 		public async Task<ActionResult> DeactivateResourcesLogic([FromBody]string resourceCode)
-		{
-			
-				var resourceDetails = await _resourceService.GetDetails(resourceCode);
-					await _resourceService.DisableResource(resourceCode);
+		{			
+			var resourceDetails = await _resourceService.GetDetails(resourceCode);
+			await _resourceService.DisableResource(resourceCode);
                     
-						var resourceCodesList = _helpers.GetTransactionResources().staffResourceCodes;
-						AssignStaffDesignateForemanDto resourceCodes = new AssignStaffDesignateForemanDto()
-						{
-							staffResourceCodes = resourceCodesList
-						};
-						await _resourceService.ForceConfigurationChanges("Inventory");
-						return Ok();			
+				var resourceCodesList = _helpers.GetTransactionResources().staffResourceCodes;
+				AssignStaffDesignateForemanDto resourceCodes = new AssignStaffDesignateForemanDto()
+				{
+					staffResourceCodes = resourceCodesList
+				};
+				await _resourceService.ForceConfigurationChanges("Inventory");
+				return Ok();			
 		}
 
+		[HttpPost("MFCStatusUpdate")]
+		public async Task<ActionResult> MFCStatusUpdate([FromBody] string externalRef, string status, string? jobRef)
+		{
+			//var x = _helper.GetValueFromJsonConfig("d");
+			//var xx = await _helper.testc();
+			status = status.Replace("Enum.TransactionOnsiteStatus.", "");
 
-    }
+			if (status == IEnums.TransactionOnSiteStatus.Completed.ToString() 
+				|| status == IEnums.TransactionOnSiteStatus.GeneratePaperwork.ToString()
+				|| status == IEnums.TransactionOnSiteStatus.SubmitTimesheets.ToString())
+			{ 
+            var result = await _helper.GetMovingDataId(externalRef);
+
+            int movingDataId = result[0].ID;
+            string jobExternalRef = result[0].BillOfLadingNo;
+			int state = result[0].State;
+
+            if (jobExternalRef is not null)
+            {
+                var jobDetailsRequest = await _jobService.GetDetails(jobExternalRef);
+
+				if (state == 3)
+                {
+					await _helper.InsertDataFromJobDetails(jobDetailsRequest.dto, movingDataId);
+                } 
+					//TODO: Create or update correlating records
+					//var x = _helpers.UpdateMovingData(externalRef);
+
+			}
+
+			var transactionDetails = await _transactionService.GetDetails(externalRef);
+            var images = _helper.GetImages(transactionDetails);
+
+				foreach (var image in images)
+				{
+					var response = await _transactionService.GetImageAsBinary
+								(externalRef, "Transaction", image.Value);
+					var bytes = response.dto;
+					//select itemspath from prefs for that movingid
+					string filePath = await _helper.GetItemsPath(movingDataId) + image.Value;
+
+					if (!Directory.Exists(filePath))
+					{
+						//Directory.CreateDirectory(filePath);
+						using (var stream = new FileStream (filePath, FileMode.Create, FileAccess.Write))
+						{ 
+							stream.Write(bytes);
+						}
+					}
+				}
+			}
+
+            return Ok();
+        }
+	}
 }
+           

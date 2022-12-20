@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace MFC_VoxMe.Core.Dtos.Transactions
 {
     public class DocumentDto
     {
-        public byte[] File { get; set; }
+        public byte[] File { get; set; } 
         public string DocTitle { get; set; }
     }
 }

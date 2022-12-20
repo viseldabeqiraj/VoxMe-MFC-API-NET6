@@ -1,5 +1,4 @@
-﻿using MFC_VoxMe_API.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace MFC_VoxMe_API.Data
 {
@@ -16,9 +15,8 @@ namespace MFC_VoxMe_API.Data
         }
 
 
-        public DbSet<MovingData> MovingDatas { get; set; }
-        public DbSet<Resources> Resources { get; set; }
-        public DbSet<Materials> Materials { get; set; }
+        //public DbSet<MovingData> MovingDatas { get; set; }
+
 
     }
 }

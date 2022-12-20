@@ -56,16 +56,16 @@ namespace MFC_VoxMe_API.Controllers
         //    {
         //        var result = await _transactionService.AddDocumentToTransaction(File, DocTitle, externalRef);
 
-        //        if (result != null)
-        //            return Ok(result);
-        //        else return BadRequest();
+                if (result != null)
+                    return Ok(result);
+                else return BadRequest();
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         //[HttpPost("CreateJob")]
         //public async Task<ActionResult> CreateJob(CreateJobDto request)

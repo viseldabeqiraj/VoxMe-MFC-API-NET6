@@ -23,7 +23,7 @@ namespace MFC_VoxMe.Infrastructure.HttpMethods
 
         public async Task<HttpResponseDto<T>> PostRequestHelper<T>(string url, T dto) 
         {
-            StringContent data = null;
+            StringContent? data = null;
             if (dto != null)
             {
                 var json = JsonConvert.SerializeObject(dto);
@@ -36,7 +36,6 @@ namespace MFC_VoxMe.Infrastructure.HttpMethods
 
                 result.dto = dto;
                 return result;
-
         }
 
         public async Task<HttpResponseDto<T>> GetRequestHelper(string url, HttpContent? data)
@@ -45,7 +44,6 @@ namespace MFC_VoxMe.Infrastructure.HttpMethods
 
             var result = new HttpResponseDto<T>();
             result.responseStatus = response.StatusCode;
-
             result.dto = JsonConvert.DeserializeObject<T>(response.Content.ReadAsStringAsync().Result);
             
             return result;
@@ -83,6 +81,26 @@ namespace MFC_VoxMe.Infrastructure.HttpMethods
             var response = await _httpRequests.MakePatchHttpCall(url, data);
 
             var result = new HttpResponseDto<bool>();
+            result.responseStatus = response.StatusCode;
+            return result;
+        }
+        public async Task<HttpResponseDto<byte[]>> GetByteRequestHelper(string url)
+        {
+            var response = await _httpRequests.MakeGetHttpCall(url, null);
+            var bytes = response.Content.ReadAsByteArrayAsync().Result;
+            var base64 = Convert.ToBase64String(bytes);
+            var result = new HttpResponseDto<byte[]>()
+            {
+                dto = bytes
+            };
+            return result;
+        }
+
+        public async Task<HttpResponseDto<DocumentDto>> PostByteRequestHelper(string url, DocumentDto document)
+        {
+            var response = await _httpRequests.PostFile(url, document);
+
+            var result = new HttpResponseDto<DocumentDto>();
             result.responseStatus = response.StatusCode;
             return result;
         }

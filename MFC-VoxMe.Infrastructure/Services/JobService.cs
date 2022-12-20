@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MFC_VoxMe_API.Data;
 using MFC_VoxMe_API.Dtos.Jobs;
-using MFC_VoxMe_API.Models;
 using Newtonsoft.Json;
 using System.Net;
 using MFC_VoxMe_API.HttpMethods;
