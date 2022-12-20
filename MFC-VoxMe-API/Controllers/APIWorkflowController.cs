@@ -212,15 +212,15 @@ namespace MFC_VoxMe_API.Controllers
 		}
 
 		[HttpPost("MFCStatusUpdate")]
-		public async Task<ActionResult> MFCStatusUpdate(string ExternalRef, string Status, string? JobRef)
+		public async Task<ActionResult> MFCStatusUpdate(TransactionSummaryDto request)
 		{
 			//var xx = await _helper.testc();
 			int status = Convert.ToInt32(_helper.GetValueFromJsonConfig
-				(Status.Replace("Enum.TransactionOnsiteStatus.", "")));
+				(request.onsiteStatus.Replace("Enum.TransactionOnsiteStatus.", "")));
 
 			if (status == 21 || status == 23 || status == 24)
 			{ 
-				var result = await _helper.GetMovingDataId(ExternalRef);
+				var result = await _helper.GetMovingDataId(request.externalRef);
 
 				int movingDataId = result[0].ID;
 				string jobExternalRef = result[0].BillOfLadingNo;
@@ -229,7 +229,7 @@ namespace MFC_VoxMe_API.Controllers
 				if (jobExternalRef is not null)
 				{
 					var jobDetailsRequest = await _jobService.GetDetails(jobExternalRef);
-					var transactionDetails = await _transactionService.GetDetails(ExternalRef);
+					var transactionDetails = await _transactionService.GetDetails(request.externalRef);
 					if (state == 3)
 					{
 
@@ -247,7 +247,7 @@ namespace MFC_VoxMe_API.Controllers
 					foreach (var image in images)
 					{
 						var response = await _transactionService.GetImageAsBinary
-									(ExternalRef, "Transaction", image.Value);
+									(request.externalRef, "Transaction", image.Value);
 						var bytes = response.dto;
 						//select itemspath from prefs for that movingid
 						string filePath = await _helper.GetItemsPath(movingDataId) + image.Value;
