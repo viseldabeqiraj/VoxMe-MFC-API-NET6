@@ -40,12 +40,54 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
 
         }
 
+        public string GetPhoneNumber(GeneralInfo general)
+        {
+            if (!string.IsNullOrEmpty(general.CustomerMobilePhone))
+            {
+                return general.CustomerMobilePhone;
+            }
+            else if (!string.IsNullOrEmpty(general.CustomerHomePhone))
+            {
+                return general.CustomerHomePhone;
+            }
+            else if (!string.IsNullOrEmpty(general.CustomerBusinessPhone))
+            {
+                return general.CustomerBusinessPhone;
+            }
+            else if (!string.IsNullOrEmpty(general.Address.PrimaryPhone))
+            {
+                return general.Address.PrimaryPhone;
+            }
+            else if (!string.IsNullOrEmpty(general.Address.SecondaryPhone))
+            {
+                return general.Address.SecondaryPhone;
+            }
+            else if (!string.IsNullOrEmpty(general.Address.Fax))
+            {
+                return general.Address.Fax;
+            }
+            else if (!string.IsNullOrEmpty(general.Destination.PrimaryPhone))
+            {
+                return general.Address.PrimaryPhone;
+            }
+            else if (!string.IsNullOrEmpty(general.Destination.SecondaryPhone))
+            {
+                return general.Address.SecondaryPhone;
+            }
+            else if (!string.IsNullOrEmpty(general.Destination.Fax))
+            {
+                return general.Address.Fax;
+            }
+            else
+            {
+                return "0000000";
+            }
+        }
 
 
         public CreateJobDto CreateJobObjectFromXml()
         {
             CreateJobDto createJobDto = new CreateJobDto();
-
             var generalInfo = _MovingData.GeneralInfo;
             createJobDto.externalRef = generalInfo.Groupageid;
             var properties = _MovingData.InventoryData.Properties.Property;
@@ -70,14 +112,11 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                 {
                     firstName = generalInfo.ClientFirstName,
                     lastName = generalInfo.Name,
-                    salutation = !string.IsNullOrEmpty(generalInfo.ClientSalutation) 
+                    salutation = !string.IsNullOrEmpty(generalInfo.ClientSalutation)
                     ? "Enum.Salutation." + generalInfo.ClientSalutation : "",
                     contactDetails = new ContactDetails()
                     {
-                        mobilePhone = generalInfo.Address.PrimaryPhone ??
-                        generalInfo.Address.SecondaryPhone ??
-                        generalInfo.Destination.PrimaryPhone ??
-                        generalInfo.Destination.SecondaryPhone,
+                        mobilePhone = GetPhoneNumber(generalInfo),
                         email = generalInfo.Address.Email
                     }
                 },
@@ -122,7 +161,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                     street1 = generalInfo.Address.Street,
                     city = generalInfo.Address.City,
                     area = generalInfo.Address.State,
-                    country = generalInfo.Address.Country,
+                    country = string.IsNullOrEmpty(generalInfo.Address.Country)? generalInfo.Address.Country:"USA",
                     floor = generalInfo.Address.AccessInfo.Floor,
                     notes = generalInfo.Address.Comment,
                     zip = generalInfo.Address.Zip,
@@ -137,7 +176,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                     street1 = generalInfo.Destination.Street,
                     city = generalInfo.Destination.City,
                     area = generalInfo.Destination.State,
-                    country = generalInfo.Destination.Country,
+                    country = string.IsNullOrEmpty(generalInfo.Destination.Country) ? generalInfo.Destination.Country : "USA",
                     floor = generalInfo.Destination.AccessInfo.Floor,
                     notes = generalInfo.Comment,
                     zip = generalInfo.Destination.Zip,
@@ -373,7 +412,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                     street1 = generalInfo.Address.Street,
                     city = generalInfo.Address.City,
                     area = generalInfo.Address.State,
-                    country = generalInfo.Address.Country,
+                    country = string.IsNullOrEmpty(generalInfo.Address.Country) ? generalInfo.Address.Country : "USA",
                     floor = generalInfo.Address.AccessInfo.Floor,
                     notes = generalInfo.Address.Comment,
                     zip = generalInfo.Address.Zip,
@@ -388,7 +427,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                     street1 = generalInfo.Destination.Street,
                     city = generalInfo.Destination.City,
                     area = generalInfo.Destination.State,
-                    country = generalInfo.Destination.Country,
+                    country = string.IsNullOrEmpty(generalInfo.Destination.Country) ? generalInfo.Destination.Country : "USA",
                     floor = generalInfo.Destination.AccessInfo.Floor,
                     notes = generalInfo.Comment,
                     zip = generalInfo.Destination.Zip,
@@ -597,7 +636,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                 IsDestination = false,
                 Street = generalInfo.Address.Street,
                 City = generalInfo.Address.City,
-                Country = generalInfo.Address.Country,
+                Country = string.IsNullOrEmpty(generalInfo.Address.Country) ? generalInfo.Address.Country : "USA",
                 Floor = generalInfo.Address.AccessInfo.Floor,
                 Elevator = Convert.ToBoolean
                             (generalInfo.Address.AccessInfo.HasElevator),
@@ -633,7 +672,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                 IsDestination = true,
                 Street = generalInfo.Destination.Street,
                 City = generalInfo.Destination.City,
-                Country = generalInfo.Destination.Country,
+                Country = string.IsNullOrEmpty(generalInfo.Destination.Country) ? generalInfo.Destination.Country : "USA",
                 Floor = generalInfo.Destination.AccessInfo.Floor,
                 Elevator = Convert.ToBoolean
                             (generalInfo.Destination.AccessInfo.HasElevator),

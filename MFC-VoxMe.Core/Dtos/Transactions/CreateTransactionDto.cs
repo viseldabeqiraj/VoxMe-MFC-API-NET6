@@ -23,7 +23,7 @@
         public List<AuxService> auxServices { get; set; }
         public List<LoadingUnit> loadingUnits { get; set; }
         public string transactionCreationWebhookUrl { get; set; } = String.Empty;
-        public string transactionStatusUpdateWebhookUrl { get; set; } = String.Empty;
+        public string transactionStatusUpdateWebhookUrl { get; set; } = "https://edentraining.jkmoving.com:477/api/APIWorkflow/MFCStatusUpdate";
         public class AddressDetails
         {
             public string city { get; set; } = String.Empty;

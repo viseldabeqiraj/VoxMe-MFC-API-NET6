@@ -57,6 +57,8 @@ namespace MFC_VoxMe_API.Dtos.Common
 			public string PrimaryPhone { get; set; }
 			[XmlElement(ElementName = "SecondaryPhone")]
 			public string SecondaryPhone { get; set; }
+			[XmlElement(ElementName = "Fax")]
+			public string Fax { get; set; }
 			[XmlElement(ElementName = "Email")]
 			public string Email { get; set; }
 			[XmlElement(ElementName = "Comment")]
@@ -320,8 +322,10 @@ namespace MFC_VoxMe_API.Dtos.Common
 			public string Zip { get; set; }
 			[XmlElement(ElementName = "PrimaryPhone")]
 			public string PrimaryPhone { get; set; }
-		[XmlElement(ElementName = "SecondaryPhone")]
+			[XmlElement(ElementName = "SecondaryPhone")]
 			public string SecondaryPhone { get; set; }
+			[XmlElement(ElementName = "Fax")]
+			public string Fax { get; set; }
 			[XmlElement(ElementName = "Email")]
 			public string Email { get; set; }
 			[XmlElement(ElementName = "Comment")]
@@ -354,7 +358,13 @@ namespace MFC_VoxMe_API.Dtos.Common
 		[XmlRoot(ElementName = "GeneralInfo")]
 		public class GeneralInfo
 		{
-			[XmlElement(ElementName = "ClientNumber")]
+			[XmlElement(ElementName = "CustomerMobilePhone")]
+			public string CustomerMobilePhone { get; set; }
+			[XmlElement(ElementName = "CustomerHomePhone")]
+			public string CustomerHomePhone { get; set; }
+			[XmlElement(ElementName = "CustomerBusinessPhone")]
+			public string CustomerBusinessPhone { get; set; }
+            [XmlElement(ElementName = "ClientNumber")]
 			public string ClientNumber { get; set; }
 			[XmlElement(ElementName = "ClientSalutation")]
 			public string ClientSalutation { get; set; }

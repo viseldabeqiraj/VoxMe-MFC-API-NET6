@@ -152,8 +152,6 @@ namespace MFC_VoxMe.Infrastructure.Services
 
         public async Task<HttpResponseDto<bool>> RemoveResourceFromTransaction(string externalRef)
         {
-            externalRef = "RS249955";
-
             var url = GetUrl($"transactions/{externalRef}/resources");
             var result = await GetHelperService<bool>()
                              .DeleteRequestHelper(url, new StringContent(@"[]", Encoding.UTF8, "application/json"));
