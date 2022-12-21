@@ -287,8 +287,8 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                         var newItem = new Items()
                         {
                             Name = item.itemName,
-                            Type = item.itemType,
-                            ItemStatus = item.itemCategory,
+                            Type = GetValueFromJsonConfig(item.itemType),
+                            ItemStatus = GetValueFromJsonConfig(item.itemCategory),
                             Volume = item.volume,
                             Value = item.value.ToString(),
                             ValuationCurrency = item.valuationCurrency,
@@ -311,6 +311,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                             MaterialsDesc = item.materialsDesc,
                             CountryOrigin = item.countryOrigin,
                             Comment = item.comment,
+                            MovingDataID = movingDataId
 
                         };
 
@@ -334,8 +335,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                 InventorySignature = details.clientSignature,
                 DriverSignature = details.driverSignature,
                 DestInventorySignature = details.destClientSignature,
-                DestDriverSignature = details.destDriverSignature               
-
+                DestDriverSignature = details.destDriverSignature         
             };
 
             await _queryGenerator.InsertInto(
@@ -351,6 +351,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                 RealArrivalDate = details.crewArrivalOnSiteDate,
                 DepartureDate = details.crewDepartureFromSiteDate,
                 Comment = details.crewNotes,
+                MovingDataID = movingDataId
             };
 
             await _queryGenerator.InsertInto(
@@ -394,7 +395,8 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                         EndTime = item.endDate,
                         Break1Duration = item.break1,
                         Break2Duration = item.break2,
-                        Break3Duration = item.break3
+                        Break3Duration = item.break3,
+                        MovingDataId = movingDataId
                     };
 
                   await _queryGenerator.InsertInto(
@@ -415,7 +417,8 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                     var newCrew = new MFC_VoxMe.Infrastructure.Models.Packers()
                     {
                         Name = crew.code,
-                        IsForeman = crew.isForeman
+                        IsForeman = crew.isForeman,
+                        MovingDataID = movingDataId
                     };
 
                   await _queryGenerator.InsertInto(
@@ -469,10 +472,10 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
             return _configuration.GetValue<string>("Client_Folder_Dir:stagingDir") + result.ItemsPath + "\\";
         }
 
-        public List<KeyValuePair<string, string>> GetImages(HttpResponseDto<TransactionDetailsDto> transactiondetails)
+        public List<KeyValuePair<string, string>> GetImages(JobDetailsDto jobDetails,TransactionDetailsDto transactiondetails)
         {
-            var questionnaireQuestions = transactiondetails.dto?.questionnaireQuestions.ToList();
-            var auxServices = transactiondetails.dto?.auxServices.ToList();
+            var questionnaireQuestions = transactiondetails?.questionnaireQuestions.ToList();
+            var auxServices = transactiondetails?.auxServices.ToList();
 
             List<KeyValuePair<string, string>> imagesToStore =
                         new List<KeyValuePair<string, string>>();
@@ -487,7 +490,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                             ("QuestionnaireQuestions", item.questionnaireQuestions.signatureValue));
                     imagesToStore.Add
                             (new KeyValuePair<string, string>
-                            ("QuestionnaireQuestions", item?.questionnaireQuestions.photoValue));
+                            ("QuestionnaireQuestions", item.questionnaireQuestions.photoValue));
                     imagesToStore.Add
                             (new KeyValuePair<string, string>
                             ("AuxServices", item?.auxServices.signatureValue));
@@ -496,14 +499,29 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                             ("AuxServices", item?.auxServices.photoValue));
                 }
             }
+
+            foreach (var item in jobDetails.jobInventory.rooms)
+            {
+                imagesToStore.Add
+                           (new KeyValuePair<string, string>
+                           ("Rooms", item.conditionBeforeService.photos));
+                imagesToStore.Add
+                           (new KeyValuePair<string, string>
+                           ("Rooms", item.conditionAfterService.photos));
+            }
+
             imagesToStore.Add
-               (new KeyValuePair<string, string>("Transaction", transactiondetails.dto.clientSignature));
+               (new KeyValuePair<string, string>
+               ("Transaction", transactiondetails.clientSignature));
             imagesToStore.Add
-               (new KeyValuePair<string, string>("Transaction", transactiondetails.dto.driverSignature));
+               (new KeyValuePair<string, string>
+               ("Transaction", transactiondetails.driverSignature));
             imagesToStore.Add
-               (new KeyValuePair<string, string>("Transaction", transactiondetails.dto.destDriverSignature));
+               (new KeyValuePair<string, string>
+               ("Transaction", transactiondetails.destDriverSignature));
             imagesToStore.Add
-               (new KeyValuePair<string, string>("Transaction", transactiondetails.dto.destClientSignature));
+               (new KeyValuePair<string, string>
+               ("Transaction", transactiondetails.destClientSignature));
             return imagesToStore;
         }
 

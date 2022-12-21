@@ -239,10 +239,7 @@ namespace MFC_VoxMe_API.Controllers
 					//TODO: Create or update correlating records
 					//var x = _helpers.UpdateMovingData(externalRef);
 
-
-
-
-					var images = _helper.GetImages(transactionDetails);
+					var images = _helper.GetImages(jobDetailsRequest.dto, transactionDetails.dto);
 
 					foreach (var image in images)
 					{
@@ -250,7 +247,7 @@ namespace MFC_VoxMe_API.Controllers
 									(request.externalRef, "Transaction", image.Value);
 						var bytes = response.dto;
 						//select itemspath from prefs for that movingid
-						string filePath = await _helper.GetItemsPath(movingDataId) + image.Value;
+						string filePath = await _helper.GetItemsPath(movingDataId) + $@"\\{image.Value}";
 
 						if (!Directory.Exists(filePath))
 						{

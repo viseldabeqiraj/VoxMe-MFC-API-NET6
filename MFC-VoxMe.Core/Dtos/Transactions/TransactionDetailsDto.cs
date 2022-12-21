@@ -28,8 +28,8 @@
         public string destDriverSignature { get; set; }
         public List<string> services { get; set; }
         public List<QuestionnaireQuestion> questionnaireQuestions { get; set; }
-        public List<AuxService> auxServices { get; set; }
-        public List<МaterialsUsed> aterialsUsed { get; set; }
+        public List<AuxService>? auxServices { get; set; }
+        public List<МaterialsUsed> materialsUsed { get; set; }
         public List<string> loadingUnitUniqueIds { get; set; }
         public List<TimeSheet> timeSheets { get; set; }
         public List<CrewMember> crewMembers { get; set; }

@@ -224,7 +224,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                     new CreateJobDto.Item()
                     {
                         itemNr = x.Id.ToString(),
-                        itemName =x.Item.Name,
+                        itemName = "Enum.CompanyItem."+ x.Item.Name.Replace(" ", ""),
                         itemType =  string.IsNullOrEmpty(x.Item.Type) 
                         ? "Enum.ItemType.Generic" 
                         : "Enum.ItemType." + x.Item.Type.Replace(" ", ""),
