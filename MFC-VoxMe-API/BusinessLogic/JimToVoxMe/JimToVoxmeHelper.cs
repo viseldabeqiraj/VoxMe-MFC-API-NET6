@@ -616,18 +616,18 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             {
                 MovingDataID = (int)NewMovingDataId,
                 PrefferedLanguageID = 1,
-                PackingDate = DateTime.Parse
-                            (generalInfo.Preferences.PackingDate),
+                PackingDate = !string.IsNullOrEmpty(generalInfo.Preferences.PackingDate) ?DateTime.Parse
+                            (generalInfo.Preferences.PackingDate) : null,
                 ServiceTypeID = 1,
                 Comment = generalInfo.Preferences.Comment,
                 ItemsPath = generalInfo.ClientFirstName + "_" + generalInfo.Name + "_" + NewMovingDataId,
                 //RealArrivalDate = "",
-                DeliveryDate = DateTime.Parse
-                                (generalInfo.Preferences.DeliveryDate),
+                DeliveryDate = !string.IsNullOrEmpty(generalInfo.Preferences.DeliveryDate) ? DateTime.Parse
+                                (generalInfo.Preferences.DeliveryDate) : null,
                 //SurveyDate = "",
                 CreationDate = DateTime.Now,
-                PackingFinishDate = DateTime.Parse
-                                (generalInfo.Preferences.PackingFinishDate)
+                PackingFinishDate = !string.IsNullOrEmpty(generalInfo.Preferences.PackingFinishDate) ? DateTime.Parse
+                                (generalInfo.Preferences.PackingFinishDate) : null
             };
 
             var originAddress = new MFC_VoxMe.Infrastructure.Models.Address()

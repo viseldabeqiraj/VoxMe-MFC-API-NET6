@@ -43,7 +43,7 @@ namespace MFC_VoxMe_API.Controllers
 		public async Task<ActionResult> WorkflowLogic([FromBody] string xml)
 		{
 			var movingData = await _helpers.XMLParseAsync(xml);
-			var bytes = _helpers.GetDoc();
+			//var bytes = _helpers.GetDoc();
 			var externalRef = movingData.GeneralInfo.EMFID;
 			var jobExternalRef = movingData.GeneralInfo.Groupageid;
 
@@ -105,7 +105,7 @@ namespace MFC_VoxMe_API.Controllers
                             await _transactionService.AddDocumentToTransaction(
                             new DocumentDto()
                             {
-                                File = bytes,
+                                File = b,
                                 DocTitle = doc.FileName
                             }, externalRef);
                         }
@@ -147,7 +147,7 @@ namespace MFC_VoxMe_API.Controllers
                         await _transactionService.AddDocumentToTransaction(
                         new DocumentDto()
                         {
-                            File = bytes,
+                            File = b,
                             DocTitle = doc.FileName
                         }, externalRef);
                     }
