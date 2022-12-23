@@ -170,7 +170,6 @@ namespace MFC_VoxMe_API.Controllers
 			}
 			await _helpers.InsertTableRecords();
 			return Ok();
-
 		}
 
 		[HttpPost("CreateResource")]
@@ -206,9 +205,82 @@ namespace MFC_VoxMe_API.Controllers
 				AssignStaffDesignateForemanDto resourceCodes = new AssignStaffDesignateForemanDto()
 				{
 					staffResourceCodes = resourceCodesList
-				};
-				await _resourceService.ForceConfigurationChanges("Inventory");
-				return Ok();			
+                };
+            await _resourceService.ForceConfigurationChanges("Inventory");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			   
+            return Ok();			
 		}
 
 		[HttpPost("MFCStatusUpdate")]
@@ -232,30 +304,40 @@ namespace MFC_VoxMe_API.Controllers
 					var transactionDetails = await _transactionService.GetDetails(request.externalRef);
 					if (state == 3)
 					{
-
-						await _helper.InsertDataFromJobDetails
-							(jobDetailsRequest.dto, transactionDetails.dto.loadingUnitUniqueIds, movingDataId);
-					}
+                        await _helper.InsertDataFromJobDetails
+                            (jobDetailsRequest.dto, transactionDetails.dto.loadingUnitUniqueIds, movingDataId);
+                    }
 					//TODO: Create or update correlating records
 					//var x = _helpers.UpdateMovingData(externalRef);
 
 					var images = _helper.GetImages(jobDetailsRequest.dto, transactionDetails.dto);
+					string filePath = await _helper.GetItemsPath(movingDataId);
 
 					foreach (var image in images)
 					{
 						var response = await _transactionService.GetImageAsBinary
 									(request.externalRef, "Transaction", image.Value);
 						var bytes = response.dto;
-						//select itemspath from prefs for that movingid
-						string filePath = await _helper.GetItemsPath(movingDataId) + $@"\\{image.Value}";
+						string imagePath = filePath + $@"\\{image.Value}"; //"Pictures\\testt.png";//
 
-						if (!Directory.Exists(filePath))
+						//if (!Directory.Exists(filePath))
+						//Directory.CreateDirectory(filePath);
+						using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
 						{
-							//Directory.CreateDirectory(filePath);
-							using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
-							{
-								stream.Write(bytes);
-							}
+							stream.Write(bytes);
+						}
+					}
+
+					foreach(var doc in transactionDetails.dto.documents)
+                    {
+						var response = await _transactionService.GetDocumentAsBinary
+							(request.externalRef, "Transaction", doc.fileName);
+						var bytes = response.dto;
+						string docPath = filePath + $@"\\{doc.fileName}"; //"Documents\\test.pdf";//
+
+						using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+						{
+							stream.Write(bytes);
 						}
 					}
 				}

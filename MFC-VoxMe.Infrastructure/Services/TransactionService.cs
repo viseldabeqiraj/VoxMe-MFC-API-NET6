@@ -133,7 +133,8 @@ namespace MFC_VoxMe.Infrastructure.Services
         public async Task<HttpResponseDto<byte[]>> GetDocumentAsBinary(string EntityRef, string EntityType, string Name)
         {
 
-            var url = GetUrl($"documents?EntityRef={EntityRef}&EntityType={EntityType}&Name={Name}");
+            var url = GetUrl($"documents?EntityRef=RS0237846&EntityType=Transaction&Name=pdf-test.pdf");
+            //var url = GetUrl($"documents?EntityRef={EntityRef}&EntityType={EntityType}&Name={Name}");
 
             var result = await GetHelperService<byte[]>()
                             .GetByteRequestHelper(url);

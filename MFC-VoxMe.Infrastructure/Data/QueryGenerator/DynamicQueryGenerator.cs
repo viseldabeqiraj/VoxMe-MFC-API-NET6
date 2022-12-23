@@ -1,5 +1,7 @@
 ﻿using Dapper;
 using MFC_VoxMe.Infrastructure.Data.QueryGenerator.Helpers;
+using MFC_VoxMe.Infrastructure.GlobalErrorHandling.Retry_Policy;
+using Polly.Retry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,8 +34,8 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
                            {sub}";
             using (var connection = _context.CreateConnection())
             {
-                var test = await connection.QueryAsync(query);
-                return await connection.QueryAsync(query);
+                var test = await connection.QueryAsyncWithRetry(query);
+                return await connection.QueryAsyncWithRetry(query);
             }
         }
 
@@ -59,7 +61,7 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
                                ({data})";
             using (var connection = _context.CreateConnection())
             {
-                var result = await connection.QueryAsync<string>(query);
+                var result = await connection.QueryAsyncWithRetry(query);
             }
         }
 
@@ -78,11 +80,21 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
             string whereClause = update.WhereClause;
 
             var query = @$"UPDATE [dbo].[{table}]
-                              SET {colsValues} WHERE {whereClause}
-                          ";
+                              SET {colsValues} WHERE {whereClause}";
             using (var connection = _context.CreateConnection())
             {
-                var result = await connection.QueryAsync<string>(query);
+                var result =  await connection.QueryAsyncWithRetry(query);
+            }
+        }
+
+        public async Task Delete<T>(SqlQuery<T> delete)
+        {
+            var query = $@"DELETE FROM [dbo].[{delete.Table}]
+                            WHERE {delete.WhereClause}";
+
+            using (var connection = _context.CreateConnection())
+            {
+                var result = await connection.QueryAsyncWithRetry(query);
             }
         }
 

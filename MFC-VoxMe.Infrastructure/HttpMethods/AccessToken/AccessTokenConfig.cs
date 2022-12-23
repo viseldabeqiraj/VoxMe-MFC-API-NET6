@@ -14,7 +14,8 @@ namespace MFC_VoxMe_API.BusinessLogic.AccessToken
         }
         public AccessTokenConfigDto GetAccessTokenConfig()
         {
-            return _config.GetSection("API_Url:AccessToken").Get<AccessTokenConfigDto>(); ;
+            return _config.GetSection
+                ("API_Url:AccessToken").Get<AccessTokenConfigDto>();
         }
     }
 }

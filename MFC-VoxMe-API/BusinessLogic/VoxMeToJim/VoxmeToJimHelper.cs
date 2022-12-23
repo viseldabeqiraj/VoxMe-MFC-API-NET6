@@ -134,10 +134,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                 int maxSkidId =1;
 
                 foreach (var unit in loadingUnits)
-                {
-                    bool alreadyExist = loadingUnitUniqueIds.Contains(unit.uniqueId);
-                    if (alreadyExist)
-                    {
+                {                   
                         maxSkidId++;
                         var query = await _queryGenerator.SelectFrom(
                          new SqlQuery<string>()
@@ -179,8 +176,6 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                                 Table = Constants.Tables.SKIDS,
                                 Dto = newSkid
                             });
-                    }
-                    else continue;
                 }
             }
 
@@ -384,6 +379,27 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                 });
                 }
             }
+             if (details.crewMembers != null)
+            {
+                var crewMembers = details.crewMembers;
+
+                foreach(var crew in crewMembers)
+                {
+                    var newCrew = new MFC_VoxMe.Infrastructure.Models.Packers()
+                    {
+                        Name = crew.code,
+                        IsForeman = crew.isForeman,
+                        MovingDataID = movingDataId
+                    };
+
+                  await _queryGenerator.InsertInto(
+                  new SqlQuery<MFC_VoxMe.Infrastructure.Models.Packers>()
+                  {
+                      Table = Constants.Tables.PACKERS,
+                      Dto = newCrew
+                  });
+                }
+            }
             if (details.timeSheets != null)
             {
                 var timesheets = details.timeSheets;
@@ -407,28 +423,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                   });
                 }        
             }       
-             
-            if (details.crewMembers != null)
-            {
-                var crewMembers = details.crewMembers;
-
-                foreach(var crew in crewMembers)
-                {
-                    var newCrew = new MFC_VoxMe.Infrastructure.Models.Packers()
-                    {
-                        Name = crew.code,
-                        IsForeman = crew.isForeman,
-                        MovingDataID = movingDataId
-                    };
-
-                  await _queryGenerator.InsertInto(
-                  new SqlQuery<MFC_VoxMe.Infrastructure.Models.Packers>()
-                  {
-                      Table = Constants.Tables.PACKERS,
-                      Dto = newCrew
-                  });
-                }
-            }
+                       
         }
         public async Task UpdateMovingData(string externalRef)
         {
@@ -469,7 +464,9 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
             select.ComparisonOperator = Constants.ComparisonOperators.EQUALTO;
 
             var result = await _queryGenerator.SelectFrom(select);
-            return _configuration.GetValue<string>("Client_Folder_Dir:stagingDir") + result.ItemsPath + "\\";
+
+            return _configuration.GetValue<string>
+                ("Client_Folder_Dir:stagingDir") + result[0].ItemsPath + "\\";
         }
 
         public List<KeyValuePair<string, string>> GetImages(JobDetailsDto jobDetails,TransactionDetailsDto transactiondetails)
@@ -504,10 +501,10 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
             {
                 imagesToStore.Add
                            (new KeyValuePair<string, string>
-                           ("Rooms", item.conditionBeforeService.photos));
+                           ("Rooms", item.conditionBeforeService?.photos));
                 imagesToStore.Add
                            (new KeyValuePair<string, string>
-                           ("Rooms", item.conditionAfterService.photos));
+                           ("Rooms", item.conditionAfterService?.photos));
             }
 
             imagesToStore.Add

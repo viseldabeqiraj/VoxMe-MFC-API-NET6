@@ -391,18 +391,22 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
 
             if (generalInfo.ShipmentType == "Delivery")
             {
-
-                List<CreateTransactionDto.LoadingUnit> loadingUnits = new List<CreateTransactionDto.LoadingUnit>(1);
-                CreateTransactionDto.LoadingUnit loadingUnit = new CreateTransactionDto.LoadingUnit()
+                if (_MovingData.InventoryData.Skids.Skid != null)
                 {
-                    uniqueId = generalInfo.EMFID + ".Delivery",
-                    loadingUnitDetails = new CreateTransactionDto.LoadingUnitDetails()
+                    var skids = _MovingData.InventoryData.Skids.Skid;
+
+                    createTransaction.loadingUnits = skids.Select(x => new CreateTransactionDto.LoadingUnit()
                     {
-                        labelNr = 1 //TODO
-                    }
-                };
-                loadingUnits.Add(loadingUnit);
-                createTransaction.loadingUnits = loadingUnits;
+                        uniqueId = x.Barcode,
+                       loadingUnitDetails = new CreateTransactionDto.LoadingUnitDetails()
+                       {
+                           unitType = "Enum.ShipmentUnitType."
+                           + x.Type.Substring(0, 1) + x.Type.Substring(1).ToLower(),
+                           serialNumber = x.SerialNo,
+                           labelNr = Convert.ToInt32(x.ID)
+                       }
+                    }).ToList();
+                }
             }
             createTransaction.originAddress = new CreateTransactionDto.OriginAddress()
             {
@@ -616,7 +620,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             {
                 MovingDataID = (int)NewMovingDataId,
                 PrefferedLanguageID = 1,
-                PackingDate = !string.IsNullOrEmpty(generalInfo.Preferences.PackingDate) ?DateTime.Parse
+                PackingDate = !string.IsNullOrEmpty(generalInfo.Preferences.PackingDate) ? DateTime.Parse
                             (generalInfo.Preferences.PackingDate) : null,
                 ServiceTypeID = 1,
                 Comment = generalInfo.Preferences.Comment,
@@ -728,8 +732,10 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
         {
             var clientFullName = $@"{firstname}_{lastname}";
 
-            var clientDirStaging = _configuration.GetValue<String>("Client_Folder_Dir:stagingDir") + $@"\\{clientFullName}_{moveDataId}";
-            var clientDirProduction = _configuration.GetValue<String>("Client_Folder_Dir:productionDir") + $@"\\{clientFullName}_{moveDataId}";
+            var clientDirStaging = _configuration.GetValue<String>
+                ("Client_Folder_Dir:stagingDir") + $@"\\{clientFullName}_{moveDataId}";
+            var clientDirProduction = _configuration.GetValue<String>
+                ("Client_Folder_Dir:productionDir") + $@"\\{clientFullName}_{moveDataId}";
 
             if (!Directory.Exists(clientDirStaging))
             {

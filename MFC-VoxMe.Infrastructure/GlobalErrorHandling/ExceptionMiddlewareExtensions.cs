@@ -1,9 +1,16 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using MFC_VoxMe.Core.Dtos.Common;
+using MFC_VoxMe.Core.Dtos.Email;
+using MFC_VoxMe.Core.Interfaces;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Data.SqlClient;
+using MimeKit;
+using MimeKit.Text;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -12,11 +19,16 @@ namespace MFC_VoxMe.Infrastructure.GlobalErrorHandling
 {
     public class ExceptionMiddlewareExtensions
     {
+
         private readonly RequestDelegate _next;
-        public ExceptionMiddlewareExtensions(RequestDelegate next)
+        private readonly IEmailService _emailService;
+
+        public ExceptionMiddlewareExtensions(RequestDelegate next, IEmailService emailService)
         {
             _next = next;
+            _emailService = emailService;
         }
+
         public async Task InvokeAsync(HttpContext httpContext)
         {
             try
@@ -72,6 +84,16 @@ namespace MFC_VoxMe.Infrastructure.GlobalErrorHandling
                     }
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     errorResponse.StatusCode = HttpStatusCode.InternalServerError;
+                    break;
+                case SqlException s:
+                    var emailData = new EmailMessage()
+                    {
+                        EmailToName = "Viselda.beqiraj@gmail.com",
+                        EmailBody = "Test bodyy",
+                        EmailToId = "Viselda.beqiraj@gmail.com",
+                        EmailSubject ="test subject"
+                    };
+                     _emailService.SendEmail(emailData);
                     break;
 
                 default:

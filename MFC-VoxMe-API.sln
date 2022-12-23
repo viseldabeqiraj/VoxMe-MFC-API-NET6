@@ -5,9 +5,14 @@ VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MFC-VoxMe.API", "MFC-VoxMe-API\MFC-VoxMe.API.csproj", "{CFCE6400-E114-4BDB-A1A4-A4F737705AA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MFC-VoxMe.Core", "MFC-VoxMe.Core\MFC-VoxMe.Core.csproj", "{C4B55540-3CD9-4A9A-AFF3-02B55B83C634}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MFC-VoxMe.Core", "MFC-VoxMe.Core\MFC-VoxMe.Core.csproj", "{C4B55540-3CD9-4A9A-AFF3-02B55B83C634}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MFC-VoxMe.Infrastructure", "MFC-VoxMe.Infrastructure\MFC-VoxMe.Infrastructure.csproj", "{BB8D8754-B75D-4C27-9C7B-14F1AD4889A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MFC-VoxMe.Infrastructure", "MFC-VoxMe.Infrastructure\MFC-VoxMe.Infrastructure.csproj", "{BB8D8754-B75D-4C27-9C7B-14F1AD4889A5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CC8338A4-E681-40E0-9103-10C2F256709A}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

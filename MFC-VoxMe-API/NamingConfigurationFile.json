@@ -110,7 +110,7 @@
   "Enum.ShipmentUnitType.Released": "Released",
   "Enum.ShipmentUnitType.Shipping": "Shipping",
   "Enum.ShipmentUnitType.Building": "Building",
-  "Enum.ShipmentUnitType.DELIVERY": "DELIVERY",
+  "Enum.ShipmentUnitType.Delivery": "DELIVERY",
   "Enum.ItemType.Firearms": "Firearms",
   "Enum.ItemType.Generic": "Generic",
   "Enum.ItemType.Appliance": "Electronic",

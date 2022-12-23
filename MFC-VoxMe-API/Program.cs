@@ -1,3 +1,5 @@
+using MFC_VoxMe.Core.Dtos.Email;
+using MFC_VoxMe.Core.Interfaces;
 using MFC_VoxMe.Infrastructure.Data;
 using MFC_VoxMe.Infrastructure.Data.QueryGenerator;
 using MFC_VoxMe.Infrastructure.GlobalErrorHandling;
@@ -41,6 +43,11 @@ builder.Services.AddSingleton<IJimToVoxmeHelper, JimToVoxmeHelper>(); //added fo
 builder.Services.AddSingleton<IVoxmeToJimHelper, VoxmeToJimHelper>(); //added for DI 
 builder.Services.AddSingleton<IDynamicQueryGenerator, DynamicQueryGenerator>(); //added for DI 
 builder.Services.AddSingleton(typeof(IRequestHelpers<>), typeof(RequestHelpers<>)); //added for DI 
+builder.Services.AddTransient<IEmailService, EmailService>(); ; //added for DI 
+
+var emailConfig = builder.Configuration.GetSection("EmailConfiguration")
+        .Get<EmailConfiguration>();
+builder.Services.AddSingleton(emailConfig);
 
 //Added for Logging with Serilog library, to write logs in a file inside server
 Log.Logger = new LoggerConfiguration()
