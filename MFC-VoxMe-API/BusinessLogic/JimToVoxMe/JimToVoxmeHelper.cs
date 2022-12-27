@@ -259,10 +259,10 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                     weight = x.Weight,
                     //packageUnitCost = x.Box., //??
                     items = new List<CreateJobDto.Item>()
-                {
+                    {
                     new CreateJobDto.Item()
                     {
-                        itemNr = x.Id.ToString(),
+                        itemNr = x.Item.Id.ToString(),
                         itemName = "Enum.CompanyItem."+ x.Item.Name.Replace(" ", ""),
                         itemType =  string.IsNullOrEmpty(x.Item.Type) 
                         ? "Enum.ItemType.Generic" 

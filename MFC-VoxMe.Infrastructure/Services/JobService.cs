@@ -54,7 +54,6 @@ namespace MFC_VoxMe.Infrastructure.Services
                 return result;            
         }
 
-
         public async Task<HttpResponseDto<JobSummaryDto>> GetSummary(string externalRef)
         {
                 var url = GetUrl($"jobs/{externalRef}/summary");
@@ -65,7 +64,6 @@ namespace MFC_VoxMe.Infrastructure.Services
                 return result;
         }
 
-
         public async Task<HttpResponseDto<CreateJobDto>> CreateJob(CreateJobDto request)
         {
                 var url = GetUrl($"jobs");
@@ -74,7 +72,6 @@ namespace MFC_VoxMe.Infrastructure.Services
 
                 return result;           
         }
-
 
         public async Task<HttpResponseDto<UpdateJobDto>> UpdateJob(UpdateJobDto request, string externalRef)
         {

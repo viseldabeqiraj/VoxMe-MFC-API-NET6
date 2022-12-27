@@ -17,8 +17,8 @@ using static MFC_VoxMe.Infrastructure.Data.Helpers.Enums;
 
 namespace MFC_VoxMe_API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    [Route("api/[controller]")] 
+	[ApiController]
     public class APIWorkflowController : ControllerBase
     {
         private readonly IJobService _jobService;
@@ -344,6 +344,28 @@ namespace MFC_VoxMe_API.Controllers
 			}
 
             return Ok();
+        }
+        [HttpPost("SetDocument")]		
+		public async Task<ActionResult> SetDocument([FromForm] string externalRef, [FromForm] IFormFile file, [FromForm] string docTitle)
+        {
+			byte[] fileBytes;
+			if (file.Length > 0)
+			{
+				using (var ms = new MemoryStream())
+				{
+					file.CopyTo(ms);
+					fileBytes = ms.ToArray();
+				}
+				var result = await _transactionService.AddDocumentToTransaction(
+				new DocumentDto()
+				{
+					DocTitle = docTitle,
+					File = fileBytes
+				}, externalRef);
+			}
+				
+
+			return Ok();
         }
 	}
 }
