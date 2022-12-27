@@ -54,7 +54,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
 
         }
 
-        public async Task InsertDataFromJobDetails(JobDetailsDto jobDetails, List<string> loadingUnitUniqueIds, int movingDataId)
+        public async Task InsertDataFromJobDetails(JobDetailsDto jobDetails, int movingDataId)
         {
             if (jobDetails.jobInventory.rooms != null)
             {
@@ -311,7 +311,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                         };
 
                         await _queryGenerator.InsertInto(
-                         new SqlQuery<MFC_VoxMe.Infrastructure.Models.Items>()
+                         new SqlQuery<Items>()
                          {
                              Table = Constants.Tables.ITEMS,
                              Dto = newItem
@@ -319,6 +319,41 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                     }
                 }
             }         
+        }
+
+        public async Task DeleteTables(int movingDataID)
+        {
+            var tables = new List<string>()
+            {
+                "Rooms","Packers","Skids","Pieces","Items", "Materials", "PackersTimesheets"
+            };
+            foreach (var table in tables)
+            {
+                await _queryGenerator.Delete(
+                     new SqlQuery<string>()
+                     {
+                         Table = table,
+                         WhereClause = SqlQuery<string>.Where
+                                       ("MovingDataID", Constants.ComparisonOperators.EQUALTO,
+                                       @$"'{movingDataID}'")
+                     });
+            }
+        }
+
+        public async Task UpdateMovingDataStatus(int state, int movingDataID)
+        {
+            var movingData = new MovingData()
+            {
+                State = state
+            };
+            await _queryGenerator.UpdateTable(
+                new SqlQuery<MovingData>()
+                {
+                    Dto = movingData,
+                    WhereClause = SqlQuery<string>.Where
+                                  ("ID", Constants.ComparisonOperators.EQUALTO,
+                                  @$"'{movingDataID}'")
+                });
         }
 
         public async Task InsertDataFromTransactionDetails(TransactionDetailsDto details, int movingDataId)
