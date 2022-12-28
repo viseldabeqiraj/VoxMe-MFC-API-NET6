@@ -340,10 +340,70 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             }
         }
 
+        public string[] GetAccessDetails(GeneralInfo general)
+        {
+            string originAD = string.Empty;
+            string destinationAD = string.Empty;
+
+            originAD = Environment.NewLine + "Access Details" + "\n"
+                        + "Property Type: " + GetValueForBooleanAttributes(general.Address.AccessInfo.PropertyType) + "\n"
+                        + "Property Size: " + GetValueForUndefinedAttributes(general.Address.AccessInfo.PropertySize) + "\n"
+                        + "Floor: " + GetValueForBooleanAttributes(general.Address.AccessInfo.Floor) + "\n"
+                        + "Has Elevator: " + GetValueForBooleanAttributes(general.Address.AccessInfo.HasElevator) + "\n"
+                        + "Carry Required: " + GetValueForBooleanAttributes(general.Address.AccessInfo.CarryRequired) + "\n"
+                        + "Stair Carry Required: " + GetValueForBooleanAttributes(general.Address.AccessInfo.StairCarryRequired) + "\n"
+                        + "Shuttle Required: " + GetValueForBooleanAttributes(general.Address.AccessInfo.ShuttleRequired) + "\n"
+                        + "Additional Stop: " + GetValueForUndefinedAttributes(general.Address.AccessInfo.AdditionalStop);
+
+            destinationAD = Environment.NewLine +  "Access Details" + "\n"
+                        + "Property Type: " + GetValueForBooleanAttributes(general.Destination.AccessInfo.PropertyType) + "\n"
+                        + "Property Size: " + GetValueForUndefinedAttributes(general.Destination.AccessInfo.PropertySize) + "\n"
+                        + "Floor: " + GetValueForBooleanAttributes(general.Destination.AccessInfo.Floor) + "\n"
+                        + "Has Elevator: " + GetValueForBooleanAttributes(general.Destination.AccessInfo.HasElevator) + "\n"
+                        + "Carry Required: " + GetValueForBooleanAttributes(general.Destination.AccessInfo.CarryRequired) + "\n"
+                        + "Stair Carry Required: " + GetValueForBooleanAttributes(general.Destination.AccessInfo.StairCarryRequired) + "\n"
+                        + "Shuttle Required: " + GetValueForBooleanAttributes(general.Destination.AccessInfo.ShuttleRequired) + "\n"
+                        + "Additional Stop: " + GetValueForUndefinedAttributes(general.Destination.AccessInfo.AdditionalStop);
+
+            string[] accessDetails = { originAD, destinationAD };
+
+            return accessDetails;
+
+            string GetValueForBooleanAttributes(string value)
+            {
+                if(string.IsNullOrEmpty(value))
+                {
+                    return "No";
+                }
+                else if(value == "true")
+                {
+                    return "Yes";
+                }
+                else
+                {
+                    return "No";
+                }
+            }
+
+            string GetValueForUndefinedAttributes(string value)
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    return "Not defined";
+                }
+                else
+                {
+                    return value;
+                }
+            }
+        }
+
         public CreateTransactionDto CreateTransactionObjectFromXml()
         {
 
             CreateTransactionDto createTransaction = new CreateTransactionDto();
+            string[] accessDetails = GetAccessDetails(_MovingData.GeneralInfo);
+
             var generalInfo = _MovingData.GeneralInfo;
 
             createTransaction.externalRef = generalInfo.EMFID;
@@ -353,8 +413,8 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             createTransaction.originParty = generalInfo.ClientNumber;
             createTransaction.destinationParty = generalInfo.ClientNumber;
             createTransaction.jobExternalRef = generalInfo.Groupageid;
-            createTransaction.instructionsCrewOrigin = generalInfo.Preferences.Comment + "\n" + generalInfo.Comment;
-            createTransaction.instructionsCrewDestination = generalInfo.Preferences.Comment + "\n" + generalInfo.Comment;
+            createTransaction.instructionsCrewOrigin = generalInfo.Preferences.Comment + "\n" + generalInfo.Comment + Environment.NewLine + accessDetails[0];
+            createTransaction.instructionsCrewDestination = generalInfo.Preferences.Comment + "\n" + generalInfo.Comment + Environment.NewLine + accessDetails[1];
             createTransaction.scheduledDate = Convert.ToDateTime(generalInfo.Preferences.PackingDate);
 
             var properties = _MovingData.InventoryData.Properties.Property;
