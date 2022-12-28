@@ -12,5 +12,6 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
         Task<dynamic> SelectFrom(SqlQuery<string> select);
          Task UpdateTable<T>(SqlQuery<T> update);
          Task InsertInto<T>(SqlQuery<T> insertInto);
+        Task Delete<T>(SqlQuery<T> delete);
     }
 }
