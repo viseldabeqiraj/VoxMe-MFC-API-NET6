@@ -30,7 +30,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             _hostingEnvironment = hostingEnvironment;
         }
 
-        public async Task<MovingDataDto> XMLParseAsync(string xml)
+        public MovingDataDto XMLParse(string xml)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(MovingDataDto));
             MemoryStream memStream = new MemoryStream(Encoding.UTF8.GetBytes(xml));
@@ -266,13 +266,17 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                         itemName = "Enum.CompanyItem."+ x.Item.Name.Replace(" ", ""),
                         itemType =  string.IsNullOrEmpty(x.Item.Type) 
                         ? "Enum.ItemType.Generic" 
-                        : "Enum.ItemType." + x.Item.Type.Replace(" ", ""),
-                        itemCategory = "Enum.ItemCategory." + x.Item.Category.Replace(" ", ""),
+                        : "Enum.ItemType." 
+                        + char.ToUpper(x.Item.Type[0]) 
+                        + x.Item.Type.Replace(" ", "").Substring(1),
+                        itemCategory = "Enum.ItemCategory." 
+                        + char.ToUpper(x.Item.Category[0]) 
+                        + x.Item.Category.Replace(" ", "").Substring(1) ,
                         volume = x.Volume,
                         value = x.Item.Value,
                         valuationCurrency = "USD",
                         qty=x.Item.Quantity,
-                        condition = x.Item.Condition,
+                        condition = "Enum.ItemCondition." + x.Item.Condition.Replace(" ",""),
                         make = x.Item.Make,
                         model = x.Item.Model,
                         year = x.Item.Year,
@@ -290,6 +294,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                         materialsDesc = x.Item.MaterialsDesc,
                         countryOrigin = x.Item.CountryOrigin,
                         comment = x.Item.Comment,
+                        //conditionLocation = x.Item.loc
                         //photos = x.Item.PictureFileName,
                     }
                 }

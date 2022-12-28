@@ -118,7 +118,7 @@
             public decimal value { get; set; }
             public string valuationCurrency { get; set; }
             public short qty { get; set; }
-            public byte condition { get; set; }
+            public string condition { get; set; }
             public string conditionLocation { get; set; }
             public string make { get; set; }
             public string model { get; set; }

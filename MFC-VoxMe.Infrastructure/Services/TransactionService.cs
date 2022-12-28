@@ -47,7 +47,6 @@ namespace MFC_VoxMe.Infrastructure.Services
            return url;
         }
 
-        //TODO:: replace output of each endpoint in service to void, because we already know that response is success in Httprequest class
         public async Task<HttpResponseDto<CreateTransactionDto>> CreateTransaction(CreateTransactionDto createTransactionRequest)
         {
             var url = GetUrl($"transactions");

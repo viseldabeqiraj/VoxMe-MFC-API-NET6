@@ -35,6 +35,27 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
             return value;
         }
 
+        public void CreateFileInFolder(string filePath, byte[] bytes)
+        {
+            using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+            {
+                stream.Write(bytes);
+            }
+        }
+
+        public void DeleteFilesFromFolder(List<string> serverPaths)
+        {
+            foreach(var path in serverPaths)
+            {
+                DirectoryInfo di = new DirectoryInfo(path);
+                FileInfo[] files = di.GetFiles();
+                foreach (FileInfo file in files)
+                {
+                    file.Delete();
+                }
+            }
+        }
+
         public async Task<int> testc()
         { 
             var query = await _queryGenerator.SelectFrom(
@@ -276,11 +297,25 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                         Table = Constants.Tables.PIECES,
                         Dto = newPiece
                     });
-
+                    short id = 0;
                     foreach (var item in piece.items)
                     {
+                        id++;
+                        var conditionQuery = await _queryGenerator.SelectFrom(
+                          new SqlQuery<string>()
+                          {
+                              Columns = "ID",
+                              Table = Constants.Tables.CONDITIONS,
+                              WhereClause = SqlQuery<string>.Where
+                                         ("Name", IEnums.logOperator.LIKE.ToString(),
+                                         @$"'{GetValueFromJsonConfig(item.condition)}'")                                    
+                          });
+
+                        var conditionId = conditionQuery[0].ID;
                         var newItem = new Items()
                         {
+                            ID = id,
+                            PieceID = newPiece.ID,
                             Name = item.itemName,
                             Type = GetValueFromJsonConfig(item.itemType),
                             ItemStatus = GetValueFromJsonConfig(item.itemCategory),
@@ -288,7 +323,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                             Value = item.value.ToString(),
                             ValuationCurrency = item.valuationCurrency,
                             Qty = item.qty,
-                            Condition = item.condition,
+                            Condition = conditionId,
                             Make = item.make,
                             Model = item.model,
                             Year = item.year,
@@ -492,6 +527,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
         public async Task<string> GetItemsPath(int movingDataId)
         {
             SqlQuery<string> select = new SqlQuery<string>();
+
             select.Columns = "ItemsPath";
             select.Table = Constants.Tables.PREFS;
             select.WhereClause = SqlQuery<string>.Where

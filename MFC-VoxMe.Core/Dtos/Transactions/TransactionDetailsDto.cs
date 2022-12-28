@@ -83,7 +83,7 @@
             public string name { get; set; }
             public DateTime startDate { get; set; }
             public double totalDuration { get; set; }
-            public int totalWorkDuration { get; set; }
+            public double totalWorkDuration { get; set; }
         }
 
         public class МaterialsUsed

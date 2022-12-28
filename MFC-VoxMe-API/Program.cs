@@ -42,6 +42,7 @@ builder.Services.AddSingleton<IHttpRequests, HttpRequests>(); //added for DI
 builder.Services.AddSingleton<IJimToVoxmeHelper, JimToVoxmeHelper>(); //added for DI 
 builder.Services.AddSingleton<IVoxmeToJimHelper, VoxmeToJimHelper>(); //added for DI 
 builder.Services.AddSingleton<IDynamicQueryGenerator, DynamicQueryGenerator>(); //added for DI 
+builder.Services.AddSingleton<IWebhookService, WebhookService>(); //added for DI 
 builder.Services.AddSingleton(typeof(IRequestHelpers<>), typeof(RequestHelpers<>)); //added for DI 
 builder.Services.AddTransient<IEmailService, EmailService>(); ; //added for DI 
 

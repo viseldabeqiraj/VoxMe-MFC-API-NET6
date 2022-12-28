@@ -7,6 +7,8 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
     public interface IVoxmeToJimHelper
     {
         Task<dynamic> GetMovingDataId(string externalRef);
+        void CreateFileInFolder(string filePath, byte[] bytes);
+        void DeleteFilesFromFolder(List<string> serverPaths);
         List<KeyValuePair<string, string>> GetImages(JobDetailsDto jobDetails,TransactionDetailsDto transactiondetails);
         Task<string> GetItemsPath(int movingDataId);
         Task UpdateMovingData(string externalRef);

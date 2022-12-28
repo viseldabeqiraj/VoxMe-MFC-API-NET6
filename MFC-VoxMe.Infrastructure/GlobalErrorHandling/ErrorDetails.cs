@@ -12,8 +12,8 @@ namespace MFC_VoxMe.Infrastructure.GlobalErrorHandling
     {
         public HttpStatusCode StatusCode { get; set; }
         public string? Response { get; set; }
-        public string? MethodName { get; set; }
-        public string? ClassName { get; set; }
+        //public string? MethodName { get; set; }
+        //public string? ClassName { get; set; }
         public override string ToString()
         {
             return JsonSerializer.Serialize(this);

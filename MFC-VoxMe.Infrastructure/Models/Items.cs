@@ -18,7 +18,7 @@ namespace MFC_VoxMe.Infrastructure.Models
 		public int BoxType { get; set; }
 		public string? Value { get; set; } = String.Empty;
 		public short Qty { get; set; }
-		public byte Condition { get; set; }
+		public int Condition { get; set; } //byte
 		public string Make { get; set; } = String.Empty;
 		public string Model { get; set; } = String.Empty;
 		public string? Year { get; set; } = String.Empty;
