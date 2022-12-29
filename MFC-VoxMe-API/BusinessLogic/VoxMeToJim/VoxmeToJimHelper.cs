@@ -438,7 +438,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                 {
                     var newMaterial = new MFC_VoxMe.Infrastructure.Models.Materials()
                     {
-                        BoxType = item.name,
+                        BoxType = GetValueFromJsonConfig(item.name),
                         QtyTaken = item.numericValue == 0 ? item.booleanValue ? 1 : 0 : item.numericValue,
                         Description = item.stringValue ?? item.dateValue.ToString() ?? item.photoValue ?? item.signatureValue, //?
                         Value = item.listValues,
