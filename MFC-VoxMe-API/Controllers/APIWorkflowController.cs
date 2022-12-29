@@ -319,8 +319,8 @@ namespace MFC_VoxMe_API.Controllers
 
 					if (state == 3)
 					{
-						await _helper.InsertDataFromJobDetails
-							(jobDetailsRequest.dto, movingDataId);
+						//await _helper.InsertDataFromJobDetails
+						//	(jobDetailsRequest.dto, movingDataId);
 
 						await _helper.InsertDataFromTransactionDetails
 							(transactionDetails.dto, movingDataId);
@@ -373,7 +373,6 @@ namespace MFC_VoxMe_API.Controllers
 					//call webhook url to insert voxmestatus records https://edentraining.jkmoving.com:751/
 					await _webhookService.PostVoxmeStatus
 						(jobExternalRef,movingDataId.ToString(),status.ToString());
-
 				}
 			}
             return Ok();

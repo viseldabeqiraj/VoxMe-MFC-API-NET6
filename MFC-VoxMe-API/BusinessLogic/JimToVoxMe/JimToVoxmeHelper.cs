@@ -470,7 +470,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             createTransaction.jobExternalRef = generalInfo.Groupageid;
             createTransaction.instructionsCrewOrigin = generalInfo.Preferences.Comment + "\n" + generalInfo.Comment + Environment.NewLine + accessDetails[0];
             createTransaction.instructionsCrewDestination = generalInfo.Preferences.Comment + "\n" + generalInfo.Comment + Environment.NewLine + accessDetails[1];
-            createTransaction.scheduledDate = Convert.ToDateTime(generalInfo.Preferences.PackingDate);
+            createTransaction.scheduledDate = !string.IsNullOrEmpty(generalInfo.Preferences.PackingDate) ? Convert.ToDateTime(generalInfo.Preferences.PackingDate) : null;
 
             var properties = _MovingData.InventoryData.Properties.Property;
 
@@ -692,8 +692,8 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             {
                 ClientFirstName = generalInfo.ClientFirstName,
                 ClientName = generalInfo.Name,
-                Date = DateTime.Parse
-                            (generalInfo.Preferences.PackingDate),
+                Date = !string.IsNullOrEmpty(generalInfo.Preferences.PackingDate) ? DateTime.Parse
+                            (generalInfo.Preferences.PackingDate) : null,
                 JobDescription = "Imperial",
                 EstimatorName = generalInfo.EstimatorName,
                 Comment = generalInfo.Comment,
@@ -735,14 +735,17 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             {
                 MovingDataID = (int)NewMovingDataId,
                 PrefferedLanguageID = 1,
-                PackingDate = !string.IsNullOrEmpty(generalInfo.Preferences.PackingDate) ? DateTime.Parse
-                            (generalInfo.Preferences.PackingDate) : null,
+                PackingDate = !string.IsNullOrEmpty(generalInfo.Preferences.PackingDate) 
+                ? DateTime.Parse
+                (generalInfo.Preferences.PackingDate) : null,
                 ServiceTypeID = 1,
                 Comment = generalInfo.Preferences.Comment,
                 ItemsPath = generalInfo.ClientFirstName + "_" + generalInfo.Name + "_" + NewMovingDataId,
                 //RealArrivalDate = "",
-                DeliveryDate = !string.IsNullOrEmpty(generalInfo.Preferences.DeliveryDate) ? DateTime.Parse
-                                (generalInfo.Preferences.DeliveryDate) : null,
+                //DepartureDate = "",
+                DeliveryDate = !string.IsNullOrEmpty(generalInfo.Preferences.DeliveryDate)
+                ? DateTime.Parse
+                (generalInfo.Preferences.DeliveryDate) : null,
                 //SurveyDate = "",
                 CreationDate = DateTime.Now,
                 PackingFinishDate = !string.IsNullOrEmpty(generalInfo.Preferences.PackingFinishDate) ? DateTime.Parse

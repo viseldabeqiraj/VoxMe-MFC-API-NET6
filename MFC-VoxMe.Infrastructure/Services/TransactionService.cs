@@ -128,22 +128,20 @@ namespace MFC_VoxMe.Infrastructure.Services
             return result;
         }
 
-        //TODO:
         public async Task<HttpResponseDto<byte[]>> GetDocumentAsBinary(string EntityRef, string EntityType, string Name)
         {
 
-            var url = GetUrl($"documents?EntityRef=RS0237846&EntityType=Transaction&Name=pdf-test.pdf");
-            //var url = GetUrl($"documents?EntityRef={EntityRef}&EntityType={EntityType}&Name={Name}");
+            //var url = GetUrl($"documents?EntityRef=RS0237846&EntityType=Transaction&Name=pdf-test.pdf");
+            var url = GetUrl($"documents?EntityRef={EntityRef}&EntityType={EntityType}&Name={Name}");
 
             var result = await GetHelperService<byte[]>()
                             .GetByteRequestHelper(url);
             return result;
         }
-        //TODO:
         public async Task<HttpResponseDto<byte[]>> GetImageAsBinary(string EntityRef, string EntityType, string Name)
         {
-            var url = GetUrl($"images?EntityRef=RS0150687&EntityType=Transaction&Name=signature_1666862783756.png");
-            //var url = GetUrl($"images?EntityRef={EntityRef}&EntityType=Transaction&Name={name}");
+            //var url = GetUrl($"images?EntityRef=RS0150687&EntityType=Transaction&Name=signature_1666862783756.png");
+            var url = GetUrl($"images?EntityRef={EntityRef}&EntityType=Transaction&Name={Name}");
             var result = await GetHelperService<byte[]>()
                             .GetByteRequestHelper(url);
             return result;

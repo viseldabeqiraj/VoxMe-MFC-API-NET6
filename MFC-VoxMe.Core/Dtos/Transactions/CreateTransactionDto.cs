@@ -4,7 +4,7 @@
     {
         public string externalRef { get; set; } = String.Empty;
         public string jobExternalRef { get; set; } =  String.Empty;
-        public DateTime scheduledDate { get; set; } 
+        public DateTime? scheduledDate { get; set; } 
         public string transactionType { get; set; } = String.Empty;
         public string originParty { get; set; } = String.Empty;
         public OriginAddress originAddress { get; set; }
@@ -93,8 +93,8 @@
             public string sealNumber { get; set; }
             public string warehouseLocation { get; set; }
             public string storageUnit { get; set; }
-            public DateTime dateIn { get; set; }
-            public DateTime dateOut { get; set; }
+            //public DateTime dateIn { get; set; }
+            //public DateTime dateOut { get; set; }
         }
 
         public class OriginAddress

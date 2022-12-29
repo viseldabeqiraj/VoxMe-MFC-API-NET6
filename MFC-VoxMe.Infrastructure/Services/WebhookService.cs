@@ -45,7 +45,7 @@ namespace MFC_VoxMe.Infrastructure.Services
 
             url = QueryHelpers.AddQueryString(url, queryParams);
             var result = await GetHelperService<string>()
-                   .PostRequestHelper(url, "");
+                   .GetRequestHelper(url,null);
 
             return result;
         }
