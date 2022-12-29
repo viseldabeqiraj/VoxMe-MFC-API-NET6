@@ -49,7 +49,14 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
                 if (propertyInfo.GetValue(insertInto.Dto) != null)
                 {
                     colsList.Add(propertyInfo.Name);
-                    dataList.Add("'" + propertyInfo.GetValue(insertInto.Dto)?.ToString() + "'");
+                    var value = propertyInfo.GetValue(insertInto.Dto)?.ToString();
+
+                    if (value.Contains("'"))
+                    {
+                        var index = value.IndexOf("'");
+                        value = value.Insert(index, "'");
+                    }
+                    dataList.Add("'" + value + "'");
                 }
             }
             string cols = string.Join(",", colsList);
@@ -71,11 +78,12 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
             string table = update.Dto.GetType().Name;
             foreach (var propertyInfo in update.Dto.GetType().GetProperties())
             {
-                if (propertyInfo.GetValue(update.Dto) != null)
+                if (!string.IsNullOrEmpty(propertyInfo.GetValue(update.Dto)?.ToString()))
                 {
-                    colsValues += propertyInfo.Name + "=" + "'" + propertyInfo.GetValue(update.Dto)?.ToString() + "'";
+                    colsValues += propertyInfo.Name + "=" + "'" + propertyInfo.GetValue(update.Dto)?.ToString() + "'" + ",";
                 }
             }
+            colsValues = colsValues.Remove(colsValues.Length - 1);
             //string whereClause = GetWhereClause(update);
             string whereClause = update.WhereClause;
 

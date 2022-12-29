@@ -1,1 +1,0 @@
-2022-11-03 17:26:59.514 +01:00 [WRN] Method GetDownloadDetails in TransactionService returned NotFound. Json Response: {"type":"https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.4","title":"Failed to get Transaction by code","status":404,"traceId":"00-32572361bab71474076acc98ff29c284-f5b6aae15cd9954c-00","variables":null}

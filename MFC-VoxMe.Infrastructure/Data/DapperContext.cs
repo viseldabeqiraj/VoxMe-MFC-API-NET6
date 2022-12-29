@@ -20,5 +20,8 @@ namespace MFC_VoxMe.Infrastructure.Data
         }
         public IDbConnection CreateConnection()
             => new SqlConnection(_connectionString);
+
+        public SqlConnection CreateConnection1()
+            => new SqlConnection(_connectionString);
     }
 }

@@ -316,7 +316,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                         {
                             ID = id,
                             PieceID = newPiece.ID,
-                            Name = item.itemName,
+                            Name = GetValueFromJsonConfig(item.itemName),
                             Type = GetValueFromJsonConfig(item.itemType),
                             ItemStatus = GetValueFromJsonConfig(item.itemCategory),
                             Volume = item.volume,
@@ -391,23 +391,26 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                 });
         }
 
+
         public async Task InsertDataFromTransactionDetails(TransactionDetailsDto details, int movingDataId)
         {           
             var newMovingData = new MovingData()
             {
                 State = Convert.ToInt32(GetValueFromJsonConfig
-                        (details.onsiteStatus.Replace("Enum.TransactionOnsiteStatus.",""))),
+                        (details.onsiteStatus.Replace("Enum.TransactionOnSiteStatus.", ""))),
                 InventorySignature = details.clientSignature,
                 DriverSignature = details.driverSignature,
                 DestInventorySignature = details.destClientSignature,
                 DestDriverSignature = details.destDriverSignature         
             };
 
-            await _queryGenerator.InsertInto(
+            await _queryGenerator.UpdateTable(
                   new SqlQuery<MovingData>()
                   {
-                   Table = Constants.Tables.MOVINGDATA,
-                   Dto = newMovingData
+                   Dto = newMovingData,
+                   WhereClause = SqlQuery<string>.Where
+                                       ("ID", Constants.ComparisonOperators.EQUALTO,
+                                       @$"'{movingDataId}'")
                   });
 
             var newPrefs = new Prefs()
@@ -419,11 +422,13 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                 MovingDataID = movingDataId
             };
 
-            await _queryGenerator.InsertInto(
+            await _queryGenerator.UpdateTable(
                  new SqlQuery<Prefs>()
                  {
-                     Table = Constants.Tables.PREFS,
-                     Dto = newPrefs
+                     Dto = newPrefs,
+                     WhereClause = SqlQuery<string>.Where
+                                       ("MovingDataID", Constants.ComparisonOperators.EQUALTO,
+                                       @$"'{movingDataId}'")
                  });
 
             if (details.questionnaireQuestions != null)
@@ -462,11 +467,13 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                         MovingDataID = movingDataId
                     };
 
-                  await _queryGenerator.InsertInto(
+                  await _queryGenerator.UpdateTable(
                   new SqlQuery<MFC_VoxMe.Infrastructure.Models.Packers>()
                   {
-                      Table = Constants.Tables.PACKERS,
-                      Dto = newCrew
+                      Dto = newCrew,
+                      WhereClause = SqlQuery<string>.Where
+                                       ("MovingDataID", Constants.ComparisonOperators.EQUALTO,
+                                       @$"'{movingDataId}'")
                   });
                 }
             }
@@ -492,8 +499,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                       Dto = newTimesheet
                   });
                 }        
-            }       
-                       
+            }                           
         }
         public async Task UpdateMovingData(string externalRef)
         {
@@ -553,16 +559,23 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
             {
                 foreach (var item in lists)
                 {
+                    if (!string.IsNullOrEmpty(item.questionnaireQuestions.signatureValue))
                     imagesToStore.Add
                             (new KeyValuePair<string, string>
                             ("QuestionnaireQuestions", item.questionnaireQuestions.signatureValue));
-                    imagesToStore.Add
+
+                    if (!string.IsNullOrEmpty(item.questionnaireQuestions.photoValue))
+                        imagesToStore.Add
                             (new KeyValuePair<string, string>
                             ("QuestionnaireQuestions", item.questionnaireQuestions.photoValue));
-                    imagesToStore.Add
+
+                    if (!string.IsNullOrEmpty(item.auxServices.signatureValue))
+                        imagesToStore.Add
                             (new KeyValuePair<string, string>
                             ("AuxServices", item?.auxServices.signatureValue));
-                    imagesToStore.Add
+
+                    if (!string.IsNullOrEmpty(item?.auxServices.photoValue))
+                        imagesToStore.Add
                             (new KeyValuePair<string, string>
                             ("AuxServices", item?.auxServices.photoValue));
                 }
@@ -570,24 +583,33 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
 
             foreach (var item in jobDetails.jobInventory.rooms)
             {
-                imagesToStore.Add
+                if (!string.IsNullOrEmpty(item.conditionBeforeService?.photos))
+                    imagesToStore.Add
                            (new KeyValuePair<string, string>
                            ("Rooms", item.conditionBeforeService?.photos));
-                imagesToStore.Add
+
+                if (!string.IsNullOrEmpty(item.conditionAfterService?.photos))
+                    imagesToStore.Add
                            (new KeyValuePair<string, string>
                            ("Rooms", item.conditionAfterService?.photos));
             }
-
-            imagesToStore.Add
+            if (!string.IsNullOrEmpty(transactiondetails.clientSignature))
+                imagesToStore.Add
                (new KeyValuePair<string, string>
                ("Transaction", transactiondetails.clientSignature));
-            imagesToStore.Add
+
+            if (!string.IsNullOrEmpty(transactiondetails.driverSignature))
+                imagesToStore.Add
                (new KeyValuePair<string, string>
                ("Transaction", transactiondetails.driverSignature));
-            imagesToStore.Add
+
+            if (!string.IsNullOrEmpty(transactiondetails.destDriverSignature))
+                imagesToStore.Add
                (new KeyValuePair<string, string>
                ("Transaction", transactiondetails.destDriverSignature));
-            imagesToStore.Add
+
+            if (!string.IsNullOrEmpty(transactiondetails.destClientSignature))
+                imagesToStore.Add
                (new KeyValuePair<string, string>
                ("Transaction", transactiondetails.destClientSignature));
             return imagesToStore;
