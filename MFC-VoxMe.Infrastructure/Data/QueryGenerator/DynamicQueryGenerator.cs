@@ -1,9 +1,14 @@
 ﻿using Dapper;
 using MFC_VoxMe.Infrastructure.Data.QueryGenerator.Helpers;
 using MFC_VoxMe.Infrastructure.GlobalErrorHandling.Retry_Policy;
+using MFC_VoxMe.Infrastructure.Models;
+using MFC_VoxMe_API.Dtos.Common;
+using MFC_VoxMe_API.Dtos.Jobs;
+using Microsoft.Data.SqlClient;
 using Polly.Retry;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -97,6 +102,63 @@ namespace MFC_VoxMe.Infrastructure.Data.QueryGenerator
                 var result = await connection.QueryAsyncWithRetry(query);
             }
         }
+
+
+        //public async Task<List<ServicePaperworkModel>> GetRequiredPaperwork(MovingDataDto movingData)
+        //{
+        //    //GeneralHelper.LogMessage("Begin GetRequiredPaperwork");
+
+        //    var properties = movingData.InventoryData.Properties.Property;
+
+        //    string contract = properties.FirstOrDefault(s => s.Type == "Form.General.Contract").Description;
+        //    string authority = properties.FirstOrDefault(s => s.Type == "Form.General.Authority").Description;
+        //    string account = string.Empty;
+        //    if(!string.IsNullOrEmpty(properties.FirstOrDefault(s => s.Type == "Form.General.Account").Description))
+        //    {
+        //        account = properties.FirstOrDefault(s => s.Type == "Form.General.Account").Description;
+        //    }
+        //    List<ServicePaperworkModel> paperworkList = new List<ServicePaperworkModel>();
+        //    using (var sqlConnection = _context.CreateConnection1())
+        //    {
+        //        if (sqlConnection.State == ConnectionState.Open)
+        //        {
+        //            sqlConnection.Close();
+        //        }
+
+        //        sqlConnection.Open();
+        //        SqlDataReader reader;
+
+        //        using (var sqlCommand = new SqlCommand("Eden.p_GetRequiredPaperwork", sqlConnection))
+        //        {
+        //            sqlCommand.CommandType = CommandType.StoredProcedure;
+        //            sqlCommand.Parameters.AddWithValue("@moveContract", contract);
+        //            sqlCommand.Parameters.AddWithValue("@service", movingData.GeneralInfo.ShipmentType);
+        //            sqlCommand.Parameters.AddWithValue("@accountName", account);
+        //            sqlCommand.Parameters.AddWithValue("@authority", authority);
+        //            sqlCommand.Parameters.AddWithValue("@applicationName", "Paperwork Audit");
+        //            reader = sqlCommand.ExecuteReader();
+        //        }
+
+        //        while (reader.Read())
+        //        {
+        //            ServicePaperworkModel audit = new ServicePaperworkModel
+        //            {
+        //                PaperworkGuid = reader["jkmoving_serivcepaperworkid"].ToString(),
+        //                PaperworkName = reader["jkmoving_name"].ToString(),
+        //            };
+
+        //            // Business Rule: Only POV moves should have the Vehicle Condition report.
+        //            // Business Rule: HHG moves shouldn't receive the Security Endorsement form.
+        //            if ((movingData.GeneralInfo.Preferences.ServiceLevel != "POV" && audit.PaperworkName == "Vehicle Condition Report")
+        //                || (movingData.GeneralInfo.Preferences.ServiceLevel == "HHG" && audit.PaperworkName == "UAB And HHE Security Endorsement Form"))
+        //                continue;
+
+        //            paperworkList.Add(audit);
+        //        }
+
+        //        return paperworkList;
+        //    }
+        //}
 
         //public string GetWhereClause<T>(SqlQuery<T> query)
         //{

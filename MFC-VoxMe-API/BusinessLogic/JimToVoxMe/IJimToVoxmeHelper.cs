@@ -1,4 +1,5 @@
 ﻿using MFC_VoxMe.Core.Dtos.Common;
+using MFC_VoxMe.Infrastructure.Models;
 using MFC_VoxMe_API.Dtos.Common;
 using MFC_VoxMe_API.Dtos.Jobs;
 using MFC_VoxMe_API.Dtos.Management;
@@ -15,6 +16,6 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
         AssignStaffDesignateForemanDto GetTransactionResources();
         Task InsertTableRecords();
         byte[] GetDoc();
-
+        List<string> GetCorrelatingDocuments(MovingDataDto movingData);
     }
 }
