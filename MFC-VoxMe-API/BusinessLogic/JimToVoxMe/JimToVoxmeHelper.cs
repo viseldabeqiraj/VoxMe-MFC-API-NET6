@@ -8,6 +8,7 @@ using MFC_VoxMe_API.Dtos.Jobs;
 using MFC_VoxMe_API.Dtos.Transactions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using static MFC_VoxMe.Infrastructure.Data.Helpers.Enums;
@@ -37,6 +38,55 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
             MovingDataDto movingDataFromXml = (MovingDataDto)serializer.Deserialize(memStream);
             _MovingData = movingDataFromXml;
             return movingDataFromXml;
+
+        }
+        public List<string> GetCorrelatingDocuments(MovingDataDto movingData)
+        {
+            List<string> documents = new List<string>();
+            string[] origin = { "Load", "Load and Deliver", "Crate and Frieght", "APU floor", "APU Trailer", "Claims", "SIT at Origin", "Storage in" };
+            string[] destination = { "Delivery", "Storage Out", "SIT At Destination" };
+
+            string contract = movingData.InventoryData.Properties.Property.FirstOrDefault(s => s.Type == "Form.General.Contract").Description;
+            string authority = movingData.InventoryData.Properties.Property.FirstOrDefault(s => s.Type == "Form.General.Authority").Description;
+            //Move Order Contract
+            if (authority == "Local")
+            {
+                documents.Add($@"MoveOrderContract_{movingData.GeneralInfo.EMFID}.pdf");
+            }
+
+            //Interstate
+            if (authority == "Interstate")
+            {
+                // BOL Origin
+                if (origin.Any(s => movingData.GeneralInfo.ShipmentType.ToLower().Equals(s.ToLower())))
+                {
+                    documents.Add($@"Interstate_BOL_Origin.pdf");
+                }
+
+                // BOL Destination
+                if (destination.Any(s => movingData.GeneralInfo.ShipmentType.ToLower().Equals(s.ToLower())))
+                {
+                    documents.Add($@"Interstate_BOL_Destination.pdf");
+                }
+            }
+
+            //Intrastate
+            if (authority == "Intrastate")
+            {
+                // BOL Origin
+                if (origin.Any(s => movingData.GeneralInfo.ShipmentType.ToLower().Equals(s.ToLower())))
+                {
+                    documents.Add($@"Intrastate_BOL_Origin.pdf");
+                }
+
+                // BOL Destination
+                if (destination.Any(s => movingData.GeneralInfo.ShipmentType.ToLower().Equals(s.ToLower())))
+                {
+                    documents.Add($@"Intrastate_BOL_Destination.pdf");
+                }
+            }
+
+            return documents;
 
         }
 

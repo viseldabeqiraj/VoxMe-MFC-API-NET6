@@ -75,6 +75,12 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
 
         }
 
+        //public async Task<List<ServicePaperworkModel>> GetPaperworkDocuments(MovingDataDto movingData)
+        //{
+        //    var paperworkDocuments = await _queryGenerator.GetRequiredPaperwork(movingData);
+        //    return paperworkDocuments;
+        //}
+
         public async Task InsertDataFromJobDetails(JobDetailsDto jobDetails, int movingDataId)
         {
             if (jobDetails.jobInventory.rooms != null)

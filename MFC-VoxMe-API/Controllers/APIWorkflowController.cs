@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using MFC_VoxMe.Core.Dtos.Transactions;
 using MFC_VoxMe.Core.Interfaces;
+using MFC_VoxMe.Infrastructure.Models;
 using MFC_VoxMe_API.BusinessLogic.JimToVoxMe;
 using MFC_VoxMe_API.BusinessLogic.VoxMeToJim;
+using MFC_VoxMe_API.Dtos.Common;
 using MFC_VoxMe_API.Dtos.Jobs;
 using MFC_VoxMe_API.Dtos.Management;
 using MFC_VoxMe_API.Dtos.Transactions;
@@ -47,7 +49,8 @@ namespace MFC_VoxMe_API.Controllers
             _webhookService = webhookService;
         }
 
-		[HttpPost("WorkflowLogic")]
+
+        [HttpPost("WorkflowLogic")]
 
 		public async Task<ActionResult> WorkflowLogic([FromBody] string xml)
 		{
@@ -59,10 +62,11 @@ namespace MFC_VoxMe_API.Controllers
             var jobToCreate12 = _helpers.CreateJobObjectFromXml();
             var jsonJob = JsonConvert.SerializeObject(jobToCreate12);
 
+			var documentPlaceHolder = _helpers.GetCorrelatingDocuments(movingData);
             var transactionToCreate = _helpers.CreateTransactionObjectFromXml();
 			var jsonTransaction = JsonConvert.SerializeObject(transactionToCreate);
-
-			var jobSummaryRequest = await _jobService.GetSummary(jobExternalRef);
+			//List<ServicePaperworkModel> listDocuments = await _helper.GetPaperworkDocuments(movingData);
+            var jobSummaryRequest = await _jobService.GetSummary(jobExternalRef);
 			if (jobSummaryRequest.responseStatus != HttpStatusCode.NoContent)
 			{
 				var transactionSummaryRequest = await _transactionService.GetSummary(externalRef);
@@ -109,13 +113,13 @@ namespace MFC_VoxMe_API.Controllers
                         byte[] b = new byte[1];
                         rnd.NextBytes(b);
 
-                        foreach (var doc in movingData.Documents.Document)
+                        foreach (var doc in documentPlaceHolder)
                         {
                             await _transactionService.AddDocumentToTransaction(
                             new DocumentDto()
                             {
                                 File = b,
-                                DocTitle = doc.FileName
+                                DocTitle = doc
                             }, externalRef);
                         }
 
@@ -151,13 +155,13 @@ namespace MFC_VoxMe_API.Controllers
                     byte[] b = new byte[100 * 1024];
                     rnd.NextBytes(b);
 
-                    foreach (var doc in movingData.Documents.Document)
+                    foreach (var doc in documentPlaceHolder)
                     {
                         await _transactionService.AddDocumentToTransaction(
                         new DocumentDto()
                         {
                             File = b,
-                            DocTitle = doc.FileName
+                            DocTitle = doc
                         }, externalRef);
                     }
 
