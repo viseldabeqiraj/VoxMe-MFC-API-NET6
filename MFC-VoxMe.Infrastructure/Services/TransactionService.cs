@@ -10,6 +10,7 @@ using MFC_VoxMe_API.HttpMethods;
 using MFC_VoxMe_API.Logging;
 using MFC_VoxMe_API.Services.Transactions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -132,8 +133,15 @@ namespace MFC_VoxMe.Infrastructure.Services
         {
 
             //var url = GetUrl($"documents?EntityRef=RS0237846&EntityType=Transaction&Name=pdf-test.pdf");
-            var url = GetUrl($"documents?EntityRef={EntityRef}&EntityType={EntityType}&Name={Name}");
+            var url = GetUrl($"documents");
+            var queryParams = new Dictionary<string, string>()
+            {
+            {"EntityRef", EntityRef },
+            {"EntityType", EntityType },
+            {"Name", Name }
+            };
 
+            url = QueryHelpers.AddQueryString(url, queryParams);
             var result = await GetHelperService<byte[]>()
                             .GetByteRequestHelper(url);
             return result;
@@ -141,7 +149,15 @@ namespace MFC_VoxMe.Infrastructure.Services
         public async Task<HttpResponseDto<byte[]>> GetImageAsBinary(string EntityRef, string EntityType, string Name)
         {
             //var url = GetUrl($"images?EntityRef=RS0150687&EntityType=Transaction&Name=signature_1666862783756.png");
-            var url = GetUrl($"images?EntityRef={EntityRef}&EntityType=Transaction&Name={Name}");
+            var url = GetUrl($"images");
+            var queryParams = new Dictionary<string, string>()
+            {
+            {"EntityRef", EntityRef },
+            {"EntityType", EntityType },
+            {"Name", Name }
+            };
+
+            url = QueryHelpers.AddQueryString(url, queryParams);
             var result = await GetHelperService<byte[]>()
                             .GetByteRequestHelper(url);
             return result;

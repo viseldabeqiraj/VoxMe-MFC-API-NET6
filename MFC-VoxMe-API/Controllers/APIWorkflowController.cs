@@ -315,10 +315,10 @@ namespace MFC_VoxMe_API.Controllers
 
 					if (state == 3)
 					{
-						//await _helper.InsertDataFromJobDetails
-						//	(jobDetailsRequest.dto, movingDataId);
+                        await _helper.InsertDataFromJobDetails
+                            (jobDetailsRequest.dto, movingDataId);
 
-						await _helper.InsertDataFromTransactionDetails
+                        await _helper.InsertDataFromTransactionDetails
 							(transactionDetails.dto, movingDataId);
 
 						//TODO: Create or update correlating records

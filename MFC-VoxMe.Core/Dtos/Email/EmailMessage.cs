@@ -13,10 +13,10 @@ namespace MFC_VoxMe.Core.Dtos.Email
 {
     public class EmailMessage
     {
-        public string EmailToId { get; set; }
-        public string EmailToName { get; set; }
-        public string EmailSubject { get; set; }
-        public string EmailBody { get; set; }
+        public string EmailId { get; set; }
+        public string Name { get; set; }
+        public string Subject { get; set; }
+        public string Body { get; set; }
     
     }
 }
