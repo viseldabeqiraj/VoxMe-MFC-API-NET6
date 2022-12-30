@@ -1,0 +1,108 @@
+2022-12-30 06:08:35.768 -05:00 [ERR] https://api-stg.voxme.com/mfc/v2/transactions/RS0210303/crew  POST Request: InternalServerError {"type":"https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.1","title":"Failed to assign Resource to Transaction","status":500,"traceId":"00-49feb30de7d7df753faebc74a83dc6d5-305b490ca674da47-00","variables":null}
+   at MFC_VoxMe_API.HttpMethods.HttpRequests.MakePostHttpCall(String url, HttpContent data) in C:\Users\Emired Culiqi\source\repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\HttpMethods\HttpRequests.cs:line 159
+   at MFC_VoxMe.Infrastructure.HttpMethods.RequestHelpers`1.PostRequestHelper[T](String url, T dto) in C:\Users\Emired Culiqi\source\repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\HttpMethods\Helpers\RequestHelpers.cs:line 32
+   at MFC_VoxMe.Infrastructure.Services.TransactionService.AssignStaffDesignateForeman(AssignStaffDesignateForemanDto request, String externalRef) in C:\Users\Emired Culiqi\source\repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\Services\TransactionService.cs:line 125
+   at MFC_VoxMe_API.Controllers.APIWorkflowController.WorkflowLogic(String xml) in C:\Users\Emired Culiqi\source\repos\voxme-mfc-api\MFC-VoxMe-API\Controllers\APIWorkflowController.cs:line 100
+   at lambda_method5(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.InvokeAsync(HttpContext httpContext) in C:\Users\Emired Culiqi\source\repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\GlobalErrorHandling\ExceptionMiddlewareExtensions.cs:line 36
+2022-12-30 06:18:09.174 -05:00 [ERR] https://api-stg.voxme.com/mfc/v2/transactions/RS0210303/crew  POST Request: InternalServerError {"type":"https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.1","title":"Failed to assign Resource to Transaction","status":500,"traceId":"00-2fc5aaea9f14459b1b28b1e65a543db4-652fff0a8ef7c24d-00","variables":null}
+   at MFC_VoxMe_API.HttpMethods.HttpRequests.MakePostHttpCall(String url, HttpContent data) in C:\Users\Emired Culiqi\source\repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\HttpMethods\HttpRequests.cs:line 159
+   at MFC_VoxMe.Infrastructure.HttpMethods.RequestHelpers`1.PostRequestHelper[T](String url, T dto) in C:\Users\Emired Culiqi\source\repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\HttpMethods\Helpers\RequestHelpers.cs:line 32
+   at MFC_VoxMe.Infrastructure.Services.TransactionService.AssignStaffDesignateForeman(AssignStaffDesignateForemanDto request, String externalRef) in C:\Users\Emired Culiqi\source\repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\Services\TransactionService.cs:line 125
+   at MFC_VoxMe_API.Controllers.APIWorkflowController.WorkflowLogic(String xml) in C:\Users\Emired Culiqi\source\repos\voxme-mfc-api\MFC-VoxMe-API\Controllers\APIWorkflowController.cs:line 100
+   at lambda_method5(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.InvokeAsync(HttpContext httpContext) in C:\Users\Emired Culiqi\source\repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\GlobalErrorHandling\ExceptionMiddlewareExtensions.cs:line 36
+2022-12-30 06:19:40.233 -05:00 [ERR] https://api-stg.voxme.com/mfc/v2/transactions/RS0210303/crew  POST Request: InternalServerError {"type":"https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.1","title":"Failed to assign Resource to Transaction","status":500,"traceId":"00-d1302be56d395101dc0b50653e4c48ec-3be855389dcbd443-00","variables":null}
+   at MFC_VoxMe_API.HttpMethods.HttpRequests.MakePostHttpCall(String url, HttpContent data) in C:\Users\Emired Culiqi\source\repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\HttpMethods\HttpRequests.cs:line 159
+   at MFC_VoxMe.Infrastructure.HttpMethods.RequestHelpers`1.PostRequestHelper[T](String url, T dto) in C:\Users\Emired Culiqi\source\repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\HttpMethods\Helpers\RequestHelpers.cs:line 32
+   at MFC_VoxMe.Infrastructure.Services.TransactionService.AssignStaffDesignateForeman(AssignStaffDesignateForemanDto request, String externalRef) in C:\Users\Emired Culiqi\source\repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\Services\TransactionService.cs:line 125
+   at MFC_VoxMe_API.Controllers.APIWorkflowController.WorkflowLogic(String xml)
+   at lambda_method298(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.InvokeAsync(HttpContext httpContext) in C:\Users\Emired Culiqi\source\repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\GlobalErrorHandling\ExceptionMiddlewareExtensions.cs:line 36
+2022-12-30 06:21:21.494 -05:00 [ERR] https://api-stg.voxme.com/mfc/v2/transactions/RS0210303/crew  POST Request: InternalServerError {"type":"https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.1","title":"Failed to assign Resource to Transaction","status":500,"traceId":"00-8715bc5d64e5e661137d8fb3cc1568f5-ff5f834efe3e5e44-00","variables":null}
+   at MFC_VoxMe_API.HttpMethods.HttpRequests.MakePostHttpCall(String url, HttpContent data) in C:\Users\Emired Culiqi\source\repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\HttpMethods\HttpRequests.cs:line 159
+   at MFC_VoxMe.Infrastructure.HttpMethods.RequestHelpers`1.PostRequestHelper[T](String url, T dto) in C:\Users\Emired Culiqi\source\repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\HttpMethods\Helpers\RequestHelpers.cs:line 32
+   at MFC_VoxMe.Infrastructure.Services.TransactionService.AssignStaffDesignateForeman(AssignStaffDesignateForemanDto request, String externalRef) in C:\Users\Emired Culiqi\source\repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\Services\TransactionService.cs:line 125
+   at MFC_VoxMe_API.Controllers.APIWorkflowController.WorkflowLogic(String xml)
+   at lambda_method298(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.InvokeAsync(HttpContext httpContext) in C:\Users\Emired Culiqi\source\repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\GlobalErrorHandling\ExceptionMiddlewareExtensions.cs:line 36
+2022-12-30 06:22:12.714 -05:00 [ERR] https://api-stg.voxme.com/mfc/v2/transactions/RS0210303/crew  POST Request: InternalServerError {"type":"https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.1","title":"Failed to assign Resource to Transaction","status":500,"traceId":"00-d309ef28558e390b86744c79b882db89-c558926fe1208d42-00","variables":null}
+   at MFC_VoxMe_API.HttpMethods.HttpRequests.MakePostHttpCall(String url, HttpContent data) in C:\Users\Emired Culiqi\source\repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\HttpMethods\HttpRequests.cs:line 159
+   at MFC_VoxMe.Infrastructure.HttpMethods.RequestHelpers`1.PostRequestHelper[T](String url, T dto) in C:\Users\Emired Culiqi\source\repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\HttpMethods\Helpers\RequestHelpers.cs:line 32
+   at MFC_VoxMe.Infrastructure.Services.TransactionService.AssignStaffDesignateForeman(AssignStaffDesignateForemanDto request, String externalRef) in C:\Users\Emired Culiqi\source\repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\Services\TransactionService.cs:line 125
+   at MFC_VoxMe_API.Controllers.APIWorkflowController.WorkflowLogic(String xml)
+   at lambda_method298(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.InvokeAsync(HttpContext httpContext) in C:\Users\Emired Culiqi\source\repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\GlobalErrorHandling\ExceptionMiddlewareExtensions.cs:line 36
+2022-12-30 06:26:24.828 -05:00 [ERR] https://api-stg.voxme.com/mfc/v2/transactions/RS0210303/crew  POST Request: InternalServerError {"type":"https://datatracker.ietf.org/doc/html/rfc7231#section-6.6.1","title":"Failed to assign Resource to Transaction","status":500,"traceId":"00-7d626e8ad062a35e16cc38daba595aa9-403d15ebeb5b544e-00","variables":null}
+   at MFC_VoxMe_API.HttpMethods.HttpRequests.MakePostHttpCall(String url, HttpContent data) in C:\Users\Emired Culiqi\source\repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\HttpMethods\HttpRequests.cs:line 159
+   at MFC_VoxMe.Infrastructure.HttpMethods.RequestHelpers`1.PostRequestHelper[T](String url, T dto) in C:\Users\Emired Culiqi\source\repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\HttpMethods\Helpers\RequestHelpers.cs:line 32
+   at MFC_VoxMe.Infrastructure.Services.TransactionService.AssignStaffDesignateForeman(AssignStaffDesignateForemanDto request, String externalRef) in C:\Users\Emired Culiqi\source\repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\Services\TransactionService.cs:line 125
+   at MFC_VoxMe_API.Controllers.APIWorkflowController.WorkflowLogic(String xml)
+   at lambda_method298(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.InvokeAsync(HttpContext httpContext) in C:\Users\Emired Culiqi\source\repos\voxme-mfc-api\MFC-VoxMe.Infrastructure\GlobalErrorHandling\ExceptionMiddlewareExtensions.cs:line 36

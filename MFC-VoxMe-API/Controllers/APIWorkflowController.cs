@@ -55,7 +55,6 @@ namespace MFC_VoxMe_API.Controllers
 		public async Task<ActionResult> WorkflowLogic([FromBody] string xml)
 		{
 			var movingData = _helpers.XMLParse(xml);
-			//var bytes = _helpers.GetDoc();
 			var externalRef = movingData.GeneralInfo.EMFID;
 			var jobExternalRef = movingData.GeneralInfo.Groupageid;
 
@@ -65,15 +64,15 @@ namespace MFC_VoxMe_API.Controllers
 			var documentPlaceHolder = _helpers.GetCorrelatingDocuments(movingData);
             var transactionToCreate = _helpers.CreateTransactionObjectFromXml();
 			var jsonTransaction = JsonConvert.SerializeObject(transactionToCreate);
-			//List<ServicePaperworkModel> listDocuments = await _helper.GetPaperworkDocuments(movingData);
             var jobSummaryRequest = await _jobService.GetSummary(jobExternalRef);
+			//Check if job already exist
 			if (jobSummaryRequest.responseStatus != HttpStatusCode.NoContent)
 			{
 				var transactionSummaryRequest = await _transactionService.GetSummary(externalRef);
 
+				//Check if transaction already exist
 				if (transactionSummaryRequest.responseStatus != HttpStatusCode.NoContent)
 				{
-
                     var transactionToUpdate = _mapper.Map<UpdateTransactionDto>(transactionToCreate);
 
                     await _transactionService.UpdateTransaction(externalRef, transactionToUpdate);
@@ -86,11 +85,15 @@ namespace MFC_VoxMe_API.Controllers
 					}
 					else
 					{
-						await _transactionService.RemoveMaterialsFromTransaction(externalRef);
+                        // Update transaction
+
+                        //Remove and add materials to transaction
+                        await _transactionService.RemoveMaterialsFromTransaction(externalRef);
 						if(_helpers.GetTransactionMaterials().handedMaterials!=null)
 							await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
 
-						await _transactionService.RemoveResourceFromTransaction(externalRef);
+                        //Remove and add resources to transaction
+                        await _transactionService.RemoveResourceFromTransaction(externalRef);
 						var resourceCodes = _helpers.GetTransactionResources().staffResourceCodes;
                         if (resourceCodes != null)
                         {
@@ -107,12 +110,14 @@ namespace MFC_VoxMe_API.Controllers
 				{
 					if (transactionToCreate != null)
 					{
+						// Create transaction
 					    await _transactionService.CreateTransaction(transactionToCreate);
 
                         Random rnd = new Random();
                         byte[] b = new byte[1];
                         rnd.NextBytes(b);
 
+						// Add documents to transaction
                         foreach (var doc in documentPlaceHolder)
                         {
                             await _transactionService.AddDocumentToTransaction(
@@ -123,9 +128,11 @@ namespace MFC_VoxMe_API.Controllers
                             }, externalRef);
                         }
 
+                        // Add materials to transaction
                         if (_helpers.GetTransactionMaterials().handedMaterials != null)
                             await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
 
+                        // Add resources to transaction
                         var resourceCodes = _helpers.GetTransactionResources().staffResourceCodes;
                         if (resourceCodes != null)
                         {
@@ -140,12 +147,12 @@ namespace MFC_VoxMe_API.Controllers
 			}
 			else
 			{
-                // Create Job
 				var jobToCreate = _helpers.CreateJobObjectFromXml();
 
 				if (jobToCreate != null)
 				{
-					await _jobService.CreateJob(jobToCreate);
+                    // Create Job
+                    await _jobService.CreateJob(jobToCreate);
 
 					if (transactionToCreate != null)
                         //Create Transaction
@@ -155,6 +162,7 @@ namespace MFC_VoxMe_API.Controllers
                     byte[] b = new byte[100 * 1024];
                     rnd.NextBytes(b);
 
+					// Add documents to transaction
                     foreach (var doc in documentPlaceHolder)
                     {
                         await _transactionService.AddDocumentToTransaction(
@@ -165,10 +173,12 @@ namespace MFC_VoxMe_API.Controllers
                         }, externalRef);
                     }
 
+					// Add materials to transaction
                     await _transactionService.RemoveMaterialsFromTransaction(externalRef);
                     if (_helpers.GetTransactionMaterials().handedMaterials != null)
                         await _transactionService.AssignMaterialsToTransaction(_helpers.GetTransactionMaterials(), externalRef);
 
+                    // Add resources to transaction
                     await _transactionService.RemoveResourceFromTransaction(externalRef);
                     var resourceCodes = _helpers.GetTransactionResources().staffResourceCodes;
                     if (resourceCodes !=null)

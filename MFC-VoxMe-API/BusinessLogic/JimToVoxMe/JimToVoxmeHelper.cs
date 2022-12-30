@@ -66,7 +66,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                 // BOL Destination
                 if (destination.Any(s => movingData.GeneralInfo.ShipmentType.ToLower().Equals(s.ToLower())))
                 {
-                    documents.Add($@"Interstate_BOL_Destination.pdf");
+                    documents.Add($@"Interstate_BOL_Rated.pdf");
                 }
             }
 
@@ -82,7 +82,7 @@ namespace MFC_VoxMe_API.BusinessLogic.JimToVoxMe
                 // BOL Destination
                 if (destination.Any(s => movingData.GeneralInfo.ShipmentType.ToLower().Equals(s.ToLower())))
                 {
-                    documents.Add($@"Intrastate_BOL_Destination.pdf");
+                    documents.Add($@"Intrastate_BOL_Rated.pdf");
                 }
             }
 
