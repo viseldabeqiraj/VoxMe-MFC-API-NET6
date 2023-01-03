@@ -4,6 +4,7 @@ using MFC_VoxMe.Core.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using MimeKit;
 using MimeKit.Text;
 using Serilog;
@@ -22,11 +23,19 @@ namespace MFC_VoxMe.Infrastructure.GlobalErrorHandling
 
         private readonly RequestDelegate _next;
         private readonly IEmailService _emailService;
+        private readonly IConfiguration _configuration;
+        private EmailMessage? _emailConfiguration;
 
-        public ExceptionMiddlewareExtensions(RequestDelegate next, IEmailService emailService)
+        public ExceptionMiddlewareExtensions(RequestDelegate next, IEmailService emailService, IConfiguration configuration)
         {
             _next = next;
             _emailService = emailService;
+            _configuration = configuration;
+        }
+        public void EmailDataFromConfig()
+        {
+            _emailConfiguration = _configuration.GetSection
+                ("EmailConfiguration:To").Get<EmailMessage>();
         }
 
         public async Task InvokeAsync(HttpContext httpContext)
@@ -86,12 +95,13 @@ namespace MFC_VoxMe.Infrastructure.GlobalErrorHandling
                     errorResponse.StatusCode = HttpStatusCode.InternalServerError;
                     break;
                 case SqlException s:
+                    EmailDataFromConfig();
                     var emailData = new EmailMessage()
                     {
-                        EmailToName = "Viselda.beqiraj@gmail.com",
-                        EmailBody = "Test bodyy",
-                        EmailToId = "Viselda.beqiraj@gmail.com",
-                        EmailSubject ="test subject"
+                        Name = _emailConfiguration.Name,
+                        Body = s.Number + s.Message,
+                        EmailId = _emailConfiguration.EmailId,
+                        Subject ="Sql Exception MFC Middleware"
                     };
                      _emailService.SendEmail(emailData);
                     break;

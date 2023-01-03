@@ -19,7 +19,7 @@ namespace MFC_VoxMe.Infrastructure.Services
         public void EmailDataFromConfig()
         {
             _emailConfiguration = _configuration.GetSection
-                ("EmailConfiguration").Get<EmailConfiguration>(); 
+                ("EmailConfiguration:From").Get<EmailConfiguration>(); 
         }
         public bool SendEmail(EmailMessage emailData)
         {
@@ -29,12 +29,12 @@ namespace MFC_VoxMe.Infrastructure.Services
                 MailboxAddress emailFrom = new MailboxAddress(_emailConfiguration?.Name, _emailConfiguration?.EmailId);
                 emailMessage.From.Add(emailFrom);
 
-                MailboxAddress emailTo = new MailboxAddress(emailData.EmailToName, emailData.EmailToId);
+                MailboxAddress emailTo = new MailboxAddress(emailData.Name, emailData.EmailId);
                 emailMessage.To.Add(emailTo);
-                emailMessage.Subject = emailData.EmailSubject;
+                emailMessage.Subject = emailData.Subject;
 
                 BodyBuilder emailBodyBuilder = new BodyBuilder();
-                emailBodyBuilder.TextBody = emailData.EmailBody;
+                emailBodyBuilder.TextBody = emailData.Body;
                 emailMessage.Body = emailBodyBuilder.ToMessageBody();
 
                 SmtpClient emailClient = new SmtpClient();
