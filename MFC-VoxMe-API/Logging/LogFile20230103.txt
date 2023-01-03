@@ -1,0 +1,57 @@
+2023-01-03 12:56:58.283 +01:00 [ERR] https://api-stg.voxme.com/mfc/v2/images?EntityRef=RS0210302&EntityType=Transaction&Name=img1672332584980.jpg GET Request: NotFound {"type":"https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.4","title":"Specified file is not found for entity","status":404,"traceId":"00-9b22974ffb31ff50d1d3e0fb92970bb2-26985ec4d10fee47-00","variables":{"fileName":"img1672332584980.jpg","entityType":"Transaction","entityRef":"RS0210302"}}
+   at MFC_VoxMe_API.HttpMethods.HttpRequests.MakeGetHttpCall(String url, HttpContent data) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\HttpMethods\HttpRequests.cs:line 98
+   at MFC_VoxMe.Infrastructure.HttpMethods.RequestHelpers`1.GetByteRequestHelper(String url) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\HttpMethods\Helpers\RequestHelpers.cs:line 98
+   at MFC_VoxMe.Infrastructure.Services.TransactionService.GetImageAsBinary(String EntityRef, String EntityType, String Name) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\Services\TransactionService.cs:line 161
+   at MFC_VoxMe_API.Controllers.APIWorkflowController.<MFCStatusUpdate>g__CreateFiles|11_0(String externalRef, TransactionDetailsDto transactionDetails, String filePath, List`1 images) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe-API\Controllers\APIWorkflowController.cs:line 291
+   at MFC_VoxMe_API.Controllers.APIWorkflowController.MFCStatusUpdate(TransactionSummaryDto request) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe-API\Controllers\APIWorkflowController.cs:line 258
+   at lambda_method5(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.InvokeAsync(HttpContext httpContext) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\GlobalErrorHandling\ExceptionMiddlewareExtensions.cs:line 45
+2023-01-03 12:58:32.662 +01:00 [ERR] https://api-stg.voxme.com/mfc/v2/images?EntityRef=RS0210302&EntityType=Transaction&Name=img1672332584980.jpg GET Request: NotFound {"type":"https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.4","title":"Specified file is not found for entity","status":404,"traceId":"00-e5532e5b405bbbd3f3440dda274cb604-506c8875fbb5264c-00","variables":{"fileName":"img1672332584980.jpg","entityType":"Transaction","entityRef":"RS0210302"}}
+   at MFC_VoxMe_API.HttpMethods.HttpRequests.MakeGetHttpCall(String url, HttpContent data) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\HttpMethods\HttpRequests.cs:line 98
+   at MFC_VoxMe.Infrastructure.HttpMethods.RequestHelpers`1.GetByteRequestHelper(String url) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\HttpMethods\Helpers\RequestHelpers.cs:line 98
+   at MFC_VoxMe.Infrastructure.Services.TransactionService.GetImageAsBinary(String EntityRef, String EntityType, String Name) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\Services\TransactionService.cs:line 161
+   at MFC_VoxMe_API.Controllers.APIWorkflowController.<MFCStatusUpdate>g__CreateFiles|11_0(String externalRef, TransactionDetailsDto transactionDetails, String filePath, List`1 images) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe-API\Controllers\APIWorkflowController.cs:line 291
+   at MFC_VoxMe_API.Controllers.APIWorkflowController.MFCStatusUpdate(TransactionSummaryDto request) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe-API\Controllers\APIWorkflowController.cs:line 258
+   at lambda_method5(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.InvokeAsync(HttpContext httpContext) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\GlobalErrorHandling\ExceptionMiddlewareExtensions.cs:line 45
+2023-01-03 13:00:37.198 +01:00 [ERR] https://api-stg.voxme.com/mfc/v2/images?EntityRef=RS0210302&EntityType=Transaction&Name=img1672332584980.jpg GET Request: NotFound {"type":"https://datatracker.ietf.org/doc/html/rfc7231#section-6.5.4","title":"Specified file is not found for entity","status":404,"traceId":"00-78460cbbfd6b917c1537a9ae70e3db3c-0b29dedc64e99a4b-00","variables":{"fileName":"img1672332584980.jpg","entityType":"Transaction","entityRef":"RS0210302"}}
+   at MFC_VoxMe_API.HttpMethods.HttpRequests.MakeGetHttpCall(String url, HttpContent data) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\HttpMethods\HttpRequests.cs:line 98
+   at MFC_VoxMe.Infrastructure.HttpMethods.RequestHelpers`1.GetByteRequestHelper(String url) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\HttpMethods\Helpers\RequestHelpers.cs:line 98
+   at MFC_VoxMe.Infrastructure.Services.TransactionService.GetImageAsBinary(String EntityRef, String EntityType, String Name) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\Services\TransactionService.cs:line 161
+   at MFC_VoxMe_API.Controllers.APIWorkflowController.<MFCStatusUpdate>g__CreateFiles|11_0(String externalRef, TransactionDetailsDto transactionDetails, String filePath, List`1 images) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe-API\Controllers\APIWorkflowController.cs:line 291
+   at MFC_VoxMe_API.Controllers.APIWorkflowController.MFCStatusUpdate(TransactionSummaryDto request) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe-API\Controllers\APIWorkflowController.cs:line 258
+   at lambda_method5(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at MFC_VoxMe.Infrastructure.GlobalErrorHandling.ExceptionMiddlewareExtensions.InvokeAsync(HttpContext httpContext) in C:\Users\Viselda.Beqiraj\source\repos\MFC-VoxMe-API\MFC-VoxMe.Infrastructure\GlobalErrorHandling\ExceptionMiddlewareExtensions.cs:line 45

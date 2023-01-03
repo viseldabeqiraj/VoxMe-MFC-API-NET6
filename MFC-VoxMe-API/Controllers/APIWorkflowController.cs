@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MFC_VoxMe.Core.Dtos.Common;
 using MFC_VoxMe.Core.Dtos.Transactions;
 using MFC_VoxMe.Core.Interfaces;
 using MFC_VoxMe.Infrastructure.Models;
@@ -220,79 +221,7 @@ namespace MFC_VoxMe_API.Controllers
 					staffResourceCodes = resourceCodesList
                 };
             await _resourceService.ForceConfigurationChanges("Inventory");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			   
+			
             return Ok();			
 		}
 
@@ -316,8 +245,9 @@ namespace MFC_VoxMe_API.Controllers
 					var transactionDetails = await _transactionService.GetDetails(request.externalRef);
 
 					string filePath = await _helper.GetItemsPath(movingDataId);
+                    var images = _helper.GetImages(jobDetailsRequest.dto, transactionDetails.dto);
 
-					if (state == 3)
+                    if (state == 3)
 					{
                         await _helper.InsertDataFromJobDetails
                             (jobDetailsRequest.dto, movingDataId);
@@ -325,57 +255,57 @@ namespace MFC_VoxMe_API.Controllers
                         await _helper.InsertDataFromTransactionDetails
 							(transactionDetails.dto, movingDataId);
 
-						//TODO: Create or update correlating records
-						//var x = _helpers.UpdateMovingData(externalRef);
+                        await CreateFiles(request.externalRef, transactionDetails.dto, filePath, images);
 
-						var images = _helper.GetImages(jobDetailsRequest.dto, transactionDetails.dto);
-
-						foreach (var image in images)
-						{
-							var response = await _transactionService.GetImageAsBinary
-										(request.externalRef, "Transaction", image.Value);
-							var bytes = response.dto;
-							string imagePath = filePath + $@"Pictures\\{image.Value}"; //"Pictures\\testt.png";//
-
-							//if (!Directory.Exists(filePath))
-							//Directory.CreateDirectory(filePath);
-							_helper.CreateFileInFolder(imagePath, bytes);
-						}
-
-						foreach (var doc in transactionDetails.dto.documents)
-						{
-							var response = await _transactionService.GetDocumentAsBinary
-								(request.externalRef, "Transaction", doc.fileName);
-							var bytes = response.dto;
-							string docPath = filePath + $@"Documents\\{doc.fileName}"; //"Documents\\test.pdf";//
-
-							_helper.CreateFileInFolder(docPath, bytes);
-						}
-					}
-					else
+                    }
+                    else
                     {
-						//delete tables for tables related to job , transaction
-						await _helper.DeleteTables(movingDataId);
-						await _helper.InsertDataFromJobDetails
-							(jobDetailsRequest.dto, movingDataId);
-						await _helper.InsertDataFromTransactionDetails
-							(transactionDetails.dto, movingDataId);
-						//delete all images,docs in pictures, documents folder
+                        await _helper.DeleteTables(movingDataId);
+                        await _helper.InsertDataFromJobDetails
+                            (jobDetailsRequest.dto, movingDataId);
+                        await _helper.InsertDataFromTransactionDetails
+                            (transactionDetails.dto, movingDataId);
+                        //delete all images,docs in pictures, documents folder
+                        _helper.DeleteFilesFromFolder(new List<string>()
+                        {
+                            filePath + "Documents",
+                            filePath + "Pictures"
+                        });
 
-						_helper.DeleteFilesFromFolder(new List<string>()
-						{
-							filePath + "Documents", 
-							filePath + "Pictures"
-						});
-					}
-					//update state
-					await _helper.UpdateMovingDataStatus(status, movingDataId);
-					//call webhook url to insert voxmestatus records https://edentraining.jkmoving.com:751/
+                        await CreateFiles(request.externalRef, transactionDetails.dto, filePath, images);
+                    }
+                    await _helper.UpdateMovingDataStatus(status, movingDataId);
+
 					await _webhookService.PostVoxmeStatus
 						(jobExternalRef,movingDataId.ToString(),status.ToString());
 				}
 			}
             return Ok();
+
+            async Task CreateFiles(string externalRef, 
+                TransactionDetailsDto transactionDetails, 
+                string filePath, List<KeyValuePair<string, string>> images)
+            {
+                foreach (var image in images)
+                {
+                    var response = await _transactionService.GetImageAsBinary
+                                (externalRef, "Transaction", image.Value);
+                    var bytes = response.dto;
+                    string imagePath = filePath + $@"Pictures\\{image.Value}"; //"Pictures\\testt.png";//
+
+                    _helper.CreateFileInFolder(imagePath, bytes);
+                }
+
+                foreach (var doc in transactionDetails.documents)
+                {
+                    var response = await _transactionService.GetDocumentAsBinary
+                        (externalRef, "Transaction", doc.fileName);
+                    var bytes = response.dto;
+                    string docPath = filePath + $@"Documents\\{doc.fileName}"; //"Documents\\test.pdf";//
+
+                    _helper.CreateFileInFolder(docPath, bytes);
+                }
+            }
         }
 
         [HttpPost("SetDocument")]		

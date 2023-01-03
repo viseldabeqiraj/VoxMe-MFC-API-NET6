@@ -1,9 +1,0 @@
-2022-11-07 12:10:47.545 +01:00 [ERR] Method GetSummary in JobService failed. Exception thrown :Exception while fetching all the students from the storage.
-2022-11-07 12:11:02.739 +01:00 [ERR] Method WorkflowLogic in APIWorkflowController failed. Exception thrown :Object reference not set to an instance of an object.
-2022-11-07 12:28:11.403 +01:00 [ERR] Method WorkflowLogic in APIWorkflowController failed. Exception thrown :GetSummary:JobServiceStatusCode: 204, ReasonPhrase: 'No Content', Version: 1.1, Content: System.Net.Http.HttpConnectionResponseContent, Headers:
-{
-  Date: Mon, 07 Nov 2022 11:28:04 GMT
-  Connection: keep-alive
-  Server: Kestrel
-  Content-Length: 0
-}
