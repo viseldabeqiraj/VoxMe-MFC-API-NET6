@@ -258,22 +258,26 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                    });
 
                 int boxTypeId = boxTypeQuery[0].Id;
+                int skidId;
 
-                   var skidQuery = await _queryGenerator.SelectFrom(
-                   new SqlQuery<string>()
-                   {
-                       Columns = "Id",
-                       Table = Constants.Tables.SKIDS,
-                       WhereClause = SqlQuery<string>.Where
-                                  ("Barcode", IEnums.logOperator.LIKE.ToString(), 
-                                  @$"'{piece.loadUnitUniqueId}'")
-                                  + IEnums.logOperator.AND
-                                  + SqlQuery<string>.Where("MovingDataID", 
-                                  Constants.ComparisonOperators.EQUALTO, movingDataId)
-                   });
+                    if (piece.loadUnitUniqueId != null)
+                    {
+                        var skidQuery = await _queryGenerator.SelectFrom(
+                        new SqlQuery<string>()
+                        {
+                            Columns = "Id",
+                            Table = Constants.Tables.SKIDS,
+                            WhereClause = SqlQuery<string>.Where
+                                       ("Barcode", IEnums.logOperator.LIKE.ToString(),
+                                       @$"'{piece.loadUnitUniqueId}'")
+                                       + IEnums.logOperator.AND
+                                       + SqlQuery<string>.Where("MovingDataID",
+                                       Constants.ComparisonOperators.EQUALTO, movingDataId)
+                        });
 
-                    int skidId = skidQuery[0].Id;
-
+                        skidId = skidQuery[0].Id;
+                    }
+                    skidId = 0;
 
                     var newPiece = new Pieces()
                     {

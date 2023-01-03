@@ -39,7 +39,7 @@
         public class AuxService
         {
             public string name { get; set; }
-            public int? numericValue { get; set; }
+            public double? numericValue { get; set; }
             public string? stringValue { get; set; }
             public string? listValues { get; set; }
             public bool? booleanValue { get; set; }
