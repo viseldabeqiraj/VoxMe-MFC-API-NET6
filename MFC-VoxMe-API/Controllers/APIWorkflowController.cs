@@ -287,32 +287,11 @@ namespace MFC_VoxMe_API.Controllers
 							filePath + "Pictures"
 						});
 
-                        var images = _helper.GetImages(jobDetailsRequest.dto, transactionDetails.dto);
+                        await CreateFiles(request.externalRef, transactionDetails.dto, filePath, images);
 
-                        foreach (var image in images)
-                        {
-                            var response = await _transactionService.GetImageAsBinary
-                                        (request.externalRef, "Transaction", image.Value);
-                            var bytes = response.dto;
-                            string imagePath = filePath + $@"Pictures\\{image.Value}"; //"Pictures\\testt.png";//
-
-                            //if (!Directory.Exists(filePath))
-                            //Directory.CreateDirectory(filePath);
-                            _helper.CreateFileInFolder(imagePath, bytes);
-                        }
-
-                        foreach (var doc in transactionDetails.dto.documents)
-                        {
-                            var response = await _transactionService.GetDocumentAsBinary
-                                (request.externalRef, "Transaction", doc.fileName);
-                            var bytes = response.dto;
-                            string docPath = filePath + $@"Documents\\{doc.fileName}"; //"Documents\\test.pdf";//
-
-                            _helper.CreateFileInFolder(docPath, bytes);
-                        }
                     }
-					//update state
-					await _helper.UpdateMovingDataStatus(status, movingDataId);
+                    //update state
+                    await _helper.UpdateMovingDataStatus(status, movingDataId);
 					//call webhook url to insert voxmestatus records https://edentraining.jkmoving.com:751/
 					await _webhookService.PostVoxmeStatus
 						(jobExternalRef,movingDataId.ToString(),status.ToString());
