@@ -297,7 +297,7 @@ namespace MFC_VoxMe_API.Controllers
                     await _helper.UpdateMovingDataStatus(status, movingDataId);
 					//call webhook url to insert voxmestatus records https://edentraining.jkmoving.com:751/
 					await _webhookService.PostVoxmeStatus
-						(jobExternalRef,movingDataId.ToString(),status.ToString());
+						(request.externalRef,movingDataId.ToString(),status.ToString());
 				}
 			}
             return Ok();
