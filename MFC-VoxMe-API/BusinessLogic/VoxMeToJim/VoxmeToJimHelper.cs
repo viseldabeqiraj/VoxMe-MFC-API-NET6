@@ -141,7 +141,7 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                     maxPackerId++;
                     var newPacker = new MFC_VoxMe.Infrastructure.Models.Packers
                     {
-                        ID = maxPackerId, //?,
+                        ID = maxPackerId, 
                         IsForeman = Convert.ToBoolean(packer.isForeman),
                         Name = packer.packer,
                         MovingDataID = movingDataId
@@ -284,10 +284,10 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                         MovingDataID = movingDataId,
                         Description = piece.tag,
                         Barcode = piece.barcode,
-                        PackerID = packerId, //?
-                        RoomID = roomId, //?
+                        PackerID = packerId, 
+                        RoomID = roomId, 
                         PBO = piece.pbo,
-                        BoxType = boxTypeId, //?
+                        BoxType = boxTypeId, 
                         ShippingCost = piece.packageUnitCost,
                         BoxQty = piece.packageQty, 
                         ID = Convert.ToInt32(piece.labelNr),
@@ -297,12 +297,12 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                         Height = piece.height,
                         Length = piece.length,
                         Volume = piece.volume,
-                        SkidID = skidId, //?
+                        SkidID = skidId, 
                         
                     };
 
                     await _queryGenerator.InsertInto(
-                    new SqlQuery<MFC_VoxMe.Infrastructure.Models.Pieces>()
+                    new SqlQuery<Pieces>()
                     {
                         Table = Constants.Tables.PIECES,
                         Dto = newPiece
@@ -351,8 +351,8 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                             MaterialsDesc = item.materialsDesc,
                             CountryOrigin = item.countryOrigin,
                             Comment = item.comment,
-                            MovingDataID = movingDataId
-
+                            MovingDataID = movingDataId,
+                            
                         };
 
                         await _queryGenerator.InsertInto(
@@ -558,72 +558,47 @@ namespace MFC_VoxMe_API.BusinessLogic.VoxMeToJim
                 ("Client_Folder_Dir:stagingDir") + result[0].ItemsPath + "\\";
         }
 
-        public List<KeyValuePair<string, string>> GetImages(JobDetailsDto jobDetails,TransactionDetailsDto transactiondetails)
+        public void AddImage(string str, List<string> imagesToStore)
+        {
+            if (!string.IsNullOrEmpty(str))
+                imagesToStore.Add(str);
+        }
+
+        public List<string> GetJobImages(JobDetailsDto jobDetails)
+        {
+            List<string> imagesToStore =
+                       new List<string>();
+            foreach (var item in jobDetails.jobInventory.rooms)
+            {
+                AddImage(item.conditionBeforeService?.photos, imagesToStore);
+                AddImage(item.conditionAfterService?.photos, imagesToStore);
+            }
+            return imagesToStore;
+        }
+        public List<string> GetTransactionImages(TransactionDetailsDto transactiondetails)
         {
             var questionnaireQuestions = transactiondetails?.questionnaireQuestions.ToList();
             var auxServices = transactiondetails?.auxServices.ToList();
 
-            List<KeyValuePair<string, string>> imagesToStore =
-                        new List<KeyValuePair<string, string>>();
+            List<string> imagesToStore =
+                        new List<string>();
             var lists = questionnaireQuestions?.Zip(auxServices, (q, a) =>
                               new { questionnaireQuestions = q, auxServices = a });
             if (lists is not null)
             {
                 foreach (var item in lists)
                 {
-                    if (!string.IsNullOrEmpty(item.questionnaireQuestions.signatureValue))
-                    imagesToStore.Add
-                            (new KeyValuePair<string, string>
-                            ("QuestionnaireQuestions", item.questionnaireQuestions.signatureValue));
-
-                    if (!string.IsNullOrEmpty(item.questionnaireQuestions.photoValue))
-                        imagesToStore.Add
-                            (new KeyValuePair<string, string>
-                            ("QuestionnaireQuestions", item.questionnaireQuestions.photoValue));
-
-                    if (!string.IsNullOrEmpty(item.auxServices.signatureValue))
-                        imagesToStore.Add
-                            (new KeyValuePair<string, string>
-                            ("AuxServices", item?.auxServices.signatureValue));
-
-                    if (!string.IsNullOrEmpty(item?.auxServices.photoValue))
-                        imagesToStore.Add
-                            (new KeyValuePair<string, string>
-                            ("AuxServices", item?.auxServices.photoValue));
+                    AddImage(item.questionnaireQuestions.signatureValue, imagesToStore);
+                    AddImage(item.questionnaireQuestions.photoValue, imagesToStore);
+                    AddImage(item.auxServices.signatureValue, imagesToStore);
+                    AddImage(item?.auxServices.photoValue, imagesToStore);
                 }
             }
-
-            foreach (var item in jobDetails.jobInventory.rooms)
-            {
-                if (!string.IsNullOrEmpty(item.conditionBeforeService?.photos))
-                    imagesToStore.Add
-                           (new KeyValuePair<string, string>
-                           ("Rooms", item.conditionBeforeService?.photos));
-
-                if (!string.IsNullOrEmpty(item.conditionAfterService?.photos))
-                    imagesToStore.Add
-                           (new KeyValuePair<string, string>
-                           ("Rooms", item.conditionAfterService?.photos));
-            }
-            if (!string.IsNullOrEmpty(transactiondetails.clientSignature))
-                imagesToStore.Add
-               (new KeyValuePair<string, string>
-               ("Transaction", transactiondetails.clientSignature));
-
-            if (!string.IsNullOrEmpty(transactiondetails.driverSignature))
-                imagesToStore.Add
-               (new KeyValuePair<string, string>
-               ("Transaction", transactiondetails.driverSignature));
-
-            if (!string.IsNullOrEmpty(transactiondetails.destDriverSignature))
-                imagesToStore.Add
-               (new KeyValuePair<string, string>
-               ("Transaction", transactiondetails.destDriverSignature));
-
-            if (!string.IsNullOrEmpty(transactiondetails.destClientSignature))
-                imagesToStore.Add
-               (new KeyValuePair<string, string>
-               ("Transaction", transactiondetails.destClientSignature));
+            AddImage(transactiondetails.clientSignature, imagesToStore);
+            AddImage(transactiondetails.driverSignature, imagesToStore);
+            AddImage(transactiondetails.destDriverSignature, imagesToStore);
+            AddImage(transactiondetails.destClientSignature, imagesToStore);
+         
             return imagesToStore;
         }
 

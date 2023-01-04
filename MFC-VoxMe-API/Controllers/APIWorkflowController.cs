@@ -254,7 +254,8 @@ namespace MFC_VoxMe_API.Controllers
 					var transactionDetails = await _transactionService.GetDetails(request.externalRef);
 
 					string filePath = await _helper.GetItemsPath(movingDataId);
-                    var images = _helper.GetImages(jobDetailsRequest.dto, transactionDetails.dto);
+                    var jobImages = _helper.GetJobImages(jobDetailsRequest.dto);
+                    var transactionImages = _helper.GetTransactionImages(transactionDetails.dto);
 
                     if (state == 3)
 					{
@@ -264,7 +265,8 @@ namespace MFC_VoxMe_API.Controllers
                         await _helper.InsertDataFromTransactionDetails
 							(transactionDetails.dto, movingDataId);
 
-                        await CreateFiles(request.externalRef, transactionDetails.dto, filePath, images);
+                        await CreateImages(request.externalRef, jobExternalRef, filePath, jobImages,transactionImages);
+                        await CreateDocuments(request.externalRef, transactionDetails.dto, filePath);
 
                     }
                     else
@@ -287,7 +289,8 @@ namespace MFC_VoxMe_API.Controllers
 							filePath + "Pictures"
 						});
 
-                        await CreateFiles(request.externalRef, transactionDetails.dto, filePath, images);
+                        await CreateImages(request.externalRef, jobExternalRef, filePath, jobImages, transactionImages);
+                        await CreateDocuments(request.externalRef, transactionDetails.dto, filePath);
 
                     }
                     //update state
@@ -299,25 +302,40 @@ namespace MFC_VoxMe_API.Controllers
 			}
             return Ok();
 
-            async Task CreateFiles(string externalRef, 
-                TransactionDetailsDto transactionDetails, 
-                string filePath, List<KeyValuePair<string, string>> images)
+            async Task CreateImages(string externalRef,
+                string jobRef,
+                string filePath, List<string> jobImages,
+                 List<string> transactionImages)
             {
-                foreach (var image in images)
+                foreach (var image in jobImages)
                 {
                     var response = await _transactionService.GetImageAsBinary
-                                (externalRef, "Transaction", image.Value);
+                                    (jobRef, "Job", image);
+                    CreateImage(filePath, image, response);
+                }
+
+                foreach (var image in transactionImages)
+                {
+                    var response = await _transactionService.GetImageAsBinary
+                                    (externalRef, "Transaction", image);
+                    CreateImage(filePath, image, response);
+                }
+
+                void CreateImage(string filePath, string image, HttpResponseDto<byte[]> response)
+                {
                     var bytes = response.dto;
-                    string imagePath = filePath + $@"Pictures\\{image.Value}"; //"Pictures\\testt.png";//
+                    string imagePath = filePath + $@"Pictures\\{image}";
 
                     _helper.CreateFileInFolder(imagePath, bytes);
                 }
-
+            }
+            async Task CreateDocuments(string externalRef, TransactionDetailsDto transactionDetails, string filePath)
+            {
                 foreach (var doc in transactionDetails.documents)
                 {
-                    var response = await _transactionService.GetDocumentAsBinary
+                    var docResponse = await _transactionService.GetDocumentAsBinary
                         (externalRef, "Transaction", doc.fileName);
-                    var bytes = response.dto;
+                    var bytes = docResponse.dto;
                     string docPath = filePath + $@"Documents\\{doc.fileName}"; //"Documents\\test.pdf";//
 
                     _helper.CreateFileInFolder(docPath, bytes);

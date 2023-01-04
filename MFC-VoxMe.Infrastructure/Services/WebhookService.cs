@@ -4,11 +4,7 @@ using MFC_VoxMe.Infrastructure.HttpMethods.Helpers;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace MFC_VoxMe.Infrastructure.Services
 {
@@ -32,7 +28,6 @@ namespace MFC_VoxMe.Infrastructure.Services
             return _configuration.GetValue<string>("API_Url:WebhookUrl") + query_string;
         }
 
-        //https://edentraining.jkmoving.com:751/voxmestatus?job_number=RS0207777&move_id=47777&status=24
         public async Task<HttpResponseDto<string>> PostVoxmeStatus(string job_number, string move_id, string status)
         {
             var url = GetUrl($"voxmestatus");
